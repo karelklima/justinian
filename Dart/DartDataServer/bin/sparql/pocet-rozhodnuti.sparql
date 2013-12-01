@@ -1,0 +1,12 @@
+# Pocet vsech soudnich rozhodnuti Nejvyssiho soudu
+PREFIX lex: <http://purl.org/lex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX sao: <http://salt.semanticauthoring.org/ontologies/sao#>
+PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
+
+SELECT COUNT(DISTINCT ?decision)
+FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz>
+WHERE {
+  ?decision a lex:Decision .
+}
