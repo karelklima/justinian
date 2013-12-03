@@ -96,6 +96,9 @@ class DatabaseServer extends Object {
         //print(uri);
 
         request.response.statusCode = 200;
+        request.response.headers.add("Access-Control-Allow-Methods", "POST, OPTIONS, GET");
+        request.response.headers.add("Access-Control-Allow-Origin", "*");
+        request.response.headers.add('Access-Control-Allow-Headers', '*');
 
         print('Data provider: ' + key);
         print('Virtuoso URL: ' + uri.toString());
