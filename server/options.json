@@ -1,0 +1,4 @@
+{
+    "api-modules": ["pis", "ldaf"],
+    "datastore-url": "http://internal.opendata.cz:8895/sparql"
+}

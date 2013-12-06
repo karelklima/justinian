@@ -1,8 +1,0 @@
-name: DartTest
-version: 0.0.1
-author: Yan Zaitsev
-description: A sample web application
-homepage: http://pis.karelklima.cz/
-dependencies:
-  angular: any
-  browser: any
