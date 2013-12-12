@@ -1,3 +1,8 @@
+# PIS
+Jak zprovoznit PIS:
+1) Spustit pomocí node soubor server/web-server.js
+2) Přejít na http://localhost:8000
+
 # angular-seed — the seed for AngularJS apps
 
 This project is an application skeleton for a typical [AngularJS](http://angularjs.org/) web app.
