@@ -44,6 +44,9 @@ module.exports.fromFile = function(file, options)
                 });
             });
             dbReq.on('error', function(error) {
+                console.log(error);
+                res.write("Datastore connection error");
+                res.end();
                 done();
             });
 

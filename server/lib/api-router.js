@@ -1,0 +1,47 @@
+/**
+ * LDAF API router
+ */
+
+'use strict';
+
+var _ = require('underscore');
+var fs = require('fs');
+var util = require('util');
+var sparqlRoute = require('./sparql-route');
+
+exports = module.exports = function router(moduleName, options) {
+    options = options || {}
+
+    var moduleDirectory = __dirname + '/../../modules/' + moduleName + '/api/';
+
+    var routingTable = {};
+    var files = fs.readdirSync(moduleDirectory);
+    var sparqlFiles = _.filter(files, function(file) { return /^[a-z-]+\.sparql$/.test(file); });
+    _.each(sparqlFiles, function(file) {
+        routingTable[file.split('.')[0]] = sparqlRoute.fromFile(moduleDirectory + '/' + file, options);
+    });
+    var jsFiles = _.filter(files, function(file) { return /^[a-z-]+\.js$/.test(file); });
+    // TODO JS files implementation
+
+    return function process (req, res, next) {
+        var name = req.path.substring(1); // remove starting slash
+        if (_.isObject(routingTable[name]))
+        {
+            var matchedRoute = routingTable[name];
+            var method = req.method.toLowerCase();
+
+            switch (method) {
+                case "get":
+                    if ('function' == typeof matchedRoute.get)
+                        matchedRoute.get(req, res, function() { /* done */ });
+                    break;
+                default :
+                    next();
+                    break;
+            }
+        } else
+            next();
+    }
+}
+
+
