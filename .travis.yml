@@ -6,8 +6,8 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - npm install --quiet -g karma
-  - ./scripts/web-server.js > /dev/null &
-  - sleep 1 # give server time to start
+  - ./scripts/web-api.js > /dev/null &
+  - sleep 1 # give api time to start
 
 script:
   - karma start config/karma.conf.js --no-auto-watch --single-run --reporters=dots --browsers=Firefox

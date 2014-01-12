@@ -1,5 +1,5 @@
 /**
- * @license AngularJS v1.2.3
+ * @license AngularJS v1.2.8
  * (c) 2010-2014 Google, Inc. http://angularjs.org
  * License: MIT
  */
@@ -30,6 +30,25 @@ function lookupDottedPath(obj, path) {
 }
 
 /**
+ * Create a shallow copy of an object and clear other fields from the destination
+ */
+function shallowClearAndCopy(src, dst) {
+  dst = dst || {};
+
+  angular.forEach(dst, function(value, key){
+    delete dst[key];
+  });
+
+  for (var key in src) {
+    if (src.hasOwnProperty(key) && key.charAt(0) !== '$' && key.charAt(1) !== '$') {
+      dst[key] = src[key];
+    }
+  }
+
+  return dst;
+}
+
+/**
  * @ngdoc overview
  * @name ngResource
  * @description
@@ -53,7 +72,7 @@ function lookupDottedPath(obj, path) {
  *
  * @description
  * A factory which creates a resource object that lets you interact with
- * [RESTful](http://en.wikipedia.org/wiki/Representational_State_Transfer) server-side data sources.
+ * [RESTful](http://en.wikipedia.org/wiki/Representational_State_Transfer) api-side data sources.
  *
  * The returned resource object has action methods which provide high-level behaviors without
  * the need to interact with the low level {@link ng.$http $http} service.
@@ -138,10 +157,10 @@ function lookupDottedPath(obj, path) {
  *         'delete': {method:'DELETE'} };
  *
  *   Calling these methods invoke an {@link ng.$http} with the specified http method,
- *   destination and parameters. When the data is returned from the server then the object is an
+ *   destination and parameters. When the data is returned from the api then the object is an
  *   instance of the resource class. The actions `save`, `remove` and `delete` are available on it
  *   as  methods with the `$` prefix. This allows you to easily perform CRUD operations (create,
- *   read, update, delete) on server-side data like this:
+ *   read, update, delete) on api-side data like this:
  *   <pre>
         var User = $resource('/user/:userId', {userId:'@id'});
         var user = User.get({userId:123}, function() {
@@ -152,9 +171,9 @@ function lookupDottedPath(obj, path) {
  *
  *   It is important to realize that invoking a $resource object method immediately returns an
  *   empty reference (object or array depending on `isArray`). Once the data is returned from the
- *   server the existing reference is populated with the actual data. This is a useful trick since
+ *   api the existing reference is populated with the actual data. This is a useful trick since
  *   usually the resource is assigned to a model which is then rendered by the view. Having an empty
- *   object results in no rendering, once the data arrives from the server then the object is
+ *   object results in no rendering, once the data arrives from the api then the object is
  *   populated with the data and the view automatically re-renders itself showing the new data. This
  *   means that in most cases one never has to write a callback function for the action methods.
  *
@@ -173,18 +192,18 @@ function lookupDottedPath(obj, path) {
  *
  *   The Resource instances and collection have these additional properties:
  *
- *   - `$promise`: the {@link ng.$q promise} of the original server interaction that created this
+ *   - `$promise`: the {@link ng.$q promise} of the original api interaction that created this
  *     instance or collection.
  *
  *     On success, the promise is resolved with the same resource instance or collection object,
- *     updated with data from server. This makes it easy to use in
+ *     updated with data from api. This makes it easy to use in
  *     {@link ngRoute.$routeProvider resolve section of $routeProvider.when()} to defer view
  *     rendering until the resource(s) are loaded.
  *
  *     On failure, the promise is resolved with the {@link ng.$http http response} object, without
  *     the `resource` property.
  *
- *   - `$resolved`: `true` after first server interaction is completed (either with success or
+ *   - `$resolved`: `true` after first api interaction is completed (either with success or
  *      rejection), `false` before that. Knowing if the Resource has been resolved is useful in
  *      data-binding.
  *
@@ -199,10 +218,10 @@ function lookupDottedPath(obj, path) {
        charge: {method:'POST', params:{charge:true}}
       });
 
-     // We can retrieve a collection from the server
+     // We can retrieve a collection from the api
      var cards = CreditCard.query(function() {
        // GET: /user/123/card
-       // server returns: [ {id:456, number:'1234', name:'Smith'} ];
+       // api returns: [ {id:456, number:'1234', name:'Smith'} ];
 
        var card = cards[0];
        // each item is an instance of CreditCard
@@ -211,7 +230,7 @@ function lookupDottedPath(obj, path) {
        // non GET methods are mapped onto the instances
        card.$save();
        // POST: /user/123/card/456 {id:456, number:'1234', name:'J. Smith'}
-       // server returns: {id:456, number:'1234', name: 'J. Smith'};
+       // api returns: {id:456, number:'1234', name: 'J. Smith'};
 
        // our custom method is mapped as well.
        card.$charge({amount:9.99});
@@ -223,7 +242,7 @@ function lookupDottedPath(obj, path) {
      newCard.name = "Mike Smith";
      newCard.$save();
      // POST: /user/123/card {number:'0123', name:'Mike Smith'}
-     // server returns: {id:789, number:'01234', name: 'Mike Smith'};
+     // api returns: {id:789, number:'0123', name: 'Mike Smith'};
      expect(newCard.id).toEqual(789);
  * </pre>
  *
@@ -232,9 +251,9 @@ function lookupDottedPath(obj, path) {
  *
  * Calling these methods invoke `$http` on the `url` template with the given `method`, `params` and
  * `headers`.
- * When the data is returned from the server then the object is an instance of the resource type and
+ * When the data is returned from the api then the object is an instance of the resource type and
  * all of the non-GET methods are available with `$` prefix. This allows you to easily support CRUD
- * operations (create, read, update, delete) on server-side data.
+ * operations (create, read, update, delete) on api-side data.
 
    <pre>
      var User = $resource('/user/:userId', {userId:'@id'});
@@ -245,7 +264,7 @@ function lookupDottedPath(obj, path) {
    </pre>
  *
  * It's worth noting that the success callback for `get`, `query` and other methods gets passed
- * in the response that came from the server as well as $http header getter function, so one
+ * in the response that came from the api as well as $http header getter function, so one
  * could rewrite the above example and get access to http headers as:
  *
    <pre>
@@ -258,6 +277,35 @@ function lookupDottedPath(obj, path) {
        });
      });
    </pre>
+
+ * # Creating a custom 'PUT' request
+ * In this example we create a custom method on our resource to make a PUT request
+ * <pre>
+ *		var app = angular.module('app', ['ngResource', 'ngRoute']);
+ *
+ *		// Some APIs expect a PUT request in the format URL/object/ID
+ *		// Here we are creating an 'update' method 
+ *		app.factory('Notes', ['$resource', function($resource) {
+ *    return $resource('/notes/:id', null,
+ *        {
+ *            'update': { method:'PUT' }
+ *        });
+ *		}]);
+ *
+ *		// In our controller we get the ID from the URL using ngRoute and $routeParams
+ *		// We pass in $routeParams and our Notes factory along with $scope
+ *		app.controller('NotesCtrl', ['$scope', '$routeParams', 'Notes',
+                                      function($scope, $routeParams, Notes) {
+ *    // First get a note object from the factory
+ *    var note = Notes.get({ id:$routeParams.id });
+ *    $id = note.id;
+ *
+ *    // Now call update passing in the ID first then the object you are updating
+ *    Notes.update({ id:$id }, note);
+ *
+ *    // This will PUT /notes/ID with the note object in the request payload
+ *		}]);
+ * </pre>
  */
 angular.module('ngResource', ['ng']).
   factory('$resource', ['$http', '$q', function($http, $q) {
@@ -358,7 +406,7 @@ angular.module('ngResource', ['ng']).
         });
 
         // strip trailing slashes and set the url
-        url = url.replace(/\/+$/, '');
+        url = url.replace(/\/+$/, '') || '/';
         // then replace collapse `/.` if found in the last URL path segment before the query
         // E.g. `http://url.com/id./format?q=x` becomes `http://url.com/id.format?q=x`
         url = url.replace(/\/\.(?=\w+($|\?))/, '.');
@@ -398,7 +446,7 @@ angular.module('ngResource', ['ng']).
       }
 
       function Resource(value){
-        copy(value || {}, this);
+        shallowClearAndCopy(value || {}, this);
       }
 
       forEach(actions, function(action, name) {
@@ -470,7 +518,7 @@ angular.module('ngResource', ['ng']).
             if (data) {
               // Need to convert action.isArray to boolean in case it is undefined
               // jshint -W018
-              if ( angular.isArray(data) !== (!!action.isArray) ) {
+              if (angular.isArray(data) !== (!!action.isArray)) {
                 throw $resourceMinErr('badcfg', 'Error in resource configuration. Expected ' +
                   'response to contain an {0} but got an {1}',
                   action.isArray?'array':'object', angular.isArray(data)?'array':'object');
@@ -482,7 +530,7 @@ angular.module('ngResource', ['ng']).
                   value.push(new Resource(item));
                 });
               } else {
-                copy(data, value);
+                shallowClearAndCopy(data, value);
                 value.$promise = promise;
               }
             }

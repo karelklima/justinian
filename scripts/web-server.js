@@ -30,7 +30,7 @@ function createServlet(Class) {
 }
 
 /**
- * An Http server implementation that uses a map of methods to decide
+ * An Http api implementation that uses a map of methods to decide
  * action routing.
  *
  * @param {Object} Map of method => Handler function
@@ -127,7 +127,7 @@ StaticServlet.prototype.sendMissing_ = function(req, res, path) {
   res.write(
     '<p>The requested URL ' +
     escapeHtml(path) +
-    ' was not found on this server.</p>'
+    ' was not found on this api.</p>'
   );
   res.end();
   util.puts('404 Not Found: ' + path);
@@ -143,7 +143,7 @@ StaticServlet.prototype.sendForbidden_ = function(req, res, path) {
   res.write('<h1>Forbidden</h1>');
   res.write(
     '<p>You do not have permission to access ' +
-    escapeHtml(path) + ' on this server.</p>'
+    escapeHtml(path) + ' on this api.</p>'
   );
   res.end();
   util.puts('403 Forbidden: ' + path);
