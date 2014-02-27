@@ -1,40 +1,49 @@
 <!doctype html>
-<html lang="en" ng-app="myApp">
+<html lang="en" ng-app="masterApp" ng-controller="MasterController">
 <head>
-  <meta charset="utf-8">
-  <title>My AngularJS App</title>
-  <link rel="stylesheet" href="css/app.css"/>
-  <!-- In production use:
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
-  <script src="http://code.jquery.com/jquery.js"></script>
-  -->
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-route.min.js"></script>
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.3/angular-resource.min.js"></script>
-  <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.7.0.js"></script>
-  <script src="js/app.js"></script>
-  <script src="js/services.js"></script>
-  <script src="js/controllers.js"></script>
-  <script src="js/filters.js"></script>
-  <script src="js/directives.js"></script>
-  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <title ng-bind-template="PIS: {{ currentArea.name }}: {{ currentPage.name || 'Error: Page not found'}}">PIS</title>
+
+    <link rel="stylesheet" href="css/app.css"/>
+    <link href="lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+
+    <!-- PROSIM NECHAT LOKALNI SOUBORY, ODKAZY NA REPO Z WEBU ZMENIME POZDEJI -->
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-route.js"></script>
+    <script src="lib/angular/angular-resource.js"></script>
+
+    <script src="lib/bootstrap/js/bootstrap.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/directives.js"></script>
+
 </head>
 <body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <h1>PIS</h1>
+        </div>
+        <div class="col-md-8">
+            Search
+        </div>
+    </div>
+
     <div class="search" ng-controller="TypeaheadCtrl">
         <form ng-submit="search">
-            <input type="text" ng-model="data" typeahead="value as value.o.value for value in sourceArray($viewValue) | limitTo:8" typeahead-min-length="3" typeahead-wait-ms="1000">
+            <input type="text" ng-model="data"
+                   typeahead="value as value.o.value for value in sourceArray($viewValue) | limitTo:8"
+                   typeahead-min-length="3" typeahead-wait-ms="1000">
             <button>Vyhledat</button>
         </form>
-    <a href="{{data.s.value}}" target="_blank">{{data.o.value}}</a>
+        <a href="{{data.s.value}}" target="_blank">{{data.o.value}}</a>
     </div>
-  <!--<ul class="menu">
-    <li><a href="#/view1">view1</a></li>
-    <li><a href="#/view2">view2</a></li>
-  </ul>
 
-  <div ng-view></div>
+</div>
 
-  <div>Angular seed app: v<span app-version></span></div>-->
 
 </body>
 </html>
