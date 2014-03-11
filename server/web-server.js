@@ -8,9 +8,12 @@ var http = require('http');
 var _ = require('underscore');
 var api_router = require('./lib/api-router');
 var options = require('./options');
+var moduleAggregator = require('./lib/module-aggregator');
 
 var DEFAULT_PORT = 8000;
+var PRODUCTION = false;
 
+moduleAggregator(PRODUCTION);
 
 var app = express();
 

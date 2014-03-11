@@ -1,0 +1,1 @@
+[{"name":"core","version":"0.0.1","applications":[{"name":"detail","version":"0.0.1"},{"name":"search","version":"0.0.1"}]},{"name":"pis","dependencies":["core"],"applications":[{"name":"act-detail","version":"0.0.1"}]}]
