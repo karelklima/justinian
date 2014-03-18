@@ -19,7 +19,7 @@ var app = express();
 
 _.each(options["api-modules"], function(moduleName) {
     app.use('/' + moduleName + '/api', api_router(moduleName, options));
-    app.use('/' + moduleName + '/miniapps', express.static(__dirname + '/../modules/' + moduleName + '/miniapps'));
+    app.use('/' + moduleName + '/applications', express.static(__dirname + '/../modules/' + moduleName + '/applications'));
     app.use('/' + moduleName + '/shared', express.static(__dirname + '/../modules/' + moduleName + '/shared'));
 });
 

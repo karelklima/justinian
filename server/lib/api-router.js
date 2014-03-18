@@ -7,21 +7,33 @@
 var _ = require('underscore');
 var fs = require('fs');
 var util = require('util');
-var sparqlRoute = require('./sparql-route');
+var apiRoute = require('./api-route');
 
 exports = module.exports = function router(moduleName, options) {
-    options = options || {}
+    options = options || {};
 
     var moduleDirectory = __dirname + '/../../modules/' + moduleName + '/api/';
 
     var routingTable = {};
     var files = fs.readdirSync(moduleDirectory);
+
+
+    var jsFiles = _.filter(files, function(file) { return /^[a-z-]+\.js$/.test(file); });
+    _.each(jsFiles, function(file) {
+        routingTable[file.split('.')[0]] = require(moduleDirectory + '/' + file);
+    });
+
     var sparqlFiles = _.filter(files, function(file) { return /^[a-z-]+\.sparql$/.test(file); });
     _.each(sparqlFiles, function(file) {
-        routingTable[file.split('.')[0]] = sparqlRoute.fromFile(moduleDirectory + '/' + file, options);
+        var prefix = file.split('.')[0];
+        if (!(prefix in routingTable)) {
+            routingTable[file.split('.')[0]] = apiRoute.fromFile(moduleDirectory + '/' + file, options);
+        }
     });
-    var jsFiles = _.filter(files, function(file) { return /^[a-z-]+\.js$/.test(file); });
-    // TODO JS files implementation
+
+
+
+
 
     return function process (req, res, next) {
         var name = req.path.substring(1); // remove starting slash

@@ -12,5 +12,5 @@ FROM <http://linked.opendata.cz/resource/dataset/legislation/uz>
 WHERE {
   ?act a lex:Act ;
   dcterms:title ?title .
-  FILTER regex(?title, "__query__", "i")
+  FILTER regex(?title, "{{"param": "query", "escape": "doubleQuotes"}}", "i")
 }

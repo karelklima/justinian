@@ -1,0 +1,24 @@
+# Dotaz pro seznam vsech sekci a subsekci daneho expression a
+
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
+
+SELECT ?section ?c ?id ?text
+
+FROM <http://linked.opendata.cz/resource/dataset/legislation/uz>
+
+WHERE {
+?section frbr:partOf+ <http://linked.opendata.cz/resource/legislation/cz/expression/1993/1-1993/version/cz/98-2013> .
+?section sdo:hasOrderNumber ?value .
+OPTIONAL{?section dcterms:description ?text .}
+?section dcterms:identifier ?id .
+
+BIND(replace(if(contains(?value, "/"),strbefore(?value, "/"), ?value), "^ +| +$", "") as ?a) .
+BIND(replace(if(contains(?value, "/"),strafter(?value, "/"), ""), "^ +| +$", "") as ?aRest) .
+BIND(replace(if(contains(?aRest, "/"),strbefore(?aRest, "/"), ?aRest), "^ +| +$", "") as ?b) .
+BIND(replace(if(contains(?aRest, "/"),strafter(?aRest, "/"), ""), "^ +| +$", "") as ?c) .
+BIND(REPLACE(?a, "[a-z]+$", "") AS ?aN) .
+BIND(REPLACE(?a, "^[0-9]+", "") AS ?aL) .
+}
+
+ORDER BY xsd:decimal(?aN) ?aL xsd:decimal(?b) xsd:decimal(?c)
