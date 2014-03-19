@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="masterApp" ng-controller="MasterController">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title ng-bind-template="PIS: {{ currentArea.name }}: {{ currentPage.name || 'Error: Page not found'}}">PIS</title>
+
+	<!-- CSS, bootstrap -->
+    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/app.css"/>
+    <link rel="stylesheet" href="css/search.css"/>
+    
+
+    <!-- PROSIM NECHAT LOKALNI SOUBORY, ODKAZY NA REPO Z WEBU ZMENIME POZDEJI -->
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-route.js"></script>
+    <script src="lib/angular/angular-resource.js"></script>
+
+	<!-- dalsi skripty (bootstrap, jquery) se nacitaj na konci stranky 
+		- pred uzavrenim tagu body - pry kvuli rychlosti
+		- prehlednejsi by bylo tady.... ??? -->
+
+    <script src="js/app.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/directives.js"></script>
+</head>
+
+
+
+<body>
+	
+<!-- menu navigation -->
+<nav class="navbar navbar-default" role="navigation">  
+	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<ul class="nav navbar-nav">  
+			<li><a class="navbar-brand">PIS</a></li> 
+			<li class="dropdown">  
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a href="#">Nab1</a></li>
+					<li><a href="#">Přihlásit...</a></li>
+				</ul>
+			</li>
+		</ul>
+		
+	</div> 
+</nav>  
+
+
+<!-- main page below menu -->
+<div class="container">
+
+<!-- should be 2 tabs intended to the right, but because of space... -->
+<div class="row">
+	
+	<!-- main (current) miniapp -->
+	<div class="col-md-12">
+		<!-- TODO includovat z partials to, co je zadane - v partials-->
+		
+		
+		
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Vítejte</h3>
+			</div>
+			
+			<div class="panel-body">
+				<div class="intro">
+					<form class="form-inline" role="search">
+						<div class="form-group">
+							<input type="text" class="form-control searchInput" placeholder="Search..."/>
+							<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+						</div>
+					</form>
+				</div>
+			</div><!--/.panel-body-->
+		</div><!--/.panel-->
+
+		
+	</div><!--/.col-md-10-->
+	
+</div><!--/.row-->
+	
+
+
+</div><!--/.container-->
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="lib/jquery/jquery-1.11.0.min.js"></script>
+<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
+
