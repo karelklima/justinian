@@ -28,3 +28,32 @@
   content: "";
   padding: 0;
 }
+
+
+
+.panel-heading h3 {
+	font-size: 20px;
+	font-weight: bold;
+}
+
+
+
+/* REGISTRATION.HTML */
+#registration .form-control {
+	width: 400px;
+}
+
+
+
+/* INTRO.HTML */
+
+.intro {
+	padding-top: 50px;
+	min-height: 150px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.intro .searchInput {
+	width: 400px;
+}

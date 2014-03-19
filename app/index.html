@@ -7,9 +7,10 @@
     <title ng-bind-template="PIS: {{ currentArea.name }}: {{ currentPage.name || 'Error: Page not found'}}">PIS</title>
 
 	<!-- CSS, bootstrap -->
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css"/>
     <link rel="stylesheet" href="css/app.css"/>
     <link rel="stylesheet" href="css/search.css"/>
-    <link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css"/>
+    
     
 
     <!-- PROSIM NECHAT LOKALNI SOUBORY, ODKAZY NA REPO Z WEBU ZMENIME POZDEJI -->
@@ -47,11 +48,13 @@
 		</ul>
 		<!-- TODO angular if ( !search && !intro )then zobrazit search policko -->
 		<!-- TODO include partials/searchForm.html-->
+		<div ng-include="'partials/searchForm.html'"></div>
+		
 		<form class="navbar-form navbar-left" role="search">
 			<div class="form-group">
 			<input type="text" class="form-control" placeholder="Search">
 			</div>
-			<button type="submit" class="btn btn-default">Search</button>
+			<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
 		</form>
 	</div> 
 </nav>  
