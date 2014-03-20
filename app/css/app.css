@@ -38,6 +38,53 @@
 
 
 
+/* DETAIL OF ZAKON */
+#sidePanel .panel-body {
+	padding: 2px 5px;
+}
+#sidePanel .panel-body i {
+	color: grey;
+}
+#sidePanel .list-group-item {
+	padding: 2px 8px;
+}
+
+#detailOfLaw h5 {
+	font-style: italic;
+}
+#detailOfLaw .datumVydani {
+	font-size: 13px;
+	padding-bottom: 18px;
+	border-bottom: 1px solid #ddd;
+}
+#detailOfLaw .firstSentence {
+	margin: 12px 0px;
+}
+#detailOfLaw .signature {
+	padding-top: 5px;
+	border-top: 1px solid #ddd;
+}
+#detailOfLaw .paragraphHeading {
+	font-weight: bold;
+	text-align: center;
+}
+#detailOfLaw .paragraph p {
+	margin-left: 20px;
+	text-indent: 25px;
+	text-align: justify;
+}
+
+/* DETAILDE SEARCH.HTML */
+#detailedSearch #inputSearchYear, #detailedSearch #inputSearchYear2 {
+	width: 90px;
+}
+
+#detailedSearch #inputSearchInput {
+	width: 100%;
+}
+
+
+
 /* REGISTRATION.HTML */
 #registration .form-control {
 	width: 400px;
@@ -52,6 +99,10 @@
 	min-height: 150px;
 	text-align: center;
 	vertical-align: middle;
+}
+
+.center {
+	text-align: center;
 }
 
 .intro .searchInput {

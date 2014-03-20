@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="masterApp" ng-controller="MasterController">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title ng-bind-template="PIS: {{ currentArea.name }}: {{ currentPage.name || 'Error: Page not found'}}">PIS</title>
+
+	<!-- CSS, bootstrap -->
+	<link rel="stylesheet" href="lib/bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="css/app.css"/>
+    <link rel="stylesheet" href="css/search.css"/>
+    
+    
+
+    <!-- PROSIM NECHAT LOKALNI SOUBORY, ODKAZY NA REPO Z WEBU ZMENIME POZDEJI -->
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-route.js"></script>
+    <script src="lib/angular/angular-resource.js"></script>
+
+	<!-- dalsi skripty (bootstrap, jquery) se nacitaj na konci stranky 
+		- pred uzavrenim tagu body - pry kvuli rychlosti
+		- prehlednejsi by bylo tady.... ??? -->
+
+    <script src="js/app.js"></script>
+    <script src="js/services.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/directives.js"></script>
+</head>
+
+
+
+<body>
+	
+<!-- menu navigation -->
+<nav class="navbar navbar-default" role="navigation">  
+	<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		<ul class="nav navbar-nav">  
+			<li><a class="navbar-brand">PIS</a></li> 
+			<li class="dropdown">  
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<li><a href="#">Nab1</a></li>
+					<li><a href="#">Přihlásit...</a></li>
+				</ul>
+			</li>
+		</ul>
+		<form class="navbar-form navbar-left" role="search">
+			<div class="form-group">
+			<input type="text" class="form-control" placeholder="Search">
+			</div>
+			<button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+		</form>
+	</div> 
+</nav>  
+
+
+<!-- main page below menu -->
+<div class="container">
+
+<!-- should be 2 tabs intended to the right, but because of space... -->
+<div class="row">
+	
+	<!-- main (current) miniapp -->
+	<div class="col-md-10">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">Detailní vyhledávání</h3>
+			</div>
+			
+			<div class="panel-body" id="detailedSearch">
+				<form class="form-horizontal" role="form" id="registration">
+					<div class="form-group">
+						<div class="col-sm-12">
+							<input type="text" class="form-control" id="inputSearchInput" placeholder="Search..."/>
+						</div>
+					</div>
+					
+					<div class="form-group">
+						<label for="inputSearchWhere" class="col-sm-4 control-label">Kde hledat:</label>
+						<div class="col-sm-8">
+							<label class="checkbox-inline">
+								<input type="checkbox" id="inputSearchWhere1" value="option1"> Zákony
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" id="inputSearchWhere2" value="option2"> Judikáty
+							</label>
+							<label class="checkbox-inline">
+								<input type="checkbox" id="inputSearchWhere3" value="option3"> Pojmy
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputSearchYear" class="col-sm-4 control-label">Rok vydání:</label>
+						<div class="col-sm-8">
+							<select class="form-control year" id="inputSearchYear">
+								<option>-</option>
+								<option>2014</option>
+								<option>2013</option>
+								<option>2012</option>
+								<option>2011</option>
+								<option>2010</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputSearchYear2" class="col-sm-4 control-label">Rok účinnosti:</label>
+						<div class="col-sm-8">
+							<select class="form-control year" id="inputSearchYear2">
+								<option>-</option>
+								<option>2014</option>
+								<option>2013</option>
+								<option>2012</option>
+								<option>2011</option>
+								<option>2010</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-4 col-sm-8">
+							<button type="submit" class="btn btn-default">Vyhledat</button>
+						</div>
+					</div>
+				</form>
+				
+				
+				
+			</div><!--/.panel-body-->
+		</div><!--/.panel-->
+		
+	</div><!--/.col-md-10-->
+	
+</div><!--/.row-->
+	
+
+
+</div>		<!--/.container-->
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="lib/jquery/jquery-1.11.0.min.js"></script>
+<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>
