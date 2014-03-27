@@ -9,5 +9,6 @@ exports = module.exports =  {
     BaseDirectory: __dirname + '/..',
     BuildDirectory: __dirname + '/build',
     CacheDirectory : __dirname + '/cache',
+    FrontendDirectory : __dirname + '/../frontend',
     ModulesDirectory : __dirname + '/../modules'
 }

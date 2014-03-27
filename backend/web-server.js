@@ -7,7 +7,7 @@ var express = require('express');
 var http = require('http');
 var _ = require('underscore');
 var api_router = require('./lib/api-router');
-var options = require('./options');
+var settings = require('./settings');
 var Builder = require('./lib/builder');
 
 var DEFAULT_PORT = 8000;
@@ -18,13 +18,14 @@ builder.buildModulesDefinition();
 
 var app = express();
 
-_.each(options["api-modules"], function(moduleName) {
-    app.use('/' + moduleName + '/api', api_router(moduleName, options));
-    app.use('/' + moduleName + '/applications', express.static(__dirname + '/../modules/' + moduleName + '/applications'));
-    app.use('/' + moduleName + '/shared', express.static(__dirname + '/../modules/' + moduleName + '/shared'));
+_.each(settings.Options["modules"], function(moduleName) {
+    app.use('/api/' + moduleName, api_router(moduleName, settings.Options));
+    app.use('/apps/' + moduleName, express.static(settings.ModulesDirectory + '/' + moduleName + '/apps'));
+    app.use('/shared/' + moduleName, express.static(settings.ModulesDirectory + '/' + moduleName + '/shared'));
 });
 
-app.use(express.static(__dirname + '/../app'));
+app.use('/build', express.static(settings.BuildDirectory));
+app.use(express.static(settings.FrontendDirectory));
 
 app.listen(DEFAULT_PORT);
 
