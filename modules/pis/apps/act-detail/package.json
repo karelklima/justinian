@@ -1,4 +1,5 @@
 {
-    "name": "act-detail",
-    "version": "0.0.1"
+    "name" : "act-detail",
+    "datatypes" : ["frbr:Expression"],
+    "views": ["main", "sidebar"]
 }

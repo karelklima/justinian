@@ -8,12 +8,13 @@ var http = require('http');
 var _ = require('underscore');
 var api_router = require('./lib/api-router');
 var options = require('./options');
-var moduleAggregator = require('./lib/module-aggregator');
+var Builder = require('./lib/builder');
 
 var DEFAULT_PORT = 8000;
-var PRODUCTION = false;
+var CLEAN_BUILD = false;
 
-moduleAggregator(PRODUCTION);
+var builder = new Builder(CLEAN_BUILD);
+builder.buildModulesDefinition();
 
 var app = express();
 
@@ -26,4 +27,6 @@ _.each(options["api-modules"], function(moduleName) {
 app.use(express.static(__dirname + '/../app'));
 
 app.listen(DEFAULT_PORT);
+
+process.stdout.write("Server started!");
 

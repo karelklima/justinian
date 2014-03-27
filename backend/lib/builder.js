@@ -1,48 +1,53 @@
+/**
+ * Created by Karel on 10.3.14.
+ */
 
-var fs = require('fs');
+'use strict';
+
 var settings = require('../settings');
-var moduleAggregator = require('./module-aggregator');
+var fs = require('fs');
 
-module.exports = function()
-{
-    this.modulesDefinitionFile = settings.BuildDirectory + '/modules.json';
+function Builder(cleanBuild) {
+    this.cleanBuild = cleanBuild || false;
+}
 
-    this.buildModulesDefinition = function(clean) {
-        clean = clean || false;
+Builder.prototype.buildModulesDefinition = function() {
+    var buildFile = settings.BuildDirectory + '/modules.json';
+    if (fs.existsSync(buildFile)) {
+        if (this.cleanBuild)
+            return;
+        else
+            fs.unlinkSync(buildFile);
+    }
 
-        var cacheFile = this.modulesDefinitionFile;
-        if (fs.existsSync(cacheFile)) {
-            if (!clean)
-                return;
-            else
-                fs.unlinkSync(cacheFile);
-        }
+    var modules = {};
 
-        var modules = [];
+    var moduleDirs = fs.readdirSync(settings.ModulesDirectory);
+    for (var i in moduleDirs)
+    {
+        var moduleDir = settings.ModulesDirectory + '/' + moduleDirs[i];
+        var moduleInfo = require(moduleDir + '/package.json');
+        var moduleName = moduleInfo["name"];
+        delete moduleInfo["name"];
+        moduleInfo["apps"] = {};
 
-        var moduleDirs = fs.readdirSync(settings.ModulesDirectory);
-        for (var i in moduleDirs)
+        var applicationDirs = fs.readdirSync(moduleDir + '/apps');
+        for (var j in applicationDirs)
         {
-            var moduleDir = settings.ModulesDirectory + '/' + moduleDirs[i];
-            var moduleInfo = require(moduleDir + '/package.json');
-            moduleInfo["applications"] = [];
-
-            var applicationDirs = fs.readdirSync(moduleDir + '/applications');
-            for (var j in applicationDirs)
-            {
-                var applicationDir = moduleDir + '/applications/' + applicationDirs[j];
-                if (!fs.lstatSync(applicationDir).isDirectory())
-                    continue; // neni to aplikace
-                var applicationInfo = require(applicationDir + '/package.json');
-                moduleInfo["applications"].push(applicationInfo);
-            }
-
-            modules.push(moduleInfo);
-
+            var applicationDir = moduleDir + '/apps/' + applicationDirs[j];
+            if (!fs.lstatSync(applicationDir).isDirectory())
+                continue; // neni to aplikace
+            var applicationInfo = require(applicationDir + '/package.json');
+            var applicationName = applicationInfo["name"];
+            delete applicationInfo["name"];
+            moduleInfo["apps"][applicationName] = applicationInfo;
         }
 
-        fs.writeFileSync(cacheFile, JSON.stringify(modules, null, '   '));
-
+        modules[moduleName] = moduleInfo;
 
     }
+
+    fs.writeFileSync(buildFile, JSON.stringify(modules, null, 2));
 }
+
+module.exports = Builder;

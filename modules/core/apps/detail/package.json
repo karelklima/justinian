@@ -1,4 +1,5 @@
 {
-    "name": "detail",
-    "version": "0.0.1"
+    "name" : "detail",
+    "datatypes" : ["frbr:Expression"],
+    "views" : ["main", "sidebar"]
 }
