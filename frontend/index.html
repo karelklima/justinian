@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html ng-app="pisApp">
+<head lang="cs">
+    <meta charset="UTF-8">
+    <title>PIS</title>
+
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-route.js"></script>
+
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/directives.js"></script>
+    <script src="js/filters.js"></script>
+    <script src="js/services.js"></script>
+
+    <script type="text/javascript">
+        angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
+    </script>
+</head>
+<body ng-controller="MainController as main">
+
+    <div ng-view></div>
+
+</body>
+</html>

@@ -1,0 +1,5 @@
+{
+    "name" : "act-detail",
+    "datatypes" : ["frbr:Expression"],
+    "views": ["main", "sidebar"]
+}

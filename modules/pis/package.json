@@ -1,4 +1,8 @@
 {
-    "name": "pis",
-    "dependencies": ["core"]
+    "name" : "pis",
+    "extends": ["core"],
+    "prefixes": {
+        "lex:" : "http://purl.org/lex#",
+        "lexcz:" : "http://purl.org/lex/cz#"
+    }
 }
