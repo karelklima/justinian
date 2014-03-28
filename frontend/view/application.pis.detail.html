@@ -1,8 +1,5 @@
 <p>APLIKACE PIS - detail</p>
-<p><a style="text-decoration: underline;" ng-click="setParam('aaa',['bbb','ccc']);">Add param</a></p>
-<p><a style="text-decoration: underline;" ng-click="setParam('aaa',null)">Del param</a></p>
+<p><a class="link" ng-click="setParam('aaa',['bbb','ccc']);">Add param</a></p>
+<p><a class="link" ng-click="setParam('aaa',null)">Del param</a></p>
 <pre>global params: {{routeParams}}</pre>
-<p><a style="text-decoration: underline;" ng-click="setPath('pis','search')">PIS - search</a></p>
-<p><a style="text-decoration: underline;" ng-click="setPath('pis','detail')">PIS - detail</a></p>
-<p><a style="text-decoration: underline;" ng-click="setPath('core','search')">CORE - search</a></p>
-<p><a style="text-decoration: underline;" ng-click="setPath('core','detail')">CORE - detail</a></p>
+<div ng-include="'view/menu.html'"></div>
