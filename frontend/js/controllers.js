@@ -1,20 +1,16 @@
-'use strict';
+var pisControllers;
 
-/* Controllers */
+pisControllers = angular.module('pisControllers', []);
 
-angular.module('myApp.controllers', []).
-  controller('MyCtrl1', [function() {
+pisControllers.controller('MainController', function($scope, $route, $routeParams, $location) {
+    $scope.routeParams = $routeParams;
+    this.params = $scope.routeParams;
+});
 
-  }])
-  .controller('MyCtrl2', [function() {
+pisControllers.controller('ChildController', function($scope) {
+    this.myParams = $scope.routeParams;
+});
 
-  }])
-  .controller('TypeaheadCtrl', ['HledejZakon','$scope', '$q', function(HledejZakon, $scope, $q) {
-  	$scope.sourceArray = function (term) {
-		var d = $q.defer();
-		var results = HledejZakon.suggest({query: term}, function() {
-			d.resolve(results.results.bindings);
-		}); 
-		return d.promise;
-	}
-  }]);
+pisControllers.controller('SearchController', function($scope) {
+    this.message = "Toto je testovaci zprava pro vyhledavani.";
+});

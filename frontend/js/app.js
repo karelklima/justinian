@@ -1,18 +1,22 @@
-'use strict';
+var pisApp;
 
+pisApp = angular.module('pisApp', [
+    'ngRoute',
+    'pisControllers'
+]);
 
-// Declare app level module which depends on filters, and services
-angular.module('myApp', [
-  'ngRoute',
-  'ngResource',
-  'myApp.filters',
-  'myApp.services',
-  'myApp.directives',
-  'myApp.controllers',
-  'ui.bootstrap'
-]).
-config(['$routeProvider', function($routeProvider) {
-  $routeProvider.when('/view1', {templateUrl: 'partials/partial1.html', controller: 'MyCtrl1'});
-  $routeProvider.when('/view2', {templateUrl: 'partials/partial2.html', controller: 'MyCtrl2'});
-  $routeProvider.otherwise({redirectTo: '/view1'});
-}]);
+pisApp.config(function($routeProvider, $locationProvider) {
+    $routeProvider.when('/m/:module/a/:application', {
+        templateUrl: 'view/child.html',
+        controller: 'ChildController',
+        controllerAs: 'child'
+    });
+    $routeProvider.when('/s/:search', {
+        templateUrl: 'view/search.html',
+        controller: 'SearchController',
+        controllerAs: 'search'
+    });
+    $routeProvider.otherwise({redirectTo: '/m/pis/a/detail'});
+    $locationProvider.html5Mode(false);
+    $locationProvider.hashPrefix('!');
+});
