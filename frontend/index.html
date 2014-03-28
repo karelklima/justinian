@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html ng-app="pisApp">
+<html>
 <head lang="cs">
     <meta charset="UTF-8">
     <title>PIS</title>
@@ -17,7 +17,7 @@
         angular.element(document.getElementsByTagName('head')).append(angular.element('<base href="' + window.location.pathname + '" />'));
     </script>
 </head>
-<body ng-controller="MainController as main">
+<body ng-app="pisApp">
 
     <div ng-view></div>
 

@@ -4,13 +4,28 @@ pisControllers = angular.module('pisControllers', []);
 
 pisControllers.controller('MainController', function($scope, $route, $routeParams, $location) {
     $scope.routeParams = $routeParams;
-    this.params = $scope.routeParams;
+    $scope.appsToLoad = ["hodnota0", "hodnota1","hodnota2"];
+
+    $scope.getParam = function(key) {
+        return $route.current.params[key];
+    };
+    $scope.setParam = function(key, value) {
+        $location.search(key, value);
+    };
+    $scope.setPath = function(module,application) {
+        $location.path('/m/'+module+'/a/'+application);
+    };
 });
 
-pisControllers.controller('ChildController', function($scope) {
-    this.myParams = $scope.routeParams;
+pisControllers.controller('LogoController', function($scope) {
+    this.templateUrl = 'view/logo.'+$scope.getParam('module')+'.html';
 });
 
-pisControllers.controller('SearchController', function($scope) {
-    this.message = "Toto je testovaci zprava pro vyhledavani.";
+pisControllers.controller('ApplicationController', function($scope) {
+    this.templateUrl = 'view/application.'+$scope.getParam('module')+'.'+$scope.getParam('application')+'.html'
+});
+
+pisControllers.controller('SidebarController', function($scope) {
+    this.templateUrl = 'view/sidebar.html';
+    this.appsToLoad = $scope.appsToLoad;
 });
