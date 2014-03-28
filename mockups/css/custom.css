@@ -1,0 +1,36 @@
+/*
+ * MENU NAVBAR
+ */
+/* height of logo image in nav */
+.navbar-nav > li > a {
+    line-height: 34px;
+}
+.logo {
+    margin-left: 3px;
+}
+/* sign in on the right */
+/*.signIn {*/
+    /*padding-right: 15px;*/
+/*}*/
+
+
+
+/*
+ * FOOTER
+ */
+/* centered footer */
+/*@media (min-width: 768px) {*/
+	/*.navbar-center {*/
+		/*float: none;*/
+		/*text-align: center;*/
+	/*}*/
+/*}*/
+
+/* sticky at bottom */
+/*.navbar-static-bottom {*/
+	/*width: 100%;*/
+	/*margin-bottom: 0;*/
+	/*bottom: 0;*/
+	/*position: absolute;*/
+/*}*/
+
