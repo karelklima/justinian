@@ -18,10 +18,18 @@ builder.buildModulesDefinition();
 
 var app = express();
 
-_.each(settings.Options["modules"], function(moduleName) {
-    app.use('/api/' + moduleName, api_router(moduleName, settings.Options));
-    app.use('/apps/' + moduleName, express.static(settings.ModulesDirectory + '/' + moduleName + '/apps'));
-    app.use('/shared/' + moduleName, express.static(settings.ModulesDirectory + '/' + moduleName + '/shared'));
+var modules = require(settings.BuildDirectory + '/modules.json');
+_.each(modules, function (moduleSpec, module) {
+    app.use('/' + module + '/api', api_router(module, settings.Options));
+    app.use('/' + module + '/shared', express.static(settings.ModulesDirectory + '/' + module + '/shared'));
+    _.each(modules[module]["apps"], function (applicationSpec, application) {
+        var urlPrefix = '/' + module + '/' + application;
+        var pathPrefix = settings.ModulesDirectory + '/' + module + '/apps/' + application;
+        process.stdout.write(urlPrefix);
+        process.stdout.write(pathPrefix);
+        app.use(urlPrefix + '/js', express.static(pathPrefix + '/js'));
+        app.use(urlPrefix + '/partials', express.static(pathPrefix + '/partials'));
+    });
 });
 
 app.use('/build', express.static(settings.BuildDirectory));
