@@ -25,8 +25,6 @@ _.each(modules, function (moduleSpec, module) {
     _.each(modules[module]["apps"], function (applicationSpec, application) {
         var urlPrefix = '/' + module + '/' + application;
         var pathPrefix = settings.ModulesDirectory + '/' + module + '/apps/' + application;
-        process.stdout.write(urlPrefix);
-        process.stdout.write(pathPrefix);
         app.use(urlPrefix + '/js', express.static(pathPrefix + '/js'));
         app.use(urlPrefix + '/partials', express.static(pathPrefix + '/partials'));
     });
@@ -40,9 +38,15 @@ app.use('/js', express.static(settings.FrontendDirectory + '/js'));
 app.use('/lib', express.static(settings.FrontendDirectory + '/lib'));
 app.use('/partials', express.static(settings.FrontendDirectory + '/partials'));
 
+
+app.engine('.html', require('ejs').__express);
+
 app.all('/*', function(req, res, next) {
-    // Just send the index.html for other files to support HTML5Mode
-    res.sendfile('index.html', { root: settings.FrontendDirectory });
+    // Send the index.html for other files to support HTML5Mode
+    res.render(settings.FrontendDirectory + '/index.html', {
+        options: settings.Options,
+        modules: JSON.stringify(modules)
+    });
 });
 
 app.listen(DEFAULT_PORT);
