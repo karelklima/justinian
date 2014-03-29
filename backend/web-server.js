@@ -6,6 +6,7 @@
 var express = require('express');
 var http = require('http');
 var _ = require('underscore');
+var fs = require('fs');
 var api_router = require('./lib/api-router');
 var settings = require('./settings');
 var Builder = require('./lib/builder');
@@ -17,6 +18,11 @@ var builder = new Builder(CLEAN_BUILD);
 builder.buildModulesDefinition();
 
 var app = express();
+
+// Logging request details:
+var logfile = fs.createWriteStream('./nodejs.log', {flags: 'a'});
+var format = ':method :url - :status - :response-time ms'; 					// other options ':req[header] :http-version :remote-addr :date :referrer :user-agent'
+app.use(express.logger({format : format, stream: logfile}));				// logging to console: leave out "stream: logfile"
 
 var modules = require(settings.BuildDirectory + '/modules.json');
 _.each(modules, function (moduleSpec, module) {
