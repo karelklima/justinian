@@ -6,12 +6,12 @@ pisApp = angular.module('pisApp', [
 ]);
 
 pisApp.config(function($routeProvider, $locationProvider) {
-    $routeProvider.when('/m/:module/a/:application', {
-        templateUrl: 'view/main.html',
+    $routeProvider.when('/:module/:application', {
+        templateUrl: 'partials/main.html',
         controller: 'MainController',
         controllerAs: 'main'
     });
-    $routeProvider.otherwise({redirectTo: '/m/pis/a/detail'});
-    $locationProvider.html5Mode(false);
+    $routeProvider.otherwise({redirectTo: '/pis/detail'});
+    $locationProvider.html5Mode(true);
     $locationProvider.hashPrefix('!');
 });

@@ -25,7 +25,17 @@ _.each(settings.Options["modules"], function(moduleName) {
 });
 
 app.use('/build', express.static(settings.BuildDirectory));
-app.use(express.static(settings.FrontendDirectory));
+
+app.use('/css', express.static(settings.FrontendDirectory + '/css'));
+app.use('/img', express.static(settings.FrontendDirectory + '/img'));
+app.use('/js', express.static(settings.FrontendDirectory + '/js'));
+app.use('/lib', express.static(settings.FrontendDirectory + '/lib'));
+app.use('/partials', express.static(settings.FrontendDirectory + '/partials'));
+
+app.all('/*', function(req, res, next) {
+    // Just send the index.html for other files to support HTML5Mode
+    res.sendfile('index.html', { root: settings.FrontendDirectory });
+});
 
 app.listen(DEFAULT_PORT);
 
