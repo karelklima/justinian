@@ -10,23 +10,8 @@ You can pick one of these options:
 * serve this repository with your webserver
 * install node.js and run `scripts/web-server.js`
 
-Then navigate your browser to `http://localhost:<port>/frontend/index.html` to see the app running in
+Then navigate your browser to `http://localhost:8000/` to see the app running in
 your browser.
-
-
-### Running the app in production
-
-This really depends on how complex is your app and the overall infrastructure of your system, but
-the general rule is that all you need in production are all the files under the `frontend/` directory.
-Everything else should be omitted.
-
-Angular apps are really just a bunch of static html, css and js files that just need to be hosted
-somewhere, where they can be accessed by browsers.
-
-If your Angular app is talking to the backend server via xhr or other means, you need to figure
-out what is the best way to host the static files to comply with the same origin policy if
-applicable. Usually this is done by hosting the files by the backend server or through
-reverse-proxying the backend server(s) and a webserver(s).
 
 
 ### Running unit tests
@@ -61,15 +46,6 @@ info.
   * run the tests from console with [Karma](http://karma-runner.github.io) via
     `scripts/e2e-test.sh` or `script/e2e-test.bat`
 
-### Continuous Integration
-
-CloudBees have provided a CI/deployment setup:
-
-<a href="https://grandcentral.cloudbees.com/?CB_clickstart=https://raw.github.com/CloudBees-community/angular-js-clickstart/master/clickstart.json"><img src="https://d3ko533tu1ozfq.cloudfront.net/clickstart/deployInstantly.png"/></a>
-
-If you run this, you will get a cloned version of this repo to start working on in a private git repo, 
-along with a CI service (in Jenkins) hosted that will run unit and end to end tests in both Firefox and Chrome.
-
 ### Receiving updates from upstream
 
 When we upgrade angular-seed's repo with newer angular or testing library code, you can just
@@ -96,10 +72,10 @@ fetch the changes and merge them into your project with git.
           angular-*.js      --> angular add-on modules
           version.txt       --> version number
 
-    backend/config/karma.conf.js        --> config file for running unit tests with Karma
-    backend/config/karma-e2e.conf.js    --> config file for running e2e tests with Karma
+    test/config/karma.conf.js        --> config file for running unit tests with Karma
+    test/config/karma-e2e.conf.js    --> config file for running e2e tests with Karma
 
-    backend/scripts/    --> handy shell/js/ruby scripts
+    test/scripts/    --> handy shell/js/ruby scripts
       e2e-test.sh       --> runs end-to-end tests with Karma (*nix)
       e2e-test.bat      --> runs end-to-end tests with Karma (windows)
       test.bat          --> autotests unit tests with Karma (windows)
