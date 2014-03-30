@@ -17,16 +17,19 @@ var CLEAN_BUILD = false;
 var builder = new Builder(CLEAN_BUILD);
 builder.buildModulesDefinition();
 
+var loggingOptions = require('./lib/logging-options');
+var winston = require('winston');
+var logger = new winston.Logger(loggingOptions.logger);
+winston.addColors(loggingOptions.loggingLevels.colors);
+var expressWinston = require('express-winston');
+
 var app = express();
 
-// Logging request details:
-var logfile = fs.createWriteStream('./nodejs.log', {flags: 'a'});
-var format = ':method :url - :status - :response-time ms'; 					// other options ':req[header] :http-version :remote-addr :date :referrer :user-agent'
-app.use(express.logger({format : format, stream: logfile}));				// logging to console: leave out "stream: logfile"
+app.use( expressWinston.logger(loggingOptions.requestLogger) );					// request loggger middleware
 
 var modules = require(settings.BuildDirectory + '/modules.json');
 _.each(modules, function (moduleSpec, module) {
-    app.use('/' + module + '/api', api_router(module, settings.Options));
+    app.use('/' + module + '/api', api_router(module, settings.Options, logger));
     app.use('/' + module + '/shared', express.static(settings.ModulesDirectory + '/' + module + '/shared'));
     _.each(modules[module]["apps"], function (applicationSpec, application) {
         var urlPrefix = '/' + module + '/' + application;
@@ -35,6 +38,8 @@ _.each(modules, function (moduleSpec, module) {
         app.use(urlPrefix + '/partials', express.static(pathPrefix + '/partials'));
     });
 });
+
+app.use('/error', function(req, res, next) { next(new Error('testing Error')) });
 
 app.use('/build', express.static(settings.BuildDirectory));
 
@@ -55,7 +60,14 @@ app.all('/*', function(req, res, next) {
     });
 });
 
+app.use(expressWinston.errorLogger(loggingOptions.errorLogger));				// error logger middleware
+app.use(function(err, req, res, next){											// custom error handlers should follow the error logger
+	if (err) {
+		res.writeHead(500, {'Content-Type' : 'text/html'});
+		res.end('<h2>500 : Internal Error</h2>\n<pre>'+ err.stack + '</pre>')
+		} else { next();
+}});
+
 app.listen(DEFAULT_PORT);
 
-process.stdout.write("Server started!");
-
+process.stdout.write("Server started!\n");

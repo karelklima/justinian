@@ -10,7 +10,7 @@ var util = require('util');
 var ApiRoute = require('./api-route');
 var SparqlRoute = require('./sparql-route');
 
-exports = module.exports = function router(moduleName, options) {
+exports = module.exports = function router(moduleName, options, logger) {
     options = options || {};
 
     var moduleDirectory = __dirname + '/../../modules/' + moduleName + '/api/';
@@ -27,9 +27,12 @@ exports = module.exports = function router(moduleName, options) {
     _.each(jsFiles, function(file) {
         var Route = require(moduleDirectory + '/' + file)(routeParams);
         routingTable[file.split('.')[0]] = new Route(moduleName, file.split('.')[0]);
+logger.debug('setting a route for ' + file.split('.')[0] );
     });
+logger.warn('September is approaching...');
+logger.err('Testing Error logging from the main logger');
 
-    return function process (req, res, next) {
+	return function process (req, res, next) {
         var name = req.path.substring(1); // remove starting slash
         console.log(name);
         if (_.isObject(routingTable[name]))
