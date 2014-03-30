@@ -1,12 +1,16 @@
-# Pocet vsech zakonu
 PREFIX lex: <http://purl.org/lex#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX frbr: <http://purl.org/vocab/frbr/core#>
 PREFIX sao: <http://salt.semanticauthoring.org/ontologies/sao#>
 PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
 
-SELECT COUNT(DISTINCT ?act)
+CONSTRUCT {
+  ?act a lex:Act ;
+  dcterms:title ?title .
+}
 FROM <http://linked.opendata.cz/resource/dataset/legislation/uz>
 WHERE {
-  ?act a lex:Act .
+  ?act a lex:Act ;
+  dcterms:title ?title .
+  FILTER regex(?title, "{{"param": "query", "filter": "EscapeDoubleQuotes"}}", "i")
 }

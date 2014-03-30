@@ -6,50 +6,57 @@ var _ = require('underscore');
 var http = require('http');
 var url = require('url');
 var querystring = require('querystring');
+var assert = require('assert');
+var settings = require('../settings');
 
-module.exports = function(options)
-{
-    options = options || {};
-    options["datastore-url"] = options["datastore-url"] || "http://localhost";
+var options;
+var params;
 
-    return {
-        query: function (text, params, successCallback, errorCallback) {
-            var datastoreUrl = url.parse(options["datastore-url"]);
+function SparqlClient() {
+    assert.ok(_.isObject(settings.Options["sparql"]));
 
-            params = params || {};
+    options = settings.Options["sparql"];
+    assert.ok(_.isString(options["datastore-url"]));
+    assert.ok(_.isString(options["query-param-name"]));
+    assert.ok(_.isObject(options["default-params"]));
 
-            var urlQuery = {
-                format: 'application/sparql-results+json',
-                timeout: '0',
-                debug: 'on',
-                query: text
-            };
+    params = _.clone(options["default-params"]);
 
-            _.each(params, function(key) {
-                urlQuery[key] = params[key];
-            });
-
-            datastoreUrl["path"] = datastoreUrl["path"] + '?' + querystring.stringify(urlQuery);
-
-            var data = "";
-
-            successCallback = successCallback || function(data) {};
-            errorCallback = errorCallback || function(message) {};
-
-            var dbReq = http.request(datastoreUrl, function(dbRes) {
-                dbRes.on('data', function(chunk) {
-                    data += chunk;
-                });
-                dbRes.on('end', function() {
-                    successCallback(data)
-                });
-            });
-            dbReq.on('error', function(error) {
-                console.log(error);
-                errorCallback("Datastore error");
-            });
-
-            dbReq.end();
-        }
-    }
 }
+
+SparqlClient.prototype.setParam = function (key, value) {
+    assert.ok(key && value);
+
+    params[key] = value;
+    return this;
+};
+
+SparqlClient.prototype.sendRequest = function(query, successCallback, errorCallback) {
+
+    assert(_.isString(query));
+
+    successCallback = successCallback || function(data) {};
+    errorCallback = errorCallback || function(message) {};
+
+    var finalParams = _.clone(params);
+    finalParams["query"] = query;
+
+    var requestParams = url.parse(options["datastore-url"]);
+    requestParams["path"] = requestParams["path"] + '?' + querystring.stringify(finalParams);
+
+    http.request(requestParams, function(res) {
+        var responseString = '';
+        res.on('data', function(chunk) {
+            responseString += chunk;
+        });
+        res.on('end', function() {
+            successCallback(responseString);
+        });
+    }).on('error', function(error) {
+        console.log(error);
+        errorCallback("Datastore error");
+    }).end();
+
+};
+
+module.exports = SparqlClient;

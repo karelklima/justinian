@@ -7,7 +7,8 @@
 var _ = require('underscore');
 var fs = require('fs');
 var util = require('util');
-var apiRoute = require('./api-route');
+var ApiRoute = require('./api-route');
+var SparqlRoute = require('./sparql-route');
 
 exports = module.exports = function router(moduleName, options) {
     options = options || {};
@@ -17,26 +18,20 @@ exports = module.exports = function router(moduleName, options) {
     var routingTable = {};
     var files = fs.readdirSync(moduleDirectory);
 
+    var routeParams = {
+        ApiRoute: ApiRoute,
+        SparqlRoute: SparqlRoute
+    };
 
     var jsFiles = _.filter(files, function(file) { return /^[a-z-]+\.js$/.test(file); });
     _.each(jsFiles, function(file) {
-        routingTable[file.split('.')[0]] = require(moduleDirectory + '/' + file);
+        var Route = require(moduleDirectory + '/' + file)(routeParams);
+        routingTable[file.split('.')[0]] = new Route(moduleName, file.split('.')[0]);
     });
-
-    var sparqlFiles = _.filter(files, function(file) { return /^[a-z-]+\.sparql$/.test(file); });
-    _.each(sparqlFiles, function(file) {
-        var prefix = file.split('.')[0];
-        if (!(prefix in routingTable)) {
-            routingTable[file.split('.')[0]] = apiRoute.fromFile(moduleDirectory + '/' + file, options);
-        }
-    });
-
-
-
-
 
     return function process (req, res, next) {
         var name = req.path.substring(1); // remove starting slash
+        console.log(name);
         if (_.isObject(routingTable[name]))
         {
             var matchedRoute = routingTable[name];
@@ -45,7 +40,7 @@ exports = module.exports = function router(moduleName, options) {
             switch (method) {
                 case "get":
                     if ('function' == typeof matchedRoute.get)
-                        matchedRoute.get(req, res, function() { /* done */ });
+                        matchedRoute.get(req, res);
                     break;
                 default :
                     next();
