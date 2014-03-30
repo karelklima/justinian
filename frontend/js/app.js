@@ -1,17 +1,17 @@
-var pisApp;
+var mainApp;
 
-pisApp = angular.module('pisApp', [
+mainApp = angular.module('mainApp', [
     'ngRoute',
-    'pisControllers'
+    'appControllers'
 ]);
 
-pisApp.config(function($routeProvider, $locationProvider) {
+mainApp.config(function ($routeProvider, $locationProvider) {
     $routeProvider.when('/:module/:application', {
         templateUrl: 'partials/main.html',
         controller: 'MainController',
         controllerAs: 'main'
     });
-    $routeProvider.otherwise({redirectTo: '/pis/detail'});
+    $routeProvider.otherwise({redirectTo: homePath});
     $locationProvider.html5Mode(true);
     $locationProvider.hashPrefix('!');
 });

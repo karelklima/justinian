@@ -1,31 +1,31 @@
-var pisControllers;
+var appControllers;
 
-pisControllers = angular.module('pisControllers', []);
+appControllers = angular.module('appControllers', [
+    'appServices'
+]);
 
-pisControllers.controller('MainController', function($scope, $route, $routeParams, $location) {
-    $scope.routeParams = $routeParams;
-    $scope.appsToLoad = ["hodnota0", "hodnota1","hodnota2"];
+appControllers.controller('MainController', function ($scope, configurationService, urlService) {
+    $scope.module = urlService.getParam('module');
+    $scope.application = urlService.getParam('application');
 
-    $scope.getParam = function(key) {
-        return $route.current.params[key];
-    };
-    $scope.setParam = function(key, value) {
-        $location.search(key, value);
-    };
-    $scope.setPath = function(module,application) {
-        $location.path('/'+module+'/'+application);
-    };
+    if (!configurationService.isModuleApplication($scope.module, $scope.application)) {
+        urlService.setPathHome();
+    }
+
+    $scope.types = configurationService.getTypes($scope.module, $scope.application);
+    $scope.views = configurationService.getViews($scope.module, $scope.application);
+
+    $scope.url = urlService;
 });
 
-pisControllers.controller('LogoController', function($scope) {
-    this.templateUrl = 'partials/logo.'+$scope.getParam('module')+'.html';
+appControllers.controller('LogoController', function ($scope) {
+    this.templateUrl = 'partials/logo.' + $scope.module + '.html';
 });
 
-pisControllers.controller('ApplicationController', function($scope) {
-    this.templateUrl = 'partials/application.'+$scope.getParam('module')+'.'+$scope.getParam('application')+'.html'
+appControllers.controller('ApplicationController', function ($scope) {
+    this.templateUrl = 'partials/application.' + $scope.module + '.' + $scope.application + '.html';
 });
 
-pisControllers.controller('SidebarController', function($scope) {
+appControllers.controller('SidebarController', function ($scope) {
     this.templateUrl = 'partials/sidebar.html';
-    this.appsToLoad = $scope.appsToLoad;
 });

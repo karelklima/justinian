@@ -1,7 +1,8 @@
-a.link {
-    text-decoration: underline;
+a {
     color: blue;
+    text-decoration: underline;
 }
-a:hover.link {
+
+a:hover {
     text-decoration: none;
 }
