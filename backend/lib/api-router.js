@@ -7,11 +7,12 @@
 var _ = require('underscore');
 var fs = require('fs');
 var util = require('util');
+var settings = require('../settings');
+var logger = require('./logger');
 var ApiRoute = require('./api-route');
 var SparqlRoute = require('./sparql-route');
 
-exports = module.exports = function router(moduleName, options, logger) {
-    options = options || {};
+exports = module.exports = function apiRouter(moduleName) {
 
     var moduleDirectory = __dirname + '/../../modules/' + moduleName + '/api/';
 
@@ -52,6 +53,6 @@ logger.err('Testing Error logging from the main logger');
         } else
             next();
     }
-}
+};
 
 

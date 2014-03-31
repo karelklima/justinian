@@ -18,9 +18,7 @@ var builder = new Builder(CLEAN_BUILD);
 builder.buildModulesDefinition();
 
 var loggingOptions = require('./lib/logging-options');
-var winston = require('winston');
-var logger = new winston.Logger(loggingOptions.logger);
-winston.addColors(loggingOptions.loggingLevels.colors);
+var logger = require('./lib/logger');
 var expressWinston = require('express-winston');
 
 var app = express();
@@ -29,7 +27,7 @@ app.use( expressWinston.logger(loggingOptions.requestLogger) );					// request l
 
 var modules = require(settings.BuildDirectory + '/modules.json');
 _.each(modules, function (moduleSpec, module) {
-    app.use('/' + module + '/api', api_router(module, settings.Options, logger));
+    app.use('/' + module + '/api', api_router(module, settings.Options));
     app.use('/' + module + '/shared', express.static(settings.ModulesDirectory + '/' + module + '/shared'));
     _.each(modules[module]["apps"], function (applicationSpec, application) {
         var urlPrefix = '/' + module + '/' + application;
