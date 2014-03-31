@@ -11,4 +11,4 @@ exports = module.exports =  {
     CacheDirectory : __dirname + '/cache',
     FrontendDirectory : __dirname + '/../frontend',
     ModulesDirectory : __dirname + '/../modules'
-}
+};

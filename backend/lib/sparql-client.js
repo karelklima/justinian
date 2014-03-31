@@ -13,22 +13,21 @@ var options;
 var params;
 
 function SparqlClient() {
-    assert.ok(_.isObject(settings.Options["sparql"]));
-
     options = settings.Options["sparql"];
-    assert.ok(_.isString(options["datastore-url"]));
-    assert.ok(_.isString(options["query-param-name"]));
-    assert.ok(_.isObject(options["default-params"]));
-
     params = _.clone(options["default-params"]);
-
 }
 
 SparqlClient.prototype.setParam = function (key, value) {
-    assert.ok(key && value);
-
+    if (typeof key != "string" || typeof value != "string")
+        throw new Error();
     params[key] = value;
     return this;
+};
+
+SparqlClient.prototype.getParam = function (key) {
+    if(!params[key])
+        throw new Error();
+    return params[key];
 };
 
 SparqlClient.prototype.sendRequest = function(query, successCallback, errorCallback) {
