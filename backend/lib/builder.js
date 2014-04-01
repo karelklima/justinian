@@ -6,6 +6,7 @@
 
 var settings = require('../settings');
 var fs = require('fs');
+var logger = require('./logger');
 
 function Builder(cleanBuild) {
     this.cleanBuild = cleanBuild || false;
@@ -19,6 +20,8 @@ Builder.prototype.buildModulesDefinition = function() {
         else
             fs.unlinkSync(buildFile);
     }
+
+    logger.debug("Rebuilding modules definition");
 
     var modules = {};
 
@@ -47,7 +50,10 @@ Builder.prototype.buildModulesDefinition = function() {
 
     }
 
+    if (!fs.existsSync(settings.BuildDirectory))
+        fs.mkdirSync(settings.BuildDirectory);
     fs.writeFileSync(buildFile, JSON.stringify(modules, null, 2));
+    logger.debug("Modules definition file created");
 }
 
 module.exports = Builder;

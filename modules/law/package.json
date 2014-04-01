@@ -1,5 +1,5 @@
 {
-    "name" : "pis",
+    "name" : "law",
     "extends": ["core"],
     "prefixes": {
         "lex:" : "http://purl.org/lex#",

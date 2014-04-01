@@ -26,7 +26,7 @@
       }
     }
   },
-  "pis": {
+  "law": {
     "extends": [
       "core"
     ],
