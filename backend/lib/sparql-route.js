@@ -7,6 +7,8 @@ var settings = require('../settings');
 var ApiRoute = require('./api-route');
 var SparqlClient = require('./sparql-client');
 var SparqlQuery = require('./sparql-query');
+var jsonld = require('jsonld');
+var logger = require('./logger');
 
 var client;
 var query;
@@ -50,17 +52,20 @@ SparqlRoute.prototype.prepareParams = function(params) {
     return params;
 };
 
-SparqlRoute.prototype.prepareResponse = function(responseString) {
-    return responseString;
+SparqlRoute.prototype.prepareResponse = function(responseString, next) {
+    // TODO jsonld.fromRDF throws JsonLdError, it is a bug but we have to do a workaround
+    jsonld.fromRDF(responseString, {format: 'application/nquads'}, function(err, doc) {
+        // TODO logger.debug(err);
+        next(doc);
+    });
 };
 
 SparqlRoute.prototype.handleResponse = function(responseString, res) {
     // Override this if necessary
-
-    responseString = this.prepareResponse(responseString);
-
-    res.write(responseString);
-    res.end();
+    this.prepareResponse(responseString, function(jsonld) {
+        res.write(JSON.stringify(jsonld));
+        res.end();
+    });
 };
 
 SparqlRoute.prototype.handleError = function (responseError, res) {
