@@ -12,6 +12,6 @@ mainApp.config(function ($routeProvider, $locationProvider) {
         controllerAs: 'main'
     });
     $routeProvider.otherwise({redirectTo: homePath});
-    $locationProvider.html5Mode(true);
+    $locationProvider.html5Mode(false);
     $locationProvider.hashPrefix('!');
 });

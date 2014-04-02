@@ -41,22 +41,22 @@ app.use('/error', function(req, res, next) { next(new Error('testing Error')) })
 
 app.use('/build', express.static(settings.BuildDirectory));
 
-app.use('/css', express.static(settings.FrontendDirectory + '/css'));
+/*app.use('/css', express.static(settings.FrontendDirectory + '/css'));
 app.use('/img', express.static(settings.FrontendDirectory + '/img'));
 app.use('/js', express.static(settings.FrontendDirectory + '/js'));
 app.use('/lib', express.static(settings.FrontendDirectory + '/lib'));
-app.use('/partials', express.static(settings.FrontendDirectory + '/partials'));
-
+app.use('/partials', express.static(settings.FrontendDirectory + '/partials'));*/
 
 app.engine('.html', require('ejs').__express);
-
-app.all('/*', function(req, res, next) {
+app.get('/', function(req, res, next) {
     // Send the index.html for other files to support HTML5Mode
     res.render(settings.FrontendDirectory + '/index.html', {
         options: settings.Options,
         modules: JSON.stringify(modules)
     });
 });
+
+app.use(express.static(settings.FrontendDirectory));
 
 app.use(expressWinston.errorLogger(loggingOptions.errorLogger));				// error logger middleware
 app.use(function(err, req, res, next){											// custom error handlers should follow the error logger
