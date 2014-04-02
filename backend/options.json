@@ -5,7 +5,7 @@
         "datastore-url" : "http://internal.opendata.cz:8895/sparql",
         "query-param-name" : "query",
         "default-params": {
-            "format" : "application/sparql-results+json",
+            "format" : "text/plain",
             "timeout" : "0",
             "debug" : "on"
         }
