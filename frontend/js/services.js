@@ -18,17 +18,19 @@ appServices.service('configurationService', function () {
     this.getViews = function (module, application) {
         return this.data[module].apps[application].views;
     };
-    this.getSidebarApplicationsTemplates = function (type, module, application) {
+    this.getSidebarTemplates = function (type, module, application) {
         var result = [];
-        angular.forEach(this.data, function (mods, modName) {
-            angular.forEach(mods.apps, function (opts, appName) {
-                if ((modName !== module || appName !== application)
-                    && opts.views.indexOf('sidebar') !== -1
-                    && opts.datatypes.indexOf(type) !== -1) {
-                    this.push(modName + '/' + appName + '/partials/sidebar.html');
-                }
-            }, result);
-        });
+        if (type !== undefined) {
+            angular.forEach(this.data, function (mods, modName) {
+                angular.forEach(mods.apps, function (opts, appName) {
+                    if ((modName !== module || appName !== application)
+                        && opts.views.indexOf('sidebar') !== -1
+                        && opts.datatypes.indexOf(type) !== -1) {
+                        this.push(modName + '/' + appName + '/partials/sidebar.html');
+                    }
+                }, result);
+            });
+        }
         return result;
     };
 });
