@@ -15,17 +15,15 @@ appControllers.controller('MainController', function ($scope, configurationServi
     $scope.types = configurationService.getTypes($scope.module, $scope.application);
     $scope.views = configurationService.getViews($scope.module, $scope.application);
 
+    this.logoTemplateUrl = 'partials/logo.' + home.module + '.html';
+    this.sidebarTemplateUrl = 'partials/sidebar.html';
+    this.applicationTemplateUrl = $scope.module + '/' + $scope.application + '/partials/main.html';
+
+    if (urlService.isParam('type')) {
+        this.sidebarTemplates = configurationService.getSidebarApplicationsTemplates(urlService.getParam('type'), $scope.module, $scope.application);
+    } else {
+        this.sidebarTemplates = [];
+    }
+
     $scope.url = urlService;
-});
-
-appControllers.controller('LogoController', function ($scope) {
-    this.templateUrl = 'partials/logo.' + $scope.module + '.html';
-});
-
-appControllers.controller('ApplicationController', function ($scope) {
-    this.templateUrl = 'partials/application.' + $scope.module + '.' + $scope.application + '.html';
-});
-
-appControllers.controller('SidebarController', function ($scope) {
-    this.templateUrl = 'partials/sidebar.html';
 });

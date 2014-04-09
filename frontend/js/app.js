@@ -11,7 +11,7 @@ mainApp.config(function ($routeProvider, $locationProvider) {
         controller: 'MainController',
         controllerAs: 'main'
     });
-    $routeProvider.otherwise({redirectTo: homePath});
+    $routeProvider.otherwise({redirectTo: '/' + home.module + '/' + home.application});
     $locationProvider.html5Mode(false);
     $locationProvider.hashPrefix('!');
 });

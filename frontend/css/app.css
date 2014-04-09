@@ -6,3 +6,26 @@ a {
 a:hover {
     text-decoration: none;
 }
+
+.window {
+    border: 1px solid black;
+    margin: 3px;
+}
+
+.sidebar {
+    border: 1px solid darkred;
+    margin: 3px;
+    float: right;
+    width: 26%;
+}
+
+.logo {
+    border: 1px solid darkblue;
+    margin: 3px;
+}
+
+.application {
+    border: 1px solid darkgreen;
+    margin: 3px;
+    width: 70%;
+}

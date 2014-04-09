@@ -9,7 +9,7 @@
     <link href="css/app.css" rel="stylesheet" type="text/css">
 
     <script>
-        var homePath = '/pis/search';
+        var home = {'module': 'law', 'application': 'search'};
         var appConfiguration = '<%- modules %>';
         var userSettings = '';
     </script>
@@ -23,10 +23,15 @@
     <script src="js/directives.js"></script>
     <script src="js/filters.js"></script>
     <script src="js/services.js"></script>
+
+    <script src="core/detail/js/controllers.js"></script>
+    <script src="core/search/js/controllers.js"></script>
+    <script src="law/act-detail/js/controllers.js"></script>
+    <script src="law/search/js/controllers.js"></script>
 </head>
 <body ng-app="mainApp">
 
-<div ng-view></div>
+<div ng-view class="window"></div>
 
 </body>
 </html>

@@ -1,11 +1,5 @@
-<div ng-controller="LogoController as logo">
-    <div ng-include="logo.templateUrl"></div>
-</div>
+<div ng-include="main.logoTemplateUrl" class="logo"></div>
 
-<div ng-controller="ApplicationController as application">
-    <div ng-include="application.templateUrl"></div>
-</div>
+<div ng-include="main.sidebarTemplateUrl" class="sidebar"></div>
 
-<div ng-controller="SidebarController as sidebar">
-    <div ng-include="sidebar.templateUrl"></div>
-</div>
+<div ng-include="main.applicationTemplateUrl" class="application"></div>
