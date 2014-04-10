@@ -6,6 +6,11 @@ mainApp = angular.module('mainApp', [
 ]);
 
 mainApp.config(function ($routeProvider, $locationProvider) {
+    $routeProvider.when('/', {
+        templateUrl: 'partials/main.html',
+        controller: 'MainController',
+        controllerAs: 'main'
+    });
     $routeProvider.when('/:module/:application', {
         templateUrl: 'partials/main.html',
         controller: 'MainController',

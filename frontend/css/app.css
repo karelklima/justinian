@@ -9,6 +9,22 @@ a:hover {
 
 .window {
     border: 1px solid black;
+    margin: auto;
+    width: 900px;
+}
+
+.body {
+    border: 1px solid darkorange;
+    margin: 3px;
+}
+
+.header {
+    border: 1px solid darkorange;
+    margin: 3px;
+}
+
+.footer {
+    border: 1px solid darkorange;
     margin: 3px;
 }
 
@@ -22,10 +38,35 @@ a:hover {
 .logo {
     border: 1px solid darkblue;
     margin: 3px;
+    width: 26%;
+}
+
+.menu {
+    border: 1px solid darkblue;
+    margin: 3px;
+    float: right;
+    width: 26%;
+}
+
+.search {
+    border: 1px solid darkblue;
+    margin: 3px;
+    float: right;
+    width: 40%;
+}
+
+.main {
+    border: 1px solid darkgreen;
+    margin: 3px;
+    width: 70%;
+}
+
+.info {
+    border: 1px solid darkgreen;
+    margin: 3px;
 }
 
 .application {
     border: 1px solid darkgreen;
     margin: 3px;
-    width: 70%;
 }

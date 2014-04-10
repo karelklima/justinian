@@ -12,8 +12,13 @@ appServices.service('configurationService', function () {
     this.isModuleApplication = function (module, application) {
         return module in this.data && application in this.data[module].apps;
     };
-    this.getTypes = function (module, application) {
-        return this.data[module].apps[application].datatypes;
+    this.getType = function (module, application) {
+        var result = this.data[module].apps[application].datatypes;
+        if (result !== undefined && result.length > 0) {
+            return result[0];
+        } else {
+            return result;
+        }
     };
     this.getViews = function (module, application) {
         return this.data[module].apps[application].views;
@@ -23,7 +28,7 @@ appServices.service('configurationService', function () {
         if (type !== undefined) {
             angular.forEach(this.data, function (mods, modName) {
                 angular.forEach(mods.apps, function (opts, appName) {
-                    if ((modName !== module || appName !== application)
+                    if ((true)//TODO pridani podle navaznosti k app
                         && opts.views.indexOf('sidebar') !== -1
                         && opts.datatypes.indexOf(type) !== -1) {
                         this.push(modName + '/' + appName + '/partials/sidebar.html');
@@ -32,6 +37,10 @@ appServices.service('configurationService', function () {
             });
         }
         return result;
+    };
+    this.getDefaultModuleApplication = function (type) {
+        //TODO po pridani konfigurace do JSONu
+        return home;
     };
 });
 
@@ -55,8 +64,11 @@ appServices.service('urlService', function ($routeParams, $location) {
     this.setPath = function (module, application) {
         $location.path('/' + module + '/' + application);
     };
-    this.setPathHome = function () {
-        $location.path('/' + home.module + '/' + home.application);
+    this.setUrl = function (module, application) {
+        $location.url('/' + module + '/' + application);
+    }
+    this.setUrlHome = function () {
+        $location.url('/' + home.module + '/' + home.application);
     };
 });
 

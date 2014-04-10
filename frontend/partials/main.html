@@ -1,5 +1,19 @@
-<div ng-include="main.logoTemplateUrl" class="logo"></div>
+<div class="header">
+    <div ng-include="main.menuTemplateUrl" class="menu"></div>
+    <div ng-include="main.searchTemplateUrl" class="search"></div>
+    <div ng-include="main.logoTemplateUrl" class="logo"></div>
+</div>
 
-<div ng-include="main.sidebarTemplateUrl" class="sidebar"></div>
+<div class="body">
+    <div class="sidebar">
+        SIDEBAR
+        <div ng-repeat="sidebarTemplateUrl in main.sidebarTemplateUrls">
+            <div ng-include="sidebarTemplateUrl" class="application"></div>
+        </div>
+    </div>
+    <div ng-include="main.mainTemplateUrl" class="main"></div>
+</div>
 
-<div ng-include="main.applicationTemplateUrl" class="application"></div>
+<div class="footer">
+    <div ng-include="main.infoTemplateUrl" class="info"></div>
+</div>
