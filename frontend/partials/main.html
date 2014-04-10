@@ -5,8 +5,7 @@
 </div>
 
 <div class="body">
-    <div class="sidebar">
-        SIDEBAR
+    <div class="sidebar" ng-show="main.showSidebar">
         <div ng-repeat="sidebarTemplateUrl in main.sidebarTemplateUrls">
             <div ng-include="sidebarTemplateUrl" class="application"></div>
         </div>

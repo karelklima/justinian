@@ -4,33 +4,38 @@ appControllers = angular.module('appControllers', [
     'appServices'
 ]);
 
-appControllers.controller('MainController', function ($scope, configurationService, urlService) {
+appControllers.controller('MainController', function ($scope, ConfigurationService, UrlService, UtilService) {
 
     // pokud mame url ve tvaru /?type=xxx&resource=yyy najdeme defaultni aplikaci pro zadany typ
-    if (!urlService.isParam('module') && !urlService.isParam('application')
-        && urlService.isParam('type') && urlService.isParam('resource')) {
-        var path = configurationService.getDefaultModuleApplication(urlService.getParam('type'));
-        urlService.setPath(path.module, path.application);
-        urlService.setParam('type', null);
+    if (!UrlService.isParam('module') && !UrlService.isParam('application')
+        && UrlService.isParam('type') && UrlService.isParam('resource')) {
+        var path = ConfigurationService.getDefaultModuleApplication(UrlService.getParam('type'));
+        UrlService.setPath(path.module, path.application);
+        UrlService.setParam('type', null);
         return;
     }
 
-    // pokud neexistuje aplikace, kterou mame zobrazit jdeme na homepage
-    if (!configurationService.isModuleApplication(urlService.getParam('module'), urlService.getParam('application'))) {
-        urlService.setUrlHome();
+    // pokud neexistuje aplikace, kterou mame zobrazit jdeme na errorpage
+    if (!ConfigurationService.isModuleApplication(UrlService.getParam('module'), UrlService.getParam('application'))) {
+        UrlService.setUrlError();
         return;
     }
 
-    $scope.module = urlService.getParam('module');
-    $scope.application = urlService.getParam('application');
-    $scope.type = configurationService.getType($scope.module, $scope.application);
-    $scope.url = urlService;
+    $scope.module = UrlService.getParam('module');
+    $scope.application = UrlService.getParam('application');
+    $scope.types = ConfigurationService.getTypes($scope.module, $scope.application);
+    $scope.url = UrlService;
 
-    this.infoTemplateUrl = home.module + '/info/partials/info.html';
-    this.logoTemplateUrl = home.module + '/logo/partials/logo.html';
-    this.mainTemplateUrl = $scope.module + '/' + $scope.application + '/partials/main.html';
-    this.menuTemplateUrl = home.module + '/menu/partials/menu.html';
-    this.searchTemplateUrl = home.module + '/searchbar/partials/searchbar.html';
-    this.sidebarTemplateUrls = configurationService.getSidebarTemplates($scope.type, $scope.module, $scope.application);
+    this.infoTemplateUrl = ConfigurationService.getTemplate('info');
+    this.logoTemplateUrl = ConfigurationService.getTemplate('logo');
+    this.mainTemplateUrl = UtilService.getTemplateUrl($scope.module, $scope.application, 'main');
+    this.menuTemplateUrl = ConfigurationService.getTemplate('menu');
+    this.searchTemplateUrl = ConfigurationService.getTemplate('searchbar');
+    this.sidebarTemplateUrls = ConfigurationService.getSidebarTemplates($scope.types, $scope.module, $scope.application);
+    this.showSidebar = (this.sidebarTemplateUrls.length > 0);
 
+});
+
+appControllers.controller('TitleController', function ($scope, TitleService) {
+    $scope.title = TitleService.getTitle();
 });

@@ -1,4 +1,4 @@
 {
     "name": "menu",
-    "views": []
+    "views": ["menu"]
 }
