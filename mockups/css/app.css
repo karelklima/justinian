@@ -1,109 +1,12 @@
 /* app css stylesheet */
 
-.menu {
-  list-style: none;
-  border-bottom: 0.1em solid black;
-  margin-bottom: 2em;
-  padding: 0 0 0.5em;
+body {
+    padding-top: 50px;
+    background: #CCC;
 }
 
-.menu:before {
-  content: "[";
-}
-
-.menu:after {
-  content: "]";
-}
-
-.menu > li {
-  display: inline;
-}
-
-.menu > li:before {
-  content: "|";
-  padding-right: 0.3em;
-}
-
-.menu > li:nth-child(1):before {
-  content: "";
-  padding: 0;
-}
-
-
-
-.panel-heading h3 {
-	font-size: 20px;
-	font-weight: bold;
-}
-
-
-
-/* DETAIL OF ZAKON */
-#sidePanel .panel-body {
-	padding: 2px 5px;
-}
-#sidePanel .panel-body i {
-	color: grey;
-}
-#sidePanel .list-group-item {
-	padding: 2px 8px;
-}
-
-#detailOfLaw h5 {
-	font-style: italic;
-}
-#detailOfLaw .datumVydani {
-	font-size: 13px;
-	padding-bottom: 18px;
-	border-bottom: 1px solid #ddd;
-}
-#detailOfLaw .firstSentence {
-	margin: 12px 0px;
-}
-#detailOfLaw .signature {
-	padding-top: 5px;
-	border-top: 1px solid #ddd;
-}
-#detailOfLaw .paragraphHeading {
-	font-weight: bold;
-	text-align: center;
-}
-#detailOfLaw .paragraph p {
-	margin-left: 20px;
-	text-indent: 25px;
-	text-align: justify;
-}
-
-/* DETAILDE SEARCH.HTML */
-#detailedSearch #inputSearchYear, #detailedSearch #inputSearchYear2 {
-	width: 90px;
-}
-
-#detailedSearch #inputSearchInput {
-	width: 100%;
-}
-
-
-
-/* REGISTRATION.HTML */
-#registration .form-control {
-	width: 400px;
-}
-
-
-
-/* INTRO.HTML */
-
-.intro {
-	padding: 40px 0px;
-	min-height: 150px;
-	text-align: center;
-	vertical-align: middle;
-}
-.intro img {
-	margin: 12px;
-}
-
-.intro .searchInput {
-	width: 400px;
+.main-container {
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background: #FFF;
 }
