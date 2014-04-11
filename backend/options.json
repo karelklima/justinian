@@ -1,6 +1,6 @@
 {
     "title" : "PIS",
-    "modules" : ["core", "law"],
+    "modules" : ["core", "lex"],
     "sparql" : {
         "datastore-url" : "http://internal.opendata.cz:8895/sparql",
         "query-param-name" : "query",
