@@ -10,6 +10,7 @@ var fs = require('fs');
 var api_router = require('./lib/api-router');
 var settings = require('./settings');
 var Builder = require('./lib/builder');
+var config = require('./lib/config');
 
 var DEFAULT_PORT = 8000;
 var CLEAN_BUILD = false;
@@ -40,6 +41,9 @@ _.each(modules, function (moduleSpec, module) {
 app.use('/error', function(req, res, next) { next(new Error('testing Error')) });
 
 app.use('/build', express.static(settings.BuildDirectory));
+
+app.get('/config/default.js', config.defaultConfig);
+app.get('/config/user.js', config.userConfig);
 
 /*app.use('/css', express.static(settings.FrontendDirectory + '/css'));
 app.use('/img', express.static(settings.FrontendDirectory + '/img'));

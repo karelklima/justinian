@@ -45,6 +45,8 @@ logger.err('Testing Error logging from the main logger');
                 case "get":
                     if ('function' == typeof matchedRoute.get)
                         matchedRoute.get(req, res);
+                    else
+                        next();
                     break;
                 default :
                     next();
