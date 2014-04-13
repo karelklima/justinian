@@ -2,6 +2,6 @@
     "name": "box",
     "views": ["box"],
     "dependencies": {
-        "lex": ["act-detail"]
+        "lex": ["act-detail", "search"]
     }
 }

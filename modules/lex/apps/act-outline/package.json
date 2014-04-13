@@ -1,4 +1,7 @@
 {
-    "title" : "Obsah zákona",
-    "dependencies" : ["act-detail"]
+    "title": "Obsah zákona",
+    "views": ["sidebar"],
+    "dependencies": {
+        "lex": ["act-detail"]
+    }
 }
