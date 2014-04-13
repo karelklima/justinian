@@ -1,0 +1,5 @@
+{
+    "title" : "Donate",
+    "views" : ["header-right"],
+    "priority" : 5
+}

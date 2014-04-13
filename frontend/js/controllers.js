@@ -23,11 +23,12 @@ appControllers.controller('RootController', ['$scope', 'ConfigurationService', '
     this.mainTemplateUrl = ConfigurationService.getMainTemplate();
     this.sidebarTemplateUrls = ConfigurationService.getTemplates('sidebar');
     this.logoTemplateUrls = ConfigurationService.getTemplates('logo');
-    this.searchTemplateUrls = ConfigurationService.getTemplates('searchbar');
-    this.menuTemplateUrls = ConfigurationService.getTemplates('menu');
-    this.infoTemplateUrls = ConfigurationService.getTemplates('info');
-    this.boxTemplateUrls = ConfigurationService.getTemplates('box');
-    this.infoboxTemplateUrls = ConfigurationService.getTemplates('infobox');
+    this.headerLeftTemplateUrls = ConfigurationService.getTemplates('header-left');
+    this.headerRightTemplateUrls = ConfigurationService.getTemplates('header-right');
+    this.contentTopTemplateUrls = ConfigurationService.getTemplates('content-top');
+    this.contentBottomTemplateUrls = ConfigurationService.getTemplates('content-bottom');
+    this.footerTopTemplateUrls = ConfigurationService.getTemplates('footer-top');
+    this.footerBottomTemplateUrls = ConfigurationService.getTemplates('footer-bottom');
 
     $scope.url = UrlService;
 

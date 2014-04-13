@@ -6,7 +6,15 @@ body {
 }
 
 .main-container {
-    padding-top: 30px;
-    padding-bottom: 30px;
     background: #FFF;
+}
+
+.content-top, .content-bottom {
+    padding: 15px 0;
+}
+
+.navbar-form .form-control {
+    display: inline-block;
+    width: auto; /*This is the issue*/
+    vertical-align: middle;
 }
