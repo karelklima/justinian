@@ -138,19 +138,9 @@ Settings.prototype.buildModulesSetup = function() {
             var applicationInfo = {};
             _.defaults(applicationInfo, applicationPackageInfo, {
                 "title" : "Undefined",
-                "views" : [],
-                "datatypes" : [],
-                "dependencies" : []
+                "views" : []
             });
             applicationInfo["name"] = applicationName;
-
-            var expandedDependencies = [];
-            _.each(applicationInfo["dependencies"], function(value) {
-                if (value.indexOf('/') < 0)
-                    value = moduleName + '/' + value;
-                expandedDependencies.push(value);
-            });
-            applicationInfo["dependencies"] = expandedDependencies;
 
             moduleInfo["apps"][applicationName] = applicationInfo;
         }
