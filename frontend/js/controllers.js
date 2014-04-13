@@ -21,7 +21,7 @@ appControllers.controller('RootController', ['$scope', 'ConfigurationService', '
     }
 
     this.mainTemplateUrl = ConfigurationService.getMainTemplate();
-    this.sidebarTemplateUrls = ConfigurationService.getSidebarTemplates();
+    this.sidebarTemplateUrls = ConfigurationService.getTemplates('sidebar');
     this.logoTemplateUrls = ConfigurationService.getTemplates('logo');
     this.searchTemplateUrls = ConfigurationService.getTemplates('searchbar');
     this.menuTemplateUrls = ConfigurationService.getTemplates('menu');

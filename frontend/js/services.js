@@ -18,51 +18,28 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', funct
     this.getMainTemplate = function () {
         return UtilService.getTemplateUrl(PageService.getModule(), PageService.getApplication(), 'main');
     };
-    this._getDefaultTemplates = function (template) {
+    this.getTemplates = function (template) {
         var result = [];
-        // TODO docasne, dokud nebude moci ziskat z konfigurace defaultni
+        var datatypes = this._getTypes();
+        var module = PageService.getModule();
+        var application = PageService.getApplication();
         angular.forEach(_data, function (mods, modName) {
             angular.forEach(mods.apps, function (opts, appName) {
                 if (opts.views.indexOf(template) !== -1) {
-                    result.push(UtilService.getTemplateUrl(modName, appName, template));
-                }
-            });
-        });
-        return result;
-    };
-    this.getTemplates = function (template) {
-        var result = [];
-        angular.forEach(_data, function (mods, modName) {
-            angular.forEach(mods.apps, function (opts, appName) {
-                if (opts.views.indexOf(template) !== -1
-                /*TODO && ma se zobrazit pro uvedenou stranku module a application ziskame z PageService*/) {
-                    result.push(UtilService.getTemplateUrl(modName, appName, template));
-                }
-            });
-        });
-        if (!result.length > 0) {
-            result.concat(this._getDefaultTemplates(template));
-        }
-        return result;
-    };
-    this.getSidebarTemplates = function () {
-        var result = [];
-        var types = this._getTypes();
-        angular.forEach(_data, function (mods, modName) {
-            angular.forEach(mods.apps, function (opts, appName) {
-                if (opts.views.indexOf('sidebar') !== -1) {
                     var push = false;
-                    if (false /*TODO ma se zobrazit pro uvedenou stranku module a application ziskame z PageService*/) {
+                    var dependencies = opts.dependencies;
+                    var types = opts.datatypes;
+                    if (angular.isDefined(dependencies) && module in dependencies && dependencies[module].indexOf(application) !== -1) {
                         push = true;
-                    } else {
+                    } else if (angular.isDefined(types) && angular.isDefined(datatypes)) {
                         angular.forEach(types, function (type) {
-                            if (opts.datatypes.indexOf(type) !== -1) {
+                            if (datatypes.indexOf(type) !== -1) {
                                 push = true;
                             }
                         });
                     }
-                    if (push) {
-                        result.push(UtilService.getTemplateUrl(modName, appName, 'sidebar'));
+                    if (push || (angular.isUndefined(dependencies) && angular.isUndefined(types))) {
+                        result.push(UtilService.getTemplateUrl(modName, appName, template));
                     }
                 }
             });
@@ -127,7 +104,7 @@ appServices.service('UtilService', [function () {
     };
 }]);
 
-appServices.service('NetworkService', [function ($resource) {
+appServices.service('NetworkService', ['$resource', function ($resource) {
 
     // TODO
 }]);

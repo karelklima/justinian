@@ -1,4 +1,7 @@
 {
     "name": "box",
-    "views": ["box"]
+    "views": ["box"],
+    "dependencies": {
+        "lex": ["act-detail"]
+    }
 }
