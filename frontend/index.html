@@ -2,7 +2,7 @@
 <html ng-app="mainApp">
 <head lang="cs">
     <meta charset="UTF-8">
-    <title ng-controller="TitleController" ng-bind="title"></title>
+    <title ng-controller="TitleController as title" ng-bind="title.value"></title>
 
     <base href="/"/>
 
@@ -35,7 +35,7 @@
 </head>
 <body>
 
-<div ng-view class="window"></div>
+<div ng-view class="root"></div>
 
 </body>
 </html>

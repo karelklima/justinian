@@ -4,14 +4,13 @@ appControllers = angular.module('appControllers', [
     'appServices'
 ]);
 
-appControllers.controller('MainController', function ($scope, ConfigurationService, UrlService, UtilService) {
+appControllers.controller('RootController', ['$scope', 'ConfigurationService', 'UrlService', function ($scope, ConfigurationService, UrlService) {
 
     // pokud mame url ve tvaru /?type=xxx&resource=yyy najdeme defaultni aplikaci pro zadany typ
     if (!UrlService.isParam('module') && !UrlService.isParam('application')
         && UrlService.isParam('type') && UrlService.isParam('resource')) {
         var path = ConfigurationService.getDefaultModuleApplication(UrlService.getParam('type'));
-        UrlService.setPath(path.module, path.application);
-        UrlService.setParam('type', null);
+        UrlService.setUrl(path.module, path.application, ['resource']);
         return;
     }
 
@@ -21,21 +20,19 @@ appControllers.controller('MainController', function ($scope, ConfigurationServi
         return;
     }
 
-    $scope.module = UrlService.getParam('module');
-    $scope.application = UrlService.getParam('application');
-    $scope.types = ConfigurationService.getTypes($scope.module, $scope.application);
+    this.mainTemplateUrl = ConfigurationService.getMainTemplate();
+    this.sidebarTemplateUrls = ConfigurationService.getSidebarTemplates();
+    this.logoTemplateUrls = ConfigurationService.getTemplates('logo');
+    this.searchTemplateUrls = ConfigurationService.getTemplates('searchbar');
+    this.menuTemplateUrls = ConfigurationService.getTemplates('menu');
+    this.infoTemplateUrls = ConfigurationService.getTemplates('info');
+    this.boxTemplateUrls = ConfigurationService.getTemplates('box');
+    this.infoboxTemplateUrls = ConfigurationService.getTemplates('infobox');
+
     $scope.url = UrlService;
 
-    this.infoTemplateUrl = ConfigurationService.getTemplate('info');
-    this.logoTemplateUrl = ConfigurationService.getTemplate('logo');
-    this.mainTemplateUrl = UtilService.getTemplateUrl($scope.module, $scope.application, 'main');
-    this.menuTemplateUrl = ConfigurationService.getTemplate('menu');
-    this.searchTemplateUrl = ConfigurationService.getTemplate('searchbar');
-    this.sidebarTemplateUrls = ConfigurationService.getSidebarTemplates($scope.types, $scope.module, $scope.application);
-    this.showSidebar = (this.sidebarTemplateUrls.length > 0);
+}]);
 
-});
-
-appControllers.controller('TitleController', function ($scope, TitleService) {
-    $scope.title = TitleService.getTitle();
-});
+appControllers.controller('TitleController', ['PageService', function (PageService) {
+    this.value = PageService.getTitle();
+}]);

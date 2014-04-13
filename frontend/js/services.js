@@ -6,58 +6,66 @@ appServices = angular.module('appServices', [
 ]);
 
 // appConfiguration
-appServices.service('ConfigurationService', function (UtilService) {
-    this.data = angular.fromJson(appConfiguration);
+appServices.service('ConfigurationService', ['UtilService', 'PageService', function (UtilService, PageService) {
+    var _data = angular.fromJson(appConfiguration);
 
     this.isModuleApplication = function (module, application) {
-        return module in this.data && application in this.data[module].apps;
+        return module in _data && application in _data[module].apps;
     };
-    this.getTypes = function (module, application) {
-        return this.data[module].apps[application].datatypes;
+    this._getTypes = function () {
+        return _data[PageService.getModule()].apps[PageService.getApplication()].datatypes;
     };
-    this.getTemplate = function (template) {
-        var result;
-        angular.forEach(this.data, function (mods, modName) {
+    this.getMainTemplate = function () {
+        return UtilService.getTemplateUrl(PageService.getModule(), PageService.getApplication(), 'main');
+    };
+    this._getDefaultTemplates = function (template) {
+        var result = [];
+        // TODO docasne, dokud nebude moci ziskat z konfigurace defaultni
+        angular.forEach(_data, function (mods, modName) {
             angular.forEach(mods.apps, function (opts, appName) {
                 if (opts.views.indexOf(template) !== -1) {
-                    result = UtilService.getTemplateUrl(modName, appName, template);
+                    result.push(UtilService.getTemplateUrl(modName, appName, template));
                 }
             });
         });
         return result;
     };
-    this.getTemplates = function (template, module, application) {
+    this.getTemplates = function (template) {
         var result = [];
-        angular.forEach(this.data, function (mods, modName) {
+        angular.forEach(_data, function (mods, modName) {
             angular.forEach(mods.apps, function (opts, appName) {
                 if (opts.views.indexOf(template) !== -1
-                /*TODO && ma se zobrazit pro uvedenou stranku*/) {
-                    this.push(UtilService.getTemplateUrl(modName, appName, template));
+                /*TODO && ma se zobrazit pro uvedenou stranku module a application ziskame z PageService*/) {
+                    result.push(UtilService.getTemplateUrl(modName, appName, template));
                 }
-            }, result);
+            });
         });
+        if (!result.length > 0) {
+            result.concat(this._getDefaultTemplates(template));
+        }
         return result;
     };
-    this.getSidebarTemplates = function (types, module, application) {
+    this.getSidebarTemplates = function () {
         var result = [];
-        angular.forEach(this.data, function (mods, modName) {
+        var types = this._getTypes();
+        angular.forEach(_data, function (mods, modName) {
             angular.forEach(mods.apps, function (opts, appName) {
                 if (opts.views.indexOf('sidebar') !== -1) {
                     var push = false;
-                    if (false /*TODO ma se zobrazit pro uvedenou stranku*/) {
+                    if (false /*TODO ma se zobrazit pro uvedenou stranku module a application ziskame z PageService*/) {
                         push = true;
                     } else {
-                        angular.forEach(types, function (type, index) {
+                        angular.forEach(types, function (type) {
                             if (opts.datatypes.indexOf(type) !== -1) {
                                 push = true;
                             }
                         });
                     }
                     if (push) {
-                        this.push(UtilService.getTemplateUrl(modName, appName, 'sidebar'));
+                        result.push(UtilService.getTemplateUrl(modName, appName, 'sidebar'));
                     }
                 }
-            }, result);
+            });
         });
         return result;
     };
@@ -65,16 +73,16 @@ appServices.service('ConfigurationService', function (UtilService) {
         //TODO po pridani konfigurace do JSONu
         return home;
     };
-});
+}]);
 
 // userSettings
-appServices.service('SettingsService', function () {
-    this.data = angular.fromJson(userSettings);
+appServices.service('SettingsService', [function () {
+    var _data = angular.fromJson(userSettings);
 
     // TODO
-});
+}]);
 
-appServices.service('UrlService', function ($routeParams, $location) {
+appServices.service('UrlService', ['$routeParams', '$location', function ($routeParams, $location) {
     this.isParam = function (key) {
         return key in $routeParams;
     };
@@ -88,32 +96,58 @@ appServices.service('UrlService', function ($routeParams, $location) {
         $location.path(module + '/' + application);
     };
     this.setUrl = function (module, application, params) {
-        //TODO vylepseni se zachovanim urcitych params
-        $location.url(module + '/' + application);
+        var search = '';
+        if (angular.isDefined(params)) {
+            var todo = [];
+            angular.forEach(params, function (param) {
+                if (this.isParam(param)) {
+                    todo.push(param);
+                }
+            }, this);
+            if (todo.length > 0) {
+                var param = params.pop();
+                search = '?' + param + '=' + this.getParam(param);
+                if (params > 0) {
+                    angular.forEach(params, function (param) {
+                        search += '&' + param + '=' + this.getParam(param);
+                    });
+                }
+            }
+        }
+        $location.url(module + '/' + application + search);
     };
     this.setUrlError = function () {
-        $location.url(home.module + '/' + home.application);
+        this.setUrl(home.module, home.application);
     };
-});
+}]);
 
-appServices.service('UtilService', function () {
+appServices.service('UtilService', [function () {
     this.getTemplateUrl = function (module, application, template) {
         return module + '/' + application + '/partials/' + template + '.html';
     };
-});
+}]);
 
-appServices.service('NetworkService', function ($resource) {
-    this.data = null;
+appServices.service('NetworkService', [function ($resource) {
 
     // TODO
-});
+}]);
 
-appServices.service('TitleService', function () {
-    var title = 'PIS';
+appServices.service('PageService', ['UrlService', function (UrlService) {
+    var _title = 'PIS'; // TODO smazat nastaveni az bude default
     this.getTitle = function () {
-        return title;
+        if (angular.isDefined(_title)) {
+            return _title;
+        } else {
+            return; //TODO default title
+        }
     };
-    this.setTitle = function (newTitle) {
-        title = newTitle;
+    this.setTitle = function (title) {
+        _title = title;
     };
-});
+    this.getModule = function () {
+        return UrlService.getParam('module');
+    };
+    this.getApplication = function () {
+        return UrlService.getParam('application');
+    };
+}]);

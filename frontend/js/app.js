@@ -7,14 +7,14 @@ mainApp = angular.module('mainApp', [
 
 mainApp.config(function ($routeProvider, $locationProvider) {
     $routeProvider.when('/', {
-        templateUrl: 'partials/main.html',
-        controller: 'MainController',
-        controllerAs: 'main'
+        templateUrl: 'partials/root.html',
+        controller: 'RootController',
+        controllerAs: 'root'
     });
     $routeProvider.when('/:module/:application', {
-        templateUrl: 'partials/main.html',
-        controller: 'MainController',
-        controllerAs: 'main'
+        templateUrl: 'partials/root.html',
+        controller: 'RootController',
+        controllerAs: 'root'
     });
     $routeProvider.otherwise({redirectTo: '/' + home.module + '/' + home.application});
     $locationProvider.html5Mode(false);

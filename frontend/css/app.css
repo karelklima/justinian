@@ -1,13 +1,4 @@
-a {
-    color: blue;
-    text-decoration: underline;
-}
-
-a:hover {
-    text-decoration: none;
-}
-
-.window {
+.root {
     border: 1px solid black;
     margin: auto;
     width: 900px;
@@ -39,20 +30,21 @@ a:hover {
     border: 1px solid darkblue;
     margin: 3px;
     width: 26%;
+    float: right;
 }
 
 .menu {
     border: 1px solid darkblue;
     margin: 3px;
-    float: right;
     width: 26%;
+    float: right;
 }
 
 .search {
     border: 1px solid darkblue;
     margin: 3px;
-    float: right;
     width: 40%;
+    float: right;
 }
 
 .main {
@@ -64,9 +56,23 @@ a:hover {
 .info {
     border: 1px solid darkgreen;
     margin: 3px;
+    clear: both;
+}
+
+.infobox {
+    border: 1px solid darkgreen;
+    margin: 3px;
+    clear: both;
 }
 
 .application {
     border: 1px solid darkgreen;
     margin: 3px;
+}
+
+.box {
+    border: 1px solid darkblue;
+    margin: 3px;
+    float: right;
+    width: 26%;
 }

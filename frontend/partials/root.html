@@ -1,0 +1,46 @@
+<div class="header">
+    <div class="menu" ng-show="root.menuTemplateUrls.length > 0">
+        <div ng-repeat="templateUrl in root.menuTemplateUrls">
+            <div ng-include="templateUrl" class="application"></div>
+        </div>
+    </div>
+    <div class="search" ng-show="root.searchTemplateUrls.length > 0">
+        <div ng-repeat="templateUrl in root.searchTemplateUrls">
+            <div ng-include="templateUrl" class="application"></div>
+        </div>
+    </div>
+    <div class="logo" ng-show="root.logoTemplateUrls.length > 0">
+        <div ng-repeat="templateUrl in root.logoTemplateUrls">
+            <div ng-include="templateUrl" class="application"></div>
+        </div>
+    </div>
+    <div class="info" ng-show="root.infoTemplateUrls.length > 0">
+        <div ng-repeat="templateUrl in root.infoTemplateUrls">
+            <div ng-include="templateUrl" class="application"></div>
+        </div>
+    </div>
+</div>
+
+<div class="body">
+    <div class="sidebar" ng-show="root.sidebarTemplateUrls.length > 0">
+        <div ng-repeat="templateUrl in root.sidebarTemplateUrls">
+            <div ng-include="templateUrl" class="application"></div>
+        </div>
+    </div>
+    <div class="main">
+        <div ng-include="root.mainTemplateUrl" class="application"></div>
+    </div>
+</div>
+
+<div class="footer">
+    <div class="box" ng-show="root.boxTemplateUrls.length > 0">
+        <div ng-repeat="templateUrl in root.boxTemplateUrls">
+            <div ng-include="templateUrl" class="application"></div>
+        </div>
+    </div>
+    <div class="infobox" ng-show="root.infoboxTemplateUrls.length > 0">
+        <div ng-repeat="templateUrl in root.infoboxTemplateUrls">
+            <div ng-include="templateUrl" class="application"></div>
+        </div>
+    </div>
+</div>
