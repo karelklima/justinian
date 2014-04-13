@@ -7,14 +7,14 @@
 var _ = require('underscore');
 var fs = require('fs');
 var util = require('util');
-var settings = require('../settings');
+var settings = require('./settings');
 var logger = require('./logger');
 var ApiRoute = require('./api-route');
 var SparqlRoute = require('./sparql-route');
 
 exports = module.exports = function apiRouter(moduleName) {
 
-    var moduleDirectory = __dirname + '/../../modules/' + moduleName + '/api/';
+    var moduleDirectory = settings.modulesDirectory + '/' + moduleName + '/api/';
 
     var routingTable = {};
     var files = fs.readdirSync(moduleDirectory);

@@ -9,5 +9,7 @@
             "timeout" : "0",
             "debug" : "on"
         }
-    }
+    },
+    "port" : 8000,
+    "development" : true
 }

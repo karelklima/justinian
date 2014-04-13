@@ -1,0 +1,4 @@
+{
+    "title" : "Obsah zákona",
+    "dependencies" : ["act-detail"]
+}

@@ -8,31 +8,26 @@ var http = require('http');
 var _ = require('underscore');
 var fs = require('fs');
 var api_router = require('./lib/api-router');
-var settings = require('./settings');
-var Builder = require('./lib/builder');
-var config = require('./lib/config');
-
-var DEFAULT_PORT = 8000;
-var CLEAN_BUILD = false;
-
-var builder = new Builder(CLEAN_BUILD);
-builder.buildModulesDefinition();
+var settings = require('./lib/settings');
+var frontendSettings = require('./lib/frontend-settings');
 
 var loggingOptions = require('./lib/logging-options');
 var logger = require('./lib/logger');
 var expressWinston = require('express-winston');
 
+settings.useCache(!settings.options["development"]);
+
 var app = express();
 
 app.use( expressWinston.logger(loggingOptions.requestLogger) );					// request loggger middleware
 
-var modules = require(settings.BuildDirectory + '/modules.json');
+var modules = settings.getModulesSetup();
 _.each(modules, function (moduleSpec, module) {
-    app.use('/' + module + '/api', api_router(module, settings.Options));
-    app.use('/' + module + '/shared', express.static(settings.ModulesDirectory + '/' + module + '/shared'));
+    app.use('/' + module + '/api', api_router(module, settings.options));
+    app.use('/' + module + '/shared', express.static(settings.modulesDirectory + '/' + module + '/shared'));
     _.each(modules[module]["apps"], function (applicationSpec, application) {
         var urlPrefix = '/' + module + '/' + application;
-        var pathPrefix = settings.ModulesDirectory + '/' + module + '/apps/' + application;
+        var pathPrefix = settings.modulesDirectory + '/' + module + '/apps/' + application;
         app.use(urlPrefix + '/js', express.static(pathPrefix + '/js'));
         app.use(urlPrefix + '/partials', express.static(pathPrefix + '/partials'));
     });
@@ -40,27 +35,20 @@ _.each(modules, function (moduleSpec, module) {
 
 app.use('/error', function(req, res, next) { next(new Error('testing Error')) });
 
-app.use('/build', express.static(settings.BuildDirectory));
+app.get('/settings/default.js', frontendSettings.defaultSettingsJS);
+app.get('/settings/user.js', frontendSettings.userSettingsJS);
 
-app.get('/config/default.js', config.defaultConfig);
-app.get('/config/user.js', config.userConfig);
-
-/*app.use('/css', express.static(settings.FrontendDirectory + '/css'));
-app.use('/img', express.static(settings.FrontendDirectory + '/img'));
-app.use('/js', express.static(settings.FrontendDirectory + '/js'));
-app.use('/lib', express.static(settings.FrontendDirectory + '/lib'));
-app.use('/partials', express.static(settings.FrontendDirectory + '/partials'));*/
 
 app.engine('.html', require('ejs').__express);
 app.get('/', function(req, res, next) {
     // Send the index.html for other files to support HTML5Mode
-    res.render(settings.FrontendDirectory + '/index.html', {
-        options: settings.Options,
+    res.render(settings.frontendDirectory + '/index.html', {
+        options: settings.options,
         modules: JSON.stringify(modules)
     });
 });
 
-app.use(express.static(settings.FrontendDirectory));
+app.use(express.static(settings.frontendDirectory));
 
 app.use(expressWinston.errorLogger(loggingOptions.errorLogger));				// error logger middleware
 app.use(function(err, req, res, next){											// custom error handlers should follow the error logger
@@ -70,6 +58,6 @@ app.use(function(err, req, res, next){											// custom error handlers should
 		} else { next();
 }});
 
-app.listen(DEFAULT_PORT);
+app.listen(settings.options["port"]);
 
 process.stdout.write("Server started!\n");

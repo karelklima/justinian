@@ -1,4 +1,4 @@
 {
-    "name": "search-form",
+    "title": "Vyhledávací formulář",
     "views": ["search"]
 }

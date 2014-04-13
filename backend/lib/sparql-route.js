@@ -3,7 +3,7 @@
  */
 
 var util = require('util');
-var settings = require('../settings');
+var settings = require('./settings');
 var ApiRoute = require('./api-route');
 var SparqlClient = require('./sparql-client');
 var SparqlQuery = require('./sparql-query');
@@ -25,7 +25,7 @@ SparqlRoute.prototype.prepareSparqlClient = function() {
 };
 
 SparqlRoute.prototype.prepareSparqlQuery = function() {
-    var sparqlFile = settings.ModulesDirectory + '/' + this.getModuleName() + '/api/' + this.getApiName() + '.sparql';
+    var sparqlFile = settings.modulesDirectory + '/' + this.getModuleName() + '/api/' + this.getApiName() + '.sparql';
     return new SparqlQuery(sparqlFile);
 };
 

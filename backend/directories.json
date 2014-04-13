@@ -1,0 +1,7 @@
+{
+    "base" : "/..",
+    "backend" : "/",
+    "cache" : "/cache",
+    "frontend" : "/../frontend",
+    "modules" : "/../modules"
+}

@@ -1,5 +1,5 @@
 {
-    "name" : "detail",
+    "title" : "Detail",
     "datatypes" : ["frbr:Expression"],
     "views" : ["main", "sidebar"]
 }

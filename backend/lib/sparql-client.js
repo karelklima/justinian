@@ -7,13 +7,13 @@ var http = require('http');
 var url = require('url');
 var querystring = require('querystring');
 var assert = require('assert');
-var settings = require('../settings');
+var settings = require('./settings');
 
 var options;
 var params;
 
 function SparqlClient() {
-    options = settings.Options["sparql"];
+    options = settings.options["sparql"];
     params = _.clone(options["default-params"]);
 }
 

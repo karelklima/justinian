@@ -1,5 +1,5 @@
 {
-    "name" : "lex",
+    "title" : "Lex",
     "extends": ["core"],
     "prefixes": {
         "lex:" : "http://purl.org/lex#",
