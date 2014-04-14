@@ -58,6 +58,6 @@ app.use(function(err, req, res, next){											// custom error handlers should
 		} else { next();
 }});
 
-app.listen(settings.options["port"]);
+app.listen(process.env.PORT || settings.options["port"]);
 
 process.stdout.write("Server started!\n");
