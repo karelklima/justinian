@@ -80,13 +80,10 @@ appServices.service('UrlService', ['$routeParams', '$location', '$filter', funct
         var search = '';
         if (angular.isDefined(params)) {
             var todo = $filter('filter')(params, this.isParam, true);
-            if (todo.length > 0) {
-                var param = todo.pop();
-                search = '?' + param + '=' + this.getParam(param);
-                angular.forEach(todo, function (param) {
-                    search += '&' + param + '=' + this.getParam(param);
-                });
-            }
+            angular.forEach(todo, function (param, index) {
+                var prefix = (index === 0) ? '?' : '&';
+                search += prefix + param + '=' + this.getParam(param);
+            }, this);
         }
         $location.url(module + '/' + application + search);
     };
