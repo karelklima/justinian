@@ -8,17 +8,20 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <div class="navbar-left logo" id="logo_view" ng-show="root.logoTemplateUrls.length > 0" ng-repeat="templateUrl in root.logoTemplateUrls">
-                <div ng-include="templateUrl" class="navbar-left application"></div>
+            <div class="navbar-left logo" id="logo_view" ng-show="root.logoTemplates.length > 0"
+                 ng-repeat="template in root.logoTemplates">
+                <div ng-include="template.url" class="navbar-left application"></div>
             </div>
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
-            <div class="navbar-left header-left" ng-show="root.headerLeftTemplateUrls.length > 0" ng-repeat="templateUrl in root.headerLeftTemplateUrls">
-                <div class="navbar-left application" ng-include="templateUrl"></div>
+            <div class="navbar-left header-left" ng-show="root.headerLeftTemplates.length > 0"
+                 ng-repeat="template in root.headerLeftTemplates">
+                <div class="navbar-left application" ng-include="template.url"></div>
             </div>
 
-            <div class="navbar-right header-right" ng-show="root.headerRightTemplateUrls.length > 0" ng-repeat="templateUrl in root.headerRightTemplateUrls">
-                <div class="navbar-right application" ng-include="templateUrl"></div>
+            <div class="navbar-right header-right" ng-show="root.headerRightTemplates.length > 0"
+                 ng-repeat="template in root.headerRightTemplates">
+                <div class="navbar-right application" ng-include="template.url"></div>
             </div>
 
         </div>
@@ -28,40 +31,41 @@
 
 <div class="content-container">
     <div class="container content-top">
-        <div class="application" ng-repeat="templateUrl in root.contentTopTemplateUrls" ng-include="templateUrl"></div>
+        <div class="application" ng-repeat="template in root.contentTopTemplates" ng-include="template.url"></div>
     </div>
 
     <div class="container">
         <div class="row sheet">
-            <div class="main" ng-class="{col_sm_8: root.sidebarTemplateUrls.length > 0, col_sm_12: root.sidebarTemplateUrls.length <= 0}">
-                    <div ng-include="root.mainTemplateUrl" class="application"></div>
+            <div class="main"
+                 ng-class="{col_sm_8: root.sidebarTemplates.length > 0, col_sm_12: root.sidebarTemplates.length <= 0}">
+            <div ng-include="root.mainTemplateUrl" class="application"></div>
             </div>
-            <div class="col-sm-4" ng-show="root.sidebarTemplateUrls.length > 0">
-                <div class="panel-group" ng-repeat="templateUrl in root.sidebarTemplateUrls">
+            <div class="col-sm-4" ng-show="root.sidebarTemplates.length > 0">
+                <div class="panel-group" ng-repeat="template in root.sidebarTemplates">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h4 class="panel-title">
                                 Aplikace v sidebaru
                             </h4>
                         </div>
-                        <div class="panel-body application" ng-include="templateUrl" class="application"></div>
+                        <div class="panel-body application" ng-include="template.url" class="application"></div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="container content-bottom" ng-repeat="templateUrl in root.contentBottomTemplateUrls">
-        <div class="application" ng-include="templateUrl"></div>
+    <div class="container content-bottom" ng-repeat="template in root.contentBottomTemplates">
+        <div class="application" ng-include="template.url"></div>
     </div>
 </div>
 
 <div class="container">
     <div class="row">
-        <div ng-repeat="templateUrl in root.footerTopTemplateUrls" ng-include="templateUrl"></div>
+        <div ng-repeat="template in root.footerTopTemplates" ng-include="template.url"></div>
     </div>
     <hr>
     <div class="row">
-        <div ng-repeat="templateUrl in root.footerBottomTemplateUrls" ng-include="templateUrl"></div>
+        <div ng-repeat="template in root.footerBottomTemplates" ng-include="template.url"></div>
     </div>
 </div>

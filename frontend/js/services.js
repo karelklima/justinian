@@ -6,7 +6,7 @@ appServices = angular.module('appServices', [
 ]);
 
 // appConfiguration
-appServices.service('ConfigurationService', ['UtilService', 'PageService', function (UtilService, PageService) {
+appServices.service('ConfigurationService', ['UtilService', 'PageService', '$filter', function (UtilService, PageService, $filter) {
     var _data = angular.fromJson(appConfiguration);
 
     this.isModuleApplication = function (module, application) {
@@ -38,13 +38,17 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', funct
                             }
                         });
                     }
+                    var priority = opts.priority;
+                    if (angular.isUndefined(priority)) {
+                        priority = 0;
+                    }
                     if (push || (angular.isUndefined(dependencies) && angular.isUndefined(types))) {
-                        result.push(UtilService.getTemplateUrl(modName, appName, template));
+                        result.push({url: UtilService.getTemplateUrl(modName, appName, template), priority: priority});
                     }
                 }
             });
         });
-        return result;
+        return $filter('orderBy')(result, 'priority', true);
     };
     this.getDefaultModuleApplication = function (type) {
         //TODO po pridani konfigurace do JSONu
