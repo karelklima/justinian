@@ -60,4 +60,4 @@ app.use(function(err, req, res, next){											// custom error handlers should
 
 app.listen(process.env.PORT || settings.options["port"]);
 
-process.stdout.write("Server started!\n");
+logger.debug("Server started!\n");
