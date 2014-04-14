@@ -38,11 +38,11 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
                             }
                         });
                     }
-                    var priority = opts.priority;
-                    if (angular.isUndefined(priority)) {
-                        priority = 0;
-                    }
                     if (push || (angular.isUndefined(dependencies) && angular.isUndefined(types))) {
+                        var priority = opts.priority;
+                        if (angular.isUndefined(priority)) {
+                            priority = 0;
+                        }
                         result.push({url: UtilService.getTemplateUrl(modName, appName, template), priority: priority});
                     }
                 }
@@ -63,7 +63,7 @@ appServices.service('SettingsService', [function () {
     // TODO
 }]);
 
-appServices.service('UrlService', ['$routeParams', '$location', function ($routeParams, $location) {
+appServices.service('UrlService', ['$routeParams', '$location', '$filter', function ($routeParams, $location, $filter) {
     this.isParam = function (key) {
         return key in $routeParams;
     };
@@ -79,20 +79,13 @@ appServices.service('UrlService', ['$routeParams', '$location', function ($route
     this.setUrl = function (module, application, params) {
         var search = '';
         if (angular.isDefined(params)) {
-            var todo = [];
-            angular.forEach(params, function (param) {
-                if (this.isParam(param)) {
-                    todo.push(param);
-                }
-            }, this);
+            var todo = $filter('filter')(params, this.isParam, true);
             if (todo.length > 0) {
-                var param = params.pop();
+                var param = todo.pop();
                 search = '?' + param + '=' + this.getParam(param);
-                if (params > 0) {
-                    angular.forEach(params, function (param) {
-                        search += '&' + param + '=' + this.getParam(param);
-                    });
-                }
+                angular.forEach(todo, function (param) {
+                    search += '&' + param + '=' + this.getParam(param);
+                });
             }
         }
         $location.url(module + '/' + application + search);
