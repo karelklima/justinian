@@ -2,7 +2,7 @@
  * Created by Karel on 31. 3. 2014.
  */
 
-var settings = require('../settings');
+var settings = require('../lib/settings');
 
 function checkDescription(object, properties) {
     object.should.have.keys(Object.keys(properties));
@@ -12,6 +12,16 @@ function checkDescription(object, properties) {
 }
 
 describe('Settings', function() {
+
+    it('should have options object', function() {
+       settings.options.should.have.type('object');
+    });
+
+    /*
+
+    TODO
+
+
     it('should have all keys', function() {
         var properties = {
             'Options' : 'object',
@@ -40,6 +50,6 @@ describe('Settings', function() {
             'default-params' : 'object'
         };
         checkDescription(settings.Options["sparql"], properties);
-    });
+    });*/
 
 });
