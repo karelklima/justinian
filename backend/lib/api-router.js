@@ -11,6 +11,7 @@ var settings = require('./settings');
 var logger = require('./logger');
 var ApiRoute = require('./api-route');
 var SparqlRoute = require('./sparql-route');
+var SolrRoute = require('./solr-route');
 
 exports = module.exports = function apiRouter(moduleName) {
 
@@ -21,17 +22,16 @@ exports = module.exports = function apiRouter(moduleName) {
 
     var routeParams = {
         ApiRoute: ApiRoute,
-        SparqlRoute: SparqlRoute
+        SparqlRoute: SparqlRoute,
+        SolrRoute: SolrRoute
     };
 
     var jsFiles = _.filter(files, function(file) { return /^[a-z-]+\.js$/.test(file); });
     _.each(jsFiles, function(file) {
         var Route = require(moduleDirectory + '/' + file)(routeParams);
         routingTable[file.split('.')[0]] = new Route(moduleName, file.split('.')[0]);
-logger.debug('setting a route for ' + file.split('.')[0] );
+logger.debug('setting an api route for ' + file.split('.')[0] );
     });
-logger.warn('September is approaching...');
-logger.err('Testing Error logging from the main logger');
 
 	return function process (req, res, next) {
         var name = req.path.substring(1); // remove starting slash

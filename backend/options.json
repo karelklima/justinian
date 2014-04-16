@@ -10,6 +10,13 @@
             "debug" : "on"
         }
     },
+    "solr" : {
+    	"datastore-url" : "http://localhost:8983/solr/collection1/select",
+    	"default-params": {
+            "wt" : "json",
+            "indent" : "true"
+        }
+    },
     "port" : 8000,
     "development" : true
 }
