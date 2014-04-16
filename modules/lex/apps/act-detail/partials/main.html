@@ -1,4 +1,7 @@
-<p>APLIKACE PIS - detail</p>
-<p>Jsem z modulu: {{module}}</p>
-<p>Jmenuji se: {{application}}</p>
-<p>Umim zobrazit tyto datatypes: {{types}}</p>
+<div ng-controller="LexDetailController">
+    <div ng-show="object == null">Not found</div>
+    <div>
+        <div>Resource: {{resource}}</div>
+        <div>Object: {{object}}</div>
+    </div>
+</div>

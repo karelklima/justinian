@@ -1,4 +1,11 @@
-<p>APLIKACE PIS - detail</p>
-<p>Jsem z modulu: {{module}}</p>
-<p>Jmenuji se: {{application}}</p>
-<p>Umim zobrazit tyto datatypes: {{types}}</p>
+<div id="lex-search-app" ng-controller="LexSearchController">
+    <input type="text" ng-model="query"/>
+    <input type="submit" ng-click="search()" ng-disabled="searching == true"/>
+    <div style="margin-top: 20px; border: 1px solid;">
+        <div ng-show="results.length == 0 && searching == false">No results</div>
+        <div ng-show="searching == true">Searching...</div>
+        <ul ng-show="results.length > 0" ng-repeat="item in results">
+            <li style="margin:10px;"><a href ng-click="open(item)">{{print(item)}}</a></li>
+        </ul>
+    </div>
+</div>

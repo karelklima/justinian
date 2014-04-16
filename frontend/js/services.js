@@ -98,9 +98,14 @@ appServices.service('UtilService', [function () {
     };
 }]);
 
-appServices.service('NetworkService', ['$resource', function ($resource) {
-
-    // TODO
+appServices.service('NetworkService', ['$resource','$http', function ($resource, $http) {
+    this.useApi = function(module,apiName,params,success,error){
+        var request = $http.get(module+'/api/'+apiName+'?'+params);
+        if(success !== undefined && success != null)
+            request.success(success);
+        if(error !== undefined && error != null)
+            request.error(error);
+    }
 }]);
 
 appServices.service('PageService', ['UrlService', function (UrlService) {
