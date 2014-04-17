@@ -50,17 +50,22 @@ SparqlRoute.prototype.prepareParams = function(params) {
 };
 
 SparqlRoute.prototype.prepareResponse = function(responseString, next) {
-    // TODO jsonld.fromRDF throws JsonLdError, it is a bug but we have to do a workaround
-    jsonld.fromRDF(responseString, {format: 'application/nquads'}, function(err, doc) {
-        // TODO logger.debug(err);
-        next(doc);
-    });
+    if (responseString.indexOf("# Empty") == 0)
+    {
+        next(responseString)
+    }
+    else {
+        jsonld.fromRDF(responseString, {format: 'application/nquads'}, function (err, doc) {
+            logger.err(err);
+            next(JSON.stringify(doc));
+        });
+    }
 };
 
 SparqlRoute.prototype.handleResponse = function(responseString, res) {
     // Override this if necessary
-    this.prepareResponse(responseString, function(jsonld) {
-        res.write(JSON.stringify(jsonld));
+    this.prepareResponse(responseString, function(preparedResponse) {
+        res.write(preparedResponse);
         res.end();
     });
 };
