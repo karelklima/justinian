@@ -21,6 +21,8 @@ var app = express();
 
 app.use( expressWinston.logger(loggingOptions.requestLogger) );					// request loggger middleware
 
+app.use('/assets', require('./lib/asset-router'));
+
 var modules = settings.getModulesSetup();
 _.each(modules, function (moduleSpec, module) {
     app.use('/' + module + '/api', api_router(module, settings.options));

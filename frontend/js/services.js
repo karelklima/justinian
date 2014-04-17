@@ -94,7 +94,7 @@ appServices.service('UrlService', ['$routeParams', '$location', '$filter', funct
 
 appServices.service('UtilService', [function () {
     this.getTemplateUrl = function (module, application, template) {
-        return module + '/' + application + '/partials/' + template + '.html';
+        return 'assets/' + module + '/' + application + '/partials/' + template + '.html';
     };
 }]);
 
