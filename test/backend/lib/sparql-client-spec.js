@@ -1,4 +1,4 @@
-var SparqlClient = require('../lib/sparql-client');
+var SparqlClient = require('../../../backend/lib/sparql-client');
 
 describe("SparqlClient", function() {
 

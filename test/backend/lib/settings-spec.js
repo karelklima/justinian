@@ -2,7 +2,7 @@
  * Created by Karel on 31. 3. 2014.
  */
 
-var settings = require('../lib/settings');
+var settings = require('../../../backend/lib/settings');
 
 function checkDescription(object, properties) {
     object.should.have.keys(Object.keys(properties));

@@ -16,7 +16,7 @@ module.exports = function(grunt) {
                     reporter: 'spec',
                     require: ['should']
                 },
-                src: ['backend/test/**/*.js']
+                src: ['test/backend/**/*.js']
             }
         }
     });
