@@ -11,25 +11,22 @@ var assert = require('assert');
 var settings = require('./settings');
 var logger = require('./logger');
 
-var options;
-var params;
-
 function SolrClient() {
-    options = settings.options["solr"];
-    params = _.clone(options["default-params"]);
+    this.options = settings.options["solr"];
+    this.params = _.clone(this.options["default-params"]);
 }
 
 SolrClient.prototype.setParam = function (key, value) {
     if (typeof key != "string" || typeof value != "string")
         throw new Error();
-    params[key] = value;
+    this.params[key] = value;
     return this;
 };
 
 SolrClient.prototype.getParam = function (key) {
-    if(!params[key])
+    if(!this.params[key])
         throw new Error();
-    return params[key];
+    return this.params[key];
 };
 
 SolrClient.prototype.sendRequest = function(query, successCallback, errorCallback) {
@@ -39,10 +36,10 @@ SolrClient.prototype.sendRequest = function(query, successCallback, errorCallbac
     successCallback = successCallback || function(data) {};
     errorCallback = errorCallback || function(message) {};
 
-    var finalParams = _.clone(params);
+    var finalParams = _.clone(this.params);
     finalParams["q"] = query;
 
-    var requestParams = url.parse(options["datastore-url"]);
+    var requestParams = url.parse(this.options["datastore-url"]);
     requestParams["path"] = requestParams["path"] + '?' + querystring.stringify(finalParams);
 logger.debug("finalParams: " + finalParams["q"]);
 logger.debug("requestParams: " + JSON.stringify(requestParams));

@@ -11,24 +11,38 @@ var querystring = require('querystring');
 var sparqlClient = require('./sparql-client');
 var sparqlQuery = require('./sparql-query');
 
-var module;
-var api;
-
+/**
+ * Basic interface of API provider
+ * @param {string} module_name
+ * @param {string} api_name
+ * @constructor
+ */
 function ApiRoute(module_name, api_name) {
-    module = module_name;
-    api = api_name;
+    this.module = module_name;
+    this.api = api_name;
 }
 
+/**
+ * Gets name (id) of the module of this API
+ * @public
+ * @returns {string}
+ */
 ApiRoute.prototype.getModuleName = function() {
-    return module;
+    return this.module;
 };
 
+/**
+ * Gets name (id) of this API
+ * @public
+ * @returns {string}
+ */
 ApiRoute.prototype.getApiName = function() {
-    return api;
+    return this.api;
 };
 
 /**
  * REST API GET endpoint
+ * @puublic
  * @param req
  * @param res
  */
@@ -38,6 +52,7 @@ ApiRoute.prototype.get = function(req, res) {
 
 /**
  * REST API POST endpoint
+ * @public
  * @param req
  * @param res
  */

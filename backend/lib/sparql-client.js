@@ -9,25 +9,22 @@ var querystring = require('querystring');
 var assert = require('assert');
 var settings = require('./settings');
 
-var options;
-var params;
-
 function SparqlClient() {
-    options = settings.options["sparql"];
-    params = _.clone(options["default-params"]);
+    this.options = settings.options["sparql"];
+    this.params = _.clone(this.options["default-params"]);
 }
 
 SparqlClient.prototype.setParam = function (key, value) {
     if (typeof key != "string" || typeof value != "string")
         throw new Error();
-    params[key] = value;
+    this.params[key] = value;
     return this;
 };
 
 SparqlClient.prototype.getParam = function (key) {
-    if(!params[key])
+    if(!this.params[key])
         throw new Error();
-    return params[key];
+    return this.params[key];
 };
 
 SparqlClient.prototype.sendRequest = function(query, successCallback, errorCallback) {
@@ -37,10 +34,10 @@ SparqlClient.prototype.sendRequest = function(query, successCallback, errorCallb
     successCallback = successCallback || function(data) {};
     errorCallback = errorCallback || function(message) {};
 
-    var finalParams = _.clone(params);
+    var finalParams = _.clone(this.params);
     finalParams["query"] = query;
 
-    var requestParams = url.parse(options["datastore-url"]);
+    var requestParams = url.parse(this.options["datastore-url"]);
     requestParams["path"] = requestParams["path"] + '?' + querystring.stringify(finalParams);
 
     http.request(requestParams, function(res) {

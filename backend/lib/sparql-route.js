@@ -10,13 +10,10 @@ var SparqlQuery = require('./sparql-query');
 var jsonld = require('jsonld');
 var logger = require('./logger');
 
-var client;
-var query;
-
 function SparqlRoute(module, api) {
     ApiRoute.call(this, module, api);
-    client = this.prepareSparqlClient();
-    query = this.prepareSparqlQuery();
+    this.client = this.prepareSparqlClient();
+    this.query = this.prepareSparqlQuery();
 }
 util.inherits(SparqlRoute, ApiRoute);
 
@@ -35,11 +32,11 @@ SparqlRoute.prototype.get = function(req, res) {
 
     var params = this.prepareParams(req.query);
 
-    var sparqlQuery = query.renderQuery(params);
+    var sparqlQuery = this.query.renderQuery(params);
 
     var thisInstance = this;
 
-    client.sendRequest(sparqlQuery, function(responseString) {
+    this.client.sendRequest(sparqlQuery, function(responseString) {
         thisInstance.handleResponse(responseString, res);
     }, function(responseError) {
         thisInstance.handleError(responseError, res);

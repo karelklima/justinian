@@ -9,11 +9,9 @@ var SolrClient = require('./solr-client');
 var jsonld = require('jsonld');
 var logger = require('./logger');
 
-var client;
-
 function SolrRoute(module, api) {
     ApiRoute.call(this, module, api);
-    client = this.prepareSolrClient();
+    this.client = this.prepareSolrClient();
 }
 util.inherits(SolrRoute, ApiRoute);
 
@@ -30,7 +28,7 @@ logger.debug("QUERY: " + solrQuery);
 
 	var thisInstance = this;
 
-	client.sendRequest(solrQuery, function(responseString) {		
+	this.client.sendRequest(solrQuery, function(responseString) {
     	thisInstance.handleResponse(responseString, res);
 	}, function(responseError) {
 		thisInstance.handleError(responseError, res);

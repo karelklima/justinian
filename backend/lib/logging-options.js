@@ -12,7 +12,7 @@ var logger	= {
 	level: 'debug',							// the lowest logging level we care about
 	transports: [							// where the logs should go
 	    new winston.transports.Console({level : 'debug', levels: loggingLevels.levels, colorize : true}),
-	    new winston.transports.File({filename : './nodejs.log', json:false, level : 'debug', levels: loggingLevels.levels})
+	    //new winston.transports.File({filename : './nodejs.log', json:false, level : 'debug', levels: loggingLevels.levels})
 	],
 
 	// what to do with uncaught exceptions:
