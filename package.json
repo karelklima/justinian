@@ -27,6 +27,7 @@
     "ejs": "^1.0.0",
     "express": "^3.5.1",
     "express-winston": "^0.2.5",
+    "glob": "^3.2.9",
     "grunt": "^0.4.4",
     "grunt-cli": "^0.1.13",
     "grunt-mocha-test": "^0.10.2",
