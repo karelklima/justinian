@@ -3,6 +3,7 @@
  */
 
 var util = require('util');
+var domain = require('domain');
 var settings = require('./settings');
 var ApiRoute = require('./api-route');
 var SparqlClient = require('./sparql-client');
@@ -50,16 +51,17 @@ SparqlRoute.prototype.prepareParams = function(params) {
 };
 
 SparqlRoute.prototype.prepareResponse = function(responseString, next) {
-    if (responseString.indexOf("# Empty") == 0)
-    {
-        next(responseString)
-    }
-    else {
+    // Async exceptions need to be handled using domain
+    var d = domain.create();
+    d.on('error', function(err) {
+        next(responseString);
+    });
+    d.run(function() {
         jsonld.fromRDF(responseString, {format: 'application/nquads'}, function (err, doc) {
             logger.err(err);
             next(JSON.stringify(doc));
         });
-    }
+    });
 };
 
 SparqlRoute.prototype.handleResponse = function(responseString, res) {

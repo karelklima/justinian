@@ -2,7 +2,7 @@ PREFIX frbr: <http://purl.org/vocab/frbr/core#>
 PREFIX lex: <http://purl.org/lex#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
 
-PREFIX act: <{{"param": "query", "filter": "EscapeGreaterThen"}}>
+PREFIX act: <{{"param": "resource", "filter": "RemoveLTGT"}}>
 
 CONSTRUCT{ ?expr dcterms:valid ?valid }
 
