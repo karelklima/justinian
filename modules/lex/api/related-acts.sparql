@@ -5,7 +5,7 @@ PREFIX frbr: <http://purl.org/vocab/frbr/core#>
 PREFIX sao: <http://salt.semanticauthoring.org/ontologies/sao#>
 PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
 
-PREFIX dec: <{{"param": "query", "filter": "EscapeGreaterThen"}}>
+PREFIX dec: <{{"param": "resource", "filter": "RemoveLTGT"}}>
 
 CONSTRUCT {
   dec: lex:concernedSourceOfLaw ?topic .

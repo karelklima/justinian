@@ -31,8 +31,8 @@ SparqlQuery.prototype.filterEscapeDoubleQuotes = function(string) {
     return string.replace(/"/g, '\\"');
 };
 
-SparqlQuery.prototype.filterEscapeGreaterThen = function(string) {
-	return string.replace(/(>)/g, '\\>');
+SparqlQuery.prototype.filterRemoveLTGT = function(string) {
+	return string.replace(/[<>]/g, '');
 }
 
 SparqlQuery.prototype.renderQuery = function(params) {
