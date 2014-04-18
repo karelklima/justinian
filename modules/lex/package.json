@@ -6,7 +6,8 @@
         "lexcz:" : "http://purl.org/lex/cz#"
     },
     "apis": {
-        apiId: "www.ihned.cz",
-        apiId2: "www.idnes.cz"
+        "api-id": "www.ihned.cz",
+        "api-id2": "www.idnes.cz",
+        "api-id3": "www.seznam.cz"
     }
 }
