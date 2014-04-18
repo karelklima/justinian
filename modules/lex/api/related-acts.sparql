@@ -1,0 +1,24 @@
+# Citované zákony nebo jejich části v textu judikátu.
+PREFIX lex: <http://purl.org/lex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX sao: <http://salt.semanticauthoring.org/ontologies/sao#>
+PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
+
+PREFIX dec: <{{"param": "query", "filter": "EscapeGreaterThen"}}>
+
+CONSTRUCT {
+  dec: lex:concernedSourceOfLaw ?topic .
+}
+FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz/updates>
+WHERE {
+  dec: a lex:Decision .
+  ?expression frbr:realizationOf dec:;
+    sdo:hasSection/sdo:hasParagraph/sdo:hasTextChunk/sdo:hasAnnotation/sao:hasTopic ?topic .
+  {
+    ?topic a lex:Act .
+  } UNION {
+    ?topic a frbr:Work .
+  }
+}
