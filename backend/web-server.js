@@ -10,6 +10,7 @@ var fs = require('fs');
 var api_router = require('./lib/api-router');
 var settings = require('./lib/settings');
 var frontendSettings = require('./lib/frontend-settings');
+var assetManager = require('./lib/asset-manager');
 
 var loggingOptions = require('./lib/logging-options');
 var logger = require('./lib/logger');
@@ -20,6 +21,8 @@ settings.useCache(!settings.options["development"]);
 var app = express();
 
 app.use( expressWinston.logger(loggingOptions.requestLogger) );					// request loggger middleware
+
+app.use('/assets', require('./lib/asset-router'));
 
 var modules = settings.getModulesSetup();
 _.each(modules, function (moduleSpec, module) {
@@ -44,7 +47,10 @@ app.get('/', function(req, res, next) {
     // Send the index.html for other files to support HTML5Mode
     res.render(settings.frontendDirectory + '/index.html', {
         options: settings.options,
-        modules: JSON.stringify(modules)
+        modules: JSON.stringify(modules),
+        css: assetManager.cssPile.htmlTags(),
+        js: assetManager.jsPile.htmlTags()
+
     });
 });
 

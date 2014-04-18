@@ -22,19 +22,22 @@
   "directories": {
     "test": "test"
   },
-    "dependencies": {
-        "connect": "^2.14.4",
-        "ejs": "^1.0.0",
-        "express": "^3.5.1",
-        "express-winston": "^0.2.5",
-        "grunt": "^0.4.4",
-        "grunt-cli": "^0.1.13",
-        "grunt-mocha-test": "^0.10.2",
-        "jsonld": "^0.2.6",
-        "should": "^3.3.0",
-        "underscore": "^1.6.0",
-        "winston": "^0.7.3"
-    },
+  "dependencies": {
+    "connect": "^2.14.4",
+    "ejs": "^1.0.0",
+    "express": "^3.5.1",
+    "express-winston": "^0.2.5",
+    "glob": "^3.2.9",
+    "grunt": "^0.4.4",
+    "grunt-cli": "^0.1.13",
+    "grunt-mocha-test": "^0.10.2",
+    "jsonld": "^0.2.6",
+    "parseurl": "^1.0.1",
+    "send": "^0.2.0",
+    "should": "^3.3.0",
+    "underscore": "^1.6.0",
+    "winston": "^0.7.3"
+  },
   "devDependencies": {
     "mocha": "^1.18.2"
   }

@@ -1,6 +1,7 @@
 {
     "title" : "PIS",
     "modules" : ["core", "lex"],
+    "asset-extensions" : ["html", "js", "css", "png"],
     "sparql" : {
         "datastore-url" : "http://linked.opendata.cz/sparql",
         "query-param-name" : "query",
