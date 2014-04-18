@@ -4,5 +4,9 @@
     "prefixes": {
         "lex:" : "http://purl.org/lex#",
         "lexcz:" : "http://purl.org/lex/cz#"
+    },
+    "apis": {
+        apiId: "www.ihned.cz",
+        apiId2: "www.idnes.cz"
     }
 }
