@@ -4,11 +4,12 @@
 
 var util = require('util');
 var domain = require('domain');
+var jsonld = require('jsonld');
+var _ = require('underscore');
 var settings = require('./settings');
 var ApiRoute = require('./api-route');
 var SparqlClient = require('./sparql-client');
 var SparqlQuery = require('./sparql-query');
-var jsonld = require('jsonld');
 var logger = require('./logger');
 
 function SparqlRoute(module, api) {
@@ -47,6 +48,7 @@ SparqlRoute.prototype.get = function(req, res) {
 
 SparqlRoute.prototype.prepareParams = function(params) {
     // Override this if necessary
+    params = this.replacePrefixesInParams(params, /^resource/);
     return params;
 };
 
@@ -75,6 +77,36 @@ SparqlRoute.prototype.handleResponse = function(responseString, res) {
 SparqlRoute.prototype.handleError = function (responseError, res) {
     res.write(responseError);
     res.end();
+};
+
+SparqlRoute.prototype.replacePrefixesInParams = function(params, regex)
+{
+    // prefix helper method
+    for (var key in params)
+    {
+        if (key.match(regex))
+        {
+            params[key] = this.replacePrefixInParam(params[key]);
+        }
+    }
+    return params;
+};
+
+SparqlRoute.prototype.replacePrefixInParam = function(param)
+{
+    // prefix helper method
+    var prefixes = {};
+    var moduleSettings = settings.getModulesSetup()[this.module];
+    if (_.contains(_.keys(moduleSettings), "prefixes"))
+        prefixes = moduleSettings["prefixes"];
+    for (var prefix in prefixes)
+    {
+        if (param.indexOf(prefix) == 0)
+        {
+            return prefixes[prefix] + param.substr(prefix.length);
+        }
+    }
+    return param;
 };
 
 module.exports = SparqlRoute;

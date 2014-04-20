@@ -33,7 +33,7 @@ SparqlQuery.prototype.filterEscapeDoubleQuotes = function(string) {
 
 SparqlQuery.prototype.filterRemoveLTGT = function(string) {
 	return string.replace(/[<>]/g, '');
-}
+};
 
 SparqlQuery.prototype.renderQuery = function(params) {
     params = params || {};

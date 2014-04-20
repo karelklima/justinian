@@ -3,6 +3,7 @@
     "extends": ["core"],
     "prefixes": {
         "lex:" : "http://purl.org/lex#",
-        "lexcz:" : "http://purl.org/lex/cz#"
+        "lexcz:" : "http://purl.org/lex/cz#",
+        "legislation:": "http://linked.opendata.cz/resource/legislation/cz/"
     }
 }
