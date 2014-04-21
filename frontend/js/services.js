@@ -100,7 +100,7 @@ appServices.service('UtilService', [function () {
 
 appServices.service('NetworkService', ['$resource','$http', function ($resource, $http) {
     this.useApi = function(module,apiName,params,success,error){
-        var request = $http.get(module+'/api/'+apiName+'?'+params);
+        var request = $http.get('/api/'+module+'/'+apiName+'?'+params);
         if(success !== undefined && success != null)
             request.success(success);
         if(error !== undefined && error != null)
