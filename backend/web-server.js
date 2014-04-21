@@ -26,10 +26,13 @@ var app = express();
 app.use( expressWinston.logger(loggingOptions.requestLogger) );					// request loggger middleware
 
 app.use('/assets', require('./lib/asset-router'));
+app.use('/api', require('./lib/api-router'));
 
+
+// DEPRECATED
 var modules = settings.getModulesSetup();
 _.each(modules, function (moduleSpec, module) {
-    app.use('/' + module + '/api', api_router(module, settings.options));
+    //app.use('/' + module + '/api', api_router(module, settings.options));
     app.use('/' + module + '/shared', express.static(settings.modulesDirectory + '/' + module + '/shared'));
     _.each(modules[module]["apps"], function (applicationSpec, application) {
         var urlPrefix = '/' + module + '/' + application;
@@ -38,6 +41,7 @@ _.each(modules, function (moduleSpec, module) {
         app.use(urlPrefix + '/partials', express.static(pathPrefix + '/partials'));
     });
 });
+// END OF DEPRECATED
 
 app.use('/error', function(req, res, next) { next(new Error('testing Error')) });
 
