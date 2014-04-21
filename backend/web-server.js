@@ -7,6 +7,10 @@ var express = require('express');
 var http = require('http');
 var _ = require('underscore');
 var fs = require('fs');
+
+var expressWinston = require('express-winston');
+
+
 var api_router = require('./lib/api-router');
 var settings = require('./lib/settings');
 var frontendSettings = require('./lib/frontend-settings');
@@ -14,7 +18,6 @@ var assetManager = require('./lib/asset-manager');
 
 var loggingOptions = require('./lib/logging-options');
 var logger = require('./lib/logger');
-var expressWinston = require('express-winston');
 
 settings.useCache(!settings.options["development"]);
 
