@@ -48,6 +48,7 @@ function Settings() {
      */
     this.modulesDirectory = path.normalize(__dirname + '/..' + directories["modules"]);
     /**
+     * @deprecated
      * @private
      * @type {boolean}
      */
@@ -73,30 +74,9 @@ Settings.prototype.useCache = function(flag) {
  */
 Settings.prototype.getModulesSetup = function() {
 
-    if (this._modulesCache)
-        return this._modulesCache;
+    if (!this._modulesCache)
+        this._modulesCache = this.buildModulesSetup();
 
-    var cacheFile = this.cacheDirectory + '/modules.json';
-    if (this._useCache) {
-        try {
-            logger.log("Trying to load modules definition cache file");
-            this._modulesCache = require(cacheFile);
-            return this._modulesCache;
-        }
-        catch (e) {
-            logger.debug("Modules definition cache file not found");
-            // file does not exists
-            // TODO make it async?
-            this._modulesCache = this.buildModulesSetup();
-            if (!fs.existsSync(path.dirname(cacheFile)))
-                fs.mkdirSync(path.dirname(cacheFile));
-            fs.writeFileSync(cacheFile, JSON.stringify(this._modulesCache, null, 2));
-            logger.debug("Modules definition cache file created");
-            return this._modulesCache;
-        }
-    }
-
-    this._modulesCache = this.buildModulesSetup();
     return this._modulesCache;
 };
 

@@ -10,10 +10,13 @@ var fs = require('fs');
 
 var expressWinston = require('express-winston');
 
-
-var api_router = require('./lib/api-router');
 var settings = require('./lib/settings');
-var frontendSettings = require('./lib/frontend-settings');
+
+// DEPRECATED
+var FrontendSettings = require('./lib/frontend-settings');
+var frontendSettings = new FrontendSettings();
+
+
 var assetManager = require('./lib/asset-manager');
 
 var loggingOptions = require('./lib/logging-options');
@@ -25,6 +28,11 @@ var app = express();
 
 app.use( expressWinston.logger(loggingOptions.requestLogger) );					// request loggger middleware
 
+// DEPRECATED
+app.get('/settings/default.js', frontendSettings.defaultSettingsJS);
+app.get('/settings/user.js', frontendSettings.userSettingsJS);
+
+app.use('/settings', require('./lib/settings-router'));
 app.use('/assets', require('./lib/asset-router'));
 app.use('/api', require('./lib/api-router'));
 
@@ -32,7 +40,6 @@ app.use('/api', require('./lib/api-router'));
 // DEPRECATED
 var modules = settings.getModulesSetup();
 _.each(modules, function (moduleSpec, module) {
-    //app.use('/' + module + '/api', api_router(module, settings.options));
     app.use('/' + module + '/shared', express.static(settings.modulesDirectory + '/' + module + '/shared'));
     _.each(modules[module]["apps"], function (applicationSpec, application) {
         var urlPrefix = '/' + module + '/' + application;
@@ -44,9 +51,6 @@ _.each(modules, function (moduleSpec, module) {
 // END OF DEPRECATED
 
 app.use('/error', function(req, res, next) { next(new Error('testing Error')) });
-
-app.get('/settings/default.js', frontendSettings.defaultSettingsJS);
-app.get('/settings/user.js', frontendSettings.userSettingsJS);
 
 
 app.engine('.html', require('ejs').__express);
