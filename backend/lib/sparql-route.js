@@ -60,7 +60,7 @@ SparqlRoute.prototype.prepareResponse = function(responseString, next) {
     });
     d.run(function() {
         jsonld.fromRDF(responseString, {format: 'application/nquads'}, function (err, doc) {
-            logger.err(err);
+            if (err) { logger.err(err) }
             next(JSON.stringify(doc));
         });
     });

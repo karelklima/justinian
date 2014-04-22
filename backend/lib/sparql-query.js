@@ -6,6 +6,7 @@ var fs = require('fs');
 var _ = require('underscore');
 var http = require('http');
 var url = require('url');
+var logger = require('./logger');
 
 function SparqlQuery(file)
 {
@@ -41,7 +42,7 @@ SparqlQuery.prototype.renderQuery = function(params) {
     var thisInstance = this;
 
     return this.query_text.replace(this.param_regex, function(match) {
-        console.log(match.substring(1, match.length - 1));
+        logger.debug('sparql query:' + match.substring(1, match.length - 1));
         var localParam = JSON.parse(match.substring(1, match.length - 1));
 
         var key = localParam["param"];
