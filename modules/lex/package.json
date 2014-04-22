@@ -5,5 +5,9 @@
         "lex:" : "http://purl.org/lex#",
         "lexcz:" : "http://purl.org/lex/cz#",
         "legislation:": "http://linked.opendata.cz/resource/legislation/cz/"
+    },
+    "apis": {
+    	"lex/related-acts": "lex/related-acts?resource=$1",
+    	"lex/act-versions": "lex/act-versions?resource=$1"
     }
 }
