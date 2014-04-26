@@ -1,0 +1,44 @@
+@media (min-width: 768px) {
+    .pis-logo {
+        margin-left: -15px !important;
+    }
+}
+.pis-logo {
+    margin: 0; padding: 0;
+    height: 50px;
+    line-height: 50px;
+    overflow: hidden;
+    font-size: 30px;
+}
+.pis-logo a {
+    display: block;
+    color: #FFF;
+    margin-right: 10px;
+}
+.pis-logo b {
+    float: left;
+    padding: 0 10px;
+}
+.pis-logo span {
+    font-weight: bold;
+    color: #FFF;
+    font-style: italic;
+    display: block;
+    float: left;
+    width: 50px;
+    height: 50px;
+    margin: 0;
+    line-height: 44px;
+    border-radius: 0;
+    font-size: 30px;
+    padding-left: 16px;
+    font-family: Arial, "Helvetica Neue", sans-serif;
+    background: #E73C57;
+}
+.pis-logo a:hover b {
+    background: #333;
+}
+.pis-logo a:hover span
+{
+
+}
