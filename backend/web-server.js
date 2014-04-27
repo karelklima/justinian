@@ -7,14 +7,20 @@ var express = require('express');
 var http = require('http');
 var _ = require('underscore');
 var fs = require('fs');
-var api_router = require('./lib/api-router');
+
+var expressWinston = require('express-winston');
+
 var settings = require('./lib/settings');
-var frontendSettings = require('./lib/frontend-settings');
+
+// DEPRECATED
+var FrontendSettings = require('./lib/frontend-settings');
+var frontendSettings = new FrontendSettings();
+
+
 var assetManager = require('./lib/asset-manager');
 
 var loggingOptions = require('./lib/logging-options');
 var logger = require('./lib/logger');
-var expressWinston = require('express-winston');
 
 settings.useCache(!settings.options["development"]);
 
@@ -22,11 +28,18 @@ var app = express();
 
 app.use( expressWinston.logger(loggingOptions.requestLogger) );					// request loggger middleware
 
-app.use('/assets', require('./lib/asset-router'));
+// DEPRECATED
+app.get('/settings/default.js', frontendSettings.defaultSettingsJS);
+app.get('/settings/user.js', frontendSettings.userSettingsJS);
 
+app.use('/settings', require('./lib/settings-router'));
+app.use('/assets', require('./lib/asset-router'));
+app.use('/api', require('./lib/api-router'));
+
+
+// DEPRECATED
 var modules = settings.getModulesSetup();
 _.each(modules, function (moduleSpec, module) {
-    app.use('/' + module + '/api', api_router(module, settings.options));
     app.use('/' + module + '/shared', express.static(settings.modulesDirectory + '/' + module + '/shared'));
     _.each(modules[module]["apps"], function (applicationSpec, application) {
         var urlPrefix = '/' + module + '/' + application;
@@ -35,11 +48,9 @@ _.each(modules, function (moduleSpec, module) {
         app.use(urlPrefix + '/partials', express.static(pathPrefix + '/partials'));
     });
 });
+// END OF DEPRECATED
 
 app.use('/error', function(req, res, next) { next(new Error('testing Error')) });
-
-app.get('/settings/default.js', frontendSettings.defaultSettingsJS);
-app.get('/settings/user.js', frontendSettings.userSettingsJS);
 
 
 app.engine('.html', require('ejs').__express);

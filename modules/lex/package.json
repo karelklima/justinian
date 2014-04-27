@@ -3,11 +3,11 @@
     "extends": ["core"],
     "prefixes": {
         "lex:" : "http://purl.org/lex#",
-        "lexcz:" : "http://purl.org/lex/cz#"
+        "lexcz:" : "http://purl.org/lex/cz#",
+        "legislation:": "http://linked.opendata.cz/resource/legislation/cz/"
     },
     "apis": {
-        "api-id": "www.ihned.cz",
-        "api-id2": "www.idnes.cz",
-        "api-id3": "www.seznam.cz"
+    	"lex/related-acts": "lex/related-acts?resource=$1",
+    	"lex/act-versions": "lex/act-versions?resource=$1"
     }
 }

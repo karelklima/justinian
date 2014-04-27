@@ -2,8 +2,8 @@ var winston = require('winston');
 var expressWinston = require('express-winston');
 
 var loggingLevels = {
-	levels : { debug : 0, info : 1, warn : 2, err : 3 }, // list of logging levels ordered by their priority
-	colors : { debug : 'blue', info : 'green', warn : 'yellow', err : 'red'	} // list of associated colors
+	levels : { debug : 0, req : 1, info : 2, warn : 3, err : 4 }, // list of logging levels ordered by their priority
+	colors : { debug : 'blue', req : 'green', info : 'green', warn : 'yellow', err : 'red'	} // list of associated colors
 }
 
 // options for the main logger:
@@ -27,10 +27,11 @@ var requestLogger = {
 	// where the logs should go:
 	transports: [
       new winston.transports.Console({
-        json: true,
+        json: false,
         colorize: true
       })
     ],
+    level: 'req',
     meta: false, // optional: control whether you want to log the meta data about the request (default to true)
     msg: "{{res.statusCode}} {{req.method}} {{req.url}} {{res.responseTime}}ms" // optional: customize the default logging message. E.g. 
 }
@@ -49,4 +50,3 @@ module.exports.loggingLevels = loggingLevels;
 module.exports.logger = logger;
 module.exports.requestLogger = requestLogger;
 module.exports.errorLogger = errorLogger;
-

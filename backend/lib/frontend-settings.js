@@ -19,7 +19,7 @@ function FrontendSettings() {
  * @private
  * @returns {{}}
  */
-FrontendSettings.prototype.defaultSettings = function() {
+FrontendSettings.prototype.getDefaultSettings = function() {
     // TODO
     var config = {};
     config.home = {'module': 'lex', 'application': 'search'};
@@ -29,27 +29,15 @@ FrontendSettings.prototype.defaultSettings = function() {
 };
 
 /**
- * Serves defaultSettings as JSON to the client
- * @public
- * @param req
- * @param res
- * @param next
- */
-FrontendSettings.prototype.defaultSettingsJSON = function(req, res, next) {
-    // TODO
-    var ds = this.defaultSettings();
-    res.write(JSON.stringify(ds, null, 2));
-    res.end();
-};
-
-/**
  * Serves defaultSettings as JavaScript to the client
+ * @deprecated
  * @public
  * @param req
  * @param res
  * @param next
  */
 FrontendSettings.prototype.defaultSettingsJS = function(req, res, next) {
+    // TODO smazat
     var config = {};
     config.home = {'module': 'lex', 'application': 'search'};
     config.title = settings.options["title"];
@@ -63,35 +51,23 @@ FrontendSettings.prototype.defaultSettingsJS = function(req, res, next) {
  * @private
  * @returns {{}}
  */
-FrontendSettings.prototype.userSettings = function() {
+FrontendSettings.prototype.getUserSettings = function() {
     // TODO
     return {};
 };
 
 /**
- * Serves userSettings as JSON to the client
- * @public
- * @param req
- * @param res
- * @param next
- */
-FrontendSettings.prototype.userSettingsJSON = function(req, res, next) {
-    // TODO
-    res.write(JSON.stringify(this.userSettings(), null, 2));
-    res.end();
-};
-
-/**
  * Serves userSettings as JavaScript to the client
+ * @deprecated
  * @public
  * @param req
  * @param res
  * @param next
  */
 FrontendSettings.prototype.userSettingsJS = function(req, res, next) {
+    // TODO smazat
     res.write(util.format('var userConfig = %s;', JSON.stringify({}, null, 2)));
     res.end();
 };
 
-var frontendSettings = new FrontendSettings();
-module.exports = frontendSettings;
+module.exports = FrontendSettings;

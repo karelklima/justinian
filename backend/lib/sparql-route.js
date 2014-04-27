@@ -4,11 +4,12 @@
 
 var util = require('util');
 var domain = require('domain');
+var jsonld = require('jsonld');
+var _ = require('underscore');
 var settings = require('./settings');
 var ApiRoute = require('./api-route');
 var SparqlClient = require('./sparql-client');
 var SparqlQuery = require('./sparql-query');
-var jsonld = require('jsonld');
 var logger = require('./logger');
 
 function SparqlRoute(module, api) {
@@ -58,7 +59,7 @@ SparqlRoute.prototype.prepareResponse = function(responseString, next) {
     });
     d.run(function() {
         jsonld.fromRDF(responseString, {format: 'application/nquads'}, function (err, doc) {
-            logger.err(err);
+            if (err) { logger.err(err) }
             next(JSON.stringify(doc));
         });
     });

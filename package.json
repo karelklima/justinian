@@ -23,9 +23,8 @@
     "test": "test"
   },
   "dependencies": {
-    "connect": "^2.14.4",
     "ejs": "^1.0.0",
-    "express": "^3.5.1",
+    "express": "^4.0.0",
     "express-winston": "^0.2.5",
     "glob": "^3.2.9",
     "grunt": "^0.4.4",
