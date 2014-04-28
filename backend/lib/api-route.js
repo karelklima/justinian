@@ -7,20 +7,27 @@ var fs = require('fs');
 var _ = require('underscore');
 var http = require('http');
 var url = require('url');
-var querystring = require('querystring');
-var sparqlClient = require('./sparql-client');
-var sparqlQuery = require('./sparql-query');
 
 /**
  * Basic interface of API provider
- * @param {string} module_name
- * @param {string} api_name
  * @constructor
  */
-function ApiRoute(module_name, api_name) {
+function ApiRoute() {
+    this.module = null;
+    this.api = null;
+}
+
+ApiRoute.prototype.init = function(module_name, api_name)
+{
     this.module = module_name;
     this.api = api_name;
-}
+    this.setup();
+};
+
+ApiRoute.prototype.setup = function()
+{
+    // override me
+};
 
 /**
  * Gets name (id) of the module of this API

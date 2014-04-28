@@ -8,6 +8,7 @@ var fs = require('fs');
 var settings = require('./settings');
 var ApiRoute = require('./api-route');
 var SparqlRoute = require('./sparql-route');
+var SparqlRouteJSONLD = require('./sparql-route-jsonld');
 var SolrRoute = require('./solr-route');
 
 var apiRoutingTable = new ApiRoutingTable();
@@ -20,6 +21,7 @@ function ApiRoutingTable()
     var routeParams = {
         ApiRoute: ApiRoute,
         SparqlRoute: SparqlRoute,
+        SparqlRouteJSONLD: SparqlRouteJSONLD,
         SolrRoute: SolrRoute
     };
 
@@ -34,9 +36,18 @@ function ApiRoutingTable()
         var apiJSFiles = _.filter(files, function(file) { return /^[a-z-]+\.js$/.test(file); });
         for (var f = 0; f < apiJSFiles.length; f++) {
             var file = apiJSFiles[f];
-            var Route = require(apiDirectory + '/' + file)(routeParams);
             var apiName = file.substring(0, file.length - 3); // remove extension
-            this.routingTable[moduleName + '/' + apiName] = new Route(moduleName, apiName);
+            var routeProvider = require(apiDirectory + '/' + file);
+            if (typeof routeProvider != "function")
+                throw new Error("Invalid API provider: " + moduleName + '/' + apiName);
+            var route = routeProvider(routeParams);
+            if (route instanceof ApiRoute) {
+                route.init(moduleName, apiName);
+                this.routingTable[moduleName + '/' + apiName] = route;
+            }
+            else {
+                throw new Error("Invalid API provider: " + moduleName + '/' + apiName);
+            }
         }
     }
 }

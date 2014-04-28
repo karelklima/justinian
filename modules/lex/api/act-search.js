@@ -3,5 +3,5 @@
  */
 
 module.exports = function(routeParams) {
-    return routeParams.SparqlRoute;
+    return new routeParams.SparqlRouteJSONLD;
 };
