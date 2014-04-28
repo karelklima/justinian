@@ -54,6 +54,21 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
         //TODO po pridani konfigurace do JSONu
         return home;
     };
+    this.getDefaultTitle = function () {
+        var title = [];
+        var module = PageService.getModule();
+        var application = PageService.getApplication();
+        if (angular.isDefined(_data.title)) {
+            title.push(_data.title);
+        }
+        if (angular.isDefined(_data[module]) && angular.isDefined(_data[module].title)) {
+            title.push(_data[module].title);
+        }
+        if (angular.isDefined(_data[module]) && angular.isDefined(_data[module].apps[application]) && angular.isDefined(_data[module].apps[application].title)) {
+            title.push(_data[module].apps[application].title);
+        }
+        return title.join(" - ");
+    };
 }]);
 
 // userSettings
@@ -63,7 +78,7 @@ appServices.service('SettingsService', [function () {
     // TODO
 }]);
 
-appServices.service('UrlService', ['$routeParams', '$location', '$filter', function ($routeParams, $location, $filter) {
+appServices.service('UrlService', ['$routeParams', '$location', '$filter', 'UtilService', function ($routeParams, $location, $filter, UtilService) {
     this.isParam = function (key) {
         return key in $routeParams;
     };
@@ -77,24 +92,42 @@ appServices.service('UrlService', ['$routeParams', '$location', '$filter', funct
         $location.path(module + '/' + application);
     };
     this.setUrl = function (module, application, params) {
-        var search = '';
-        if (angular.isDefined(params)) {
-            var todo = $filter('filter')(params, this.isParam, true);
-            angular.forEach(todo, function (param, index) {
-                var prefix = (index === 0) ? '?' : '&';
-                search += prefix + param + '=' + this.getParam(param);
-            }, this);
+        var path = '';
+        if (angular.isDefined(module) && angular.isDefined(application)) {
+            path = module + '/' + application;
         }
-        $location.url(module + '/' + application + search);
+        var search = UtilService.getUrlSearch(params);
+        $location.url(path + '?' + search);
     };
     this.setUrlError = function () {
         this.setUrl(home.module, home.application);
+    };
+    this.getUrlParamValues = function (params) {
+        var search = {};
+        var todo = $filter('filter')(params, this.isParam, true);
+        angular.forEach(todo, function (param) {
+            search[param] = this.getParam(param);
+        }, this);
+        return search;
     };
 }]);
 
 appServices.service('UtilService', [function () {
     this.getTemplateUrl = function (module, application, template) {
         return 'assets/' + module + '/' + application + '/partials/' + template + '.html';
+    };
+    this.getUrlSearch = function (params) {
+        var url = [];
+        angular.forEach(params, function (value, key) {
+            url.push(key + '=' + value);
+        });
+        return url.join('&');
+    };
+    this.getUrlPath = function (params) {
+        return params.join('/');
+    };
+    this.getUrl = function (path, search) {
+        return this.getUrlPath(path) + '?' + this.getUrlSearch(search);
     };
 }]);
 
@@ -108,17 +141,9 @@ appServices.service('NetworkService', ['$resource','$http', function ($resource,
     }
 }]);
 
-appServices.service('PageService', ['UrlService', function (UrlService) {
-    var _title = 'PIS'; // TODO smazat nastaveni az bude default
-    this.getTitle = function () {
-        if (angular.isDefined(_title)) {
-            return _title;
-        } else {
-            return; //TODO default title
-        }
-    };
+appServices.service('PageService', ['UrlService', '$window', function (UrlService, $window) {
     this.setTitle = function (title) {
-        _title = title;
+        $window.document.title = title;
     };
     this.getModule = function () {
         return UrlService.getParam('module');
