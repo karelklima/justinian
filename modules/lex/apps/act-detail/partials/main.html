@@ -5,8 +5,21 @@
         <ul ng-repeat="item in versions">
             <li style="margin:10px;"><a href ng-click="openVersion(item)">{{printVersion(item)}}</a> <span>Valid: {{printVersionValid(item)}}</span></li>
         </ul>
-        <h3>Selected version:</h3>
-        <div ng-show="selectedVersionLoading == false">{{printVersionText(selectedVersion)}}</div>
+        <h3 id="selectedVersionTextDiv">Selected version:</h3>
+        <div ng-show="selectedVersionLoading == false">
+            <ul ng-repeat="paragraph in selectedVersionPrepared">
+                <li style="margin:10px;">{{paragraph["id"]}}: {{paragraph["text"]}}
+                    <ul ng-repeat="article in paragraph.articles">
+                        <li style="margin:10px;">{{article["id"]}}: {{article["text"]}}
+                            <ul ng-repeat="subArticle in paragraph.subArticles">
+                                <li style="margin:10px;">{{subArticle["id"]}}: {{subArticle["text"]}}</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
         <div ng-show="selectedVersionLoading == true">Loading...</div>
+        <div ng-show="selectedVersion!=null && selectedVersion.results.bindings.length == 0 && selectedVersionLoading == false">Empty</div>
     </div>
 </div>
