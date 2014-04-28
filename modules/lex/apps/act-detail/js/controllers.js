@@ -49,6 +49,11 @@
         $scope.selectedVersion = version;
         $scope.selectedVersionPrepared = self.prepareVersion(version);
         $scope.selectedVersionLoading = false;
+        if($scope.selectedVersionPrepared.length){
+            setTimeout(function(){
+                document.getElementById('selectedVersionTextDiv').scrollIntoView();
+            },100);
+        }
     }
 
     self.setSelectedVersion(null);
@@ -66,9 +71,6 @@
 //            console.log(data);
             self.setSelectedVersion(data);
             $scope.$$phase || $scope.$apply();
-            setTimeout(function(){
-                document.getElementById('selectedVersionTextDiv').scrollIntoView();
-            },100);
         },function error(data, status){
            self.setSelectedVersion(null);
            $scope.$$phase || $scope.$apply();
