@@ -8,6 +8,7 @@ var url = require('url');
 var querystring = require('querystring');
 var assert = require('assert');
 var settings = require('./settings');
+var logger = require('./logger');
 
 function SparqlClient() {
     this.options = settings.options["sparql"];
@@ -28,7 +29,7 @@ SparqlClient.prototype.getParam = function (key) {
 };
 
 SparqlClient.prototype.sendRequest = function(query, successCallback, errorCallback) {
-
+    logger.debug(query);
     assert(_.isString(query));
 
     successCallback = successCallback || function(data) {};

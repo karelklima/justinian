@@ -55,6 +55,7 @@ SparqlRoute.prototype.prepareResponse = function(responseString, next) {
     // Async exceptions need to be handled using domain
     var d = domain.create();
     d.on('error', function(err) {
+        logger.debug(err);
         next(responseString);
     });
     d.run(function() {

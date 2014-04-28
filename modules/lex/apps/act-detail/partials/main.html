@@ -1,7 +1,12 @@
 <div ng-controller="LexDetailController">
-    <div ng-show="object == null">Not found</div>
     <div>
-        <div>Resource: {{resource}}</div>
-        <div>Object: {{object}}</div>
+        <h3>Resource: </h3><span>{{resource}}</span>
+        <h3>Versions:</h3>
+        <ul ng-repeat="item in versions">
+            <li style="margin:10px;"><a href ng-click="openVersion(item)">{{printVersion(item)}}</a> <span>Valid: {{printVersionValid(item)}}</span></li>
+        </ul>
+        <h3>Selected version:</h3>
+        <div ng-show="selectedVersionLoading == false">{{printVersionText(selectedVersion)}}</div>
+        <div ng-show="selectedVersionLoading == true">Loading...</div>
     </div>
 </div>

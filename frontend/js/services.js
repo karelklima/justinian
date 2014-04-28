@@ -129,6 +129,16 @@ appServices.service('UtilService', [function () {
     this.getUrl = function (path, search) {
         return this.getUrlPath(path) + '?' + this.getUrlSearch(search);
     };
+
+    //decode escaped unicode characters to normal form
+    var decodeUnicodeStringRegex = /\\u([\d\w]{4})/gi;
+    this.decodeUnicodeString = function (value){
+        value = value.replace(decodeUnicodeStringRegex, function (match, grp) {
+                return String.fromCharCode(parseInt(grp, 16));
+            });
+        value = unescape(value);
+        return value;
+    }
 }]);
 
 appServices.service('NetworkService', ['$resource','$http', function ($resource, $http) {
