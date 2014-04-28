@@ -69,6 +69,11 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
         }
         return title.join(" - ");
     };
+    this.getApiUrl = function (module, name, params) {
+        if (module in _data && name in _data[module].apis) {
+            return '/api/' + UtilService.matchUrlParams(_data[module].apis[name], params)
+        }
+    };
 }]);
 
 // userSettings
@@ -95,6 +100,9 @@ appServices.service('UrlService', ['$routeParams', '$location', '$filter', 'Util
         var path = '';
         if (angular.isDefined(module) && angular.isDefined(application)) {
             path = module + '/' + application;
+        }
+        if (angular.isArray(params)) {
+            params = this.getUrlParamValues(params);
         }
         var search = UtilService.getUrlSearch(params);
         $location.url(path + '?' + search);
@@ -128,6 +136,12 @@ appServices.service('UtilService', [function () {
     };
     this.getUrl = function (path, search) {
         return this.getUrlPath(path) + '?' + this.getUrlSearch(search);
+    };
+    this.matchUrlParams = function (url, params) {
+        angular.forEach(params, function (value, index) {
+            url = url.replace('$' + (index+1).toString(), value);
+        });
+        return url;
     };
 
     //decode escaped unicode characters to normal form
