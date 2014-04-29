@@ -5,6 +5,7 @@
         "sdo:" : "http://salt.semanticauthoring.org/ontologies/sdo#"
     },
     "apis": {
+    	"core/generic": "core/generic?resource=$1",
     	"core/expression": "core/expression?resource=$1"
     }
     
