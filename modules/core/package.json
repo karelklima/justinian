@@ -3,5 +3,9 @@
     "prefixes": {
         "frbr:" : "http://purl.org/vocab/frbr/core#",
         "sdo:" : "http://salt.semanticauthoring.org/ontologies/sdo#"
+    },
+    "apis": {
+    	"core/expression": "core/expression?resource=$1"
     }
+    
 }
