@@ -8,9 +8,18 @@ CONSTRUCT {
   ?act a lex:Act ;
   dcterms:title ?title .
 }
+
 FROM <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
+
 WHERE {
+  SELECT DISTINCT ?act ?title
+  WHERE {
   ?act a lex:Act ;
   dcterms:title ?title .
   FILTER regex(?title, "{{"param": "query", "filter": "EscapeDoubleQuotes"}}", "i")
+  }
+  ORDER BY ?title
+  OFFSET {{"param": "offset"}}
+  LIMIT {{"param": "limit"}}
 }
