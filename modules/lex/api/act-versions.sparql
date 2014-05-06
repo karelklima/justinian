@@ -10,8 +10,13 @@ FROM <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
 FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
 
 WHERE {
-act: a lex:Act .
-?expr frbr:realizationOf act: .
-?expr dcterms:valid ?valid.
-
+  SELECT DISTINCT ?expr ?valid
+  WHERE {
+    act: a lex:Act .
+    ?expr frbr:realizationOf act: .
+    ?expr dcterms:valid ?valid.
+  }
+  ORDER BY ?valid
+  OFFSET {{"param": "offset"}}
+  LIMIT {{"param": "limit"}}
 }

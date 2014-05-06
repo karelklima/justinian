@@ -9,6 +9,6 @@
     "apis": {
     	"lex/act-search": "lex/act-search?query=$1&offset=$2&limit=$3",
     	"lex/related-acts": "lex/related-acts?resource=$1",
-    	"lex/act-versions": "lex/act-versions?resource=$1"
+    	"lex/act-versions": "lex/act-versions?resource=$1&offset=$2&limit=$3"
     }
 }
