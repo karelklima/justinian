@@ -17,6 +17,6 @@ WHERE {
     ?expr dcterms:valid ?valid.
   }
   ORDER BY ?valid
-  OFFSET {{"param": "offset"}}
-  LIMIT {{"param": "limit"}}
+  OFFSET 0
+  LIMIT 10
 }

@@ -59,6 +59,7 @@
     self.setSelectedVersion(null);
 
     $scope.openVersion = function (version){
+        console.log(version);
         if(version == null || $scope.selectedVersionLoading==true) return;
         var versionId = null;
         if(typeof(version) == 'string')

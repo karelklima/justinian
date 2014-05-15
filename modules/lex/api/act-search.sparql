@@ -20,6 +20,6 @@ WHERE {
   FILTER regex(?title, "{{"param": "query", "filter": "EscapeDoubleQuotes"}}", "i")
   }
   ORDER BY ?title
-  OFFSET {{"param": "offset"}}
-  LIMIT {{"param": "limit"}}
+  OFFSET 0
+  LIMIT 10
 }
