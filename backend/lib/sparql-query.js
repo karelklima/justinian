@@ -10,23 +10,9 @@ var logger = require('./logger');
 
 function SparqlQuery(file)
 {
-    this.param_regex = new RegExp('{{((?!}).)+}}', 'g');
-    this.query_params = {};
-    this.query_text = fs.readFileSync(file).toString();
-
-    var thisInstance = this;
-
-    _.each(this.query_text.match(this.param_regex), function(match) {
-        var local_param = JSON.parse(match.substring(1, match.length - 1));
-
-        var key = local_param["param"];
-        thisInstance.query_params[key] = local_param["default"] || null;
-    });
+    this.paramRegex = new RegExp('{{((?!}).)+}}', 'g');
+    this.queryText = fs.readFileSync(file).toString();
 }
-
-SparqlQuery.prototype.getDefaultParams = function() {
-    return _.clone(this.query_params);
-};
 
 SparqlQuery.prototype.filterEscapeDoubleQuotes = function(string) {
     return string.replace(/"/g, '\\"');
@@ -41,21 +27,20 @@ SparqlQuery.prototype.renderQuery = function(params) {
 
     var thisInstance = this;
 
-    return this.query_text.replace(this.param_regex, function(match) {
+    return this.queryText.replace(this.paramRegex, function(match) {
         logger.debug('sparql query:' + match.substring(1, match.length - 1));
-        var localParam = JSON.parse(match.substring(1, match.length - 1));
+        var definition = JSON.parse(match.substring(1, match.length - 1));
+        var key = definition['param'];
 
-        var key = localParam["param"];
-
-        if (params[key] == null)
+        if (params[key] == null && definition['default'] == null)
             throw Error("SparqlQuery: parameter missing - " + key);
 
-        var result = params[key];
+        var result = params[key] ? params[key] : definition['default'];
 
-        if (localParam["filter"]) {
-            var filter_name = "filter" + localParam["filter"];
+        if (params["filter"]) {
+            var filter_name = "filter" + params["filter"];
             if (!_.contains(_.methods(thisInstance), filter_name))
-                throw Error("SparqlQuery: invalid filter name: " + localParam["filter"]);
+                throw Error("SparqlQuery: invalid filter name: " + params["filter"]);
             result = thisInstance[filter_name](result);
         }
 
