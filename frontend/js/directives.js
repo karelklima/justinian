@@ -4,7 +4,7 @@ appDirectives = angular.module('appDirectives', [
     'appServices'
 ]);
 
-appDirectives.directive('click', ['UrlService', function (UrlService) {
+appDirectives.directive('click', ['UrlService', 'UtilService', function (UrlService, UtilService) {
     return {
         restrict: 'A',
         replace: true,
@@ -17,9 +17,14 @@ appDirectives.directive('click', ['UrlService', function (UrlService) {
             query: '@',
             params: '@'
         },
-        template: '<a href ng-click="click()" ng-transclude></a>',
+        template: '<a href ng-click="click($event)" ng-transclude></a>',
         link: function (scope, element, attributes) {
-            scope.click = function () {
+            attributes.$set('href', '#!/' +  UtilService.getUrl([scope.module, scope.application],
+                angular.isDefined(scope.params) ? UrlService.getUrlParamValues(scope.params) : []));
+
+            scope.click = function ($event) {
+                $event.preventDefault();
+
                 var params = angular.isDefined(scope.params) ? angular.fromJson(scope.params) : {};
                 if (angular.isDefined(scope.resource)) {
                     params['resource'] = scope.resource;

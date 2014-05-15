@@ -6,8 +6,9 @@ appServices = angular.module('appServices', [
 ]);
 
 // appConfiguration
-appServices.service('ConfigurationService', ['UtilService', 'PageService', '$filter', function (UtilService, PageService, $filter) {
+appServices.service('ConfigurationService', ['UtilService', 'PageService', '$filter', 'NetworkService', function (UtilService, PageService, $filter, NetworkService) {
     var _data = angular.fromJson(appConfiguration);
+//    var _data = NetworkService.getDefaultSettings();
 
     this.isModuleApplication = function (module, application) {
         return module in _data && application in _data[module].apps;
@@ -155,14 +156,21 @@ appServices.service('UtilService', [function () {
     }
 }]);
 
-appServices.service('NetworkService', ['$resource','$http', function ($resource, $http) {
+appServices.service('NetworkService', ['$resource','$http', '$q', function ($resource, $http, $q) {
     this.useApi = function(module,apiName,params,success,error){
         var request = $http.get('/api/'+module+'/'+apiName+'?'+params);
         if(success !== undefined && success != null)
             request.success(success);
         if(error !== undefined && error != null)
             request.error(error);
-    }
+    };
+    this.getDefaultSettings = function () {
+        var d = $q.defer();
+        $resource('/settings/default/json').get().$promise.then(function (result) {
+            d.resolve(angular.fromJson(result).appConfiguration);
+        });
+        return d.promise;
+    };
 }]);
 
 appServices.service('PageService', ['UrlService', '$window', function (UrlService, $window) {
