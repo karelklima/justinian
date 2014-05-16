@@ -37,11 +37,11 @@ SparqlQuery.prototype.renderQuery = function(params) {
 
         var result = params[key] ? params[key] : definition['default'];
 
-        if (params["filter"]) {
-            var filter_name = "filter" + params["filter"];
-            if (!_.contains(_.methods(thisInstance), filter_name))
-                throw Error("SparqlQuery: invalid filter name: " + params["filter"]);
-            result = thisInstance[filter_name](result);
+        if (definition['filter']) {
+            var filterName = "filter" + definition['filter'];
+            if (!_.contains(_.methods(thisInstance), filterName))
+                throw Error("SparqlQuery: invalid filter name: " + definition['filter']);
+            result = thisInstance[filterName](result);
         }
 
         return result;
