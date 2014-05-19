@@ -1,0 +1,5 @@
+{
+    "title" : "Verze zákona",
+    "datatypes" : ["frbr:Expression"],
+    "views": ["sidebar"]
+}

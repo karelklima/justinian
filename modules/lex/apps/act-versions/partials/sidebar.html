@@ -1,0 +1,14 @@
+<div ng-controller="LexVersionsController">
+    <div>
+    <table style="border-spacing:5px;">
+    	<tr>
+  		<th>znění zákona</th>
+  		<th>platnost od</th> 
+		</tr>
+    	<tr ng-repeat="item in versions">
+    	<td><a href sys-click="openVersion(item)" module="lex" application="act-detail" click ng-bind-html="renderHtml(printVersion(item))"></a></td>
+    	<td ng-bind-html="renderHtml(printVersionValid(item))"></td>
+    	</tr>
+    </table>
+    </div>
+</div>
