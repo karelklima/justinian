@@ -8,20 +8,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <div class="navbar-left logo" id="logo_view" ng-show="logoTemplates.length > 0"
-                 ng-repeat="template in logoTemplates">
-                <div ng-include="template.url" class="navbar-left application"></div>
+            <div class="navbar-left logo" id="logo_view" ng-show="logoTemplates.length > 0">
+                <div class="navbar-left application" ng-include="template.url" ng-repeat="template in logoTemplates"></div>
             </div>
         </div>
         <div class="navbar-collapse collapse navbar-responsive-collapse">
-            <div class="navbar-left header-left" ng-show="headerLeftTemplates.length > 0"
-                 ng-repeat="template in headerLeftTemplates">
-                <div class="navbar-left application" ng-include="template.url"></div>
+            <div class="navbar-left header-left" ng-show="headerLeftTemplates.length > 0">
+                <div class="navbar-left application" ng-repeat="template in headerLeftTemplates" ng-include="template.url"></div>
             </div>
 
-            <div class="navbar-right header-right" ng-show="headerRightTemplates.length > 0"
-                 ng-repeat="template in headerRightTemplates">
-                <div class="navbar-right application" ng-include="template.url"></div>
+            <div class="navbar-right header-right" ng-show="headerRightTemplates.length > 0">
+                <div class="navbar-right application" ng-repeat="template in headerRightTemplates" ng-include="template.url"></div>
             </div>
 
         </div>
@@ -36,36 +33,26 @@
 
     <div class="container">
         <div class="row sheet">
-            <div class="main"
-                 ng-class="{col_sm_8: sidebarTemplates.length > 0, col_sm_12: sidebarTemplates.length <= 0}">
-            <div ng-include="mainTemplateUrl" class="application"></div>
+            <div class="main" ng-class="{col_sm_8: sidebarTemplates.length > 0, col_sm_12: sidebarTemplates.length <= 0}">
+                <div ng-include="mainTemplateUrl" class="application"></div>
             </div>
-            <div class="col-sm-4" ng-show="sidebarTemplates.length > 0">
-                <div class="panel-group" ng-repeat="template in sidebarTemplates">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                Aplikace v sidebaru
-                            </h4>
-                        </div>
-                        <div class="panel-body application" ng-include="template.url" class="application"></div>
-                    </div>
-                </div>
+            <div class="sidebar col-sm-4" ng-show="sidebarTemplates.length > 0">
+                <div class="application" ng-repeat="template in sidebarTemplates" ng-include="template.url"></div>
             </div>
         </div>
     </div>
 
-    <div class="container content-bottom" ng-repeat="template in contentBottomTemplates">
-        <div class="application" ng-include="template.url"></div>
+    <div class="container content-bottom">
+        <div class="application" ng-repeat="template in contentBottomTemplates" ng-include="template.url"></div>
     </div>
 </div>
 
 <div class="container">
     <div class="row">
-        <div ng-repeat="template in footerTopTemplates" ng-include="template.url"></div>
+        <div class="application" ng-repeat="template in footerTopTemplates" ng-include="template.url"></div>
     </div>
     <hr>
     <div class="row">
-        <div ng-repeat="template in footerBottomTemplates" ng-include="template.url"></div>
+        <div class="application" ng-repeat="template in footerBottomTemplates" ng-include="template.url"></div>
     </div>
 </div>
