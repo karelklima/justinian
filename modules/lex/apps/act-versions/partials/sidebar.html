@@ -1,21 +1,17 @@
-<div ng-controller="LexVersionsController">
-	<div class="panel panel-default">
- 		<div class="panel-heading">
-        	<h4 class="panel-title">
-            	Verze zákona
-        	</h4>
-    	</div>
- 		<div>
-    		<table style="border-spacing:5px;">
-	    		<tr>
-  					<th>znění zákona</th>
-  					<th>platnost od</th> 
-				</tr>
-    			<tr ng-repeat="item in versions">
-    				<td><a href sys-click="openVersion(item)" module="lex" application="act-detail" click ng-bind-html="renderHtml(printVersion(item))"></a></td>
-    				<td ng-bind-html="renderHtml(printVersionValid(item))"></td>
-    			</tr>
-    		</table>
-    	</div>
-  	</div>
+<div class="panel panel-default" ng-controller="LexVersionsController">
+    <div class="panel-heading">
+        <h4 class="panel-title">Historie zákona</h4>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th>Ve znění novely</th>
+                <th>platné od</th>
+            </tr>
+            <tr ng-repeat="item in versions" ng-class="{active: item['@id'] == resource}">
+                <td><a click module="lex" application="act-detail-version" resource="{{ item['@id'] }}" ng-bind="printVersionName(item)"></a></td>
+                <td>{{ item["http://purl.org/dc/terms/valid"][0]["@value"] | convertDate }}</td>
+            </tr>
+        </table>
+    </div>
 </div>

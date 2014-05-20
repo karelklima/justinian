@@ -147,7 +147,7 @@ appServices.service('UtilService', ['$filter', function ($filter) {
 
     //decode escaped unicode characters to normal form
      this.decodeUnicodeString = function (value){
-        return $filter('decode-unicode')(value)
+        return $filter('decodeUnicode')(value);
     }
 }]);
 

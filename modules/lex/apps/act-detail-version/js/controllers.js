@@ -1,15 +1,4 @@
-
-function LexDetailController($scope, UrlService, NetworkService, UtilService) {
-
-    var self = this;
-
-    $scope.versions = null;
-    $scope.resource = UrlService.getParam('resource');
-
-    $scope.isLoading = true;
-    $scope.isError = false;
-    $scope.isEmpty = false;
-    $scope.content = null;
+function LexDetailVersionController($scope, UrlService, NetworkService, UtilService) {
 
     this.prepareVersion = function (version) {
         if (version == null || version == undefined)
@@ -47,25 +36,28 @@ function LexDetailController($scope, UrlService, NetworkService, UtilService) {
         return paragraphs;
     };
 
-    this.init = function() {
-        NetworkService.useApi('lex', 'act-versions', {resource: $scope.resource}, function (versions) {
-            if (!(versions instanceof Array)) versions = [];
-            if (versions.length > 0) {
-                var versionId = versions[0]['@id'];
-                NetworkService.useApi('lex', 'act-version-text', {resource: versionId}, function (data) {
-                    $scope.content = self.prepareVersion(data);
-                    $scope.isLoading = false;
-                }, function error(data, status) {
-                    $scope.isError = true;
-                });
-            } else {
-                $scope.isEmpty = true;
-            }
+    var self = this;
+    this.init = function () {
+
+        $scope.versions = null;
+        $scope.resource = UrlService.getParam('resource');
+
+        $scope.isLoading = true;
+        $scope.isError = false;
+        $scope.isEmpty = false;
+        $scope.content = null;
+
+        NetworkService.useApi('lex', 'act-version-text', {resource: $scope.resource}, function (data) {
+            console.log(data);
+            $scope.content = self.prepareVersion(data);
+            $scope.isLoading = false;
         }, function error(data, status) {
             $scope.isError = true;
         });
     };
 
     this.init();
+
+    $scope.$on()
 }
 

@@ -1,0 +1,24 @@
+<div ng-controller="LexDetailVersionController">
+    <h3>Aplikace: lex/act-detail-version</h3>
+    <h3>Resource: </h3>
+        <span>{{resource}}</span>
+
+    <h3>Text</h3>
+    <div ng-show="isLoading == false">
+        <ul ng-repeat="paragraph in content">
+            <li style="margin:10px;">{{paragraph["id"]}}: {{paragraph["text"]}}
+                <ul ng-repeat="article in paragraph.articles">
+                    <li style="margin:10px;">{{article["id"]}}: {{article["text"]}}
+                        <ul ng-repeat="subArticle in paragraph.subArticles">
+                            <li style="margin:10px;">{{subArticle["id"]}}: {{subArticle["text"]}}</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div ng-show="isLoading == true">Načítám data...</div>
+    <div ng-show="isEmpty == true">Text není dostupný.</div>
+    <div ng-show="isError == true">Chyba, text nelze načíst!</div>
+</div>

@@ -1,0 +1,5 @@
+{
+    "title" : "Detail verze zákona",
+    "datatypes" : ["frbr:Expression"],
+    "views": ["main"]
+}

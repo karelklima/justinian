@@ -1,13 +1,11 @@
 <div ng-controller="LexDetailController">
     <div>
+        <h3>Aplikace: lex/act-detail</h3>
         <h3>Resource: </h3><span>{{resource}}</span>
-        <h3>Versions:</h3>
-        <ul ng-repeat="item in versions">
-            <li style="margin:10px;"><a href sys-click="openVersion(item)" module="lex" application="act-detail" click>{{printVersion(item)}}</a> <span>Valid: {{printVersionValid(item)}}</span></li>
-        </ul>
-        <h3 id="selectedVersionTextDiv">Selected version:</h3>
-        <div ng-show="selectedVersionLoading == false">
-            <ul ng-repeat="paragraph in selectedVersionPrepared">
+
+        <h3>Poslední platné znění:</h3>
+        <div ng-show="isLoading == false">
+            <ul ng-repeat="paragraph in content">
                 <li style="margin:10px;">{{paragraph["id"]}}: {{paragraph["text"]}}
                     <ul ng-repeat="article in paragraph.articles">
                         <li style="margin:10px;">{{article["id"]}}: {{article["text"]}}
@@ -19,7 +17,8 @@
                 </li>
             </ul>
         </div>
-        <div ng-show="selectedVersionLoading == true">Loading...</div>
-        <div ng-show="selectedVersion!=null && selectedVersion.results.bindings.length == 0 && selectedVersionLoading == false">Empty</div>
+        <div ng-show="isLoading == true">Načítám data...</div>
+        <div ng-show="isEmpty == true">Text není dostupný.</div>
+        <div ng-show="isError == true">Chyba, text nelze načíst!</div>
     </div>
 </div>
