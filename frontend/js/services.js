@@ -121,7 +121,7 @@ appServices.service('UrlService', ['$routeParams', '$location', '$filter', 'Util
     };
 }]);
 
-appServices.service('UtilService', [function () {
+appServices.service('UtilService', ['$filter', function ($filter) {
     this.getTemplateUrl = function (module, application, template) {
         return 'assets/' + module + '/' + application + '/partials/' + template + '.html';
     };
@@ -146,13 +146,8 @@ appServices.service('UtilService', [function () {
     };
 
     //decode escaped unicode characters to normal form
-    var decodeUnicodeStringRegex = /\\u([\d\w]{4})/gi;
-    this.decodeUnicodeString = function (value){
-        value = value.replace(decodeUnicodeStringRegex, function (match, grp) {
-                return String.fromCharCode(parseInt(grp, 16));
-            });
-        value = unescape(value);
-        return value;
+     this.decodeUnicodeString = function (value){
+        return $filter('decode-unicode')(value)
     }
 }]);
 

@@ -3,7 +3,8 @@ var mainApp;
 mainApp = angular.module('mainApp', [
     'ngRoute',
     'appControllers',
-    'appDirectives'
+    'appDirectives',
+    'appFilters'
 ]);
 
 mainApp.config(function ($routeProvider, $locationProvider) {
