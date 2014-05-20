@@ -151,8 +151,9 @@ appServices.service('UtilService', ['$filter', function ($filter) {
     }
 }]);
 
-appServices.service('NetworkService', ['$resource','$http', '$q', function ($resource, $http, $q) {
+appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService', function ($resource, $http, $q, UtilService) {
     this.useApi = function(module,apiName,params,success,error){
+        params = typeof params == "object" ? UtilService.getUrlSearch(params) : params;
         var request = $http.get('/api/'+module+'/'+apiName+'?'+params);
         if(success !== undefined && success != null)
             request.success(success);
