@@ -24,3 +24,17 @@ mainApp.config(function ($routeProvider, $locationProvider) {
     $locationProvider.html5Mode(false);
     $locationProvider.hashPrefix('!');
 });
+
+mainApp.config(['$provide', function($provide){
+    $provide.decorator('$rootScope', ['$delegate', function($delegate){
+        Object.defineProperty($delegate.constructor.prototype, '$listen', {
+            value: function(name, listener){
+                var unsubscribe = $delegate.$on(name, listener);
+                this.$on('$destroy', unsubscribe);
+                return unsubscribe;
+            },
+            enumerable: false
+        });
+        return $delegate;
+    }]);
+}]);
