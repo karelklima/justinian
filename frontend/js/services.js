@@ -84,7 +84,7 @@ appServices.service('SettingsService', [function () {
     // TODO
 }]);
 
-appServices.service('UrlService', ['$routeParams', '$location', '$filter', 'UtilService', function ($routeParams, $location, $filter, UtilService) {
+appServices.service('UrlService', ['$routeParams','$route', '$location', '$filter', 'UtilService', '$window', function ($routeParams,$route, $location, $filter, UtilService, $window) {
     this.isParam = function (key) {
         return key in $routeParams;
     };
@@ -106,7 +106,11 @@ appServices.service('UrlService', ['$routeParams', '$location', '$filter', 'Util
             params = this.getUrlParamValues(params);
         }
         var search = UtilService.getUrlSearch(params);
+//        console.log(path);
+//        console.log($location.path());
+        var needReload = $location.path() == '/'+path;
         $location.url(path + '?' + search);
+        if(needReload) $route.reload();
     };
     this.setUrlError = function () {
         this.setUrl(home.module, home.application);

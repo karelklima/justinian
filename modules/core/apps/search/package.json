@@ -1,4 +1,4 @@
 {
-    "title": "Vyhledávání",
+    "name": "search",
     "views": ["main"]
 }

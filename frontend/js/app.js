@@ -12,13 +12,13 @@ mainApp.config(function ($routeProvider, $locationProvider) {
         templateUrl: 'partials/root.html',
         controller: 'RootController',
         controllerAs: 'root',
-        reloadOnSearch: true
+        reloadOnSearch: false
     });
     $routeProvider.when('/:module/:application', {
         templateUrl: 'partials/root.html',
         controller: 'RootController',
         controllerAs: 'root',
-        reloadOnSearch: true
+        reloadOnSearch: false
     });
     $routeProvider.otherwise({redirectTo: '/' + home.module + '/' + home.application});
     $locationProvider.html5Mode(false);

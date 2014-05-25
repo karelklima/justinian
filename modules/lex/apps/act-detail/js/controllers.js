@@ -14,6 +14,7 @@ function LexDetailController($scope, UrlService, NetworkService, UtilService) {
     this.prepareVersion = function (version) {
         if (version == null || version == undefined)
             return '';
+        console.log(version);
         var paragraphs = [];
         var curParagraph = null;
         var curArticle = null;
@@ -30,6 +31,12 @@ function LexDetailController($scope, UrlService, NetworkService, UtilService) {
                 curParagraph = part;
                 paragraphs.push(curParagraph);
             } else if (part.type == 'http://purl.org/lex/cz#Odstavec') {
+                if(curParagraph == null){
+                    part.parent = null;
+                    part.articles = [];
+                    curParagraph = part;
+                    paragraphs.push(curParagraph);
+                }
                 part.parent = curParagraph;
                 part.subArticles = [];
                 curParagraph.articles.push(part);
@@ -39,6 +46,12 @@ function LexDetailController($scope, UrlService, NetworkService, UtilService) {
                     part.parent = curArticle;
                     curArticle.subArticles.push(part);
                 } else {
+                    if(curParagraph == null){
+                            part.parent = null;
+                            part.articles = [];
+                            curParagraph = part;
+                            paragraphs.push(curParagraph);
+                    }
                     part.parent = curParagraph;
                     curParagraph.articles.push(part);
                 }

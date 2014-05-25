@@ -19,6 +19,12 @@ function LexDetailVersionController($scope, UrlService, NetworkService, UtilServ
                 curParagraph = part;
                 paragraphs.push(curParagraph);
             } else if (part.type == 'http://purl.org/lex/cz#Odstavec') {
+                if(curParagraph == null){
+                        part.parent = null;
+                        part.articles = [];
+                        curParagraph = part;
+                        paragraphs.push(curParagraph);
+                }
                 part.parent = curParagraph;
                 part.subArticles = [];
                 curParagraph.articles.push(part);
@@ -28,6 +34,12 @@ function LexDetailVersionController($scope, UrlService, NetworkService, UtilServ
                     part.parent = curArticle;
                     curArticle.subArticles.push(part);
                 } else {
+                    if(curParagraph == null){
+                            part.parent = null;
+                            part.articles = [];
+                            curParagraph = part;
+                            paragraphs.push(curParagraph);
+                    }
                     part.parent = curParagraph;
                     curParagraph.articles.push(part);
                 }
