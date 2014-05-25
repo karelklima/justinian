@@ -33,23 +33,22 @@ appDirectives.directive('click', ['UrlService', 'UtilService', '$parse', functio
             attributes.$set('href', '#!/' +  UtilService.getUrl([scope.module, scope.application], params));
 
             scope.click = function ($event) {
+//                console.log($event);
+//                console.log("Phase[1]: "+($event.button == 0 && !$event.metaKey));
                 if($event){
-                    if($event.button == 0 && !$event.metaKey && attributes.sysClick){
-                        $event.preventDefault();
-//                        console.log($event);
-//                        console.log("Phase[1]: "+($event.button == 0 && !$event.metaKey));
+                    if($event.button == 0 && !$event.metaKey){
+                        $event.preventDefault(); //open in main window
                     }
                 }
+//                console.log("Phase[2]: "+!$event.isDefaultPrevented());
 
-                if($event && $event.isDefaultPrevented()) {
-//                    console.log($event);
-//                    console.log("Phase[2]: "+$event.isDefaultPrevented());
+                if($event && !$event.isDefaultPrevented()) { //if we don't need to open link in main window, we break this function
                     return false;
                 }
 
                 UrlService.setUrl(scope.module, scope.application, params);
 
-                if(attributes.sysClick){
+                if(attributes.sysClick){//call processing function from scope
                     var fn = $parse(attributes.sysClick);
                     fn(scope.$parent, {$event:$event});
                 }

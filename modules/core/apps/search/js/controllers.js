@@ -11,7 +11,7 @@ function LexSearchController($scope, NetworkService, UrlService, UtilService){
         if(query === undefined || query == null || query.length == 0)
             return;
         $scope.searching = true;
-        NetworkService.useApi('core','act-search',{'query':query},function success(data, status){
+        NetworkService.useApi('core','core/act-search',[query,0,20],function success(data, status){
             UrlService.setParam('query',query);
             if(!(data instanceof Array)) data = [];
             if(data.length > 10){

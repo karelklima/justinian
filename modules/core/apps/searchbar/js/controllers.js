@@ -9,7 +9,7 @@ function SearchBarController($scope, NetworkService, UrlService, UtilService){
     $('#inputSearchBar').typeahead({
         source: function(query, process){
             if(query && query.length>0){
-                NetworkService.useApi('core','act-search',{'query':query, 'offset':0, 'limit':5},function success(data, status){
+                NetworkService.useApi('core','core/act-search',[query, 1, 5],function success(data, status){
                     UrlService.setParam('query',query);
                     if(!(data instanceof Array)) data = [];
                     if(data.length > 5){

@@ -6,9 +6,8 @@ appServices = angular.module('appServices', [
 ]);
 
 // appConfiguration
-appServices.service('ConfigurationService', ['UtilService', 'PageService', '$filter', 'NetworkService', function (UtilService, PageService, $filter, NetworkService) {
+appServices.service('ConfigurationService', ['UtilService', 'PageService', '$filter', function (UtilService, PageService, $filter) {
     var _data = angular.fromJson(appConfiguration);
-//    var _data = NetworkService.getDefaultSettings();
 
     this.isModuleApplication = function (module, application) {
         return module in _data && application in _data[module].apps;
@@ -155,10 +154,15 @@ appServices.service('UtilService', ['$filter', function ($filter) {
     }
 }]);
 
-appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService', function ($resource, $http, $q, UtilService) {
+appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService', 'ConfigurationService', function ($resource, $http, $q, UtilService, ConfigurationService) {
     this.useApi = function(module,apiName,params,success,error){
-        params = typeof params == "object" ? UtilService.getUrlSearch(params) : params;
-        var request = $http.get('/api/'+module+'/'+apiName+'?'+params);
+        if(!params) params = [];
+        if(!(params instanceof Array)) throw new TypeError("params must be an Array");
+//        params = typeof params == "object" ? UtilService.getUrlSearch(params) : params;
+//        var request = $http.get('/api/'+module+'/'+apiName+'?'+params);
+        var url = ConfigurationService.getApiUrl(module,apiName,params);
+        if(url == undefined) throw new Error("Cannot find api "+apiName+" in module "+module);
+        var request = $http.get(ConfigurationService.getApiUrl(module,apiName,params));
         if(success !== undefined && success != null)
             request.success(success);
         if(error !== undefined && error != null)

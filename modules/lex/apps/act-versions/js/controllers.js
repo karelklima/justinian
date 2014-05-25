@@ -20,7 +20,7 @@ function LexVersionsController($scope, $sce, UrlService, NetworkService, UtilSer
 	   var mainApp = PageService.getApplication();
 	   UrlService.setUrl('lex', mainApp, {'resource':$scope.resource, 'selectedVersion':version["@id"]});
    };
-   NetworkService.useApi('lex','act-versions',{'resource': $scope.resource},function success(versions, status){
+   NetworkService.useApi('lex','lex/act-versions',[$scope.resource],function success(versions, status){
         if(!(versions instanceof Array)) versions = [];
         $scope.versions = versions;
         $scope.$$phase || $scope.$apply();

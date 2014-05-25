@@ -14,7 +14,6 @@ function LexDetailController($scope, UrlService, NetworkService, UtilService) {
     this.prepareVersion = function (version) {
         if (version == null || version == undefined)
             return '';
-        console.log(version);
         var paragraphs = [];
         var curParagraph = null;
         var curArticle = null;
@@ -61,11 +60,11 @@ function LexDetailController($scope, UrlService, NetworkService, UtilService) {
     };
 
     this.init = function() {
-        NetworkService.useApi('lex', 'act-versions', {resource: $scope.resource}, function (versions) {
+        NetworkService.useApi('lex', 'lex/act-versions', [$scope.resource], function (versions) {
             if (!(versions instanceof Array)) versions = [];
             if (versions.length > 0) {
                 var versionId = versions[0]['@id'];
-                NetworkService.useApi('lex', 'act-version-text', {resource: versionId}, function (data) {
+                NetworkService.useApi('lex', 'lex/act-version-text', [versionId], function (data) {
                     $scope.content = self.prepareVersion(data);
                     $scope.isLoading = false;
                 }, function error(data, status) {

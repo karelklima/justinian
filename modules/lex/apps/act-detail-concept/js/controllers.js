@@ -59,7 +59,7 @@ function LexDetailConceptController($scope, UrlService, NetworkService, UtilServ
             versionId = version["@id"];
         UrlService.setParam('selectedVersion',versionId);
         $scope.selectedVersionLoading = true;
-        NetworkService.useApi('lex','act-version-text','resource='+versionId, function success(data, status){
+        NetworkService.useApi('lex','lex/act-version-text',[versionId], function success(data, status){
 //            console.log(data);
             self.setSelectedVersion(data);
             $scope.$$phase || $scope.$apply();
@@ -77,7 +77,7 @@ function LexDetailConceptController($scope, UrlService, NetworkService, UtilServ
         return UtilService.decodeUnicodeString(value);
     }
 
-    NetworkService.useApi('lex','act-versions','resource='+$scope.resource,function success(versions, status){
+    NetworkService.useApi('lex','lex/act-versions',[$scope.resource],function success(versions, status){
         if(!(versions instanceof Array)) versions = [];
         if(versions.length > 0 && $scope.selectedVersion == null)
         {
