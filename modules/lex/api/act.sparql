@@ -1,0 +1,37 @@
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX lex: <http://purl.org/lex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+PREFIX resource: <{{"param": "resource", "filter": "RemoveLTGT"}}>
+
+CONSTRUCT{
+  resource: dcterms:title ?title.
+  resource: dcterms:issued ?issued.
+  resource: dcterms:creator ?creator.
+  resource: frbr:realization ?expr.
+  ?expr dcterms:valid ?date.
+}
+
+FROM <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
+
+WHERE {
+  SELECT DISTINCT ?expr ?date ?title ?creator ?issued
+  WHERE {
+    resource: a lex:Act .
+    resource: dcterms:title ?title .
+    {
+      SELECT DISTINCT ?expr ?date
+      WHERE {
+        ?expr frbr:realizationOf resource: .
+        OPTIONAL {?expr dcterms:valid ?date .}
+      }
+      ORDER BY DESC(?date)
+      LIMIT 1
+    }
+    OPTIONAL {
+    resource: dcterms:creator ?creator .
+    resource: dcterms:issued ?issued .
+    }
+  }
+}
