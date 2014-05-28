@@ -1,19 +1,10 @@
-<style>
-    .typeahead li a{
-        white-space: normal;
-    }
-    .typeahead {
-        width:200%;
-    }
-</style>
-<form class="navbar-form" style="max-width: 350px;"  ng-controller="SearchBarController">
+<form class="navbar-form" style="max-width: 350px;"  ng-controller="SearchBarController" ng-submit="search()">
     <div class="input-group">
         <input type="text" class="form-control"  id="inputSearchBar"
                ng-model="query" data-provide="typeahead"
-               placeholder="Your query..."
-               onkeypress="if (event.keyCode == 13) document.getElementById('btnSearch').click()">
+               placeholder="Vyhledat">
           <span class="input-group-btn">
-            <button class="btn btn-default" type="button" ng-click="search()" id="btnSearch">
+            <button class="btn btn-default" type="submit" id="btnSearch">
                 <span class="glyphicon glyphicon-search"></span>
             </button>
           </span>

@@ -1,0 +1,6 @@
+.typeahead li a{
+    white-space: normal;
+}
+.typeahead {
+    width:200%;
+}
