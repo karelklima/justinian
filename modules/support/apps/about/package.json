@@ -1,0 +1,5 @@
+{
+    "title" : "About",
+    "views" : ["header-right", "main"],
+    "priority" : 5
+}

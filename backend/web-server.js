@@ -12,11 +12,6 @@ var expressWinston = require('express-winston');
 
 var settings = require('./lib/settings');
 
-// DEPRECATED
-var FrontendSettings = require('./lib/frontend-settings');
-var frontendSettings = new FrontendSettings();
-
-
 var assetManager = require('./lib/asset-manager');
 
 var loggingOptions = require('./lib/logging-options');
@@ -28,27 +23,9 @@ var app = express();
 
 app.use( expressWinston.logger(loggingOptions.requestLogger) );					// request loggger middleware
 
-// DEPRECATED
-app.get('/settings/default.js', frontendSettings.defaultSettingsJS);
-app.get('/settings/user.js', frontendSettings.userSettingsJS);
-
 app.use('/settings', require('./lib/settings-router'));
 app.use('/assets', require('./lib/asset-router'));
 app.use('/api', require('./lib/api-router'));
-
-
-// DEPRECATED
-var modules = settings.getModulesSetup();
-_.each(modules, function (moduleSpec, module) {
-    app.use('/' + module + '/shared', express.static(settings.modulesDirectory + '/' + module + '/shared'));
-    _.each(modules[module]["apps"], function (applicationSpec, application) {
-        var urlPrefix = '/' + module + '/' + application;
-        var pathPrefix = settings.modulesDirectory + '/' + module + '/apps/' + application;
-        app.use(urlPrefix + '/js', express.static(pathPrefix + '/js'));
-        app.use(urlPrefix + '/partials', express.static(pathPrefix + '/partials'));
-    });
-});
-// END OF DEPRECATED
 
 app.use('/error', function(req, res, next) { next(new Error('testing Error')) });
 
@@ -56,12 +33,20 @@ app.use('/error', function(req, res, next) { next(new Error('testing Error')) })
 app.engine('.html', require('ejs').__express);
 app.get('/', function(req, res, next) {
     // Send the index.html for other files to support HTML5Mode
+    var configuration = {
+        application : {
+            title: settings.options["title"],
+            home: settings.options["home"],
+            error : settings.options["error"],
+            modules: settings.getModulesSetup()
+        },
+        user: {}
+    };
     res.render(settings.frontendDirectory + '/index.html', {
-        options: settings.options,
-        modules: JSON.stringify(modules),
+        title: settings.options["title"],
+        configuration: JSON.stringify(configuration),
         css: assetManager.cssPile.htmlTags(),
         js: assetManager.jsPile.htmlTags()
-
     });
 });
 

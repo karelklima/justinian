@@ -1,5 +1,5 @@
 {
     "title" : "Core Navigace",
-    "views" : ["header-right"],
+    "views" : [],
     "priority" : 10
 }

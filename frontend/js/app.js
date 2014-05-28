@@ -20,9 +20,10 @@ mainApp.config(function ($routeProvider, $locationProvider) {
         controllerAs: 'root',
         reloadOnSearch: false
     });
-    $routeProvider.otherwise({redirectTo: '/' + home.module + '/' + home.application});
+    // TODO configuration service
+    $routeProvider.otherwise({redirectTo: '/' + configuration.application.home.module + '/' + configuration.application.home.application});
     $locationProvider.html5Mode(false);
-    $locationProvider.hashPrefix('!');
+    //$locationProvider.hashPrefix('!');
 });
 
 mainApp.config(['$provide', function($provide){

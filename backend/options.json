@@ -1,6 +1,8 @@
 {
-    "title" : "PIS",
-    "modules" : ["core", "lex"],
+    "title" : "Justinian",
+    "home" : {"module" : "support", "application" : "home"},
+    "error" : {"module" : "core", "application" : "error"},
+    "modules" : ["core", "lex", "support"],
     "asset-extensions" : ["html", "js", "css", "png"],
     "sparql" : {
         "datastore-url" : "http://linked.opendata.cz/sparql",

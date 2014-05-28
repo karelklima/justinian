@@ -1,0 +1,7 @@
+{
+    "title" : "Kontaktujte nas",
+    "views" : ["sidebar"],
+    "dependencies": {
+        "support": ["about"]
+    }
+}

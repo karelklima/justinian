@@ -7,13 +7,14 @@ appServices = angular.module('appServices', [
 
 // appConfiguration
 appServices.service('ConfigurationService', ['UtilService', 'PageService', '$filter', function (UtilService, PageService, $filter) {
-    var _data = angular.fromJson(appConfiguration);
+    var _data = configuration.application;
+    var _modules = configuration.application.modules;
 
     this.isModuleApplication = function (module, application) {
-        return module in _data && application in _data[module].apps;
+        return module in _modules && application in _modules[module].apps;
     };
     this._getTypes = function () {
-        return _data[PageService.getModule()].apps[PageService.getApplication()].datatypes;
+        return _modules[PageService.getModule()].apps[PageService.getApplication()].datatypes;
     };
     this.getMainTemplate = function () {
         return UtilService.getTemplateUrl(PageService.getModule(), PageService.getApplication(), 'main');
@@ -23,7 +24,7 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
         var datatypes = this._getTypes();
         var module = PageService.getModule();
         var application = PageService.getApplication();
-        angular.forEach(_data, function (mods, modName) {
+        angular.forEach(_modules, function (mods, modName) {
             angular.forEach(mods.apps, function (opts, appName) {
                 if (opts.views.indexOf(template) !== -1) {
                     var push = false;
@@ -51,34 +52,38 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
         return $filter('orderBy')(result, 'priority', true);
     };
     this.getDefaultModuleApplication = function (type) {
-        //TODO po pridani konfigurace do JSONu
-        return home;
+        return _data.home;
     };
     this.getDefaultTitle = function () {
         var title = [];
+
+        return _data["title"];
+        // TODO
+
         var module = PageService.getModule();
         var application = PageService.getApplication();
-        if (angular.isDefined(_data.title)) {
-            title.push(_data.title);
+        if (angular.isDefined(_modules.title)) {
+            title.push(_modules.title);
         }
-        if (angular.isDefined(_data[module]) && angular.isDefined(_data[module].title)) {
-            title.push(_data[module].title);
+        if (angular.isDefined(_modules[module]) && angular.isDefined(_modules[module].title)) {
+            title.push(_modules[module].title);
         }
-        if (angular.isDefined(_data[module]) && angular.isDefined(_data[module].apps[application]) && angular.isDefined(_data[module].apps[application].title)) {
-            title.push(_data[module].apps[application].title);
+        if (angular.isDefined(_modules[module]) && angular.isDefined(_modules[module].apps[application]) && angular.isDefined(_modules[module].apps[application].title)) {
+            title.push(_modules[module].apps[application].title);
         }
         return title.join(" - ");
     };
     this.getApiUrl = function (module, name, params) {
-        if (module in _data && name in _data[module].apis) {
-            return '/api/' + UtilService.matchUrlParams(_data[module].apis[name], params)
+        if (module in _modules && name in _modules[module].apis) {
+            return '/api/' + UtilService.matchUrlParams(_modules[module].apis[name], params)
         }
     };
 }]);
 
 // userSettings
 appServices.service('SettingsService', [function () {
-    var _data = angular.fromJson(userSettings);
+    //var _data = angular.fromJson(configuration);
+    var _data = configuration.user;
 
     // TODO
 }]);
@@ -112,7 +117,9 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
         if(needReload) $route.reload();
     };
     this.setUrlError = function () {
-        this.setUrl(home.module, home.application);
+        // TODO
+        this.setUrl(configuration.application.error.module, configuration.application.error.application);
+
     };
     this.getUrlParamValues = function (params) {
         var search = {};
