@@ -9,6 +9,7 @@ CONSTRUCT{
   resource: dcterms:issued ?issued.
   resource: dcterms:creator ?creator.
   resource: frbr:realization ?expr.
+  resource: dcterms:identifier ?id .
   ?expr dcterms:valid ?date.
 }
 
@@ -16,7 +17,7 @@ FROM <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
 FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
 
 WHERE {
-  SELECT DISTINCT ?expr ?date ?title ?creator ?issued
+  SELECT DISTINCT ?expr ?date ?title ?creator ?issued ?id
   WHERE {
     resource: a lex:Act .
     resource: dcterms:title ?title .
@@ -29,9 +30,8 @@ WHERE {
       ORDER BY DESC(?date)
       LIMIT 1
     }
-    OPTIONAL {
-    resource: dcterms:creator ?creator .
-    resource: dcterms:issued ?issued .
-    }
+    OPTIONAL {resource: dcterms:creator ?creator }
+    OPTIONAL {resource: dcterms:issued ?issued   }
+    OPTIONAL {resource: dcterms:identifier ?id   }
   }
 }
