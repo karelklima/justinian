@@ -30,7 +30,7 @@ appDirectives.directive('click', ['UrlService', 'UtilService', '$parse', functio
                 params['query'] = scope.query;
             }
 
-            attributes.$set('href', '#!/' +  UtilService.getUrl([scope.module, scope.application], params));
+            attributes.$set('href', '#/' +  UtilService.getUrl([scope.module, scope.application], params));
 
             scope.click = function ($event) {
 //                console.log($event);

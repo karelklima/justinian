@@ -23,6 +23,8 @@ mainApp.config(function ($routeProvider, $locationProvider) {
     // TODO configuration service
     $routeProvider.otherwise({redirectTo: '/' + configuration.application.home.module + '/' + configuration.application.home.application});
     $locationProvider.html5Mode(false);
+
+    //If you want to set $locationProvider.hashPrefix, you should to check "click" directive -> line directives.js:33 `attributes.$set('href', XXX`
     //$locationProvider.hashPrefix('!');
 });
 
