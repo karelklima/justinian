@@ -8,12 +8,12 @@ mainApp = angular.module('mainApp', [
 ]);
 
 mainApp.config(function ($routeProvider, $locationProvider) {
-    $routeProvider.when('/', {
-        templateUrl: 'partials/root.html',
-        controller: 'RootController',
-        controllerAs: 'root',
-        reloadOnSearch: false
-    });
+//    $routeProvider.when('/', {
+//        templateUrl: 'partials/root.html',
+//        controller: 'RootController',
+//        controllerAs: 'root',
+//        reloadOnSearch: false
+//    });
     $routeProvider.when('/:module/:application', {
         templateUrl: 'partials/root.html',
         controller: 'RootController',
