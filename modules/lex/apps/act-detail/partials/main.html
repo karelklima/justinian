@@ -1,7 +1,7 @@
 <div ng-controller="LexDetailController">
     <div>
         <h3>Aplikace: lex/act-detail</h3>
-        <h3>Resource: </h3><span>{{resource}}</span>
+        <h3>Resource: </h3><span><a ng-href="{{resource}}">{{resource}}</a></span>
 
         <h3>Poslední platné znění:</h3>
         <div ng-show="isLoading == false">
