@@ -10,7 +10,7 @@
             </tr>
             <tr ng-repeat="item in versions" ng-class="{active: item['@id'] == resource}">
                 <td><a click module="lex" application="act-detail-version" resource="{{ item['@id'] }}" ng-bind="printVersionName(item)"></a></td>
-                <td>{{ item["http://purl.org/dc/terms/valid"][0]["@value"] | limitTo: 10 | date: 'd. M. yyyy' }}</td>
+                <td>{{ item["http://purl.org/dc/terms/valid"][0]["@value"] | convertDate }}</td>
             </tr>
         </table>
     </div>

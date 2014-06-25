@@ -4,16 +4,14 @@
 
 (function(angular) {
 
-    angular.module('appFilters')
+    angular.module('appFilters', [
+        'appServices'
+    ])
 
-    .filter('convertDate', function() {
+    .filter('convertDate', ['LexUtilService', function(LexUtilService) {
         return function (date) {
-            var chunks = date.split("-");
-            if (chunks.length != 3)
-                return date; // return original value by default
-            else
-                return [chunks[2], chunks[1], chunks[0]].join(".");
+            return LexUtilService.convertDate(date);
         }
-    });
+    }]);
 
 }(angular));
