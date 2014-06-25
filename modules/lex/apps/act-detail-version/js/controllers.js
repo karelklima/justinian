@@ -1,4 +1,4 @@
-function LexDetailVersionController($scope, UrlService, NetworkService, UtilService) {
+function LexDetailVersionController($scope, $rootScope, UrlService, NetworkService, UtilService) {
 
     this.prepareVersion = function (version) {
         if (version == null || version == undefined)
@@ -70,6 +70,8 @@ function LexDetailVersionController($scope, UrlService, NetworkService, UtilServ
 
     this.init();
 
-    $scope.$on()
+    $rootScope.$on(LocationParamsChangedEvent.getName(), function() {
+        self.init();
+    });
 }
 

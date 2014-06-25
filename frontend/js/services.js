@@ -88,7 +88,9 @@ appServices.service('SettingsService', [function () {
     // TODO
 }]);
 
-appServices.service('UrlService', ['$routeParams','$route', '$location', '$filter', 'UtilService', '$window', function ($routeParams,$route, $location, $filter, UtilService, $window) {
+appServices.service('UrlService', ['$routeParams','$route', '$location', '$filter', 'UtilService', '$window','$rootScope', function ($routeParams,$route, $location, $filter, UtilService, $window, $rootScope) {
+    var self = this;
+
     this.isParam = function (key) {
         return key in $routeParams;
     };
@@ -99,7 +101,7 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
         $location.search(key, value);
     };
     this.setPath = function (module, application) {
-        $location.path(module + '/' + application);
+        this.setUrl(module, application, null);
     };
     this.setUrl = function (module, application, params) {
         var path = '';
@@ -110,12 +112,30 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
             params = this.getUrlParamValues(params);
         }
         var search = UtilService.getUrlSearch(params);
-//        console.log(path);
-//        console.log($location.path());
-        var needReload = $location.path() == '/'+path;
-        $location.url(path + '?' + search);
-        if(needReload) $route.reload();
+        $location.path(path).search(search);
     };
+
+    $rootScope.$on('$locationChangeSuccess', function() {
+        var search = UtilService.getUrlSearch($location.search());
+//        console.log($rootScope.actualLocationPath + " == " + $location.path());
+//        console.log($rootScope.actualLocationSearch + " == " + search);
+//        console.log($rootScope.actualLocationPath + '?' + $rootScope.actualLocationSearch + ' == ' + $location.url());
+
+        if($rootScope.actualLocationPath + '?' + $rootScope.actualLocationSearch == $location.url())
+            return;
+
+        if($rootScope.actualLocationPath != $location.path()){
+            $rootScope.actualLocationPath = $location.path();
+            $rootScope.actualLocationSearch = search;
+        } else {
+            if($rootScope.actualLocationSearch != search){
+//                console.log("Emit event");
+                $rootScope.actualLocationSearch = search;
+                var eventObject = new LocationParamsChangedEvent();
+                var event = $rootScope.$emit(eventObject.getName(), eventObject);
+            }
+        }
+    });
     this.setUrlError = function () {
         // TODO
         this.setUrl(configuration.application.error.module, configuration.application.error.application);

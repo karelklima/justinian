@@ -1,6 +1,11 @@
-function SearchBarController($scope, NetworkService, UrlService, UtilService){
+function SearchBarController($scope, $rootScope, NetworkService, UrlService, UtilService){
     $scope.query = UrlService.getParam('query');
-
+    $rootScope.$on(LocationParamsChangedEvent.getName(), function(event, eventObject){
+        var query = UrlService.getParam('query');
+        if(angular.isDefined(query)){
+            $scope.query = query;
+        }
+    });
     $scope.search = function () {
         $scope.query = document.getElementById('inputSearchBar').value;
         UrlService.setUrl('core','search', {'query':$scope.query});
@@ -10,7 +15,6 @@ function SearchBarController($scope, NetworkService, UrlService, UtilService){
         source: function(query, process){
             if(query && query.length>0){
                 NetworkService.useApi('core','core/act-search',[query, 1, 5],function success(data, status){
-                    UrlService.setParam('query',query);
                     if(!(data instanceof Array)) data = [];
                     if(data.length > 5){
                         data = data.slice(0,5);
