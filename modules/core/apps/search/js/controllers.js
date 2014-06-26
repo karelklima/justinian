@@ -39,7 +39,7 @@ function LexSearchController($scope, NetworkService, UrlService, UtilService, $r
         return UtilService.decodeUnicodeString(value);
     }
 
-    $rootScope.$on(LocationParamsChangedEvent.getName(), function(event, eventObject){
+    $scope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
         $scope.search(UrlService.getParam('query'));
     });
 

@@ -70,7 +70,7 @@ function LexDetailVersionController($scope, $rootScope, UrlService, NetworkServi
 
     this.init();
 
-    $rootScope.$on(LocationParamsChangedEvent.getName(), function() {
+    $scope.$listen(LocationParamsChangedEvent.getName(), function() {
         self.init();
     });
 }

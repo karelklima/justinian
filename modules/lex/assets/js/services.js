@@ -1,9 +1,4 @@
-
-(function(angular) {
-
-    angular.module('appServices')
-
-    .service('LexUtilService', ['$filter', function ($filter) {
+appServices.service('LexUtilService', ['$filter', function ($filter) {
 
         /**
          * converts date from YYYY-MM-DD to DD.MM.YYYY
@@ -28,6 +23,3 @@
         }
 
     }]);
-
-
-}(angular));

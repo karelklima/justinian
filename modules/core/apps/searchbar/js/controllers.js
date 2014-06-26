@@ -1,6 +1,6 @@
 function SearchBarController($scope, $rootScope, NetworkService, UrlService, UtilService){
     $scope.query = UrlService.getParam('query');
-    $rootScope.$on(LocationParamsChangedEvent.getName(), function(event, eventObject){
+    $scope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
         var query = UrlService.getParam('query');
         if(angular.isDefined(query)){
             $scope.query = query;
