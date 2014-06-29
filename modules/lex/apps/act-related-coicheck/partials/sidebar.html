@@ -5,17 +5,16 @@
     <div class="panel-body">
         <table class="table">
             <tr>
-                <th>Datum</th>
-                <th>Kraj</th>
-                <th>Kontrola</th>
-                <th>Postih</th>
+                <th><a ng-click="sortBy('-date')">Datum</a></th>
+                <th><a ng-click="sortBy('region')">Kraj</a></th>
+                <th><a ng-click="sortBy('name')">Kontrola</a></th>
+                <th><a ng-click="sortBy('sanction')">Postih</a></th>
             </tr>
-            <tr ng-repeat="item in checks | orderByDate:'http://purl.org/dc/terms/date':'reverse'">
-                <td>{{ item["http://purl.org/dc/terms/date"][0]["@value"] | convertDate }}</td>
-                <td>{{ printCheckRegion(item) }}</td>
-    			<!--    <td><a click module="lex" application="act-detail-version" resource="{{ item['@id'] }}" ng-bind="printCheckID(item)"></a></td>   --> 
-        		<td><a ng-href="{{item['@id']}}">{{printCheckID(item)}}</a></td>
-        		<td>{{ hasSanctions(item) }}</td>
+            <tr ng-repeat="check in checks | orderBy: property : reverse">
+                <td>{{ check['date'] | formatDate }}</td>
+                <td title="{{ check['title'] }}">{{ check['region'] }}</td>
+        		<td><a ng-href="{{ check['resource'] }}">{{ check['name'] }}</a></td>
+        		<td>{{ check['sanction'] | formatZero }}</td>
             </tr>
         </table>
     </div>

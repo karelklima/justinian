@@ -8,8 +8,20 @@ appFilters.filter('convertDate', ['LexUtilService', function(LexUtilService) {
     }
 }]);
 
-appFilters.filter('orderByDate', ['LexUtilService', function(LexUtilService) {
-    return function (input, attribute, reverse) {
-        return LexUtilService.orderByDate(input, attribute, reverse);
+appFilters.filter('formatDate', ['$filter', function($filter) {
+    return function (date) {
+        return $filter('date')(date, 'd. M. yyyy');
+    }
+}]);
+
+appFilters.filter('formatZero', [function() {
+    return function (number) {
+        return (number === 0) ? "" : number;
+    }
+}]);
+
+appFilters.filter('orderByAttribute', ['LexUtilService', function(LexUtilService) {
+    return function (array, attribute, reverse) {
+        return LexUtilService.orderByAttribute(array, attribute, reverse);
     }
 }]);
