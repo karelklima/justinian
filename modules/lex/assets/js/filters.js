@@ -7,3 +7,9 @@ appFilters.filter('convertDate', ['LexUtilService', function(LexUtilService) {
         return LexUtilService.convertDate(date);
     }
 }]);
+
+appFilters.filter('orderByDate', ['LexUtilService', function(LexUtilService) {
+    return function (input, attribute, reverse) {
+        return LexUtilService.orderByDate(input, attribute, reverse);
+    }
+}]);
