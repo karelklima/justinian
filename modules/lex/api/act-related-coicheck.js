@@ -1,3 +1,12 @@
 module.exports = function(routeParams) {
-    return new routeParams.SparqlRouteJSONLD;
+
+    var route = new routeParams.SparqlRouteJSONLD;
+
+    route.prepareResponse = function(responseString, next) {
+        // Do something
+        next(responseString); // async
+    };
+
+    return route;
+
 };

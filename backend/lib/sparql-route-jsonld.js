@@ -24,26 +24,33 @@ SparqlRouteJSONLD.prototype.prepareSparqlClient = function()
 };
 
 SparqlRouteJSONLD.prototype.prepareResponse = function(responseString, next) {
-    // Async exceptions need to be handled using domain
+    // Override this if necessary
+    next(responseString);
+};
+
+SparqlRouteJSONLD.prototype.handleResponse = function(responseString, res) {
+
+    var thisInstance = this;
+
+    var write = function(responseString) {
+        thisInstance.prepareResponse(responseString, function(preparedResponse) {
+            res.write(preparedResponse);
+            res.end();
+        });
+    };
+
     var d = domain.create();
     d.on('error', function(err) {
         //logger.debug(err);
-        next(responseString);
+        write(responseString);
     });
     d.run(function() {
         jsonld.fromRDF(responseString, {format: 'application/nquads'}, function (err, doc) {
             if (err) { logger.err(err) }
-            next(JSON.stringify(doc));
+            write(JSON.stringify(doc));
         });
     });
-};
 
-SparqlRouteJSONLD.prototype.handleResponse = function(responseString, res) {
-    // Override this if necessary
-    this.prepareResponse(responseString, function(preparedResponse) {
-        res.write(preparedResponse);
-        res.end();
-    });
 };
 
 module.exports = SparqlRouteJSONLD;

@@ -52,10 +52,17 @@ SparqlRoute.prototype.prepareParams = function(params) {
     return params;
 };
 
+SparqlRoute.prototype.prepareResponse = function(responseString, next) {
+    // Override this if necessary
+    next(responseString);
+};
+
 SparqlRoute.prototype.handleResponse = function(responseString, res) {
     // Override this if necessary
-    res.write(responseString);
-    res.end();
+    this.prepareResponse(responseString, function(processedResponse) {
+        res.write(processedResponse);
+        res.end();
+    });
 };
 
 SparqlRoute.prototype.handleError = function (responseError, res) {
