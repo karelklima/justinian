@@ -1,0 +1,22 @@
+<div class="panel panel-default" ng-controller="COICheckController">
+    <div class="panel-heading">
+        <h4 class="panel-title">Kontroly ČOI</h4>
+    </div>
+    <div class="panel-body">
+        <table class="table">
+            <tr>
+                <th>Datum</th>
+                <th>Kraj</th>
+                <th>Kontrola</th>
+                <th>Postih</th>
+            </tr>
+            <tr ng-repeat="item in checks | orderByDate:'http://purl.org/dc/terms/date':'reverse'">
+                <td>{{ item["http://purl.org/dc/terms/date"][0]["@value"] | convertDate }}</td>
+                <td>{{ printCheckRegion(item) }}</td>
+    			<!--    <td><a click module="lex" application="act-detail-version" resource="{{ item['@id'] }}" ng-bind="printCheckID(item)"></a></td>   --> 
+        		<td><a ng-href="{{item['@id']}}">{{printCheckID(item)}}</a></td>
+        		<td>{{ hasSanctions(item) }}</td>
+            </tr>
+        </table>
+    </div>
+</div>
