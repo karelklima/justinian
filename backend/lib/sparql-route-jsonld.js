@@ -7,6 +7,8 @@ var util = require('util');
 var domain = require('domain');
 var jsonld = require('jsonld');
 
+var logger = require('./logger');
+
 var SparqlRoute = require('./sparql-route');
 var SparqlClient = require('./sparql-client');
 
@@ -30,6 +32,8 @@ SparqlRouteJSONLD.prototype.prepareResponse = function(responseString, next) {
 
 SparqlRouteJSONLD.prototype.handleResponse = function(responseString, res) {
 
+//    logger.debug(responseString);
+
     var thisInstance = this;
 
     var write = function(responseString) {
@@ -41,12 +45,16 @@ SparqlRouteJSONLD.prototype.handleResponse = function(responseString, res) {
 
     var d = domain.create();
     d.on('error', function(err) {
-        //logger.debug(err);
-        write(responseString);
+//        logger.err(err);
+//        write(responseString);
+        write(JSON.stringify([]));
     });
     d.run(function() {
+//        logger.debug(responseString);
         jsonld.fromRDF(responseString, {format: 'application/nquads'}, function (err, doc) {
-            if (err) { logger.err(err) }
+            if (err) {
+                logger.err(err)
+            }
             write(JSON.stringify(doc));
         });
     });
