@@ -1,7 +1,7 @@
 var appFilters;
 
 appFilters = angular.module('appFilters', []);
-mainApp.filter('decodeUnicode', function() {
+appFilters.filter('decodeUnicode', function() {
         var decodeUnicodeStringRegex = /\\u([\d\w]{4})/gi;
         return function (encodedString) {
             return encodedString.replace(decodeUnicodeStringRegex, function (match, grp) {
