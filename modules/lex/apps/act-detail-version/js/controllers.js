@@ -60,7 +60,6 @@ function LexDetailVersionController($scope, $rootScope, UrlService, NetworkServi
         $scope.content = null;
 
         NetworkService.useApi('lex', 'lex/act-version-text', [$scope.resource], function (data) {
-            console.log(data);
             $scope.content = self.prepareVersion(data);
             $scope.isLoading = false;
         }, function error(data, status) {

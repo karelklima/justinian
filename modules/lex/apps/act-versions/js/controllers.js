@@ -28,5 +28,9 @@ function LexVersionsController($scope, $sce, UrlService, NetworkService, UtilSer
         $scope.versions = null;
         $scope.$$phase || $scope.$apply();
    });
+
+   $scope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
+          $scope.resource = UrlService.getParam('resource');
+      });
  //   $scope.openVersion(UrlService.getParam('selectedVersion'));
  }

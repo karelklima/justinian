@@ -14,13 +14,22 @@ appControllers.controller('COICheckController', ['$scope', 'NetworkService', 'Ur
             $scope.reverse = false;
         }
     };
+    $scope.update = function (){
+        NetworkService.useApi('lex','lex/act-related-coicheck',[$scope.resource],function success(checks, status){
+                if(!(checks instanceof Array)) checks = [];
+                $scope.checks = checks;
+                $scope.$$phase || $scope.$apply();
+            },function error(data, status){
+                $scope.checks = null;
+                $scope.$$phase || $scope.$apply();
+            });
+    }
 
-    NetworkService.useApi('lex','lex/act-related-coicheck',[$scope.resource],function success(checks, status){
-        if(!(checks instanceof Array)) checks = [];
-        $scope.checks = checks;
-        $scope.$$phase || $scope.$apply();
-    },function error(data, status){
-        $scope.checks = null;
-        $scope.$$phase || $scope.$apply();
+    $scope.update();
+
+
+    $scope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
+        $scope.resource = UrlService.getParam('resource');
+        $scope.update();
     });
 }]);
