@@ -1,10 +1,10 @@
 
-function LexDetailController($scope, UrlService, NetworkService, UtilService) {
+function LexDetailController($scope, UrlService, NetworkService, UtilService, AppService) {
 
     var self = this;
 
     $scope.versions = null;
-    $scope.resource = UrlService.getParam('resource');
+//    $scope.resource = UrlService.getParam('resource');
 
     $scope.isLoading = true;
     $scope.isError = false;
@@ -59,7 +59,7 @@ function LexDetailController($scope, UrlService, NetworkService, UtilService) {
         return paragraphs;
     };
 
-    this.init = function() {
+    this.update = function() {
         NetworkService.useApi('lex', 'lex/act-versions', [$scope.resource], function (versions) {
             if (!(versions instanceof Array)) versions = [];
             if (versions.length > 0) {
@@ -78,6 +78,7 @@ function LexDetailController($scope, UrlService, NetworkService, UtilService) {
         });
     };
 
-    this.init();
+//    this.init();
+    AppService.init($scope, ['resource'], this.update);
 }
 

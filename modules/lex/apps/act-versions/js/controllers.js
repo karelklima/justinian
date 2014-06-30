@@ -1,8 +1,9 @@
-function LexVersionsController($scope, $sce, UrlService, NetworkService, UtilService, PageService, LexUtilService){
+function LexVersionsController($scope, $sce, UrlService, NetworkService, UtilService, PageService, LexUtilService, AppService){
 
     var self = this;
     $scope.versions = null;
-    $scope.resource = UrlService.getParam('resource');
+    AppService.init($scope, ['resource']);
+//    $scope.resource = UrlService.getParam('resource');
     //$scope.selectedVersion = UrlService.getParam('selectedVersion');
 
    $scope.renderHtml = function(html_code) {
@@ -29,8 +30,7 @@ function LexVersionsController($scope, $sce, UrlService, NetworkService, UtilSer
         $scope.$$phase || $scope.$apply();
    });
 
-   $scope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
-          $scope.resource = UrlService.getParam('resource');
-      });
- //   $scope.openVersion(UrlService.getParam('selectedVersion'));
+//   $scope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
+//          $scope.resource = UrlService.getParam('resource');
+//      });
  }

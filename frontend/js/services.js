@@ -215,3 +215,37 @@ appServices.service('PageService', ['UrlService', '$window', function (UrlServic
         return UrlService.getParam('application');
     };
 }]);
+
+appServices.service('AppService', ['UrlService', function (UrlService){
+    var self = this;
+    /**
+     * initialize params in application and setup listener for required params changing
+     * @param {angular.scope} $appScope application scope
+     * @param {array} params required parameters for app, ex.: params = ['resource'] -> $appScope.resource = UrlService.getParam('resource') -> listening for parameter changing
+     * @param {function} update function for view updating
+    */
+    this.init = function ($appScope, params, update){
+        if(angular.isDefined($appScope) && angular.isDefined(params) && params instanceof Array && params.length > 0){
+            for(var i = 0; i < params.length; i++){
+                $appScope[params[i]] = UrlService.getParam(params[i]);
+            }
+            $appScope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
+                var paramsChanged = false;
+                for(var i = 0; i < params.length; i++){
+                    var paramValue = UrlService.getParam(params[i]);
+                    if(!UrlService.isParam(params[i]))
+                        paramValue = undefined;
+                    if(paramValue !== $appScope[params[i]])
+                    {
+                        paramsChanged = true;
+                        $appScope[params[i]] = paramValue;
+                    }
+                }
+                if(paramsChanged){
+                    angular.isDefined(update) && update();
+                }
+            });
+        }
+        angular.isDefined(update) && update();
+    }
+}]);

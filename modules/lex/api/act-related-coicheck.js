@@ -28,7 +28,7 @@ module.exports = function(routeParams) {
             });
         };
 
-        var data = JSON.parse(responseStrng);
+        var data = JSON.parse(responseString);
         var table = [];
 
         data.forEach(function(item) {

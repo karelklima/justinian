@@ -1,6 +1,6 @@
-appControllers.controller('COICheckController', ['$scope', 'NetworkService', 'UrlService', function ($scope, NetworkService, UrlService) {
+appControllers.controller('COICheckController', ['$scope', 'NetworkService', 'UrlService', 'AppService', function ($scope, NetworkService, UrlService, AppService) {
 
-    $scope.resource = UrlService.getParam('resource');
+//    $scope.resource = UrlService.getParam('resource');
 
     $scope.checks = [];
     $scope.property = '-date';
@@ -25,11 +25,13 @@ appControllers.controller('COICheckController', ['$scope', 'NetworkService', 'Ur
             });
     }
 
-    $scope.update();
+    AppService.init($scope, ['resource'], $scope.update);
+
+//    $scope.update();
 
 
-    $scope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
-        $scope.resource = UrlService.getParam('resource');
-        $scope.update();
-    });
+//    $scope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
+//        $scope.resource = UrlService.getParam('resource');
+//        $scope.update();
+//    });
 }]);
