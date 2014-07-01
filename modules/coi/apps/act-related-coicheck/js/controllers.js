@@ -15,7 +15,7 @@ appControllers.controller('COICheckController', ['$scope', 'NetworkService', 'Ur
         }
     };
     $scope.update = function (){
-        NetworkService.useApi('lex','lex/act-related-coicheck',[$scope.resource],function success(checks, status){
+        NetworkService.useApi('coi','coi/act-related-coicheck',[$scope.resource],function success(checks, status){
                 if(!(checks instanceof Array)) checks = [];
                 $scope.checks = checks;
                 $scope.$$phase || $scope.$apply();

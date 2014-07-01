@@ -1,0 +1,14 @@
+{
+    "title" : "Court",
+    "extends": ["core"],
+    "prefixes": {
+        "lex:" : "http://purl.org/lex#",
+        "lexcz:" : "http://purl.org/lex/cz#",
+        "legislation:": "http://linked.opendata.cz/resource/legislation/cz/"
+    },
+    "apis": {
+        "court/decision-detail" : "court/decision-detail?resource=$1",
+    	"court/decision-related-decisions" : "court/decision-related-decisions?resource=$1",
+    	"court/act-related-decisions" : "court/act-related-decisions?resource=$1"
+    }
+}
