@@ -1,0 +1,13 @@
+<div ng-controller="CourtDecisionsController">
+<h1>Judikáty</h1>
+<form>
+
+</form>
+<div>
+    <ul>
+        <li ng-repeat="decision in decisions">
+            <a click module="court" application="decision-detail" resource="{{decision['@id']}}">{{decision['@id']}}</a>
+        </li>
+    </ul>
+</div>
+</div>

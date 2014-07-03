@@ -7,6 +7,7 @@
         "legislation:": "http://linked.opendata.cz/resource/legislation/cz/"
     },
     "apis": {
+        "decisions" : ["limit", "offset"],
         "court/decision-detail" : "court/decision-detail?resource=$1",
     	"court/decision-related-decisions" : "court/decision-related-decisions?resource=$1",
     	"court/act-related-decisions" : "court/act-related-decisions?resource=$1"

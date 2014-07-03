@@ -187,7 +187,16 @@ appServices.service('UtilService', ['$filter', function ($filter) {
     //decode escaped unicode characters to normal form
      this.decodeUnicodeString = function (value){
         return $filter('decodeUnicode')(value);
-    }
+    };
+    this.camelToDash = function (str) {
+        return str.replace(/\W+/g, '-')
+            .replace(/([a-z\d])([A-Z])/g, '$1-$2');
+    };
+    this.dashToCamel = function (str) {
+        return str.replace(/\W+(.)/g, function (x, chr) {
+            return chr.toUpperCase();
+        });
+    };
 }]);
 
 appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService', 'ConfigurationService', function ($resource, $http, $q, UtilService, ConfigurationService) {
@@ -212,7 +221,11 @@ appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService',
         return d.promise;
     };
     this.getData = function (module, api, params) {
-        var url = ConfigurationService.getApiUrl(module, api, params);
+        var processedParams = {};
+        angular.forEach(params, function(value, key) {
+            processedParams[key] = angular.isDefined(value) ? value : ""; // replace undefined with empty string
+        });
+        var url = ConfigurationService.getApiUrl(module, api, processedParams);
         var deferred = $q.defer();
         $resource(url).query().$promise.then(function (result) {
             deferred.resolve(angular.fromJson(result));
@@ -233,7 +246,7 @@ appServices.service('PageService', ['UrlService', '$window', function (UrlServic
     };
 }]);
 
-appServices.service('AppService', ['UrlService', function (UrlService){
+appServices.service('AppService', ['UrlService', 'UtilService', function (UrlService, UtilService){
     var self = this;
     /**
      * initialize params in application and setup listener for required params changing
@@ -244,18 +257,19 @@ appServices.service('AppService', ['UrlService', function (UrlService){
     this.init = function ($appScope, params, update){
         if(angular.isDefined($appScope) && angular.isDefined(params) && params instanceof Array && params.length > 0){
             for(var i = 0; i < params.length; i++){
-                $appScope[params[i]] = UrlService.getParam(params[i]);
+                $appScope[UtilService.dashToCamel(params[i])] = UrlService.getParam(params[i]);
             }
             $appScope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
                 var paramsChanged = false;
                 for(var i = 0; i < params.length; i++){
                     var paramValue = UrlService.getParam(params[i]);
+                    var appParamName = UtilService.dashToCamel(params[i]);
                     if(!UrlService.isParam(params[i]))
                         paramValue = undefined;
-                    if(paramValue !== $appScope[params[i]])
+                    if(paramValue !== $appScope[appParamName])
                     {
                         paramsChanged = true;
-                        $appScope[params[i]] = paramValue;
+                        $appScope[appParamName] = paramValue;
                     }
                 }
                 if(paramsChanged){
