@@ -6,7 +6,7 @@ appControllers.controller('COICheckController', ['$scope', 'NetworkService', 'Ur
     $scope.property = '-date';
     $scope.reverse = false;
 
-    $scope.sortBy = function(property) {
+    $scope.sortBy = function (property) {
         if ($scope.property === property) {
             $scope.reverse = !$scope.reverse;
         } else {
@@ -14,24 +14,14 @@ appControllers.controller('COICheckController', ['$scope', 'NetworkService', 'Ur
             $scope.reverse = false;
         }
     };
-    $scope.update = function (){
-        NetworkService.useApi('coi','coi/act-related-coicheck',[$scope.resource],function success(checks, status){
-                if(!(checks instanceof Array)) checks = [];
+
+    this.update = function () {
+        NetworkService.getData('coi', 'act-related-coicheck', {'resource': $scope.resource})
+            .then(function (checks) {
                 $scope.checks = checks;
-                $scope.$$phase || $scope.$apply();
-            },function error(data, status){
-                $scope.checks = null;
-                $scope.$$phase || $scope.$apply();
             });
-    }
+    };
 
-    AppService.init($scope, ['resource'], $scope.update);
+    AppService.init($scope, ['resource'], this.update);
 
-//    $scope.update();
-
-
-//    $scope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
-//        $scope.resource = UrlService.getParam('resource');
-//        $scope.update();
-//    });
 }]);

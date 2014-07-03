@@ -73,9 +73,18 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
         }
         return title.join(" - ");
     };
-    this.getApiUrl = function (module, name, params) {
+    this.getApiUrlOld = function (module, name, params) {
         if (module in _modules && name in _modules[module].apis) {
             return '/api/' + UtilService.matchUrlParams(_modules[module].apis[name], params)
+        }
+    };
+    this.getApiUrl = function (module, name, params) {
+        if (module in _modules && name in _modules[module].apis) {
+            // TODO check params in _modules[module].apis[name]
+            var path = UtilService.getUrlPath(['api', module, name]);
+            var search = UtilService.getUrlSearch(params);
+            var url = path + '?' + search;
+            return url;
         }
     };
 }]);
@@ -187,9 +196,9 @@ appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService',
         if(!(params instanceof Array)) throw new TypeError("params must be an Array");
 //        params = typeof params == "object" ? UtilService.getUrlSearch(params) : params;
 //        var request = $http.get('/api/'+module+'/'+apiName+'?'+params);
-        var url = ConfigurationService.getApiUrl(module,apiName,params);
+        var url = ConfigurationService.getApiUrlOld(module,apiName,params);
         if(url == undefined) throw new Error("Cannot find api "+apiName+" in module "+module);
-        var request = $http.get(ConfigurationService.getApiUrl(module,apiName,params));
+        var request = $http.get(ConfigurationService.getApiUrlOld(module,apiName,params));
         if(success !== undefined && success != null)
             request.success(success);
         if(error !== undefined && error != null)
@@ -201,6 +210,14 @@ appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService',
             d.resolve(angular.fromJson(result).appConfiguration);
         });
         return d.promise;
+    };
+    this.getData = function (module, api, params) {
+        var url = ConfigurationService.getApiUrl(module, api, params);
+        var deferred = $q.defer();
+        $resource(url).query().$promise.then(function (result) {
+            deferred.resolve(angular.fromJson(result));
+        });
+        return deferred.promise;
     };
 }]);
 

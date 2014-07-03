@@ -7,6 +7,6 @@
         "legislation:": "http://linked.opendata.cz/resource/legislation/cz/"
     },
     "apis": {
-        "coi/act-related-coicheck" : "coi/act-related-coicheck?resource=$1"
+        "act-related-coicheck" : ["resource"]
     }
 }
