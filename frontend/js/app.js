@@ -46,6 +46,10 @@
 
     .config(['cfpLoadingBarProvider', function (cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = false;
+    }])
+
+    .config(['$logProvider', function($logProvider) {
+        $logProvider.debugEnabled(true);
     }]);
 
 })();

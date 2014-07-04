@@ -1,4 +1,4 @@
-appControllers.controller('COICheckController', ['$scope', 'NetworkService', 'UrlService', 'AppService', function ($scope, NetworkService, UrlService, AppService) {
+appControllers.controller('COICheckController', ['$scope', 'NetworkService', 'UrlService', 'AppService', '$log', function ($scope, NetworkService, UrlService, AppService, $log) {
 
 //    $scope.resource = UrlService.getParam('resource');
 
@@ -16,6 +16,7 @@ appControllers.controller('COICheckController', ['$scope', 'NetworkService', 'Ur
     };
 
     this.update = function () {
+        $log.debug("COICheckController.update");
         NetworkService.getData('coi', 'act-related-coicheck', {'resource': $scope.resource})
             .then(function (checks) {
                 $scope.checks = checks;
