@@ -1,6 +1,6 @@
 (function() {
     angular.module('appControllers')
-        .controller('CourtDecisionsController', ['$scope', 'NetworkService', 'UrlService', 'AppService', function ($scope, NetworkService, UrlService, AppService) {
+        .controller('CourtDecisionsController', ['$scope', 'NetworkService', 'UrlService', 'AppService', '$log', function ($scope, NetworkService, UrlService, AppService, $log) {
 
 //    $scope.resource = UrlService.getParam('resource');
 
@@ -11,8 +11,8 @@
             this.update = function () {
                 NetworkService.getData('court', 'decisions', {'limit': $scope.courtDecisionsLimit, 'offset': $scope.courtDecisionsOffset})
                     .then(function (decisions) {
+                        $log.debug("CourtDecisionsController.update:" + angular.toJson(decisions));
                         $scope.decisions = decisions;
-                        console.log(decisions);
                     });
             };
 

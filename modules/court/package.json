@@ -1,15 +1,15 @@
 {
-    "title" : "Court",
+    "title": "Court",
     "extends": ["core"],
     "prefixes": {
-        "lex:" : "http://purl.org/lex#",
-        "lexcz:" : "http://purl.org/lex/cz#",
+        "lex:": "http://purl.org/lex#",
+        "lexcz:": "http://purl.org/lex/cz#",
         "legislation:": "http://linked.opendata.cz/resource/legislation/cz/"
     },
     "apis": {
-        "decisions" : ["limit", "offset"],
-        "court/decision-detail" : "court/decision-detail?resource=$1",
-    	"court/decision-related-decisions" : "court/decision-related-decisions?resource=$1",
-    	"court/act-related-decisions" : "court/act-related-decisions?resource=$1"
+        "decisions": {"limit": "10", "offset": "0"},
+        "court/decision-detail": "court/decision-detail?resource=$1",
+    	"court/decision-related-decisions": "court/decision-related-decisions?resource=$1",
+    	"court/act-related-decisions": "court/act-related-decisions?resource=$1"
     }
 }

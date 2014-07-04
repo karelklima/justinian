@@ -16,9 +16,9 @@ appControllers.controller('COICheckController', ['$scope', 'NetworkService', 'Ur
     };
 
     this.update = function () {
-        $log.debug("COICheckController.update");
         NetworkService.getData('coi', 'act-related-coicheck', {'resource': $scope.resource})
             .then(function (checks) {
+                $log.debug("COICheckController.update:" + angular.toJson(checks));
                 $scope.checks = checks;
             });
     };

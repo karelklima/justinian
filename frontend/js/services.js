@@ -6,7 +6,7 @@ appServices = angular.module('appServices', [
 ]);
 
 // appConfiguration
-appServices.service('ConfigurationService', ['UtilService', 'PageService', '$filter', function (UtilService, PageService, $filter) {
+appServices.service('ConfigurationService', ['UtilService', 'PageService', '$filter', '$log', function (UtilService, PageService, $filter, $log) {
     var _data = configuration.application;
     var _modules = configuration.application.modules;
 
@@ -73,18 +73,26 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
         }
         return title.join(" - ");
     };
-    this.getApiUrlOld = function (module, name, params) {
+
+    this.getApiUrl = function (module, name, params) {
         if (module in _modules && name in _modules[module].apis) {
             return '/api/' + UtilService.matchUrlParams(_modules[module].apis[name], params)
         }
     };
-    this.getApiUrl = function (module, name, params) {
+
+    this.getApiPath = function (module, name) {
         if (module in _modules && name in _modules[module].apis) {
-            // TODO check params in _modules[module].apis[name]
             var path = UtilService.getUrlPath(['api', module, name]);
-            var search = UtilService.getUrlSearch(params);
-            var url = path + '?' + search;
-            return url;
+            $log.debug("ConfigurationService.getApiPath: " + path);
+            return path;
+        }
+    };
+
+    this.getApiParamDefaults = function (module, name) {
+        if (module in _modules && name in _modules[module].apis) {
+            var paramDefaults = _modules[module].apis[name];
+            $log.debug("ConfigurationService.getApiParamDefaults: " + angular.toJson(paramDefaults));
+            return paramDefaults;
         }
     };
 }]);
@@ -199,15 +207,15 @@ appServices.service('UtilService', ['$filter', function ($filter) {
     };
 }]);
 
-appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService', 'ConfigurationService', function ($resource, $http, $q, UtilService, ConfigurationService) {
+appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService', 'ConfigurationService', '$log', function ($resource, $http, $q, UtilService, ConfigurationService, $log) {
     this.useApi = function(module,apiName,params,success,error){
         if(!params) params = [];
         if(!(params instanceof Array)) throw new TypeError("params must be an Array");
 //        params = typeof params == "object" ? UtilService.getUrlSearch(params) : params;
 //        var request = $http.get('/api/'+module+'/'+apiName+'?'+params);
-        var url = ConfigurationService.getApiUrlOld(module,apiName,params);
+        var url = ConfigurationService.getApiUrl(module,apiName,params);
         if(url == undefined) throw new Error("Cannot find api "+apiName+" in module "+module);
-        var request = $http.get(ConfigurationService.getApiUrlOld(module,apiName,params));
+        var request = $http.get(ConfigurationService.getApiUrl(module,apiName,params));
         if(success !== undefined && success != null)
             request.success(success);
         if(error !== undefined && error != null)
@@ -220,15 +228,25 @@ appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService',
         });
         return d.promise;
     };
-    this.getData = function (module, api, params) {
-        var processedParams = {};
-        angular.forEach(params, function(value, key) {
-            processedParams[key] = angular.isDefined(value) ? value : ""; // replace undefined with empty string
+    this.getData = function (module, api, parameters) {
+        var url = ConfigurationService.getApiPath(module, api);
+        var paramDefaults = ConfigurationService.getApiParamDefaults(module, api);
+        angular.forEach(parameters, function(value, key) {
+            if (key in paramDefaults) {
+                if (angular.isUndefined(value)) {
+                    $log.warn("NetworkService.getData: Undefined parameter '" + key + "' for module '" + module + "' and api '" + api + "'.");
+                    parameters[key] = paramDefaults[key];
+                }
+            } else {
+                $log.error("NetworkService.getData: Wrong parameter '" + key + "' for module '" + module + "' and api '" + api + "'.");
+            }
         });
-        var url = ConfigurationService.getApiUrl(module, api, processedParams);
+        $log.debug("NetworkService.getData: " + angular.toJson(parameters));
         var deferred = $q.defer();
-        $resource(url).query().$promise.then(function (result) {
-            deferred.resolve(angular.fromJson(result));
+        $resource(url, paramDefaults).query(parameters, function (value, responseHeaders) {
+            deferred.resolve(angular.fromJson(value));
+        }, function(httpResponse) {
+            deferred.resolve([]);
         });
         return deferred.promise;
     };
