@@ -3,7 +3,7 @@
         <h4 class="panel-title">Kontroly ČOI</h4>
     </div>
     <div class="panel-body">
-        <table class="table">
+        <table class="table" ng-hide="isLoading() || isEmpty()">
             <tr>
                 <th><a ng-click="sortBy('-date')">Datum</a></th>
                 <th><a ng-click="sortBy('region')">Kraj</a></th>
@@ -17,5 +17,7 @@
         		<td>{{ check['sanction'] | formatZero }}</td>
             </tr>
         </table>
+        <div ng-show="isLoading()">Načítám data...</div>
+        <div ng-show="isEmpty()">Žádné dostupné kontroly.</div>
     </div>
 </div>

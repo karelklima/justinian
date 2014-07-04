@@ -8,8 +8,8 @@
     },
     "apis": {
         "decisions": {"limit": "10", "offset": "0"},
-        "court/decision-detail": "court/decision-detail?resource=$1",
+        "decision-detail": {"resource": ""},
     	"court/decision-related-decisions": "court/decision-related-decisions?resource=$1",
-    	"court/act-related-decisions": "court/act-related-decisions?resource=$1"
+    	"act-related-decisions": {"resource": ""}
     }
 }

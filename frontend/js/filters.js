@@ -9,3 +9,21 @@ appFilters.filter('decodeUnicode', function() {
             });
         }
     });
+
+appFilters.filter('formatDate', ['$filter', function($filter) {
+    return function (date) {
+        return $filter('date')(date, 'd. M. yyyy');
+    }
+}]);
+
+appFilters.filter('formatZero', [function() {
+    return function (number) {
+        return (number === 0) ? "" : number;
+    }
+}]);
+
+appFilters.filter('formatDash', function() {
+    return function(text) {
+        return text.split('-').join(' ');
+    }
+});

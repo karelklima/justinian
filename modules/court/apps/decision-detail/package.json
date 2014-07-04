@@ -1,0 +1,5 @@
+{
+    "title" : "Detail judikátu",
+    "datatypes" : ["lex:Decision"],
+    "views": ["main"]
+}

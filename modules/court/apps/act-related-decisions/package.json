@@ -1,0 +1,9 @@
+{
+    "title" : "Judikáty",
+    "datatypes" : ["lex:Act"],
+    "views": ["sidebar"],
+    "dependencies": {
+        "lex": ["act-detail"]
+    },
+    "priority" : -1
+}

@@ -1,0 +1,15 @@
+<div ng-controller="CourtDecisionDetailController">
+    <div>
+        <h3>Aplikace: court/decision-detail</h3>
+        <h3>Resource: </h3><span><a ng-href="{{resource}}">{{resource}}</a></span>
+
+        <h3>Detail judikátu:</h3>
+        <div ng-hide="isLoading() || isEmpty()">
+
+            <div>{{ decisionDetail }}</div>
+
+        </div>
+        <div ng-show="isLoading()">Načítám data...</div>
+        <div ng-show="isEmpty()">Text není dostupný.</div>
+    </div>
+</div>
