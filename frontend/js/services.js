@@ -6,7 +6,7 @@ appServices = angular.module('appServices', [
 ]);
 
 // appConfiguration
-appServices.service('ConfigurationService', ['UtilService', 'PageService', '$filter', '$log', function (UtilService, PageService, $filter, $log) {
+appServices.service('ConfigurationService', ['UtilService', 'PageService', '$filter', function (UtilService, PageService, $filter) {
     var _data = configuration.application;
     var _modules = configuration.application.modules;
 
@@ -83,7 +83,6 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
     this.getApiPath = function (module, name) {
         if (module in _modules && name in _modules[module].apis) {
             var path = UtilService.getUrlPath(['api', module, name]);
-            $log.debug("ConfigurationService.getApiPath: " + path);
             return path;
         }
     };
@@ -91,7 +90,6 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
     this.getApiParamDefaults = function (module, name) {
         if (module in _modules && name in _modules[module].apis) {
             var paramDefaults = _modules[module].apis[name];
-            $log.debug("ConfigurationService.getApiParamDefaults: " + angular.toJson(paramDefaults));
             return paramDefaults;
         }
     };
@@ -231,22 +229,26 @@ appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService',
     this.getData = function (module, api, parameters) {
         var url = ConfigurationService.getApiPath(module, api);
         var paramDefaults = ConfigurationService.getApiParamDefaults(module, api);
+        $log.debug("NetworkService.getData: url - " + angular.toJson(url));
+        $log.debug("NetworkService.getData: paramDefaults - " + angular.toJson(paramDefaults));
+        $log.debug("NetworkService.getData: parameters - " + angular.toJson(parameters));
         angular.forEach(parameters, function(value, key) {
             if (key in paramDefaults) {
                 if (angular.isUndefined(value)) {
-                    $log.warn("NetworkService.getData: Undefined parameter '" + key + "' for module '" + module + "' and api '" + api + "'.");
                     parameters[key] = paramDefaults[key];
+                    $log.warn("NetworkService.getData: Undefined parameter '" + key + "' for module '" + module + "' and api '" + api + "'.");
                 }
             } else {
                 $log.error("NetworkService.getData: Wrong parameter '" + key + "' for module '" + module + "' and api '" + api + "'.");
             }
         });
-        $log.debug("NetworkService.getData: " + angular.toJson(parameters));
         var deferred = $q.defer();
         $resource(url, paramDefaults).query(parameters, function (value, responseHeaders) {
             deferred.resolve(angular.fromJson(value));
+            $log.debug("NetworkService.getData: value - " + angular.toJson(value));
         }, function(httpResponse) {
             deferred.resolve([]);
+            $log.debug("NetworkService.getData: error");
         });
         return deferred.promise;
     };
