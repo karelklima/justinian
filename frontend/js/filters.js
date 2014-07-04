@@ -24,6 +24,6 @@ appFilters.filter('formatZero', [function() {
 
 appFilters.filter('formatDash', function() {
     return function(text) {
-        return text.split('-').join(' ');
+        return text.replace(/\-/g,' ');
     }
 });
