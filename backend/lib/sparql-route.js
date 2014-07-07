@@ -16,8 +16,9 @@ function SparqlRoute() {
 }
 util.inherits(SparqlRoute, ApiRoute);
 
-SparqlRoute.prototype.setup = function()
+SparqlRoute.prototype.init = function(moduleName, apiName)
 {
+    ApiRoute.prototype.init.call(this, moduleName, apiName);
     this.client = this.prepareSparqlClient();
     this.query = this.prepareSparqlQuery();
 };
@@ -52,9 +53,9 @@ SparqlRoute.prototype.prepareParams = function(params) {
     return params;
 };
 
-SparqlRoute.prototype.prepareResponse = function(responseString, next) {
+SparqlRoute.prototype.prepareResponse = function(response, next) {
     // Override this if necessary
-    next(responseString);
+    next(response);
 };
 
 SparqlRoute.prototype.handleResponse = function(responseString, res) {

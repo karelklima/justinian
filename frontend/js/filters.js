@@ -12,7 +12,7 @@ appFilters.filter('decodeUnicode', function() {
 
 appFilters.filter('formatDate', ['$filter', function($filter) {
     return function (date) {
-        return $filter('date')(date, 'd. M. yyyy');
+        return $filter('date')(date, 'd. M. yyyy'); // TODO do konfigurace?
     }
 }]);
 

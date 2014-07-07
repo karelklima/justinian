@@ -243,11 +243,11 @@ appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService',
             }
         });
         var deferred = $q.defer();
-        $resource(url, paramDefaults).query(parameters, function (value, responseHeaders) {
-            deferred.resolve(angular.fromJson(value));
+        $resource(url, paramDefaults).get(parameters, function (value, responseHeaders) {
+            deferred.resolve(value);
             $log.debug("NetworkService.getData: value - " + angular.toJson(value));
         }, function(httpResponse) {
-            deferred.resolve([]);
+            deferred.resolve({});
             $log.debug("NetworkService.getData: error");
         });
         return deferred.promise;

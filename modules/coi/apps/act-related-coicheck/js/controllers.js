@@ -5,7 +5,7 @@
 //            $scope.resource = UrlService.getParam('resource');
 
             $scope.checks = undefined;
-            $scope.property = '-date';
+            $scope.property = '-date-utc';
             $scope.reverse = false;
 
             $scope.sortBy = function (property) {
@@ -28,7 +28,7 @@
             this.update = function () {
                 NetworkService.getData('coi', 'act-related-coicheck', {'resource': $scope.resource})
                     .then(function (checks) {
-                        $scope.checks = checks;
+                        $scope.checks = checks["@graph"];
                     });
             };
 

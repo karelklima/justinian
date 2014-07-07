@@ -9,8 +9,8 @@
                 <th>platné od</th>
             </tr>
             <tr ng-repeat="item in versions" ng-class="{active: item['@id'] == resource}">
-                <td><a click module="lex" application="act-detail-version" resource="{{ item['@id'] }}" ng-bind="printVersionName(item)"></a></td>
-                <td>{{ item["http://purl.org/dc/terms/valid"][0]["@value"] | convertDate }}</td>
+                <td><a click module="lex" application="act-detail-version" resource="{{ item['@id'] }}">{{item["title"]}}</a></td>
+                <td>{{ item["valid-utc"] | convertDate }}</td>
             </tr>
         </table>
     </div>

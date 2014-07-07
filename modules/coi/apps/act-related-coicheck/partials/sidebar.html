@@ -6,15 +6,17 @@
         <table class="table" ng-hide="isLoading() || isEmpty()">
             <tr>
                 <th><a ng-click="sortBy('-date')">Datum</a></th>
-                <th><a ng-click="sortBy('region')">Kraj</a></th>
+                <th><a ng-click="sortBy('location-short')">Kraj</a></th>
                 <th><a ng-click="sortBy('name')">Kontrola</a></th>
-                <th><a ng-click="sortBy('sanction')">Postih</a></th>
+                <th><a ng-click="sortBy('result-count')">Postih</a></th>
             </tr>
             <tr ng-repeat="check in checks | orderBy: property : reverse">
-                <td>{{ check['date'] | formatDate }}</td>
-                <td title="{{ check['title'] }}">{{ check['region'] }}</td>
-        		<td><a ng-href="{{ check['resource'] }}">{{ check['name'] }}</a></td>
-        		<td>{{ check['sanction'] | formatZero }}</td>
+                <td>{{ check['date-utc'] | formatDate }}</td>
+                <td>
+                    <abbr title="{{ check['location'] }}">{{ check['location-short'] }}</abbr>
+                </td>
+        		<td><a ng-href="{{ check['@id'] }}">{{ check['title'] }}</a></td>
+        		<td>{{ check['result-count'] | formatZero }}</td>
             </tr>
         </table>
         <div ng-show="isLoading()">Načítám data...</div>

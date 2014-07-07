@@ -8,9 +8,20 @@
         "datastore-url" : "http://linked.opendata.cz/sparql",
         "query-param-name" : "query",
         "default-params": {
-            "format" : "application/sparql-results+json",
+            "format" : "application/ld+json",
             "timeout" : "0",
             "debug" : "on"
+        },
+        "jsonld" : {
+            "format": "application/ld+json",
+            "empty-result": {
+                "@graph": []
+            },
+            "error-result": {
+                "@graph": [],
+                "@error": []
+            },
+            "default-context": {}
         }
     },
     "solr" : {

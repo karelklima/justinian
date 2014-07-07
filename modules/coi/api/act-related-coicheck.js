@@ -1,8 +1,21 @@
 module.exports = function(routeParams) {
 
+    var _ = routeParams.Underscore;
     var route = new routeParams.SparqlRouteJSONLD;
 
-    route.prepareResponse = function(responseString, next) {
+    route.getContext = function() {
+        return {
+            "location" : "http://schema.org/location",
+            "date" : {
+                "@id" : "http://purl.org/dc/terms/date",
+                "@type": "http://www.w3.org/2001/XMLSchema#date"
+            },
+            "result" : "http://schema.org/result",
+            "object" : "http://schema.org/object"
+        }
+    };
+
+    route.prepareResponse = function(responseJSONLD, next) {
 
         var regions =  {
             "Hlavní město Praha": "PHA",
@@ -21,36 +34,14 @@ module.exports = function(routeParams) {
             "Moravskoslezský kraj": "MSK"
         };
 
-        var decodeUnicode = function(encodedString) {
-            var decodeUnicodeStringRegex = /\\u([\d\w]{4})/gi;
-            return encodedString.replace(decodeUnicodeStringRegex, function (match, grp) {
-                return String.fromCharCode(parseInt(grp, 16));
-            });
-        };
-
-        var data = JSON.parse(responseString);
-        var table = [];
-
-        data.forEach(function(item) {
-            var row = {};
-
-            var date = new Date(item["http://purl.org/dc/terms/date"][0]["@value"].substring(0, 10));
-            var check = item["@id"];
-            var region = item["http://schema.org/location"][0]["@value"];
-            var title = decodeUnicode(region);
-            var sanction = item["http://schema.org/result"];
-
-            row['date'] = date.valueOf();
-            row['resource'] = check;
-            row['name'] = "..." + check.substring(check.lastIndexOf("/check-action/") + 23);
-            row['title'] = title;
-            row['region'] = regions[title];
-            row['sanction'] = (typeof sanction === 'undefined') ? 0 : sanction.length;
-
-            table.push(row);
+        responseJSONLD["@graph"].forEach(function(data) {
+            data["location-short"] = _.has(regions, data["location"]) ? regions[data["location"]] : data["location"];
+            data["date-utc"] = _.has(data, "date") ? (new Date(data["date"].substring(0, 10))).valueOf() : "";
+            data["title"] = data["@id"].substring(data["@id"].lastIndexOf("/check-action/") + 14);
+            data["result-count"] = _.has(data, "result") ? (_.isArray(data["result"]) ? data["result"].length : "1") : "0";
         });
 
-        next(JSON.stringify(table));
+        next(responseJSONLD);
     };
 
     return route;

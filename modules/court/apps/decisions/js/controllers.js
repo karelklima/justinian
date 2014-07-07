@@ -11,7 +11,8 @@
             this.update = function () {
                 NetworkService.getData('court', 'decisions', {'limit': $scope.courtDecisionsLimit, 'offset': $scope.courtDecisionsOffset})
                     .then(function (decisions) {
-                        $scope.decisions = decisions;
+                        $scope.decisions = angular.isArray(decisions["@graph"]) ? decisions["@graph"] : [];
+                        $scope.support = angular.isArray(decisions["@support"]) ? decisions["@support"] : [];
                     });
             };
 

@@ -9,7 +9,7 @@
     "apis": {
         "lex/act": "lex/act?resource=$1",
     	"lex/related-acts": "lex/related-acts?resource=$1",
-    	"lex/act-versions": "lex/act-versions?resource=$1",
+    	"act-versions": {"resource": ""},
     	"lex/act-version-text" : "lex/act-version-text?resource=$1"
     }
 }

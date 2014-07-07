@@ -17,13 +17,20 @@ function ApiRoute() {
     this.api = null;
 }
 
-ApiRoute.prototype.init = function(module_name, api_name)
+/**
+ * Route initialization, to be called before setup()
+ * @param {string} moduleName
+ * @param {string} apiName
+ */
+ApiRoute.prototype.init = function(moduleName, apiName)
 {
-    this.module = module_name;
-    this.api = api_name;
-    this.setup();
+    this.module = moduleName;
+    this.api = apiName;
 };
 
+/**
+ * Specific API setup goes here, to be called after init()
+ */
 ApiRoute.prototype.setup = function()
 {
     // override me
@@ -54,7 +61,7 @@ ApiRoute.prototype.getApiName = function() {
  * @param res
  */
 ApiRoute.prototype.get = function(req, res) {
-    res.end(404); // TODO Better error handling
+    res.end(404);
 };
 
 /**
@@ -64,7 +71,7 @@ ApiRoute.prototype.get = function(req, res) {
  * @param res
  */
 ApiRoute.prototype.post = function(req, res) {
-    res.end(404); // TODO Better error handling
+    res.end(404);
 };
 
 module.exports = ApiRoute;

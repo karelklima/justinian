@@ -4,6 +4,7 @@
 
 </form>
 <div>
+    <p>Celkový počet výsledků: {{support[0]["totalCount"]}}</p>
     <ul>
         <li ng-repeat="decision in decisions">
             <a click module="court" application="decision-detail" resource="{{decision['@id']}}">{{decision['@id']}}</a>
