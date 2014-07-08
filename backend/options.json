@@ -14,11 +14,8 @@
         },
         "jsonld" : {
             "format": "application/ld+json",
-            "empty-result": {
-                "@graph": []
-            },
+            "empty-result": { },
             "error-result": {
-                "@graph": [],
                 "@error": []
             },
             "default-context": {}

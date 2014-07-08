@@ -1,0 +1,23 @@
+PREFIX lex: <http://purl.org/lex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX sao: <http://salt.semanticauthoring.org/ontologies/sao#>
+PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
+PREFIX odcs: <http://linked.opendata.cz/ontology/odcs/xmlValue>
+
+PREFIX dec: <{{"param": "resource", "filter": "RemoveLTGT"}}>
+
+CONSTRUCT {
+  ?expr frbr:realizationOf dec: .
+  ?expr ?exprpred ?exprobj .
+}
+
+FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz/updates>
+
+WHERE {
+  dec: a lex:Decision .
+  ?expr frbr:realizationOf dec: .
+  ?expr a frbr:Expression .
+  ?expr ?exprpred ?exprobj .
+}

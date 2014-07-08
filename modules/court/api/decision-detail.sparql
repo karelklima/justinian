@@ -3,16 +3,17 @@ PREFIX dcterms: <http://purl.org/dc/terms/>
 PREFIX frbr: <http://purl.org/vocab/frbr/core#>
 PREFIX sao: <http://salt.semanticauthoring.org/ontologies/sao#>
 PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
+PREFIX odcs: <http://linked.opendata.cz/ontology/odcs/xmlValue>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX x: <http://>
 
 PREFIX dec: <{{"param": "resource", "filter": "RemoveLTGT"}}>
 
 CONSTRUCT {
   dec: ?pred ?obj .
-  ?file ?filepred ?fileobj .
-  ?expr frbr:realizationOf dec: .
-  ?expr salt:hasSection ?section . 
-  ?section salt:hasParagraph ?paragraph .
-  ?paragraph dcterms:description ?description .
+  dec: ?filepred ?fileobj .
+  dec: x:DECISIONCATEGORYLABEL ?deccatlabel .
+  dec: x:DECISIONKINDLABEL ?deckindlabel .
 }
 
 FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz>
@@ -25,8 +26,10 @@ WHERE {
   dec: ?pred ?obj .
   dec: lex:belongsToFile ?file .
   ?file ?filepred ?fileobj .
-  ?expr frbr:realizationOf dec: .
-  ?expr salt:hasSection ?section . 
-  ?section salt:hasParagraph ?paragraph .
-  ?paragraph dcterms:description ?description .
+  dec: lex:decisionCategory ?deccat .
+  ?deccat skos:prefLabel ?deccatlabel .
+  dec: lex:decisionKind ?deckind .
+  ?deckind skos:prefLabel ?deckindlabel .
+  dec: lex:decisionCategory ?deccat .
+  ?deccat skos:prefLabel ?deccatlabel .
 }
