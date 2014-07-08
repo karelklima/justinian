@@ -5,7 +5,7 @@
 //            $scope.resource = UrlService.getParam('resource');
 
             $scope.decisions = undefined;
-            $scope.property = 'title';
+            $scope.property = 'valid-utc';
             $scope.reverse = false;
 
             $scope.sortBy = function (property) {
