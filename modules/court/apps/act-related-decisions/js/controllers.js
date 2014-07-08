@@ -28,7 +28,12 @@
             this.update = function () {
                 NetworkService.getData('court', 'act-related-decisions', {'resource': $scope.resource})
                     .then(function (decisions) {
-                        $scope.decisions = decisions;
+                        if ("@graph" in decisions) {
+                            $scope.decisions = decisions["@graph"];
+                        }else {
+                            $scope.decisions = []
+                            $scope.decisions.push(decisions);
+                        }
                     });
             };
 

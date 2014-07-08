@@ -15,9 +15,13 @@ module.exports = function(routeParams) {
 
     route.prepareResponse = function(responseJSONLD, next) {
 
-        responseJSONLD["@graph"].forEach(function(data) {
-            data["valid-utc"] = _.has(data, "valid") ? (new Date(data["valid"].substring(0, 10))).valueOf() : "";
-        });
+        if ("@graph" in responseJSONLD) {
+            responseJSONLD["@graph"].forEach(function (data) {
+                data["valid-utc"] = _.has(data, "valid") ? (new Date(data["valid"].substring(0, 10))).valueOf() : "";
+            });
+        } else {
+            responseJSONLD["valid-utc"] = _.has(responseJSONLD, "valid") ? (new Date(responseJSONLD["valid"].substring(0, 10))).valueOf() : "";
+        }
 
         next(responseJSONLD);
     };
