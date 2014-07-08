@@ -7,10 +7,12 @@
             <tr>
                 <th><a ng-click="sortBy('title')">Název</a></th>
                 <th>Datum</th>
+                <th>Předmět</th>
             </tr>
             <tr ng-repeat="decision in decisions | orderBy: property : reverse">
                 <td><a click module="court" application="decision-detail" resource="{{ decision['@id'] }}">{{ decision['title'] }}</a></td>
                 <td nowrap>{{ decision['valid-utc'] | formatDate }}</td>
+                <td>{{ decision['subject'] }}</td>
             </tr>
         </table>
         <div ng-show="isLoading()">Načítám data...</div>

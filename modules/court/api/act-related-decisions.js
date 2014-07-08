@@ -5,6 +5,7 @@ module.exports = function(routeParams) {
 
     route.getContext = function() {
         return {
+            "subject" : "http://purl.org/dc/terms/subject",
             "title" : "http://purl.org/dc/terms/title",
             "valid" : {
                 "@id" : "http://purl.org/dc/terms/valid",
