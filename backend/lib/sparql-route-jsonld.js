@@ -2,6 +2,7 @@
 var util = require('util');
 var domain = require('domain');
 var jsonld = require('jsonld');
+var _ = require('underscore');
 
 var logger = require('./logger');
 var settings = require('./settings');
@@ -32,8 +33,9 @@ SparqlRouteJSONLD.prototype.prepareResponse = function(responseJSON, next) {
 };
 
 SparqlRouteJSONLD.prototype.applyContext = function(responseJSON, next) {
+
     var p = jsonld.promises();
-    p.compact(responseJSON, this.getContext()).then(function(compacted) {
+    p.compact(responseJSON, this.getContext(), {"graph" : true, "compactArrays" : true}).then(function(compacted) {
         next(compacted);
     }, function(err) {
         next(settings.options["sparql"]["jsonld"]["error-result"]);

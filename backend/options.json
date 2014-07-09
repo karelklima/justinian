@@ -13,9 +13,12 @@
             "debug" : "on"
         },
         "jsonld" : {
-            "format": "application/ld+json",
-            "empty-result": { },
+            "format": "application/x-json+ld",
+            "empty-result": {
+                "@graph" : []
+            },
             "error-result": {
+                "@graph" : [],
                 "@error": []
             },
             "default-context": {}
