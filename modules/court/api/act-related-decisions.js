@@ -5,6 +5,7 @@ module.exports = function(routeParams) {
 
     route.getContext = function() {
         return {
+            "subject" : "http://purl.org/dc/terms/subject",
             "title" : "http://purl.org/dc/terms/title",
             "valid" : {
                 "@id" : "http://purl.org/dc/terms/valid",
@@ -15,9 +16,13 @@ module.exports = function(routeParams) {
 
     route.prepareResponse = function(responseJSONLD, next) {
 
-        responseJSONLD["@graph"].forEach(function(data) {
-            data["valid-utc"] = _.has(data, "valid") ? (new Date(data["valid"].substring(0, 10))).valueOf() : "";
-        });
+        if ("@graph" in responseJSONLD) {
+            responseJSONLD["@graph"].forEach(function (data) {
+                data["valid-utc"] = _.has(data, "valid") ? (new Date(data["valid"].substring(0, 10))).valueOf() : "";
+            });
+        } else {
+            responseJSONLD["valid-utc"] = _.has(responseJSONLD, "valid") ? (new Date(responseJSONLD["valid"].substring(0, 10))).valueOf() : "";
+        }
 
         next(responseJSONLD);
     };

@@ -18,7 +18,7 @@ appFilters.filter('formatDate', ['$filter', function($filter) {
 
 appFilters.filter('formatZero', [function() {
     return function (number) {
-        return (number === 0) ? "" : number;
+        return (number == 0) ? "" : number; // it can be string "0" or number 0, do not use ===
     }
 }]);
 

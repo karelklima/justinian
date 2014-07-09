@@ -6,13 +6,13 @@
         <table class="table" ng-hide="isLoading() || isEmpty()">
             <tr>
                 <th><a ng-click="sortBy('title')">Název</a></th>
-                <th>Datum</th>
-                <th>Předmět</th>
+                <th><a ng-click="sortBy('valid-utc')">Datum</a></th>
+                <th><a ng-click="sortBy('subject')">Předmět</a></th>
             </tr>
             <tr ng-repeat="decision in decisions | orderBy: property : reverse">
-                <td><a click module="court" application="decision-detail" resource="{{ decision['resource'] }}">{{ decision['title'] }}</a></td>
-                <td nowrap><div ng-repeat="valid in decision['valid']">{{ valid | formatDate }}</div></td>
-        		<td>{{ decision['subject'] | formatDash }}</td>
+                <td><a click module="court" application="decision-detail" resource="{{ decision['@id'] }}">{{ decision['title'] }}</a></td>
+                <td nowrap>{{ decision['valid-utc'] | formatDate }}</td>
+                <td>{{ decision['subject'] | formatDash }}</td>
             </tr>
         </table>
         <div ng-show="isLoading()">Načítám data...</div>
