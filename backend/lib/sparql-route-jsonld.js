@@ -3,6 +3,8 @@ var util = require('util');
 var domain = require('domain');
 var jsonld = require('jsonld');
 var _ = require('underscore');
+var Q = require('q');
+var moment = require('moment');
 
 var logger = require('./logger');
 var settings = require('./settings');
@@ -23,51 +25,178 @@ SparqlRouteJSONLD.prototype.prepareSparqlClient = function()
     return client;
 };
 
+/**
+ * Provider for JSON-LD @context
+ * http://www.w3.org/TR/json-ld/#the-context
+ * @return {object} definition of JSON-LD context
+ */
 SparqlRouteJSONLD.prototype.getContext = function() {
+    // Override this if necessary
     return settings.options["sparql"]["jsonld"]["default-context"];
 };
 
-SparqlRouteJSONLD.prototype.prepareResponse = function(responseJSON, next) {
-    // Override this if necessary
-    next(responseJSON);
+SparqlRouteJSONLD.prototype.getConvertDates = function() {
+    return settings.options["sparql"]["jsonld"]["dates"]["convert"];
 };
 
-SparqlRouteJSONLD.prototype.applyContext = function(responseJSON, next) {
+SparqlRouteJSONLD.prototype.getDateSuffix = function() {
+    return settings.options["sparql"]["jsonld"]["dates"]["suffix"];
+};
 
+SparqlRouteJSONLD.prototype.getDateInputTypes = function() {
+    return settings.options["sparql"]["jsonld"]["dates"]["input-types"];
+};
+
+SparqlRouteJSONLD.prototype.getDateInputFormats = function() {
+    return settings.options["sparql"]["jsonld"]["dates"]["input-formats"];
+};
+
+SparqlRouteJSONLD.prototype.getDateOutputFormat = function() {
+    return settings.options["sparql"]["jsonld"]["dates"]["output-format"];
+};
+
+/**
+ * Modification of JSON-LD response
+ * @param {object} response data in JSON-LD format
+ * @return {object} modified data in JSON-LD format
+ */
+SparqlRouteJSONLD.prototype.prepareResponse = function(response) {
+    // Override this if necessary
+    return response;
+};
+
+SparqlRouteJSONLD.prototype.getModel = function() {
+    return settings.options["sparql"]["jsonld"]["default-model"];
+};
+
+SparqlRouteJSONLD.prototype.getSendWarnings = function() {
+    return settings.options["sparql"]["jsonld"]["send-warnings"];
+};
+
+SparqlRouteJSONLD.prototype.applyContext = function(response) {
     var p = jsonld.promises();
-    p.compact(responseJSON, this.getContext(), {"graph" : true, "compactArrays" : true}).then(function(compacted) {
-        next(compacted);
-    }, function(err) {
-        next(settings.options["sparql"]["jsonld"]["error-result"]);
-    });
+    return p.compact(response, this.getContext(), settings.options["sparql"]["jsonld"]["compact-options"]);
+};
+
+
+
+SparqlRouteJSONLD.prototype.convertDates = function(response) {
+    var self = this;
+    if (self.getConvertDates()) {
+        var context = response["@context"];
+        _.each(_.keys(context), function(key) {
+            if (_.isObject(context[key]) && _.has(context[key], "@type") && _.contains(self.getDateInputTypes(), context[key]["@type"])) {
+                _.each(response["@graph"], function(item) {
+                    if (_.has(item, key)) {
+                        try {
+                            var convertedKey = key + self.getDateSuffix();
+                            if (_.has(item, convertedKey) && key != convertedKey) {
+                                self.addWarning(response, "Cannot convert date, overwrite of other key detected: " + convertedKey);
+                            } else {
+                                item[convertedKey] = [moment(item[key][0], self.getDateInputFormats()).format(self.getDateOutputFormat())];
+                            }
+                        }
+                        catch (e)
+                        {
+                            self.addWarning(response, "Unable to parse date: " + item[key]);
+                        }
+                    }
+                });
+            }
+        });
+    }
+    return response;
+};
+
+
+
+SparqlRouteJSONLD.prototype.processModel = function(response) {
+    var self = this;
+    try {
+        var model = this.getModel();
+        var keys = _.keys(model);
+        var defaults = {};
+        _.each(keys, function (key) {
+            defaults[key] = model[key][1];
+        });
+
+        _.each(response["@graph"], function (item) {
+            _.each(keys, function(key) {
+                if (!_.isUndefined(item[key]) && typeof item[key] != model[key][0]) {
+                    if (_.isArray(item[key]) && item[key].length > 0) {
+                        if (item[key].length > 1) {
+                            self.addWarning("Single value expected for key '" + key + "', multiple received");
+                        }
+                        item[key] = item[key][0];
+                    }
+
+                    if (typeof item[key] != model[key][0]) {
+                        // possibly corrupted data
+                        self.addWarning(response, "Invalid data for key '" + key + "':   expected type '" + model[key][0] + "', recieved '" + typeof item[key] + "'");
+
+                        // let's fix some cases
+                        switch (model[key][0]) {
+                            case "array":
+                                item[key] = [item[key]];
+                                break;
+                            case "number":
+                                item[key] = Number(item[key]);
+                                break;
+                            case "string":
+                                item[key] = item[key].toString();
+                                break;
+                        }
+                    }
+                }
+            });
+            _.defaults(item, defaults); // fill in default values
+            _.pick(item, keys); // omit unwanted fields
+        });
+    }
+    catch (e) {
+        logger.err(e);
+        this.addWarning(response, "Unable to process model");
+    }
+
+    return response;
+};
+
+SparqlRouteJSONLD.prototype.addWarning = function (response, message) {
+    if (!_.has(response, "@warning"))
+        response["@warning"] = [];
+    response["@warning"].push(message);
+};
+
+SparqlRouteJSONLD.prototype.processWarnings = function(response) {
+    if (!this.getSendWarnings() && _.has(response, "@warning")) {
+        response = _.omit(response, "@warning");
+    }
+    return response;
 };
 
 SparqlRouteJSONLD.prototype.handleResponse = function(responseString, res) {
 
 //    logger.debug(responseString);
 
-    var thisInstance = this;
+    var self = this;
 
-    var write = function(responseJSON) {
-        thisInstance.prepareResponse(responseJSON, function(preparedJSON) {
-            res.write(JSON.stringify(preparedJSON, null, "  "));
+    Q.fcall(JSON.parse, responseString)
+        .then(function(r) { return self.applyContext(r); })
+        .then(function(r) { return self.convertDates(r); })
+        .then(function(r) { return self.prepareResponse(r); })
+        .then(function(r) { return self.processModel(r); })
+        .then(function(r) { return self.processWarnings(r); })
+        .then(function(responseJSON) {
+            res.write(JSON.stringify(responseJSON, null, "  "));
+            res.end();
+            return true;
+        })
+        .catch(function(err) {
+            logger.err(err.stack);
+            // TODO
+            res.write(settings.options["sparql"]["jsonld"]["error-result"]);
             res.end();
         });
-    };
-
-    var d = domain.create();
-    d.on('error', function(err) {
-        logger.err(err);
-        write(settings.options["sparql"]["jsonld"]["error-result"]);
-    });
-    d.run(function() {
-        var data = JSON.parse(responseString);
-        thisInstance.applyContext(data, function(responseJSON) {
-            thisInstance.prepareResponse(responseJSON, function(preparedJSON) {
-                write(preparedJSON);
-            })
-        });
-    });
 
 };
 

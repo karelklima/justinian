@@ -13,7 +13,7 @@
             "debug" : "on"
         },
         "jsonld" : {
-            "format": "application/x-json+ld",
+            "format": "application/ld+json",
             "empty-result": {
                 "@graph" : []
             },
@@ -21,7 +21,22 @@
                 "@graph" : [],
                 "@error": []
             },
-            "default-context": {}
+            "default-context": {},
+            "compact-options": {"graph" : true, "compactArrays" : false},
+            "dates" : {
+                "convert" : true,
+                "suffix" : "-utc",
+                "input-types" : [
+                    "http://www.w3.org/2001/XMLSchema#date"
+                ],
+                "input-formats" : [
+                    "YYYY-MM-DDZ",
+                    "YYYY-MM-DDTHH:mm:ssZ"
+                ],
+                "output-format" : "X"
+            },
+            "default-model": { "@id" : ["string", ""]},
+            "send-warnings": true
         }
     },
     "solr" : {

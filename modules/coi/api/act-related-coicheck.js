@@ -15,7 +15,7 @@ module.exports = function(routeParams) {
         }
     };
 
-    route.prepareResponse = function(responseJSONLD, next) {
+    route.prepareResponse = function(responseJSONLD) {
 
         var regions =  {
             "Hlavní město Praha": "PHA",
@@ -36,13 +36,27 @@ module.exports = function(routeParams) {
 
         responseJSONLD["@graph"].forEach(function(data) {
             data["location-short"] = _.has(regions, data["location"]) ? regions[data["location"]] : data["location"];
-            data["date-utc"] = _.has(data, "date") ? (new Date(data["date"].substring(0, 10))).valueOf() : "";
             data["title"] = data["@id"].substring(data["@id"].lastIndexOf("/check-action/") + 14);
             data["result-count"] = _.has(data, "result") ? (_.isArray(data["result"]) ? data["result"].length : "1") : "0";
         });
 
-        next(responseJSONLD);
+        return responseJSONLD;
     };
+
+    route.getModel = function() {
+        return {
+            "@id" : ["string", ""],
+            "location" : ["string", ""],
+            "location-short" : ["string", ""],
+            "date" : ["string", ""],
+            "date-utc" : ["number", undefined],
+            "result" : ["array", []],
+            "object" : ["array", []],
+            "title" : ["string", ""],
+            "result-count" : ["number", 0]
+        }
+    };
+
 
     return route;
 };
