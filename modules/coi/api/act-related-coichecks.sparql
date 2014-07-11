@@ -1,0 +1,44 @@
+PREFIX lex: <http://purl.org/lex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+#PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+#PREFIX sao: <http://salt.semanticauthoring.org/ontologies/sao#>
+#PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
+PREFIX s: <http://schema.org/>
+PREFIX gr: <http://purl.org/goodrelations/v1#>
+
+PREFIX resource: <{{"param": "resource", "filter": "RemoveLTGT"}}>
+
+CONSTRUCT {
+?check dcterms:date ?date.
+?check s:object ?objName.
+?check s:location ?loc.
+?check s:result ?result.
+}
+
+FROM <http://linked.opendata.cz/resource/dataset/coi.cz/kontroly>
+FROM <http://linked.opendata.cz/resource/dataset/coi.cz/zamereni>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
+FROM <http://linked.opendata.cz/resource/dataset/ares/basic>
+FROM <http://linked.opendata.cz/resource/dataset/coi.cz/sankce>
+FROM <http://linked.opendata.cz/resource/dataset/coi.cz/zakazy>
+FROM <http://linked.opendata.cz/resource/dataset/coi.cz/zajisteni>
+
+WHERE {
+{
+SELECT ?check ?date
+WHERE {
+resource: dcterms:identifier ?id .
+?check s:instrument ?act .
+BIND(REPLACE(?id, '[^0-9]+$', "") AS ?id2).
+BIND(REPLACE(?act, '^[^0-9]+', "") AS ?act2).
+FILTER (?id2 = ?act2)
+?check dcterms:date ?date .
+}
+ORDER BY DESC(?date)
+OFFSET {{"param": "offset", "default": "0"}}
+LIMIT {{"param": "limit", "default": "10"}}
+}
+OPTIONAL{ ?check s:object/gr:legalName ?objName }
+OPTIONAL{ ?check s:location/s:addressRegion ?loc. }
+OPTIONAL{ ?check s:result ?result}
+}
