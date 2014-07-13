@@ -11,14 +11,21 @@ module.exports = function(routeParams) {
         }
     };
 
-    route.prepareResponse = function(responseJSONLD, next) {
+   route.prepareResponse = function(responseJSONLD, next) {
         responseJSONLD["@graph"].forEach(function(item) {
-            item["title"] = item["@id"].substring(item["@id"].lastIndexOf("/act/") + 4);
-            item["valid-utc"] = _.has(item, "valid") ? (new Date(item["valid"].substring(0, 10))).valueOf() : "";
-
+            item["title"] = item["@id"].substring(item["@id"].lastIndexOf("/act/") + 10, item["@id"].lastIndexOf("/"));
         });
-        next(responseJSONLD);
+        
+        return responseJSONLD;
     };
 
+    route.getModel = function() {
+        return {
+            "@id" : ["string", ""],
+            "title" : ["string", ""],
+            "valid-utc" : ["number", undefined]
+        }
+    };
+    
     return route;
 };
