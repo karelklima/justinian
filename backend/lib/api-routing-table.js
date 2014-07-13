@@ -11,6 +11,7 @@ var SparqlRoute = require('./sparql-route');
 var SparqlRouteJSONLD = require('./sparql-route-jsonld');
 var SolrRoute = require('./solr-route');
 var JSONLD = require('jsonld');
+var HTTP = require('http');
 
 var apiRoutingTable = new ApiRoutingTable();
 exports = module.exports = apiRoutingTable; // exports singleton
@@ -25,7 +26,8 @@ function ApiRoutingTable()
         SparqlRouteJSONLD: SparqlRouteJSONLD,
         SolrRoute: SolrRoute,
         Underscore: _,
-        JSONLD: JSONLD
+        JSONLD: JSONLD,
+        HTTP: HTTP
     };
 
     var modules = _.keys(settings.getModulesSetup());
