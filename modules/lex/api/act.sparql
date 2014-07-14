@@ -10,10 +10,10 @@ CONSTRUCT{
   resource: dcterms:creator ?creator.
   resource: frbr:realization ?expr.
   resource: dcterms:identifier ?id .
-  ?expr dcterms:valid ?date.
+  resource: dcterms:lastVersionValid ?date.
 }
 
-FROM <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
 FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
 
 WHERE {
@@ -31,7 +31,7 @@ WHERE {
       LIMIT 1
     }
     OPTIONAL {resource: dcterms:creator ?creator }
-    OPTIONAL {resource: dcterms:issued ?issued   }
+    OPTIONAL { GRAPH <http://linked.opendata.cz/resource/dataset/legislation/cz/uz> { resource: dcterms:issued ?issued } }
     OPTIONAL {resource: dcterms:identifier ?id   }
   }
 }
