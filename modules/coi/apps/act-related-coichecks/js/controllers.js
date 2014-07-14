@@ -2,17 +2,15 @@
     angular.module('appControllers')
         .controller('ActRelatedCoiChecksController', ['$scope', 'NetworkService', 'UrlService', 'AppService', function ($scope, NetworkService, UrlService, AppService) {
 
-//            $scope.resource = UrlService.getParam('resource');
-
             $scope.checks = undefined;
-            $scope.property = '-date-utc';
+            $scope.predicate = '-date_iso';
             $scope.reverse = false;
 
-            $scope.sortBy = function (property) {
-                if ($scope.property === property) {
+            $scope.sortBy = function (predicate) {
+                if ($scope.predicate === predicate) {
                     $scope.reverse = !$scope.reverse;
                 } else {
-                    $scope.property = property;
+                    $scope.predicate = predicate;
                     $scope.reverse = false;
                 }
             };

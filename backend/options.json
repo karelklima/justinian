@@ -25,7 +25,7 @@
             "compact-options": {"graph" : true, "compactArrays" : false},
             "dates" : {
                 "convert" : true,
-                "suffix" : "-utc",
+                "suffix" : "_iso",
                 "input-types" : [
                     "http://www.w3.org/2001/XMLSchema#date"
                 ],
@@ -33,7 +33,7 @@
                     "YYYY-MM-DDZ",
                     "YYYY-MM-DDTHH:mm:ssZ"
                 ],
-                "output-format" : "X"
+                "output-format" : "YYYY-MM-DD"
             },
             "default-model": { "@id" : ["string", ""]},
             "send-warnings": true

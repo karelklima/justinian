@@ -1,4 +1,5 @@
 module.exports = function(routeParams) {
+
     var _ = routeParams.Underscore;
     var route = new routeParams.SparqlRouteJSONLD;
 
@@ -19,13 +20,13 @@ module.exports = function(routeParams) {
         return responseJSONLD;
     };
 
-    route.getModel = function() {
-        return {
-            "@id" : ["string", ""],
-            "title" : ["string", ""],
-            "valid-utc" : ["number", undefined]
-        }
-    };
+   route.getModel = function() {
+       return {
+           "@id" : ["string", ""],
+           "title" : ["string", ""],
+           "valid_iso" : ["string", undefined]
+       }
+   };
     
     return route;
 };

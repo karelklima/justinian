@@ -2,17 +2,15 @@
     angular.module('appControllers')
         .controller('ActRelatedDecisionsController', ['$scope', 'NetworkService', 'AppService', function ($scope, NetworkService, AppService) {
 
-//            $scope.resource = UrlService.getParam('resource');
-
             $scope.decisions = undefined;
-            $scope.property = 'valid-utc';
+            $scope.predicate = '-valid_iso';
             $scope.reverse = false;
 
-            $scope.sortBy = function (property) {
-                if ($scope.property === property) {
+            $scope.sortBy = function (predicate) {
+                if ($scope.predicate === predicate) {
                     $scope.reverse = !$scope.reverse;
                 } else {
-                    $scope.property = property;
+                    $scope.predicate = predicate;
                     $scope.reverse = false;
                 }
             };
@@ -28,12 +26,7 @@
             this.update = function () {
                 NetworkService.getData('court', 'act-related-decisions', {'resource': $scope.resource})
                     .then(function (decisions) {
-                        if ("@graph" in decisions) {
-                            $scope.decisions = decisions["@graph"];
-                        }else {
-                            $scope.decisions = []
-                            $scope.decisions.push(decisions);
-                        }
+                        $scope.decisions = decisions["@graph"];
                     });
             };
 

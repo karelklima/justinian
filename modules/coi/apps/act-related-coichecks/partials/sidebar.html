@@ -5,16 +5,16 @@
     <div class="panel-body">
         <table class="table" ng-hide="isLoading() || isEmpty()">
             <tr>
-                <th><a ng-click="sortBy('-date-utc')">Datum</a></th>
-                <th><a ng-click="sortBy('location-short')">Kraj</a></th>
+                <th><a ng-click="sortBy('-date_iso')">Datum</a></th>
+                <th><a ng-click="sortBy('location_short')">Kraj</a></th>
                 <th><a ng-click="sortBy('title')">Kontrola</a></th>
-                <th><a ng-click="sortBy('result-count')">Postih</a></th>
+                <th><a ng-click="sortBy('result_count')">Postih</a></th>
             </tr>
-            <tr ng-repeat="check in checks | orderBy: property : reverse">
-                <td nowrap>{{ check['date-utc'] | formatDate }}</td>
-                <td><abbr title="{{ check['location'] }}">{{ check['location-short'] }}</abbr></td>
+            <tr ng-repeat="check in checks | orderBy: predicate : reverse">
+                <td nowrap>{{ check['date_iso'] | formatDate }}</td>
+                <td><abbr title="{{ check['location'] }}">{{ check['location_short'] }}</abbr></td>
         		<td><a ng-href="{{ check['@id'] }}">{{ check['title'] }}</a></td>
-        		<td>{{ check['result-count'] | formatZero }}</td>
+        		<td>{{ check['result_count'] | formatZero }}</td>
             </tr>
         </table>
         <div ng-show="isLoading()">Načítám data...</div>

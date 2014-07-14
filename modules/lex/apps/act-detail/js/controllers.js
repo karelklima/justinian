@@ -60,22 +60,22 @@ function LexDetailController($scope, UrlService, NetworkService, UtilService, Ap
     };
 
     this.update = function() {
-        NetworkService.useApi('lex', 'lex/act-versions', [$scope.resource], function (versions) {
-            if (!(versions instanceof Array)) versions = [];
-            if (versions.length > 0) {
-                var versionId = versions[0]['@id'];
-                NetworkService.useApi('lex', 'lex/act-version-text', [versionId], function (data) {
-                    $scope.content = self.prepareVersion(data);
-                    $scope.isLoading = false;
-                }, function error(data, status) {
-                    $scope.isError = true;
-                });
-            } else {
-                $scope.isEmpty = true;
-            }
-        }, function error(data, status) {
-            $scope.isError = true;
-        });
+//        NetworkService.useApi('lex', 'lex/act-versions', [$scope.resource], function (versions) {
+//            if (!(versions instanceof Array)) versions = [];
+//            if (versions.length > 0) {
+//                var versionId = versions[0]['@id'];
+//                NetworkService.useApi('lex', 'lex/act-version-text', [versionId], function (data) {
+//                    $scope.content = self.prepareVersion(data);
+//                    $scope.isLoading = false;
+//                }, function error(data, status) {
+//                    $scope.isError = true;
+//                });
+//            } else {
+//                $scope.isEmpty = true;
+//            }
+//        }, function error(data, status) {
+//            $scope.isError = true;
+//        });
     };
 
 //    this.init();

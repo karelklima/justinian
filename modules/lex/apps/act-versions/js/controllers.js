@@ -2,17 +2,15 @@
     angular.module('appControllers')
         .controller('LexVersionsController', ['$scope', '$log', 'NetworkService', 'AppService', function ($scope, $log, NetworkService, AppService) {
 
-//            $scope.resource = UrlService.getParam('resource');
-
             $scope.versions = undefined;
-            $scope.property = 'title';
+            $scope.predicate = 'title';
             $scope.reverse = false;
 
-            $scope.sortBy = function (property) {
-                if ($scope.property === property) {
+            $scope.sortBy = function (predicate) {
+                if ($scope.predicate === predicate) {
                     $scope.reverse = !$scope.reverse;
                 } else {
-                    $scope.property = property;
+                    $scope.predicate = predicate;
                     $scope.reverse = false;
                 }
             };

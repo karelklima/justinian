@@ -14,17 +14,22 @@ module.exports = function(routeParams) {
         }
     };
 
-    route.prepareResponse = function(responseJSONLD, next) {
+    route.prepareResponse = function(responseJSONLD) {
 
-        if ("@graph" in responseJSONLD) {
-            responseJSONLD["@graph"].forEach(function (data) {
-                data["valid-utc"] = _.has(data, "valid") ? (new Date(data["valid"].substring(0, 10))).valueOf() : "";
-            });
-        } else {
-            responseJSONLD["valid-utc"] = _.has(responseJSONLD, "valid") ? (new Date(responseJSONLD["valid"].substring(0, 10))).valueOf() : "";
+        responseJSONLD["@graph"].forEach(function(data) {
+            data["subject"] = _.isArray(data["subject"]) ? data["subject"].join(', ') : "";
+        });
+
+        return responseJSONLD;
+    };
+
+    route.getModel = function() {
+        return {
+            "@id" : ["string", ""],
+            "title" : ["string", ""],
+            "valid_iso" : ["string", undefined],
+            "subject": ["string", ""]
         }
-
-        next(responseJSONLD);
     };
 
     return route;
