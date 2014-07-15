@@ -58,7 +58,7 @@ SparqlRouteJSONLD.prototype.getDateOutputFormat = function() {
 /**
  * Modification of JSON-LD response
  * @param {object} response data in JSON-LD format
- * @return {object} modified data in JSON-LD format
+ * @return {object} modified data in JSON-LD format OR a promise
  */
 SparqlRouteJSONLD.prototype.prepareResponse = function(response) {
     // Override this if necessary
