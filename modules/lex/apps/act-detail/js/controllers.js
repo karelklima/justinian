@@ -1,84 +1,46 @@
+(function() {
+    angular.module('appControllers')
+        .controller('LexDetailController', ['$scope', '$sce', 'NetworkService', 'AppService', function ($scope, $sce, NetworkService, AppService) {
 
-function LexDetailController($scope, UrlService, NetworkService, UtilService, AppService) {
+            $scope.actDetail = undefined;
+            $scope.actText = undefined;
 
-    var self = this;
+            $scope.isLoading = function () {
+                return angular.isUndefined($scope.actDetail);
+            };
 
-    $scope.versions = null;
-//    $scope.resource = UrlService.getParam('resource');
+            $scope.isEmpty = function () {
+                return angular.isDefined($scope.actDetail) && $scope.actDetail.length === 0;
+            };
 
-    $scope.isLoading = true;
-    $scope.isError = false;
-    $scope.isEmpty = false;
-    $scope.content = null;
+            $scope.isTextLoading = function () {
+                return angular.isUndefined($scope.actText);
+            };
 
-    this.prepareVersion = function (version) {
-        if (version == null || version == undefined)
-            return '';
-        var paragraphs = [];
-        var curParagraph = null;
-        var curArticle = null;
-        for (var i = 0; i < version.results.bindings.length; i++) {
-            var item = version.results.bindings[i];
-            var part = {};
-            part.id = UtilService.decodeUnicodeString(item["id"]["value"]);
-            part.text = item["text"] ? UtilService.decodeUnicodeString(item["text"]["value"]) : '';
-            part.section = item["section"]["value"];
-            part.type = item["type"]["value"];
-            if (part.type == 'http://purl.org/lex/cz#Paragraf') {
-                part.parent = null;
-                part.articles = [];
-                curParagraph = part;
-                paragraphs.push(curParagraph);
-            } else if (part.type == 'http://purl.org/lex/cz#Odstavec') {
-                if(curParagraph == null){
-                    part.parent = null;
-                    part.articles = [];
-                    curParagraph = part;
-                    paragraphs.push(curParagraph);
-                }
-                part.parent = curParagraph;
-                part.subArticles = [];
-                curParagraph.articles.push(part);
-                curArticle = part;
-            } else if (part.type == 'http://purl.org/lex/cz#Pismeno') {
-                if (curArticle) {
-                    part.parent = curArticle;
-                    curArticle.subArticles.push(part);
-                } else {
-                    if(curParagraph == null){
-                            part.parent = null;
-                            part.articles = [];
-                            curParagraph = part;
-                            paragraphs.push(curParagraph);
-                    }
-                    part.parent = curParagraph;
-                    curParagraph.articles.push(part);
-                }
-            }
-        }
-        return paragraphs;
-    };
+            $scope.isTextEmpty = function () {
+                return angular.isDefined($scope.actText) && $scope.actText.length === 0;
+            };
 
-    this.update = function() {
-//        NetworkService.useApi('lex', 'lex/act-versions', [$scope.resource], function (versions) {
-//            if (!(versions instanceof Array)) versions = [];
-//            if (versions.length > 0) {
-//                var versionId = versions[0]['@id'];
-//                NetworkService.useApi('lex', 'lex/act-version-text', [versionId], function (data) {
-//                    $scope.content = self.prepareVersion(data);
-//                    $scope.isLoading = false;
-//                }, function error(data, status) {
-//                    $scope.isError = true;
-//                });
-//            } else {
-//                $scope.isEmpty = true;
-//            }
-//        }, function error(data, status) {
-//            $scope.isError = true;
-//        });
-    };
 
-//    this.init();
-    AppService.init($scope, ['resource'], this.update);
-}
+            this.update = function () {
+                NetworkService.getData('lex', 'act', {'resource': $scope.resource})
+                    .then(function (actDetail) {
+                        if (actDetail["@graph"].length > 0)
+                            $scope.actDetail = actDetail["@graph"][0];
+                    });
+                NetworkService.getData('lex', 'act-text', {'resource': $scope.resource})
+                    .then(function (actText) {
+                        if (actText["@graph"].length > 0)
+                        {
+                            var doc = angular.element("<div>" + actText["@graph"][0]["htmlValue"] + "</div>");
+                            $scope.actText = $sce.trustAsHtml(doc.html());
+                        }
+                    });
+            };
+
+            AppService.init($scope, ['resource'], this.update);
+
+        }]);
+
+})();
 

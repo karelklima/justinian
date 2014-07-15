@@ -1,24 +1,15 @@
 <div ng-controller="LexDetailController">
     <div>
-        <h3>Aplikace: lex/act-detail</h3>
+        <h3>Předpis {{actDetail["title"]}}</h3>
         <h3>Resource: </h3><span><a ng-href="{{resource}}">{{resource}}</a></span>
 
-        <h3>Poslední platné znění:</h3>
-        <div ng-show="isLoading == false">
-            <ul ng-repeat="paragraph in content">
-                <li style="margin:10px;">{{paragraph["id"]}}: {{paragraph["text"]}}
-                    <ul ng-repeat="article in paragraph.articles">
-                        <li style="margin:10px;">{{article["id"]}}: {{article["text"]}}
-                            <ul ng-repeat="subArticle in paragraph.subArticles">
-                                <li style="margin:10px;">{{subArticle["id"]}}: {{subArticle["text"]}}</li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+        <h3>Platné znění:</h3>
+        <div ng-hide="isTextLoading() || isEmpty()">
+
+            <div ng-bind-html="actText"></div>
+
         </div>
-        <div ng-show="isLoading == true">Načítám data...</div>
-        <div ng-show="isEmpty == true">Text není dostupný.</div>
-        <div ng-show="isError == true">Chyba, text nelze načíst!</div>
+        <div ng-show="isTextLoading()">Načítám data...</div>
+        <div ng-show="isTextEmpty()">Text není dostupný.</div>
     </div>
 </div>

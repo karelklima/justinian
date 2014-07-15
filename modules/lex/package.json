@@ -7,9 +7,9 @@
         "legislation:": "http://linked.opendata.cz/resource/legislation/cz/"
     },
     "apis": {
-        "lex/act": "lex/act?resource=$1",
+        "act": {"resource": ""},
     	"lex/related-acts": "lex/related-acts?resource=$1",
     	"act-versions": {"resource": ""},
-    	"lex/act-version-text" : "lex/act-version-text?resource=$1"
+    	"act-text" : {"resource": ""}
     }
 }

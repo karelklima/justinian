@@ -71,7 +71,7 @@ module.exports = function(routeParams) {
                     if (res.statusCode == 200) {
                         response["@graph"].push({
                             "@id": resource,
-                            "xmlValue": responseString
+                            "htmlValue": responseString
                         });
 
                     } else {
