@@ -3,7 +3,7 @@
         .controller('ActRelatedDecisionsController', ['$scope', 'NetworkService', 'AppService', function ($scope, NetworkService, AppService) {
 
             $scope.decisions = undefined;
-            $scope.predicate = '-valid_iso';
+            $scope.predicate = '-validIso';
             $scope.reverse = false;
 
             $scope.sortBy = function (predicate) {

@@ -3,7 +3,7 @@
         .controller('ActRelatedCoiChecksController', ['$scope', 'NetworkService', 'UrlService', 'AppService', function ($scope, NetworkService, UrlService, AppService) {
 
             $scope.checks = undefined;
-            $scope.predicate = '-date_iso';
+            $scope.predicate = '-dateIso';
             $scope.reverse = false;
 
             $scope.sortBy = function (predicate) {

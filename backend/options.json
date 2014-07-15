@@ -25,7 +25,7 @@
             "compact-options": {"graph" : true, "compactArrays" : false},
             "dates" : {
                 "convert" : true,
-                "suffix" : "_iso",
+                "suffix" : "Iso",
                 "input-types" : [
                     "http://www.w3.org/2001/XMLSchema#date"
                 ],

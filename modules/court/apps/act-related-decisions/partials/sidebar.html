@@ -6,12 +6,12 @@
         <table class="table" ng-hide="isLoading() || isEmpty()">
             <tr>
                 <th><a ng-click="sortBy('title')">Název</a></th>
-                <th><a ng-click="sortBy('-valid_iso')">Datum</a></th>
+                <th><a ng-click="sortBy('-validIso')">Datum</a></th>
                 <th><a ng-click="sortBy('subject')">Předmět</a></th>
             </tr>
             <tr ng-repeat="decision in decisions | orderBy: predicate : reverse">
                 <td><a click module="court" application="decision-detail" resource="{{ decision['@id'] }}">{{ decision['title'] }}</a></td>
-                <td nowrap>{{ decision['valid_iso'] | formatDate }}</td>
+                <td nowrap>{{ decision['validIso'] | formatDate }}</td>
                 <td>{{ decision['subject'] | formatDash }}</td>
             </tr>
         </table>

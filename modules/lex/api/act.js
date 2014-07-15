@@ -24,8 +24,8 @@ module.exports = function(routeParams) {
 
    route.prepareResponse = function(responseJSONLD, next) {
         responseJSONLD["@graph"].forEach(function(item) {
-            item["issued-utc"] = Number(item["issued-utc"]);
-            item["lastVersionValid-utc"] = Number(item["lastVersionValid-utc"]); 
+            item["issuedIso"] = Number(item["issuedIso"]);
+            item["lastVersionValidIso"] = Number(item["lastVersionValidIso"]);
         });
         
         return responseJSONLD;
@@ -35,11 +35,11 @@ module.exports = function(routeParams) {
         return {
             "@id" : ["string", ""],
             "title" : ["string", ""],
-        	"issued-utc" : ["number", undefined],
+        	"issuedIso" : ["number", undefined],
             "creator" : ["string", ""],
             "identifier" : ["string", ""],
             "lastVersion" : ["string", ""],
-            "lastVersionValid-utc" : ["number", undefined]
+            "lastVersionValidIso" : ["number", undefined]
         }
     };
     

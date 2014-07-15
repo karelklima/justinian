@@ -24,7 +24,7 @@ module.exports = function(routeParams) {
        return {
            "@id" : ["string", ""],
            "title" : ["string", ""],
-           "valid_iso" : ["string", undefined]
+           "validIso" : ["string", undefined]
        }
    };
     

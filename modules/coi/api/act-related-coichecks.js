@@ -35,9 +35,9 @@ module.exports = function(routeParams) {
         };
 
         responseJSONLD["@graph"].forEach(function(data) {
-            data["location_short"] = _.has(regions, data["location"]) ? regions[data["location"]] : data["location"];
+            data["locationShort"] = _.has(regions, data["location"]) ? regions[data["location"]] : data["location"];
             data["title"] = data["@id"].substring(data["@id"].lastIndexOf("/check-action/") + 14);
-            data["result_count"] = _.isArray(data["result"]) ? data["result"].length : 0;
+            data["resultCount"] = _.isArray(data["result"]) ? data["result"].length : 0;
         });
 
         return responseJSONLD;
@@ -47,10 +47,10 @@ module.exports = function(routeParams) {
         return {
             "@id" : ["string", ""],
             "location" : ["string", ""],
-            "location_short" : ["string", ""],
-            "date_iso" : ["string", undefined],
+            "locationShort" : ["string", ""],
+            "dateIso" : ["string", undefined],
             "result" : ["array", []],
-            "result_count" : ["number", 0],
+            "resultCount" : ["number", 0],
             "object" : ["array", []],
             "title" : ["string", ""]
         }
