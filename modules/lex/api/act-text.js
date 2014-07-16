@@ -6,20 +6,10 @@ module.exports = function(routeParams) {
     var Q = routeParams.Q;
     var route = new routeParams.SparqlRouteJSONLD;
 
-    route.resourceUri = null;
-
-    route.prepareParams = function(params) {
-
-        if (!_.isUndefined(params["resource"]))
-            this.resourceUri = params["resource"];
-
-        return params;
-    };
-
     route.prepareResponse = function(responseJSON)
     {
 
-        var resource = this.resourceUri;
+        var resource = "";
         if (responseJSON["@graph"].length > 0)
         {
             resource = responseJSON["@graph"][0]["http://purl.org/vocab/frbr/core#realization"][0];
@@ -55,6 +45,7 @@ module.exports = function(routeParams) {
             }
             url = url + ".html";
 
+            console.log(url);
 
             var options = {
                 hostname: 'justinian.karelklima.cz',
