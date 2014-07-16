@@ -19,6 +19,8 @@ function SearchBarController($scope, $rootScope, NetworkService, UrlService, Uti
                     if(results.length < 2)
                         results = [];
                     process(results);
+                }, function fail(){
+                    process([]);
                 });
             } else {
                 process([]);

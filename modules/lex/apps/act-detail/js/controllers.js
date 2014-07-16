@@ -27,6 +27,7 @@
                     .then(function (actDetail) {
                         if (actDetail["@graph"].length > 0)
                             $scope.actDetail = actDetail["@graph"][0];
+                        else $scope.actDetail = {};
                     });
                 NetworkService.getData('lex', 'act-text', {'resource': $scope.resource})
                     .then(function (actText) {
@@ -35,6 +36,7 @@
                             var doc = angular.element("<div>" + actText["@graph"][0]["htmlValue"] + "</div>");
                             $scope.actText = $sce.trustAsHtml(doc.html());
                         }
+                        else $scope.actText = "";
                     });
             };
 

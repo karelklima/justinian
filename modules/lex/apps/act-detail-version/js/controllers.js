@@ -1,91 +1,55 @@
-function LexDetailVersionController($scope, $rootScope, UrlService, NetworkService, UtilService, AppService) {
-    this.cache = {};
+(function() {
+    angular.module('appControllers')
+        .controller('LexDetailVersionController', ['$scope', '$sce', 'NetworkService', 'AppService', function ($scope, $sce, NetworkService, AppService) {
 
-    this.prepareVersion = function (version) {
-        if (version == null || version == undefined)
-            return '';
-        var paragraphs = [];
-        var curParagraph = null;
-        var curArticle = null;
-        for (var i = 0; i < version.results.bindings.length; i++) {
-            var item = version.results.bindings[i];
-            var part = {};
-            part.id = UtilService.decodeUnicodeString(item["id"]["value"]);
-            part.text = item["text"] ? UtilService.decodeUnicodeString(item["text"]["value"]) : '';
-            part.section = item["section"]["value"];
-            part.type = item["type"]["value"];
-            if (part.type == 'http://purl.org/lex/cz#Paragraf') {
-                part.parent = null;
-                part.articles = [];
-                curParagraph = part;
-                paragraphs.push(curParagraph);
-            } else if (part.type == 'http://purl.org/lex/cz#Odstavec') {
-                if(curParagraph == null){
-                        part.parent = null;
-                        part.articles = [];
-                        curParagraph = part;
-                        paragraphs.push(curParagraph);
+            $scope.actDetail = undefined;
+            $scope.actText = undefined;
+
+            $scope.isLoading = function () {
+                return angular.isUndefined($scope.actDetail);
+            };
+
+            $scope.isEmpty = function () {
+                return angular.isDefined($scope.actDetail) && $scope.actDetail.length === 0;
+            };
+
+            $scope.isTextLoading = function () {
+                return angular.isUndefined($scope.actText);
+            };
+
+            $scope.isTextEmpty = function () {
+                return angular.isDefined($scope.actText) && $scope.actText.length === 0;
+            };
+
+
+            this.update = function () {
+                if(angular.isUndefined($scope.actDetail) || $scope.actDetail["@id"] != $scope.resource){
+                    $scope.actDetail = undefined;
+                    NetworkService.getData('lex', 'act-detail', {'resource': $scope.resource})
+                        .then(function (actDetail) {
+                            if (actDetail["@graph"].length > 0)
+                                $scope.actDetail = actDetail["@graph"][0];
+                            else $scope.actDetail = {};
+                        });
                 }
-                part.parent = curParagraph;
-                part.subArticles = [];
-                curParagraph.articles.push(part);
-                curArticle = part;
-            } else if (part.type == 'http://purl.org/lex/cz#Pismeno') {
-                if (curArticle) {
-                    part.parent = curArticle;
-                    curArticle.subArticles.push(part);
-                } else {
-                    if(curParagraph == null){
-                            part.parent = null;
-                            part.articles = [];
-                            curParagraph = part;
-                            paragraphs.push(curParagraph);
-                    }
-                    part.parent = curParagraph;
-                    curParagraph.articles.push(part);
+
+                if(angular.isUndefined($scope.actText) || $scope.actText["@id"] != $scope.version){
+                    $scope.actText = undefined;
+                    NetworkService.getData('lex', 'act-text', {'resource': $scope.version})
+                        .then(function (actText) {
+                            if (actText["@graph"].length > 0)
+                            {
+                                var doc = angular.element("<div>" + actText["@graph"][0]["htmlValue"] + "</div>");
+                                $scope.actText = $sce.trustAsHtml(doc.html());
+                            }
+                            else $scope.actText = "";
+                        });
                 }
-            }
-        }
-        return paragraphs;
-    };
+            };
 
-    var self = this;
-    $scope.updateIteration = 0; //need to catch situation, when we need to process many requests in short time, but we should to show only last one
+            AppService.init($scope, ['resource', 'version'], this.update);
 
-    this.update = function () {
+        }]);
 
-        $scope.versions = null;
-//        $scope.resource = UrlService.getParam('resource');
-        $scope.isLoading = true;
-        $scope.isError = false;
-        $scope.isEmpty = false;
-        $scope.content = null;
-        $scope.updateIteration++;
-        var currentUpdateIteration = $scope.updateIteration;
-        if(self.cache[$scope.resource]){
-            $scope.content = self.cache[$scope.resource];
-            $scope.isLoading = false;
-        } else {
-            NetworkService.useApi('lex', 'lex/act-version-text', [$scope.resource], function (data) {
-                self.cache[$scope.resource] = self.prepareVersion(data);
-                if(currentUpdateIteration == $scope.updateIteration){
-                    $scope.content = self.cache[$scope.resource];
-                    $scope.isLoading = false;
-                }
-            }, function error(data, status) {
-                if(currentUpdateIteration == $scope.updateIteration){
-                    $scope.isError = true;
-                }
-            });
-        }
-    };
-
-//    this.init();
-//
-//    $scope.$listen(LocationParamsChangedEvent.getName(), function() {
-//        self.init();
-//    });
-
-    AppService.init($scope, ['resource'], this.update);
-}
+})();
 
