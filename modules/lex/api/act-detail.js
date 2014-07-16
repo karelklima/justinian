@@ -23,11 +23,6 @@ module.exports = function(routeParams) {
     };
 
    route.prepareResponse = function(responseJSONLD, next) {
-        responseJSONLD["@graph"].forEach(function(item) {
-            item["issuedIso"] = Number(item["issuedIso"]);
-            item["lastVersionValidIso"] = Number(item["lastVersionValidIso"]);
-        });
-        
         return responseJSONLD;
     };
 
@@ -35,11 +30,11 @@ module.exports = function(routeParams) {
         return {
             "@id" : ["string", ""],
             "title" : ["string", ""],
-        	"issuedIso" : ["number", undefined],
+        	"issuedIso" : ["string", ""],
             "creator" : ["string", ""],
             "identifier" : ["string", ""],
             "lastVersion" : ["string", ""],
-            "lastVersionValidIso" : ["number", undefined]
+            "lastVersionValidIso" : ["string", ""]
         }
     };
     

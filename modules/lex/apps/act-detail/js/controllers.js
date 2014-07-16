@@ -23,7 +23,7 @@
 
 
             this.update = function () {
-                NetworkService.getData('lex', 'act', {'resource': $scope.resource})
+                NetworkService.getData('lex', 'act-detail', {'resource': $scope.resource})
                     .then(function (actDetail) {
                         if (actDetail["@graph"].length > 0)
                             $scope.actDetail = actDetail["@graph"][0];

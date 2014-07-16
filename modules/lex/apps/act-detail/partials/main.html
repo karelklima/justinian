@@ -1,9 +1,7 @@
 <div ng-controller="LexDetailController">
     <div>
-        <h3>Předpis {{actDetail["title"]}}</h3>
-        <h3>Resource: </h3><span><a ng-href="{{resource}}">{{resource}}</a></span>
-
-        <h3>Platné znění:</h3>
+        <h1>Předpis č. {{actDetail["identifier"]}}</h1>
+        <h2>{{actDetail["title"]}}</h2>
         <div ng-hide="isTextLoading() || isEmpty()">
 
             <div ng-bind-html="actText"></div>
