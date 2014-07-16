@@ -10,7 +10,7 @@
             </tr>
             <tr ng-repeat="item in versions | orderBy: predicate : reverse"  ng-class="{active: item['@id'] == resource}">
                 <td><a click module="lex" application="act-detail-version" resource="{{ resource }}" params='{ "version": "{{ item["@id"] }}"}'>{{item["title"]}}</a></td>
-                <td>{{ item["validIso"] | formatDate }} <a click module="lex" application="act-compare" resource="{{ resource }}" params='{ "version": "{{ version }}", "secondVersion":"{{ item["@id"] }}"}'>Compare</a></td>
+                <td>{{ item["validIso"] | formatDate }} <a ng-show="{{ version !== undefined}}" click module="lex" application="act-compare" resource="{{ resource }}" params='{ "version": "{{ version }}", "secondVersion":"{{ item["@id"] }}"}'>Compare</a></td>
             </tr>
         </table>
     </div>
