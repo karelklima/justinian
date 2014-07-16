@@ -3,7 +3,7 @@
         <div ng-show="results.length == 0 && searching == false">No results</div>
         <div ng-show="searching == true">Searching...</div>
         <ul ng-show="results.length > 0" ng-repeat="item in results">
-            <li style="margin:10px;"><a click module="lex" application="act-detail" resource="{{ item['@id'] }}">{{print(item)}}</a></li>
+            <li style="margin:10px;"><a click module="lex" application="act-detail" resource="{{ item['@id'] }}">{{ item['title'] }}</a></li>
         </ul>
     </div>
 </div>

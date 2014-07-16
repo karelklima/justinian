@@ -4,10 +4,11 @@
         "frbr:" : "http://purl.org/vocab/frbr/core#",
         "sdo:" : "http://salt.semanticauthoring.org/ontologies/sdo#"
     },
+
     "apis": {
-    	"core/act-search": "core/act-search?query=$1&offset=$2&limit=$3",
-    	"core/generic": "core/generic?resource=$1",
-    	"core/expression": "core/expression?resource=$1"
-    }
+            "act-search": {"query":"", "limit": "10", "offset": "0"},
+            "generic": {"resource":""},
+            "expression": {"resource":""}
+        }
     
 }

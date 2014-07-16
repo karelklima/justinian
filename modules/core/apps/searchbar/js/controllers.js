@@ -1,12 +1,4 @@
 function SearchBarController($scope, $rootScope, NetworkService, UrlService, UtilService, AppService){
-//    $scope.query = UrlService.getParam('query');
-//    $scope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
-//        var query = UrlService.getParam('query');
-//        if(angular.isDefined(query)){
-//            $scope.query = query;
-//        }
-//    });
-
     AppService.init($scope, ['query']);
 
     $scope.search = function () {
@@ -17,22 +9,16 @@ function SearchBarController($scope, $rootScope, NetworkService, UrlService, Uti
     $('#inputSearchBar').typeahead({
         source: function(query, process){
             if(query && query.length>0){
-                NetworkService.useApi('core','core/act-search',[query, 1, 5],function success(data, status){
-                    if(!(data instanceof Array)) data = [];
-                    if(data.length > 5){
-                        data = data.slice(0,5);
-                    }
-                    if(data.length < 2){
-                        data = [];
-                    }
+                NetworkService.getData('core', 'act-search', {'query': query, "limit":5, "offset":0})
+                .then(function (data) {
                     var results = [];
-                    for(var i =0;i<data.length;i++){
-                        var item = data[i];
-                        results.push(UtilService.decodeUnicodeString(item['http://purl.org/dc/terms/title'][0]['@value']));
+                    for(var i =0;i<data["@graph"].length;i++){
+                        var item = data["@graph"][i];
+                        results.push(item['title']);
                     }
+                    if(results.length < 2)
+                        results = [];
                     process(results);
-                },function error(data, status){
-                    process([]);
                 });
             } else {
                 process([]);

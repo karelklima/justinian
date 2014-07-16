@@ -5,7 +5,7 @@
 function LexSearchController($scope, NetworkService, UrlService, UtilService, $rootScope, AppService){
     $scope.results = [];
     $scope.searching = false;
-//    $scope.query = UrlService.getParam('query');
+
     $scope.searchIteration = 0; //many search requests in short time interval -> we need to show only last one.
     $scope.search = function(){
         var query = $scope.query;
@@ -14,33 +14,14 @@ function LexSearchController($scope, NetworkService, UrlService, UtilService, $r
         $scope.searching = true;
         $scope.searchIteration++;
         var currentIteration = $scope.searchIteration;
-        NetworkService.useApi('core','core/act-search',[query,0,20],function success(data, status){
-            if($scope.searchIteration != currentIteration) return;
-            if(!(data instanceof Array)) data = [];
-            if(data.length > 10){
-                data = data.slice(0,10);
-            }
-            $scope.results = data;
-            $scope.searching = false;
-            $scope.$$phase || $scope.$apply();
-        },function error(data, status){
-            if($scope.searchIteration != currentIteration) return;
-            $scope.results = [];
-            $scope.searching = false;
-            $scope.$$phase || $scope.$apply();
-        });
-    }
-    //decode escaped unicode characters to normal form
-    $scope.print = function(item){
-        var value = item['http://purl.org/dc/terms/title'][0]['@value'];
-        return UtilService.decodeUnicodeString(value);
+
+        NetworkService.getData('core', 'act-search', {'query': query, 'limit':5, 'offset':0})
+            .then(function (data) {
+                if($scope.searchIteration != currentIteration) return;
+                $scope.results = data["@graph"];
+                $scope.searching = false;
+            });
     }
 
-//    $scope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
-//        $scope.search(UrlService.getParam('query'));
-//    });
-//
-//    if($scope.query!=null)
-//        $scope.search();
     AppService.init($scope, ['query'], $scope.search);
 }
