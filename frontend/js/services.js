@@ -113,7 +113,9 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
         return $routeParams[key];
     };
     this.setParam = function (key, value) {
-        $location.search(key, value);
+        var params = $location.search();
+        params[key] = value;
+        $location.search(params);
     };
     this.setPath = function (module, application) {
         this.setUrl(module, application, null);

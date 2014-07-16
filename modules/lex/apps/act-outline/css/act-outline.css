@@ -1,0 +1,23 @@
+.outline button {
+    position: absolute;
+    top: 3px;
+    left: 0px;
+    font-size: 9px;
+    line-height: 1.3;
+    padding: 1px 2px;
+    background: #FFF;
+    border: 1px solid #CCC;
+}
+.outline header {
+    padding: 2px;
+}
+.outline section {
+    position: relative;
+    padding-left: 20px;
+}
+.outline h2 {
+    font-size: 14px;
+    padding: 2px;
+    margin: 0;
+    font-weight: bold;
+}

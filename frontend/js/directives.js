@@ -1,87 +1,109 @@
-var appDirectives;
+(function() {
 
-appDirectives = angular.module('appDirectives', [
-    'appServices'
-]);
+    angular.module('appDirectives', ['appServices'])
 
-appDirectives.directive('click', ['UrlService', 'UtilService', '$parse', function (UrlService, UtilService, $parse) {
-    return {
-        restrict: 'A',
-        replace: true,
-        transclude: true,
-        scope: {
-            module: '@',
-            application: '@',
-            resource: '@',
-            type: '@',
-            query: '@',
-            params: '@'
-        },
-        template: "<a ng-click=click($event) ng-transclude></a>",
-        link: function (scope, element, attributes) {
-            var params = angular.isDefined(scope.params) ? angular.fromJson(scope.params) : {};
-            if (angular.isDefined(scope.resource)) {
-                params['resource'] = scope.resource;
-            }
-            if (angular.isDefined(scope.type)) {
-                params['type'] = scope.type;
-            }
-            if (angular.isDefined(scope.query)) {
-                params['query'] = scope.query;
-            }
+    .directive('click', ['UrlService', 'UtilService', '$parse', function (UrlService, UtilService, $parse) {
+        return {
+            restrict: 'A',
+            replace: true,
+            transclude: true,
+            scope: {
+                module: '@',
+                application: '@',
+                resource: '@',
+                type: '@',
+                query: '@',
+                params: '@'
+            },
+            template: "<a ng-click=click($event) ng-transclude></a>",
+            link: function (scope, element, attributes) {
+                var params = angular.isDefined(scope.params) ? angular.fromJson(scope.params) : {};
+                if (angular.isDefined(scope.resource)) {
+                    params['resource'] = scope.resource;
+                }
+                if (angular.isDefined(scope.type)) {
+                    params['type'] = scope.type;
+                }
+                if (angular.isDefined(scope.query)) {
+                    params['query'] = scope.query;
+                }
 
-            attributes.$set('href', '#/' +  UtilService.getUrl([scope.module, scope.application], params));
+                attributes.$set('href', '#/' + UtilService.getUrl([scope.module, scope.application], params));
 
-            scope.click = function ($event) {
+                scope.click = function ($event) {
 //                console.log($event);
 //                console.log("Phase[1]: "+($event.button == 0 && !$event.metaKey));
-                if($event){
-                    if($event.button == 0 && !$event.metaKey){
-                        $event.preventDefault(); //open in main window
+                    if ($event) {
+                        if ($event.button == 0 && !$event.metaKey) {
+                            $event.preventDefault(); //open in main window
+                        }
                     }
-                }
 //                console.log("Phase[2]: "+!$event.isDefaultPrevented());
 
-                if($event && !$event.isDefaultPrevented()) { //if we don't need to open link in main window, we break this function
-                    return false;
-                }
+                    if ($event && !$event.isDefaultPrevented()) { //if we don't need to open link in main window, we break this function
+                        return false;
+                    }
 
-                UrlService.setUrl(scope.module, scope.application, params);
+                    UrlService.setUrl(scope.module, scope.application, params);
 
-                if(attributes.sysClick){//call processing function from scope
-                    var fn = $parse(attributes.sysClick);
-                    fn(scope.$parent, {$event:$event});
+                    if (attributes.sysClick) {//call processing function from scope
+                        var fn = $parse(attributes.sysClick);
+                        fn(scope.$parent, {$event: $event});
+                    }
+                    return true;
                 }
-                return true;
             }
+        };
+    }])
+
+    .directive('compile', ['$compile', function ($compile) {
+        return function (scope, element, attrs) {
+            scope.$watch(
+                function (scope) {
+                    // watch the 'compile' expression for changes
+                    return scope.$eval(attrs.compile);
+                },
+                function (value) {
+                    // when the 'compile' expression changes
+                    // assign it into the current DOM
+                    element.html(value);
+
+                    // compile the new DOM and link it to the current
+                    // scope.
+                    // NOTE: we only compile .childNodes so that
+                    // we don't get into infinite loop compiling ourselves
+                    $compile(element.contents())(scope);
+                }
+            );
+        };
+    }])
+
+    .directive('scrollIf', function () {
+        return function (scope, element, attributes) {
+            setTimeout(function () {
+                if (scope.$eval(attributes.scrollIf)) {
+                    window.scrollTo(0, element[0].offsetTop - 100)
+                }
+            });
         }
-    };
-}]);
-
-appDirectives.directive('scrollIf', function () {
-  return function (scope, element, attributes) {
-    setTimeout(function () {
-      if (scope.$eval(attributes.scrollIf)) {
-        window.scrollTo(0, element[0].offsetTop - 100)
-      }
-    });
-  }
-});
+    })
 
 
-appDirectives.directive('changeTimeout', function() {
+    .directive('changeTimeout', function () {
         return {
             require: 'ngModel',
-            link: function(scope, elem, attr, ctrl) {
+            link: function (scope, elem, attr, ctrl) {
                 if (!attr.ngChange) {
                     throw new TypeError('ng-change directive not present');
                 }
 
-                angular.forEach(ctrl.$viewChangeListeners, function(listener, index) {
-                    ctrl.$viewChangeListeners[index] = _.debounce(function() {
+                angular.forEach(ctrl.$viewChangeListeners, function (listener, index) {
+                    ctrl.$viewChangeListeners[index] = _.debounce(function () {
                         scope.$apply(attr.ngChange);
                     }, attr.changeTimeout || 0)
                 });
             }
         }
     });
+
+})();

@@ -1,8 +1,14 @@
-<div class="panel panel-default">
+<div class="panel panel-default" ng-controller="LexActOutlineController">
     <div class="panel-heading">
-        <h4 class="panel-title">Struktura předpisu</h4>
+        <h4 class="panel-title">Obsah</h4>
     </div>
     <div class="panel-body">
-        TODO
+        <div ng-hide="isTextLoading() || isEmpty()">
+
+            <div class="outline" compile="actOutline"></div>
+
+        </div>
+        <div ng-show="isTextLoading()">Načítám data...</div>
+        <div ng-show="isTextEmpty()">Text není dostupný.</div>
     </div>
 </div>
