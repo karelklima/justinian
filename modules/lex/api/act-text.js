@@ -55,6 +55,7 @@ module.exports = function(routeParams) {
             };
 
             http.request(options, function (res) {
+                res.setEncoding('utf8');
                 var responseString = '';
                 res.on('data', function (chunk) {
                     responseString += chunk;
