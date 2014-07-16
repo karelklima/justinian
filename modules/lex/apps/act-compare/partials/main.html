@@ -2,8 +2,8 @@
     <div>
         <h1>Předpis č. {{actDetail["identifier"]}}</h1>
         <h2>{{actDetail["title"]}}</h2>
-        <h3>Text 1 length = {{ actText1RawLength() }}</h3>
-        <h3>Text 2 length = {{ actText2RawLength() }}</h3>
+        <h4>Text ({{ secondVersion }}) length = {{ actText1RawLength() }}</h4>
+        <h4>Text ({{ version }}) length = {{ actText2RawLength() }}</h4>
         <div ng-hide="isTextLoading() || isEmpty()">
             <div ng-bind-html="actText"></div>
         </div>
