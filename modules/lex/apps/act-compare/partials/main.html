@@ -1,0 +1,13 @@
+<div ng-controller="LexCompareVersionController">
+    <div>
+        <h1>Předpis č. {{actDetail["identifier"]}}</h1>
+        <h2>{{actDetail["title"]}}</h2>
+        <h3>Text 1 length = {{ actText1RawLength() }}</h3>
+        <h3>Text 2 length = {{ actText2RawLength() }}</h3>
+        <div ng-hide="isTextLoading() || isEmpty()">
+            <div ng-bind-html="actText"></div>
+        </div>
+        <div ng-show="isTextLoading()">Načítám data...</div>
+        <div ng-show="isTextEmpty()">Text není dostupný.</div>
+    </div>
+</div>

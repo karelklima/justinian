@@ -1,10 +1,11 @@
 (function() {
     angular.module('appControllers')
-        .controller('LexVersionsController', ['$scope', '$log', 'NetworkService', 'AppService', function ($scope, $log, NetworkService, AppService) {
+        .controller('LexVersionsController', ['$scope', '$log', 'NetworkService', 'AppService','UrlService', function ($scope, $log, NetworkService, AppService, UrlService) {
 
             $scope.versions = undefined;
             $scope.predicate = 'title';
             $scope.reverse = false;
+            $scope.version = UrlService.getParam('version');
 
             $scope.sortBy = function (predicate) {
                 if ($scope.predicate === predicate) {
