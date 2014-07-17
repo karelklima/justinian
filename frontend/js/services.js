@@ -61,10 +61,7 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
             angular.forEach(mods.apps, function (opts, appName) {
                 if (angular.isDefined(opts.datatypes) && opts.datatypes.indexOf(type) !== -1 // FIXME po zmene pole na polozku
                     && angular.isDefined(opts.views) && opts.views.indexOf("main") !== -1) {
-                    var priority = opts.priority;
-                    if (angular.isUndefined(priority)) {
-                        priority = 0;
-                    }
+                    var priority = angular.isDefined(opts.priority) ? opts.priority : 0;
                     result.push({module: modName, application: appName, priority: priority});
                 }
             });
