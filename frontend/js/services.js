@@ -64,7 +64,9 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
             });
         });
         //$log.debug("ConfigurationService.getDefaultModuleApplication: " +  angular.toJson(result));
-        return $filter('orderBy')(result, 'priority').pop();
+        var path = $filter('orderBy')(result, 'priority').pop();
+        $log.debug("ConfigurationService.getDefaultModuleApplication: " + type + " - " +  angular.toJson(path));
+        return path;
     };
 
     this.getDefaultTitle = function () {
