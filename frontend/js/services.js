@@ -43,10 +43,7 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
                         });
                     }
                     if (push || (angular.isUndefined(dependencies) && angular.isUndefined(types))) {
-                        var priority = opts.priority;
-                        if (angular.isUndefined(priority)) {
-                            priority = 0;
-                        }
+                        var priority = angular.isDefined(opts.priority) ? opts.priority : 0;
                         result.push({url: UtilService.getTemplateUrl(modName, appName, template), priority: priority});
                     }
                 }
