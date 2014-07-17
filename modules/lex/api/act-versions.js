@@ -8,13 +8,15 @@ module.exports = function(routeParams) {
             "valid" : {
                 "@id" : "http://purl.org/dc/terms/valid",
                 "@type" : "http://www.w3.org/2001/XMLSchema#date"
-            }
+            },
+            "actID" : "http://purl.org/dc/terms/actID",
+            "exprID" : "http://purl.org/dc/terms/exprID"
         }
     };
 
    route.prepareResponse = function(responseJSONLD, next) {
         responseJSONLD["@graph"].forEach(function(item) {
-            item["title"] = item["@id"].substring(item["@id"].lastIndexOf("/act/") + 10, item["@id"].lastIndexOf("/"));
+        	item["exprID"] != undefined ? item["identifier"] = item["exprID"] : item["identifier"] = item["actID"]  
         });
         
         return responseJSONLD;
@@ -23,7 +25,7 @@ module.exports = function(routeParams) {
    route.getModel = function() {
        return {
            "@id" : ["string", ""],
-           "title" : ["string", ""],
+           "identifier" : ["string", ""],
            "validIso" : ["string", undefined]
        }
    };
