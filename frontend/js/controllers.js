@@ -10,7 +10,7 @@ appControllers.controller('RootController', ['$scope', 'ConfigurationService', '
     if (!UrlService.isParam('module') && !UrlService.isParam('application')
         && UrlService.isParam('type') && UrlService.isParam('resource')) {
         var path = ConfigurationService.getDefaultModuleApplication(UrlService.getParam('type'));
-        $log.debug("RootController: " + UrlService.getParam('type') + " - " +  angular.toJson(path));
+        $log.debug("ConfigurationService.getDefaultModuleApplication: " + UrlService.getParam('type') + " - " +  angular.toJson(path));
         if (angular.isDefined(path)) {
             UrlService.setUrl(path.module, path.application, ['resource']);
         } else {
