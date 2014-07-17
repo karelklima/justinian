@@ -6,19 +6,22 @@ appServices = angular.module('appServices', [
 ]);
 
 // appConfiguration
-appServices.service('ConfigurationService', ['UtilService', 'PageService', '$filter', function (UtilService, PageService, $filter) {
+appServices.service('ConfigurationService', ['UtilService', 'PageService', '$filter', '$log', function (UtilService, PageService, $filter, $log) {
     var _data = configuration.application;
     var _modules = configuration.application.modules;
 
     this.isModuleApplication = function (module, application) {
         return module in _modules && application in _modules[module].apps;
     };
+
     this._getTypes = function () {
         return _modules[PageService.getModule()].apps[PageService.getApplication()].datatypes;
     };
+
     this.getMainTemplate = function () {
         return UtilService.getTemplateUrl(PageService.getModule(), PageService.getApplication(), 'main');
     };
+
     this.getTemplates = function (template) {
         var result = [];
         var datatypes = this._getTypes();
@@ -51,27 +54,27 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
         });
         return $filter('orderBy')(result, 'priority', true);
     };
+
     this.getDefaultModuleApplication = function (type) {
-        return _data.home;
+        var result = [];
+        angular.forEach(_modules, function (mods, modName) {
+            angular.forEach(mods.apps, function (opts, appName) {
+                if (angular.isDefined(opts.datatypes) && opts.datatypes.indexOf(type) !== -1 // FIXME po zmene pole na polozku
+                    && angular.isDefined(opts.views) && opts.views.indexOf("main") !== -1) {
+                    var priority = opts.priority;
+                    if (angular.isUndefined(priority)) {
+                        priority = 0;
+                    }
+                    result.push({module: modName, application: appName, priority: priority});
+                }
+            });
+        });
+        //$log.debug("ConfigurationService.getDefaultModuleApplication: " +  angular.toJson(result));
+        return $filter('orderBy')(result, 'priority').pop();
     };
+
     this.getDefaultTitle = function () {
-        var title = [];
-
         return _data["title"];
-        // TODO
-
-        var module = PageService.getModule();
-        var application = PageService.getApplication();
-        if (angular.isDefined(_modules.title)) {
-            title.push(_modules.title);
-        }
-        if (angular.isDefined(_modules[module]) && angular.isDefined(_modules[module].title)) {
-            title.push(_modules[module].title);
-        }
-        if (angular.isDefined(_modules[module]) && angular.isDefined(_modules[module].apps[application]) && angular.isDefined(_modules[module].apps[application].title)) {
-            title.push(_modules[module].apps[application].title);
-        }
-        return title.join(" - ");
     };
 
     this.getApiUrl = function (module, name, params) {
@@ -154,9 +157,7 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
         }
     });
     this.setUrlError = function () {
-        // TODO
         this.setUrl(configuration.application.error.module, configuration.application.error.application);
-
     };
     this.getUrlParamValues = function (params) {
         var search = {};

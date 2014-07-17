@@ -1,5 +1,6 @@
 {
     "title" : "Detail zákona",
     "datatypes" : ["frbr:Expression"],
-    "views": ["main"]
+    "views": ["main"],
+    "priority" : 1
 }

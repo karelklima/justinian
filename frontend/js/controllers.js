@@ -4,13 +4,18 @@ appControllers = angular.module('appControllers', [
     'appServices'
 ]);
 
-appControllers.controller('RootController', ['$scope', 'ConfigurationService', 'UrlService', 'PageService', function ($scope, ConfigurationService, UrlService, PageService) {
+appControllers.controller('RootController', ['$scope', 'ConfigurationService', 'UrlService', 'PageService', '$log', function ($scope, ConfigurationService, UrlService, PageService, $log) {
 
     // pokud mame url ve tvaru /#?type=xxx&resource=yyy najdeme defaultni aplikaci pro zadany typ
     if (!UrlService.isParam('module') && !UrlService.isParam('application')
         && UrlService.isParam('type') && UrlService.isParam('resource')) {
         var path = ConfigurationService.getDefaultModuleApplication(UrlService.getParam('type'));
-        UrlService.setUrl(path.module, path.application, ['resource']);
+        $log.debug("RootController: " + UrlService.getParam('type') + " - " +  angular.toJson(path));
+        if (angular.isDefined(path)) {
+            UrlService.setUrl(path.module, path.application, ['resource']);
+        } else {
+            UrlService.setUrl(configuration.application.home.module, configuration.application.home.application);
+        }
         return;
     }
 

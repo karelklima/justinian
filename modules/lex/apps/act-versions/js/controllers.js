@@ -25,7 +25,7 @@
             };
 
             this.update = function () {
-                $log.debug("LexVersionsController: update");
+                $log.debug("LexVersionsController.update");
                 NetworkService.getData('lex', 'act-versions', {'resource': $scope.resource})
                     .then(function (data) {
                         $scope.versions = data["@graph"];
