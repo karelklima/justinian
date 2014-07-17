@@ -3,7 +3,7 @@
         .controller('LexVersionsController', ['$scope', '$log', 'NetworkService', 'AppService','UrlService', function ($scope, $log, NetworkService, AppService, UrlService) {
 
             $scope.versions = undefined;
-            $scope.predicate = 'title';
+            $scope.predicate = 'identifier';
             $scope.reverse = false;
             $scope.version = UrlService.getParam('version');
 

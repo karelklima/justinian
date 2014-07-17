@@ -5,7 +5,7 @@
     <div class="panel-body">
         <table class="table">
             <tr>
-                <th><a ng-click="sortBy('title')">Ve znění novely</a></th>
+                <th><a ng-click="sortBy('identifier')">Ve znění novely</a></th>
                 <th><a ng-click="sortBy('-validIso')">Platné od</a></th>
             </tr>
             <tr ng-repeat="item in versions | orderBy: predicate : reverse"  ng-class="{active: item['@id'] == resource}">
