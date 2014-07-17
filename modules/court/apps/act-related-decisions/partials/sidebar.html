@@ -11,7 +11,7 @@
             </tr>
             <tr ng-repeat="decision in decisions | orderBy: predicate : reverse">
                 <td><a click module="court" application="decision-detail" resource="{{ decision['@id'] }}">{{ decision['title'] }}</a></td>
-                <td nowrap>{{ decision['validIso'] | formatDate }}</td>
+                <td nowrap>{{ decision['issuedIso'] | formatDate }}</td>
                 <td>{{ decision['subject'] | formatDash }}</td>
             </tr>
         </table>

@@ -7,8 +7,8 @@ module.exports = function(routeParams) {
         return {
             "subject" : "http://purl.org/dc/terms/subject",
             "title" : "http://purl.org/dc/terms/title",
-            "valid" : {
-                "@id" : "http://purl.org/dc/terms/valid",
+            "issued" : {
+                "@id" : "http://purl.org/dc/terms/issued",
                 "@type": "http://www.w3.org/2001/XMLSchema#date"
             }
         }
@@ -27,7 +27,7 @@ module.exports = function(routeParams) {
         return {
             "@id" : ["string", ""],
             "title" : ["string", ""],
-            "validIso" : ["string", undefined],
+            "issuedIso" : ["string", ""],
             "subject": ["string", ""]
         }
     };

@@ -6,9 +6,10 @@ PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
 PREFIX results: <http://>
 
 CONSTRUCT {
- ?res ?p ?o .
- ?res ?p_pass ?subj.
- results:RESULTS results:TOTALCOUNT ?total .
+ ?res dcterms:title ?title .
+ ?res dcterms:issued ?date .
+ ?res dcterms:subject ?subject .
+ results:RESULTS results:TOTALCOUNT ?total . 
 }
 
 FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz>
@@ -25,8 +26,9 @@ WHERE {
   OFFSET {{"param": "offset", "default": "0"}}
   LIMIT {{"param": "limit", "default": "10"}}
 }
-  ?res ?p ?o .
-  ?subj ?p2 ?res .
-  BIND(IRI(CONCAT(?p2, "_PASSIVE")) AS ?p_pass).
+  ?res dcterms:title ?title .
+  OPTIONAL { ?res dcterms:issued ?date }
+  OPTIONAL { ?res dcterms:subject ?subject }
+
 }
 

@@ -6,7 +6,7 @@ PREFIX resource: <{{"param": "resource", "filter": "RemoveLTGT"}}>
 
 CONSTRUCT { 
   ?decision dcterms:title ?title .
-  ?decision dcterms:valid ?date .
+  ?decision dcterms:issued ?date .
   ?decision dcterms:subject ?subjectLabel .
 }
 

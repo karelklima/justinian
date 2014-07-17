@@ -48,7 +48,7 @@ module.exports = function(routeParams) {
             "@id" : ["string", ""],
             "location" : ["string", ""],
             "locationShort" : ["string", ""],
-            "dateIso" : ["string", undefined],
+            "dateIso" : ["string", ""],
             "result" : ["array", []],
             "resultCount" : ["number", 0],
             "object" : ["array", []],
