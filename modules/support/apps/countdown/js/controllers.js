@@ -8,7 +8,7 @@ function LexCountdownController($scope, $timeout){
 
     var recalculate = function()
     {
-        var endMillis = new Date(1406844000000); // 1.8.2014
+        var endMillis = new Date("2014-08-17"); // 1.8.2014
         var millis = endMillis - new Date();
 
         var seconds = Math.floor((millis / 1000) % 60);
