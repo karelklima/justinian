@@ -29,7 +29,8 @@ function ApiRoutingTable()
         Underscore: _,
         JSONLD: JSONLD,
         HTTP: HTTP,
-        Q: Q
+        Q: Q,
+        settings: settings
     };
 
     var modules = _.keys(settings.getModulesSetup());

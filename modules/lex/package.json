@@ -2,6 +2,7 @@
     "title" : "Lex",
     "extends": ["core"],
     "prefixes": {
+        "dcterms:" : "http://purl.org/dc/terms/",
         "lex:" : "http://purl.org/lex#",
         "lexcz:" : "http://purl.org/lex/cz#",
         "legislation:": "http://linked.opendata.cz/resource/legislation/cz/"
@@ -11,5 +12,17 @@
     	"lex/related-acts": "lex/related-acts?resource=$1",
     	"act-versions": {"resource": ""},
     	"act-text" : {"resource": ""}
-    }
+    },
+    "universal-search": [
+        {
+            "datasets": ["http://linked.opendata.cz/resource/dataset/legislation/psp.cz"],
+            "type" : "lex:Act",
+            "property" : "dcterms:identifier"
+        },
+        {
+            "datasets": ["http://linked.opendata.cz/resource/dataset/legislation/psp.cz"],
+            "type" : "lex:Act",
+            "property" : "dcterms:title"
+        }
+    ]
 }

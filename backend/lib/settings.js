@@ -102,7 +102,9 @@ Settings.prototype.buildModulesSetup = function() {
             "title" : "Undefined",
             "apps" : {},
             "extends" : [],
-            "prefixes" : {}
+            "prefixes" : {},
+            "universal-search" : [],
+            "custom-search" : []
         });
 
         moduleInfo["name"] = moduleName;

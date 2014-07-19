@@ -1,0 +1,21 @@
+{{"param" : "prefixes"}}
+
+CONSTRUCT{
+  ?resource rdf:type ?type.
+  ?resource <http://TEXT> ?text.
+}
+
+{{"param" : "from"}}
+
+WHERE {
+  SELECT ?resource ?type ?text
+  WHERE {
+    ?resource a ?type .
+    ?resource ?property ?text .
+    ?text bif:contains '[__enc "UTF-8"]"{{"param" : "query", "filter" : "EscapeDoubleQuotes"}}"' .
+    {{"param" : "values"}}
+
+  }
+  LIMIT {{"param" : "limit"}}
+  OFFSET {{"param" : "offset"}}
+}
