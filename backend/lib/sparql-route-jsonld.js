@@ -8,6 +8,7 @@ var moment = require('moment');
 
 var logger = require('./logger');
 var settings = require('./settings');
+var prefixReplacer = require('./prefix-replacer');
 
 var SparqlRoute = require('./sparql-route');
 var SparqlClient = require('./sparql-client');
@@ -67,6 +68,10 @@ SparqlRouteJSONLD.prototype.prepareResponse = function(response) {
 
 SparqlRouteJSONLD.prototype.getModel = function() {
     return settings.options["sparql"]["jsonld"]["default-model"];
+};
+
+SparqlRouteJSONLD.prototype.getPrefixedProperties = function() {
+    return settings.options["sparql"]["jsonld"]["default-prefixed-properties"];
 };
 
 SparqlRouteJSONLD.prototype.getSendWarnings = function() {
@@ -161,6 +166,32 @@ SparqlRouteJSONLD.prototype.processModel = function(response) {
     return response;
 };
 
+SparqlRouteJSONLD.prototype.processPrefixedProperties = function(response) {
+    try {
+        var prefixedProperties = this.getPrefixedProperties();
+        var self = this;
+        _.each(response["@graph"], function(item) {
+            _.each(prefixedProperties, function(property) {
+                if (!_.isUndefined(item[property])) {
+                    if (_.isString(item[property])) {
+                        item[property] = prefixReplacer.contractString(self.getModuleName(), item[property]);
+                    } else {
+                        self.addWarning("Prefixed property must be a string: " + property);
+                    }
+                } else {
+                    self.addWarning("Prefixed property not found: " + property);
+                }
+            });
+        });
+    }
+    catch (e) {
+        logger.err(e);
+        this.addWarning(response, "Unable to process prefixed properties")
+    }
+
+    return response;
+};
+
 SparqlRouteJSONLD.prototype.addWarning = function (response, message) {
     if (!_.has(response, "@warning"))
         response["@warning"] = [];
@@ -185,6 +216,7 @@ SparqlRouteJSONLD.prototype.handleResponse = function(responseString, res) {
         .then(function(r) { return self.convertDates(r); })
         .then(function(r) { return self.prepareResponse(r); })
         .then(function(r) { return self.processModel(r); })
+        .then(function(r) { return self.processPrefixedProperties(r); })
         .then(function(r) { return self.processWarnings(r); })
         .then(function(responseJSON) {
             res.write(JSON.stringify(responseJSON, null, "  "));
