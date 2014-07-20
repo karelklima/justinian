@@ -174,7 +174,7 @@ SparqlRouteJSONLD.prototype.processPrefixedProperties = function(response) {
             _.each(prefixedProperties, function(property) {
                 if (!_.isUndefined(item[property])) {
                     if (_.isString(item[property])) {
-                        item[property] = prefixReplacer.contractString(self.getModuleName(), item[property]);
+                        item[property] = prefixReplacer.contractString(item[property]);
                     } else {
                         self.addWarning("Prefixed property must be a string: " + property);
                     }

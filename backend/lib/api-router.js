@@ -20,7 +20,7 @@ exports = module.exports = apiRouter;
 apiRouter.use('/:module/:api', function(req, res, next) {
     try {
         for (var param in req.query)
-            req.query[param] = prefixReplacer.expandString(req.params.module, req.query[param]);
+            req.query[param] = prefixReplacer.expandString(req.query[param]);
         next();
     }
     catch (err) {
