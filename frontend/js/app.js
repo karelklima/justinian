@@ -4,6 +4,7 @@
         'ngRoute',
         'angular-loading-bar',
         'ngAnimate',
+        'ui.bootstrap',
         'appControllers',
         'appDirectives',
         'appFilters'

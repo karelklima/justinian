@@ -1,7 +1,9 @@
-<form class="navbar-form" style="max-width: 350px;"  ng-controller="SearchBarController" ng-submit="search()">
+<form class="navbar-form" style="max-width: 350px;"  ng-controller="CoreSearchBarController" ng-submit="search()">
     <div class="input-group">
         <input type="text" class="form-control"  id="inputSearchBar"
-               ng-model="query" data-provide="typeahead"
+               ng-model="query"
+               typeahead="entity as entity.text for entity in getResults($viewValue)"
+               typeahead-on-select="selected($item)"
                placeholder="Vyhledat">
           <span class="input-group-btn">
             <button class="btn btn-default" type="submit" id="btnSearch">
