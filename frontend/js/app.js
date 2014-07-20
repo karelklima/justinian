@@ -5,6 +5,7 @@
         'angular-loading-bar',
         'ngAnimate',
         'ui.bootstrap',
+        'ui.utils',
         'appControllers',
         'appDirectives',
         'appFilters'

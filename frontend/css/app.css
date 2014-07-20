@@ -29,3 +29,8 @@ h1.navbar-brand {
 .col_sm_12 {
     width: 100%;
 }
+
+.spinner-bar {
+    position: relative;
+    height: 50px;
+}

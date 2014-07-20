@@ -1,9 +1,9 @@
-<div id="lex-search-app" ng-controller="LexSearchController">
-    <div style="margin-top: 20px; border: 1px solid;">
-        <div ng-show="results.length == 0 && searching == false">No results</div>
-        <div ng-show="searching == true">Searching...</div>
-        <ul ng-show="results.length > 0" ng-repeat="item in results">
-            <li style="margin:10px;"><a click module="lex" application="act-detail" resource="{{ item['@id'] }}">{{ item['title'] }}</a></li>
-        </ul>
+<div class="panel" id="lex-search-app" ng-controller="CoreSearchController">
+    <div class="dl-horizontal" ng-scroll="item in datasource" buffer-size="20" padding="0.8">
+        <dl class="dl-horizontal">
+            <dt>{{item.label}}</dt>
+            <dd><a click resource="{{item['@id']}}" type="{{item['@type']}}">{{item.text}}</a></dd>
+        </dl>
     </div>
+    <div ng-show="loading" spinner-bar></div>
 </div>
