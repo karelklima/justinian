@@ -9,9 +9,10 @@
     },
     "apis": {
         "act-detail": {"resource": ""},
-    	"lex/related-acts": "lex/related-acts?resource=$1",
     	"act-versions": {"resource": ""},
-    	"act-text" : {"resource": ""}
+    	"act-text" : {"resource": ""},
+    	"act-search" : {"query":"", "limit": "100", "offset": "0"},
+    	"decision-related-acts": {"resource":"", "limit": "10", "offset": "0"}
     },
     "universal-search": [
         {

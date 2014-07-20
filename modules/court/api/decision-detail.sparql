@@ -10,10 +10,19 @@ PREFIX x: <http://>
 PREFIX dec: <{{"param": "resource", "filter": "RemoveLTGT"}}>
 
 CONSTRUCT {
-  dec: ?pred ?obj .
-  dec: ?filepred ?fileobj .
-  dec: x:DECISIONCATEGORYLABEL ?deccatlabel .
-  dec: x:DECISIONKINDLABEL ?deckindlabel .
+  dec: dcterms:creator ?creator.
+  dec: dcterms:creatorTitles ?creatorTitle .
+  dec: dcterms:subject ?subject .
+  dec: dcterms:title ?title .
+  dec: dcterms:issued ?issued .
+  dec: dcterms:identifier ?identifier .
+  dec: lex:belongsToFile ?file .
+  dec: lex:fileKind ?fileKind .
+  dec: lex:fileNumber ?fileNumber .
+  dec: lex:fileYear ?fileYear .
+  dec: lex:senateNumber ?senateNumber .
+  dec: skos:catLabel ?deccatlabel .
+  dec: skos:kindLabel ?deckindlabel .
 }
 
 FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz>
@@ -22,14 +31,27 @@ FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz/updates>
 #FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
 
 WHERE {
-  dec: a lex:Decision .
-  dec: ?pred ?obj .
-  dec: lex:belongsToFile ?file .
-  ?file ?filepred ?fileobj .
-  dec: lex:decisionCategory ?deccat .
-  ?deccat skos:prefLabel ?deccatlabel .
-  dec: lex:decisionKind ?deckind .
-  ?deckind skos:prefLabel ?deckindlabel .
-  dec: lex:decisionCategory ?deccat .
-  ?deccat skos:prefLabel ?deccatlabel .
+  dec: dcterms:title ?title .
+  OPTIONAL {
+    dec: dcterms:creator ?creator .
+    ?creator dcterms:title ?creatorTitle .
+  }
+  OPTIONAL { dec: dcterms:subject ?subject . }
+  OPTIONAL { dec: dcterms:issued ?issued . }
+  OPTIONAL { dec: dcterms:identifier ?identifier . }
+  OPTIONAL { dec: lex:belongsToFile ?file . }
+  OPTIONAL {
+    ?file lex:fileKind ?fileKind .
+    ?file lex:fileNumber ?fileNumber .
+    ?file lex:fileYear ?fileYear .
+    ?file lex:senateNumber ?senateNumber .
+  }  
+  OPTIONAL {
+    dec: lex:decisionCategory ?deccat .
+    ?deccat skos:prefLabel ?deccatlabel .
+  }
+  OPTIONAL {
+    dec: lex:decisionKind ?deckind .
+    ?deckind skos:prefLabel ?deckindlabel .
+  }
 }
