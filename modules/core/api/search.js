@@ -39,7 +39,6 @@ module.exports = function(routeParams) {
 
     route.prepareParams = function(params) {
         _.extend(params, persistentParams);
-        console.log("params");
         return params;
     };
 
