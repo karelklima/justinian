@@ -1,0 +1,27 @@
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX lex: <http://purl.org/lex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+
+CONSTRUCT { ?act dcterms:title ?actTitle }
+
+FROM <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
+
+where {
+  SELECT DISTINCT ?act ?actTitle
+  WHERE {
+    ?act a lex:Act .
+    GRAPH <http://linked.opendata.cz/resource/dataset/legislation/psp.cz> { ?act dcterms:title ?actTitle . }
+    ?section a salt:Section .
+    ?section dcterms:description ?text .
+    ?text bif:contains '[__enc "UTF-8"]"{{"param" : "query", "filter" : "EscapeDoubleQuotes"}}"' .
+    { ?section frbr:partOf/frbr:realizationOf ?act . }
+    UNION {?section frbr:partOf/frbr:partOf/frbr:realizationOf ?act .}
+    UNION {?section frbr:partOf/frbr:partOf/frbr:partOf/frbr:realizationOf ?act .}
+    UNION {?section frbr:partOf/frbr:partOf/frbr:partOf/frbr:partOf/frbr:realizationOf ?act .}
+    UNION {?section frbr:partOf/frbr:partOf/frbr:partOf/frbr:partOf/frbr:partOf/frbr:realizationOf ?act .}
+    UNION {?section frbr:partOf/frbr:partOf/frbr:partOf/frbr:partOf/frbr:partOf/frbr:partOf/frbr:realizationOf ?act .}
+  }
+  OFFSET {{"param": "offset", "default": "0"}}
+  LIMIT {{"param": "limit", "default": "100"}}
+}
