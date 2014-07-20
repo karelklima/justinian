@@ -1,6 +1,6 @@
 {
     "title" : "Detail zákona",
-    "datatypes" : ["frbr:Expression"],
+    "datatypes" : ["lex:Act"],
     "views": ["main"],
     "priority" : 1
 }
