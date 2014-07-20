@@ -1,5 +1,7 @@
 module.exports = function(routeParams) {
-    var route = new routeParams.SparqlRouteJSONLD;
+    
+	var _ = routeParams.Underscore;
+	var route = new routeParams.SparqlRouteJSONLD;
 
     route.getContext = function() {
         return {
@@ -7,11 +9,23 @@ module.exports = function(routeParams) {
         }
     };
 
+    
     route.prepareResponse = function(responseJSONLD, next) {
-        // remove XML tag
-        responseJSONLD["htmlValue"] = responseJSONLD["xmlValue"].substring(responseJSONLD["xmlValue"].indexOf(">") + 1);
-        next(responseJSONLD);
-    };
 
+    	// remove XML tag
+    	responseJSONLD["@graph"][0]["xmlValue"] = responseJSONLD["@graph"][0]["xmlValue"].toString();
+    	responseJSONLD["@graph"][0]["xmlValue"] = responseJSONLD["@graph"][0]["xmlValue"].substring(responseJSONLD["@graph"][0]["xmlValue"].indexOf(">") + 1);
+    	
+        return responseJSONLD;
+    };
+    
+    
+    route.getModel = function() {
+        return {
+            "@id" : ["string", ""],
+            "xmlValue" : ["string", ""]
+        }
+    }
+    
     return route;
 };
