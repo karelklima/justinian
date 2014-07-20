@@ -5,7 +5,6 @@ module.exports = function(routeParams) {
 
     route.getContext = function() {
         return {
-            "relatedActs" : "http://purl.org/lex#concernedSourceOfLaw",
             "title": "http://purl.org/dc/terms/title"
         }
     };
@@ -27,7 +26,6 @@ module.exports = function(routeParams) {
     route.getModel = function() {
         return {
             "@id" : ["string", ""],
-            "relatedActs" : ["array", []],
             "title" : ["string", ""]
         }
     };

@@ -6,7 +6,6 @@ PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
 
 PREFIX dec: <{{"param": "resource", "filter": "RemoveLTGT"}}>
 CONSTRUCT {
-  dec: lex:concernedSourceOfLaw ?parent .
   ?parent dcterms:title ?actTitle .
 }
 
@@ -16,6 +15,8 @@ FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz/updates>
 FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
 
 WHERE {
+  SELECT DISTINCT ?parent ?actTitle
+  WHERE {
   dec: a lex:Decision .
   ?expression frbr:realizationOf dec:;
     sdo:hasSection/sdo:hasParagraph/sdo:hasTextChunk/sdo:hasAnnotation/sao:hasTopic ?topic .
@@ -27,6 +28,9 @@ WHERE {
  ?topic dcterms:title ?title.
  BIND(IRI(if(contains(str(?topic), "/section/"),strbefore(str(?topic), "/section/"), str(?topic))) as ?parent) .
  ?parent dcterms:title ?actTitle
+ }
+ OFFSET {{"param": "offset", "default": "0"}}
+ LIMIT {{"param": "limit", "default": "10"}}
 }
 
 # Zatim se uri zakonu ziskavaji z jejich casti pomoci regexu. Az budou kompletni data (uplna zneni), nahrad regex necim vic sparql-like: napr. ?topic frbr:partOf+ ?parent. 
