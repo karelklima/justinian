@@ -1,21 +1,25 @@
 {{"param" : "prefixes"}}
 
 CONSTRUCT{
-  ?resource rdf:type ?type.
-  ?resource <http://TEXT> ?text.
+  ?resource rdf:type ?type .
+  ?resource <http://TEXT> ?text .
+  ?resource <http://LABEL> ?label .
+  ?resource <http://SCORE> ?sc .
 }
 
 {{"param" : "from"}}
 
 WHERE {
-  SELECT ?resource ?type ?text
+  SELECT ?resource ?type ?text ?label ?sc
   WHERE {
     ?resource a ?type .
     ?resource ?property ?text .
-    ?text bif:contains '[__enc "UTF-8"]"{{"param" : "query", "filter" : "EscapeDoubleQuotes"}}"' .
+    ?text bif:contains '[__enc "UTF-8"]"{{"param" : "query", "filter" : "EscapeDoubleQuotes"}}"'
+    OPTION ( SCORE ?sc) .
     {{"param" : "values"}}
 
   }
+  ORDER BY DESC( ?sc)
   LIMIT {{"param" : "limit"}}
   OFFSET {{"param" : "offset"}}
 }

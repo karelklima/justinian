@@ -17,7 +17,7 @@ module.exports = function(routeParams) {
             _.extend(rawPrefixes, module["prefixes"]);
             _.each(module["universal-search"], function(specification) {
                 rawFrom = _.union(rawFrom, specification["datasets"]);
-                rawValues.push([specification["type"], specification["property"]]);
+                rawValues.push([specification["type"], specification["property"], specification["label"]]);
             });
         }
 
@@ -30,8 +30,8 @@ module.exports = function(routeParams) {
         persistentParams.from = persistentParams.from + "FROM <" + uri + ">\n";
     });
     var rawValuesTemp = [];
-    _.each(rawValues, function(pair) {
-        rawValuesTemp.push("VALUES (?type ?property) { ( " + pair[0] + " " + pair[1] + " ) }");
+    _.each(rawValues, function(triple) {
+        rawValuesTemp.push("VALUES (?type ?property ?label) { ( " + triple[0] + " " + triple[1] + ' "' + triple[2] + '"' + " ) }");
     });
     persistentParams.values = "{\n" + rawValuesTemp.join("\n} UNION {\n") + "\n}\n";
 
@@ -45,7 +45,9 @@ module.exports = function(routeParams) {
 
     route.getContext = function() {
         return {
-            "text" : "http://TEXT"
+            "text" : "http://TEXT",
+            "score" : "http://SCORE",
+            "label" : "http://LABEL"
         }
     };
 
@@ -60,7 +62,10 @@ module.exports = function(routeParams) {
                     self.addWarning(responseJSON, "Invalid result format, string or object with @value property expected");
                 }
             }
+            item["score"] = Number(item["score"]);
         });
+
+        responseJSON["@graph"] = _.sortBy(responseJSON["@graph"], function(item) { return 100 - item["score"]; });
 
         return responseJSON;
     };
@@ -69,8 +74,17 @@ module.exports = function(routeParams) {
         return {
             "@id" : ["string", ""],
             "@type" : ["string", ""],
-            "text" : ["string", ""]
+            "text" : ["string", ""],
+            "score" : ["number", 0],
+            "label" : ["string", ""]
         }
+    };
+
+    route.getPrefixedProperties = function() {
+        return [
+           "@id",
+           "@type"
+        ];
     };
 
     return route;

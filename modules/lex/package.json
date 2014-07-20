@@ -17,12 +17,14 @@
         {
             "datasets": ["http://linked.opendata.cz/resource/dataset/legislation/psp.cz"],
             "type" : "lex:Act",
-            "property" : "dcterms:identifier"
+            "property" : "dcterms:identifier",
+            "label" : "Zákon"
         },
         {
             "datasets": ["http://linked.opendata.cz/resource/dataset/legislation/psp.cz"],
             "type" : "lex:Act",
-            "property" : "dcterms:title"
+            "property" : "dcterms:title",
+            "label" : "Zákon"
         }
     ]
 }
