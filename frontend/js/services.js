@@ -111,6 +111,9 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
     this.getParam = function (key) {
         return $routeParams[key];
     };
+    this.getAllParams = function(){
+        return $routeParams;
+    }
     this.setParam = function (key, value) {
         var params = $location.search();
         params[key] = value;

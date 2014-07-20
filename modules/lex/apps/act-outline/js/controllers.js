@@ -19,10 +19,10 @@
                 self.toggleClass("glyphicon-plus").toggleClass("glyphicon-minus");
             };
 
-            $scope.goto = function ($event) {
-                var part = angular.element($event.target).closest("section").attr('resource');
-                UrlService.setParam("section", part);
-            };
+//            $scope.goto = function ($event) {
+//                var part = angular.element($event.target).closest("section").attr('resource');
+//                UrlService.setParam("section", part);
+//            };
 
             this.update = function () {
                 NetworkService.getData('lex', 'act-text', {'resource': $scope.resource})
@@ -30,7 +30,7 @@
                         if (actText["@graph"].length > 0)
                         {
                             var toggle = angular.element('<button ng-click="toggle($event)" class="btn-xs"><span class="glyphicon glyphicon-plus"></span></button>');
-                            var link = angular.element('<a href="#" ng-click="goto($event)"></a>');
+                            var link = angular.element('<a click></a>');
                             var doc = angular.element("<div>" + actText["@graph"][0]["htmlValue"] + "</div>");
                             var content = doc.find("section[class='obsah']");
                             content.find("section[class='paragraf'], section[class='clanek'], section[class='preambule']").children(':not(header)').remove();
@@ -42,6 +42,7 @@
                                     text = text + "<span> - </span>" + self.children("h1:last").html();
                                 var cloned = link.clone();
                                 cloned.html(text);
+                                cloned.attr({'params': '{"section":"'+self.closest('section').attr('resource')+'"}'});
                                 self.prepend(cloned);
                                 self.children("h1").remove();
                             });

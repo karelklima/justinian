@@ -1,4 +1,4 @@
-(function() {
+(function(angular) {
 
     angular.module('appDirectives', ['appServices'])
 
@@ -28,7 +28,34 @@
                     params['query'] = scope.query;
                 }
 
-                attributes.$set('href', '#/' + UtilService.getUrl([scope.module, scope.application], params));
+                if(!(angular.isDefined(scope.module) && angular.isDefined(scope.application)) && !(angular.isDefined(scope.resource) && angular.isDefined(scope.type))){
+                    //Need to append params
+                    var currentParams = UrlService.getAllParams();
+                    for (var paramName in currentParams) {
+                        if(currentParams.hasOwnProperty(paramName)){
+                            params[paramName] = currentParams[paramName];
+                        }
+                    }
+
+                    if(angular.isDefined(params['module'])){
+                        scope.module = params['module'];
+                        attributes.$set('module', scope.module);
+                        delete params['module'];
+                    }
+
+                    if(angular.isDefined(params['application'])){
+                        scope.application = params['application'];
+                        attributes.$set('application', scope.application);
+                        delete params['application'];
+                    }
+
+//                    console.log(params);
+                }
+                if( angular.isDefined(scope.module) && angular.isDefined(scope.application) ){
+                    attributes.$set('href', '#/' + UtilService.getUrl([scope.module, scope.application], params));
+                } else {
+                    attributes.$set('href', '#/?' + UtilService.getUrlSearch(params));
+                }
 
                 scope.click = function ($event) {
 //                console.log($event);
@@ -106,4 +133,4 @@
         }
     });
 
-})();
+})(angular);
