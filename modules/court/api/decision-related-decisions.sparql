@@ -4,25 +4,35 @@ PREFIX frbr: <http://purl.org/vocab/frbr/core#>
 PREFIX sao: <http://salt.semanticauthoring.org/ontologies/sao#>
 PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
 
-PREFIX dec: <{{"param": "resource", "filter": "RemoveLTGT"}}>
+PREFIX resource: <{{"param": "resource", "filter": "RemoveLTGT"}}>
 
 CONSTRUCT {
-  dec: sao:hasTopic ?topic.
-  ?topic dcterms:title ?title.
+  ?decision dcterms:title ?title .
+  ?decision dcterms:issued ?date .
+  ?decision dcterms:subject ?subjectLabel .
 }
 
 FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz>
 FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz/updates>
 
 WHERE {
-  SELECT DISTINCT ?topic ?title
+  {
+  SELECT DISTINCT ?decision ?date
   WHERE {
-    dec: a lex:Decision .
-    ?expression frbr:realizationOf dec:;
-      sdo:hasSection/sdo:hasParagraph/sdo:hasTextChunk/sdo:hasAnnotation/sao:hasTopic ?topic .
-    ?topic a lex:Decision . 
-    OPTIONAL { ?topic dcterms:title ?title . }
+    resource: a lex:Decision .
+    ?expression frbr:realizationOf resource:;
+      sdo:hasSection/sdo:hasParagraph/sdo:hasTextChunk/sdo:hasAnnotation/sao:hasTopic ?decision .
+    ?decision a lex:Decision . 
+    OPTIONAL { ?decision dcterms:issued ?date .}
+
   }
+  ORDER BY DESC(?date)
   OFFSET {{"param": "offset", "default": "0"}}
   LIMIT {{"param": "limit", "default": "10"}}
+  }
+  ?decision dcterms:title ?title .
+  OPTIONAL {
+    ?decision dcterms:subject ?subject .
+    BIND( REPLACE(str(?subject), '^.*decision-subject/', "") AS ?subjectLabel) .
+  } 
 }
