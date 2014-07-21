@@ -130,7 +130,7 @@ SparqlRouteJSONLD.prototype.processModel = function(response) {
                 if (!_.isUndefined(item[key]) && typeof item[key] != model[key][0]) {
                     if (_.isArray(item[key]) && item[key].length > 0) {
                         if (item[key].length > 1) {
-                            self.addWarning("Single value expected for key '" + key + "', multiple received");
+                            self.addWarning(response, "Single value expected for key '" + key + "', multiple received");
                         }
                         item[key] = item[key][0];
                     }
@@ -155,11 +155,15 @@ SparqlRouteJSONLD.prototype.processModel = function(response) {
                 }
             });
             _.defaults(item, defaults); // fill in default values
-            _.pick(item, keys); // omit unwanted fields
+            var trailingKeys = _.difference(_.keys(item), keys); // omit unwanted fields
+            _.each(trailingKeys, function(key) {
+                delete item[key];
+            })
         });
     }
     catch (e) {
-        logger.err(e);
+        console.log(e);
+        console.log(e.stack);
         this.addWarning(response, "Unable to process model");
     }
 
@@ -176,16 +180,17 @@ SparqlRouteJSONLD.prototype.processPrefixedProperties = function(response) {
                     if (_.isString(item[property])) {
                         item[property] = prefixReplacer.contractString(item[property]);
                     } else {
-                        self.addWarning("Prefixed property must be a string: " + property);
+                        self.addWarning(response, "Prefixed property must be a string: " + property);
                     }
                 } else {
-                    self.addWarning("Prefixed property not found: " + property);
+                    self.addWarning(response, "Prefixed property not found: " + property);
                 }
             });
         });
     }
     catch (e) {
         logger.err(e);
+        logger.err(e.stack);
         this.addWarning(response, "Unable to process prefixed properties")
     }
 
