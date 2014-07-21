@@ -5,6 +5,12 @@
             $scope.actExpression = undefined;
             $scope.actOutline = undefined;
 
+            $scope.isOpen = true;
+
+            $scope.toggleOpen = function() {
+                $scope.isOpen = !$scope.isOpen;
+            };
+
             $scope.isTextLoading = function () {
                 return angular.isUndefined($scope.actOutline);
             };
@@ -13,7 +19,7 @@
                 return angular.isDefined($scope.actOutline) && $scope.actOutline.length === 0;
             };
 
-            $scope.toggle = function ($event) {
+            $scope.toggleSection = function ($event) {
                 var self = angular.element($event.target);
                 self.closest("section").children(':not(header):not(button)').toggle();
                 self.toggleClass("glyphicon-plus").toggleClass("glyphicon-minus");
@@ -29,7 +35,7 @@
                     .then(function (actText) {
                         if (actText["@graph"].length > 0)
                         {
-                            var toggle = angular.element('<button ng-click="toggle($event)" class="btn-xs"><span class="glyphicon glyphicon-plus"></span></button>');
+                            var toggle = angular.element('<button ng-click="toggleSection($event)" class="btn-xs"><span class="glyphicon glyphicon-plus"></span></button>');
                             var link = angular.element('<a click></a>');
                             var doc = angular.element("<div>" + actText["@graph"][0]["htmlValue"] + "</div>");
                             var content = doc.find("section[class='obsah']");
