@@ -42,12 +42,13 @@
                         element.attr("href", UtilService.getUrl(getEffectiveParams()));
                     });
 
-                    element.bind('click', function(event) {
-                        if (event.button == 0 && !(event.metaKey || event.ctrlKey)) { // just metaKey does not work properly
+                    element.bind('click', function($event) {
+                        UrlService.setUrl(getEffectiveParams());
+                        /*if (event.button == 0 && !(event.metaKey || event.ctrlKey)) { // just metaKey does not work properly
                             event.preventDefault(); //open in main window
                             UrlService.setUrl(getEffectiveParams());
                         }
-                        return true;
+                        return true;*/
                     });
                 }
             }
