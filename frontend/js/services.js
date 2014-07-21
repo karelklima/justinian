@@ -112,8 +112,8 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
         return $routeParams[key];
     };
     this.getAllParams = function(){
-        return $routeParams;
-    }
+        return angular.copy($routeParams);
+    };
     this.setParam = function (key, value) {
         var params = $location.search();
         params[key] = value;
@@ -122,16 +122,13 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
     this.setPath = function (module, application) {
         this.setUrl(module, application, null);
     };
-    this.setUrl = function (module, application, params) {
-        var path = '';
-        if (angular.isDefined(module) && angular.isDefined(application)) {
-            path = module + '/' + application;
-        }
-        if (angular.isArray(params)) {
-            params = this.getUrlParamValues(params);
-        }
-        var search = UtilService.getUrlSearch(params);
-        $location.path(path).search(search);
+    this.setUrl = function (params, redirect) {
+        if (!angular.isObject(params))
+            params = {};
+        var parts = UtilService.getUrlParts(params);
+        $location.path(UtilService.getUrlPath(parts.path)).search(parts.search);
+        if (redirect)
+            $location.replace();
     };
 
     $rootScope.$on('$locationChangeSuccess', function() {
@@ -180,10 +177,25 @@ appServices.service('UtilService', ['$filter', function ($filter) {
         return url.join('&');
     };
     this.getUrlPath = function (params) {
-        return params.join('/');
+        return '/' + params.join('/');
     };
-    this.getUrl = function (path, search) {
-        return this.getUrlPath(path) + '?' + this.getUrlSearch(search);
+    this.getUrl = function (params) {
+        var parts = this.getUrlParts(params);
+        return '#' + this.getUrlPath(parts.path) + '?' + this.getUrlSearch(parts.search);
+    };
+    /**
+     * Splits params to "path" and "search"
+     * @param params
+     * @return object
+     */
+    this.getUrlParts = function(params) {
+        var output = { path : [], search : angular.copy(params) };
+        if (angular.isDefined(params.module) && angular.isDefined(params.application)) {
+            output.path = [params.module, params.application];
+            delete output.search.module;
+            delete output.search.application;
+        }
+        return output;
     };
     this.matchUrlParams = function (url, params) {
         angular.forEach(params, function (value, index) {

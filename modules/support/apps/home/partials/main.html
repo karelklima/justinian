@@ -6,3 +6,19 @@
     <li><a click module="lex" application="act-detail" resource="legislation:act/2009/280-2009">Daňový řád</a></li>
     <li><a click module="lex" application="act-detail" resource="legislation:act/2008/253-2008">Zákon + ČOI</a></li>
 </ul>
+
+
+        <h2>Test  click</h2>
+        <script type="text/javascript">
+            function ClickTestController($scope)
+            {
+                $scope.myCoolParams = { cool:true };
+            }
+        </script>
+        <div ng-controller="ClickTestController">
+        <a click params='{"x":"x"}' a="b">params: x=x, a=b</a><br>
+        <a click params='{z:"z"}' a="x">params: z=z, a=x</a><br>
+        <a click params="myCoolParams">myCoolParams z controlleru</a><br>
+        <a click module="support" application="home" u="u">module: support, application: home, u: u</a><br>
+        <a click resource="legislation:act/1993/1-1993" type="lex:Act" v="v">resource: legis..., type: lex:Act, v=v</a>
+        </div>

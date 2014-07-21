@@ -13,12 +13,16 @@
         };
 
         $scope.search = function () {
-            UrlService.setUrl('core', 'search', {'query': $scope.query});
+            UrlService.setUrl({
+                module: 'core',
+                application: 'search',
+                query: $scope.query
+            });
         };
 
         $scope.selected = function (item) {
             console.log(item);
-            UrlService.setUrl(undefined, undefined, { "resource": item["@id"], "type": item["@type"] });
+            UrlService.setUrl({ "resource": item["@id"], "type": item["@type"] });
         };
 
     }]);

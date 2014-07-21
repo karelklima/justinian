@@ -11,9 +11,11 @@ appControllers.controller('RootController', ['$scope', 'ConfigurationService', '
         && UrlService.isParam('type') && UrlService.isParam('resource')) {
         var path = ConfigurationService.getDefaultModuleApplication(UrlService.getParam('type'));
         if (angular.isDefined(path)) {
-            UrlService.setUrl(path.module, path.application, ['resource']);
+            path.resource = UrlService.getParam('resource');
+            delete path.priority;
+            UrlService.setUrl(path, true);
         } else {
-            UrlService.setUrl(configuration.application.home.module, configuration.application.home.application);
+            UrlService.setUrl(configuration.application.home, true);
         }
         return;
     }
@@ -21,7 +23,7 @@ appControllers.controller('RootController', ['$scope', 'ConfigurationService', '
     // if there are not any params - need to open default application
     if(!UrlService.isParam('module') && !UrlService.isParam('application')
                && !UrlService.isParam('type') && !UrlService.isParam('resource')){
-        UrlService.setUrl(configuration.application.home.module, configuration.application.home.application);
+        UrlService.setUrl(configuration.application.home);
         return;
     }
     // pokud neexistuje aplikace, kterou mame zobrazit jdeme na errorpage

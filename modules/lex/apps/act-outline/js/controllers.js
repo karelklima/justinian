@@ -42,7 +42,7 @@
                                     text = text + "<span> - </span>" + self.children("h1:last").html();
                                 var cloned = link.clone();
                                 cloned.html(text);
-                                cloned.attr({'params': '{"section":"'+self.closest('section').attr('resource')+'"}'});
+                                cloned.attr("section", self.closest('section').attr('resource'));
                                 self.prepend(cloned);
                                 self.children("h1").remove();
                             });

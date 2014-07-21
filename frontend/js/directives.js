@@ -2,7 +2,58 @@
 
     angular.module('appDirectives', ['appServices'])
 
-    .directive('click', ['UrlService', 'UtilService', '$parse', function (UrlService, UtilService, $parse) {
+        .directive('click', ['UrlService', 'UtilService', '$parse', function (UrlService, UtilService, $parse) {
+            return {
+                restrict: 'A',
+                scope: {
+                    params: '='
+                },
+                link: function (scope, element, attributes) {
+
+                    var attrRegex = new RegExp("^(click|params|ng-.*|sys-.*|class|id)$");
+
+                    var getEffectiveParams = function() {
+                        var params = angular.isDefined(scope.params) ? angular.copy(scope.params) : {};
+
+                        // Copy all relevant attributes to scope.params
+                        angular.forEach(attributes.$attr, function(attribute, key) {
+                            if (!attrRegex.test(attribute)) {
+                                params[key] = attributes[key];
+                            }
+                        });
+
+                        if (
+                            (angular.isDefined(params.module) && angular.isDefined(params.application))
+                            ||
+                            (angular.isDefined(params.resource) && angular.isDefined(params.type))
+                            ) {
+                            return params; // Overwrites current params
+                        } else {
+                            var extendedParams = UrlService.getAllParams();
+                            angular.extend(extendedParams, params);
+                            return extendedParams; // Extends current params
+                        }
+                    };
+
+                    // Set initial href attribute
+                    element.attr("href", UtilService.getUrl(getEffectiveParams()));
+
+                    element.bind('mouseover', function() {
+                        element.attr("href", UtilService.getUrl(getEffectiveParams()));
+                    });
+
+                    element.bind('click', function(event) {
+                        if (event.button == 0 && !(event.metaKey || event.ctrlKey)) { // just metaKey does not work properly
+                            event.preventDefault(); //open in main window
+                            UrlService.setUrl(getEffectiveParams());
+                        }
+                        return true;
+                    });
+                }
+            }
+        }])
+
+    /*.directive('click', ['UrlService', 'UtilService', '$parse', function (UrlService, UtilService, $parse) {
         return {
             restrict: 'A',
             replace: true,
@@ -52,7 +103,7 @@
 //                    console.log(params);
                 }
                 if( angular.isDefined(scope.module) && angular.isDefined(scope.application) ){
-                    attributes.$set('href', '#/' + UtilService.getUrl([scope.module, scope.application], params));
+                    attributes.$set('href', '#/' + scope.module + '/' + scope.application + '?' + UtilService.getUrlSearch(params));
                 } else {
                     attributes.$set('href', '#/?' + UtilService.getUrlSearch(params));
                 }
@@ -71,7 +122,10 @@
                         return false;
                     }
 
-                    UrlService.setUrl(scope.module, scope.application, params);
+                    params.module = scope.module;
+                    params.application = scope.application;
+
+                    UrlService.setUrl(params);
 
                     if (attributes.sysClick) {//call processing function from scope
                         var fn = $parse(attributes.sysClick);
@@ -81,7 +135,7 @@
                 }
             }
         };
-    }])
+    }])*/
 
     .directive('compile', ['$compile', function ($compile) {
         return function (scope, element, attrs) {
