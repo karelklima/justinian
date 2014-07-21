@@ -1,0 +1,37 @@
+.justinian-footer {
+    line-height: 30px;
+    margin: 0;
+    color: #999;
+    font-size: 12px;
+}
+.justinian-footer a, .justinian-footer .copyright {
+    margin: 0 5px;
+}
+.justinian-footer .logo-container {
+    display: inline-block;
+    margin: auto;
+    color: #999;
+}
+.justinian-footer .logo-container span {
+    font-style: italic;
+    font-weight: bold;
+    color: #FFF;
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    margin: 0;
+    line-height: 24px;
+    border-radius: 16px;
+    font-size: 20px;
+    padding: 2px 2px 2px 0;
+    font-family: Arial, "Helvetica Neue", sans-serif;
+    background: #777;
+}
+.justinian-footer .logo-container b {
+    display: inline-block;
+    padding: 0 10px;
+}
+
+.justinian-footer .logo-container:hover {
+    text-decoration: none;
+}
