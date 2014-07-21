@@ -10,7 +10,7 @@
         "decisions": {"limit": "10", "offset": "0"},
         "decision-detail": {"resource": ""},
         "decision-text": {"resource": ""},
-    	"court/decision-related-decisions": "court/decision-related-decisions?resource=$1",
+    	"decision-related-decisions": {"resource": "", "limit": "10", "offset": "0"},
     	"act-related-decisions": {"resource": ""}
     },
     "universal-search": [

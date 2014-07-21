@@ -1,0 +1,9 @@
+{
+    "title" : "Judikáty",
+    "datatypes" : ["lex:Decision"],
+    "views": ["sidebar"],
+    "dependencies": {
+        "court": ["decision-detail"]
+    },
+    "priority" : -1
+}
