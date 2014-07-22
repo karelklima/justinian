@@ -1,19 +1,9 @@
-<div class="panel panel-default" ng-controller="LexActOutlineController">
-    <div class="panel-heading cursor-pointer">
-        <h4 class="panel-title" ng-click="toggleOpen()">
-            Obsah
-            <i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}"></i>
-        </h4>
-    </div>
-    <div class="panel-collapse" collapse="!isOpen">
-        <div class="panel-body">
-            <div ng-hide="isTextLoading() || isEmpty()">
+<div ng-controller="LexActOutlineController" sidebar-app heading="Obsah">
+    <div ng-hide="isTextLoading() || isEmpty()">
 
-                <div class="outline" compile="actOutline"></div>
+        <div class="outline" compile="actOutline"></div>
 
-            </div>
-            <div ng-show="isTextLoading()">Načítám data...</div>
-            <div ng-show="isTextEmpty()">Text není dostupný.</div>
-        </div>
     </div>
+    <div ng-show="isTextLoading()">Načítám data...</div>
+    <div ng-show="isTextEmpty()">Text není dostupný.</div>
 </div>
