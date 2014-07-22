@@ -10,21 +10,6 @@ h1.navbar-brand {
     padding: 15px 0;
 }
 
-.col_sm_8, .col_sm_12 {
-    position: relative;
-    min-height: 1px;
-    padding-right: 15px;
-    padding-left: 15px;
-    float: left;
-}
-
-.col_sm_8 {
-    width: 66.66666667%;
-}
-.col_sm_12 {
-    width: 100%;
-}
-
 .spinner-bar {
     position: relative;
     height: 50px;
