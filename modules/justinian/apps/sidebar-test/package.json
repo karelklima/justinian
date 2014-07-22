@@ -1,0 +1,8 @@
+{
+    "title" : "Sidebar test",
+    "views": ["sidebar"],
+    "dependencies": {
+        "justinian": ["home"]
+    },
+    "priority" : 10
+}
