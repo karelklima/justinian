@@ -1,8 +1,8 @@
 {
     "title" : "Justinian",
-    "home" : {"module" : "support", "application" : "home"},
+    "home" : {"module" : "justinian", "application" : "home"},
     "error" : {"module" : "core", "application" : "error"},
-    "modules" : ["core", "lex", "court", "coi", "support"],
+    "modules" : ["core", "lex", "court", "coi", "justinian"],
     "asset-extensions" : ["html", "js", "css", "png"],
     "sparql" : {
         "datastore-url" : "http://linked.opendata.cz/sparql",
