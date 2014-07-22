@@ -290,11 +290,19 @@ appServices.service('AppService', ['UrlService', 'UtilService', function (UrlSer
     */
     this.init = function ($appScope, params, update){
         if(angular.isDefined($appScope) && angular.isDefined(params) && params instanceof Array && params.length > 0){
+            var changes = {};
             for(var i = 0; i < params.length; i++){
-                $appScope[UtilService.dashToCamel(params[i])] = UrlService.getParam(params[i]);
+                var appParamName = UtilService.dashToCamel(params[i]);
+                var paramValue = UrlService.getParam(params[i])
+                if($appScope[appParamName] !== paramValue){
+                    changes[appParamName]={'old':$appScope[appParamName],'new':paramValue};
+                    $appScope[appParamName] = paramValue;
+                }
             }
             $appScope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
+                console.log(UrlService.getAllParams());
                 var paramsChanged = false;
+                var changes = {};
                 for(var i = 0; i < params.length; i++){
                     var paramValue = UrlService.getParam(params[i]);
                     var appParamName = UtilService.dashToCamel(params[i]);
@@ -303,14 +311,15 @@ appServices.service('AppService', ['UrlService', 'UtilService', function (UrlSer
                     if(paramValue !== $appScope[appParamName])
                     {
                         paramsChanged = true;
+                        changes[appParamName]={'old':$appScope[appParamName],'new':paramValue};
                         $appScope[appParamName] = paramValue;
                     }
                 }
                 if(paramsChanged){
-                    angular.isDefined(update) && update();
+                    angular.isDefined(update) && update(changes);
                 }
             });
         }
-        angular.isDefined(update) && update();
+        angular.isDefined(update) && update(changes);
     }
 }]);
