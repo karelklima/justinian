@@ -300,7 +300,6 @@ appServices.service('AppService', ['UrlService', 'UtilService', function (UrlSer
                 }
             }
             $appScope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
-                console.log(UrlService.getAllParams());
                 var paramsChanged = false;
                 var changes = {};
                 for(var i = 0; i < params.length; i++){

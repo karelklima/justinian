@@ -4,7 +4,18 @@
         <h3>Resource: </h3><span><a ng-href="{{resource}}">{{resource}}</a></span>
 
         <h3>Detail judikátu:</h3>
-        <div ng-hide="isTextLoading() || isEmpty()">
+        <div ng-hide="isLoading() || isEmpty()">
+
+            <!--<div ng-bind="decisionDetail."></div>-->
+            <h4>Creator: <a href="{{ decisionDetail.creator }}">{{ decisionDetail.creatorTitle }}</a></h4>
+            <h4>Category: <span ng-bind="decisionDetail.decisionCategory" /></h4>
+            <h4>Kind: <span ng-bind="decisionDetail.decisionKind" /></h4>
+            <h4>Identifier: <span ng-bind="decisionDetail.identifier" /></h4>
+            <h4>Issued ISO: <span ng-bind="decisionDetail.issuedIso" /></h4>
+
+        </div>
+        <h3>Text:</h3>
+        <div ng-hide="isTextLoading() || isTextEmpty()">
 
             <div ng-bind-html="decisionText"></div>
 
