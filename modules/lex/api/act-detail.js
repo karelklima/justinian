@@ -37,6 +37,13 @@ module.exports = function(routeParams) {
             "lastVersionValidIso" : ["string", ""]
         }
     };
+
+    route.getPrefixedProperties = function() {
+        return [
+            "@id",
+            "lastVersion"
+        ];
+    };
     
     return route;
 };
