@@ -7,11 +7,14 @@
                 restrict: 'A',
                 transclude: true,
                 replace: true,
-                template: "<div class=\"panel transclude\"></div>",
+                template:
+                    "<div class=\"panel\">\n" +
+                    "  <div class=\"panel-body transclude\"></div>\n" +
+                    "</div>",
                 link: function(scope, element, attrs, controller, linker) {
                     // Custom transclusion so we can share scope with custom controller
                     linker(scope, function(clone){
-                        element.append(clone); // add to DOM
+                        element.find(".transclude").append(clone); // add to DOM
                     });
                 }
             }

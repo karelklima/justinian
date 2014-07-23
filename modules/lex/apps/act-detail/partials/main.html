@@ -1,5 +1,4 @@
-<div ng-controller="LexActDetailController" main-app anchor-scroll offset-top="70">
-    <div class="panel-body">
+<div ng-controller="LexActDetailController" class="lex-act-detail" main-app anchor-scroll offset-top="70">
         <h1>Předpis č. {{actDetail["identifier"]}}</h1>
         <h2>{{actDetail["title"]}}</h2>
         <div ng-hide="isTextLoading() || isEmpty()">
@@ -9,5 +8,4 @@
         </div>
         <div ng-show="isTextLoading()">Načítám data...</div>
         <div ng-show="isTextEmpty()">Text není dostupný.</div>
-    </div>
 </div>

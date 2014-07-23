@@ -28,7 +28,6 @@
                 //    return; // this can only happen when
 
                 $log.debug("LexActDetailController.update: running update");
-
                 var updateVersion = function () {
                     var deferred = $q.defer();
                     if (!angular.isDefined($scope.version)) {
