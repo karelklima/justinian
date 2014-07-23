@@ -1,5 +1,5 @@
-<div ng-controller="LexDetailController">
-    <div>
+<div ng-controller="LexDetailController" main-app>
+    <div class="panel-body">
         <h1>Předpis č. {{actDetail["identifier"]}}</h1>
         <h2>{{actDetail["title"]}}</h2>
         <div ng-hide="isTextLoading() || isEmpty()">

@@ -114,10 +114,13 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
     this.getAllParams = function(){
         return angular.copy($routeParams);
     };
-    this.setParam = function (key, value) {
-        var params = $location.search();
-        params[key] = value;
-        $location.search(params);
+    this.setParam = function (key, value, redirect) {
+        //var params = $location.search();
+        //params[key] = value;
+        //$location.search(params);
+        $location.search(key, value);
+        if (redirect)
+            $location.replace();
     };
     this.setPath = function (module, application) {
         this.setUrl(module, application, null);
