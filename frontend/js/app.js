@@ -6,6 +6,7 @@
         'ngAnimate',
         'ui.bootstrap',
         'ui.utils',
+        'duScroll',
         'appControllers',
         'appDirectives',
         'appFilters'

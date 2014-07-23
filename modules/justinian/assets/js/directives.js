@@ -66,6 +66,27 @@
             };
         })
 
+        .directive('anchorScroll', ['$timeout', '$document', function ($timeout, $document) {
+            return {
+                restrict: 'A',
+                scope: {
+                    offsetTop: '@'
+                },
+                link: function (scope, element, attrs) {
+                    if (angular.isUndefined(scope.offsetTop))
+                        scope.offsetTop = element.offset().top;
+                    scope.$on('anchor-scroll', function (events, params) {
+                        $timeout(function () { // You might need this timeout to be sure its run after DOM render.
+                            var target = element.find(params.target);
+                            if (target.length) {
+                               $document.scrollTo(target[0], scope.offsetTop, 300);
+                            }
+                        }, 0, false);
+                    })
+                }
+            }
+        }]);
+
 
 
 })();

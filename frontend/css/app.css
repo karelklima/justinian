@@ -10,6 +10,10 @@ h1.navbar-brand {
     padding: 15px 0;
 }
 
+.sidebar {
+    position: relative;
+}
+
 .spinner-bar {
     position: relative;
     height: 50px;
