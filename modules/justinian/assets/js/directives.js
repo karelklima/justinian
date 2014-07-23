@@ -2,7 +2,22 @@
 
     angular.module("appDirectives")
 
-        .directive('sidebarApp', function() {
+        .directive('mainApp', function () {
+            return {
+                restrict: 'A',
+                transclude: true,
+                replace: true,
+                template: "<div class=\"panel transclude\"></div>",
+                link: function(scope, element, attrs, controller, linker) {
+                    // Custom transclusion so we can share scope with custom controller
+                    linker(scope, function(clone){
+                        element.append(clone); // add to DOM
+                    });
+                }
+            }
+        })
+
+        .directive('sidebarApp', function () {
             return {
                 restrict: 'A',
                 transclude: true,              // It transcludes the contents of the directive into the template
