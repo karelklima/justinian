@@ -1,6 +1,6 @@
 (function() {
     angular.module('appControllers')
-        .controller('ActRelatedCoiChecksController', ['$scope', 'NetworkService', 'UrlService', 'AppService', '$filter', function ($scope, NetworkService, UrlService, AppService, $filter) {
+        .controller('ActRelatedCoiChecksController', ['$scope', 'NetworkService', 'UrlService', 'AppService', function ($scope, NetworkService, UrlService, AppService) {
 
             $scope.checks = undefined;
             $scope.predicate = '-dateIso';
