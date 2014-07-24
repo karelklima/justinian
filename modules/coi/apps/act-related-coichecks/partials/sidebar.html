@@ -18,7 +18,7 @@
 
             </tr>
         </table>
-        <div class="text-center"><span pagination ng-model="page" total-items="checks.length" items-per-page="limit" max-size="size" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></span></div>
+        <div class="text-center" ng-show="checks.length > limit"><span pagination ng-model="page" total-items="checks.length" items-per-page="limit" max-size="size" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></span></div>
     </div>
 
     <div ng-show="isLoading()">Načítám data...</div>
