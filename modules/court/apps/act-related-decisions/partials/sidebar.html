@@ -1,21 +1,19 @@
-<div class="panel panel-default" ng-controller="ActRelatedDecisionsController">
-    <div class="panel-heading">
-        <h4 class="panel-title">Judikáty</h4>
-    </div>
-    <div class="panel-body">
-        <table class="table" ng-hide="isLoading() || isEmpty()">
-            <tr>
-                <th><a ng-click="sortBy('title')">Název</a></th>
-                <th><a ng-click="sortBy('-issuedIso')">Datum</a></th>
-                <th><a ng-click="sortBy('subject')">Předmět</a></th>
-            </tr>
-            <tr ng-repeat="decision in decisions | orderBy: predicate : reverse">
-                <td><a click module="court" application="decision-detail" resource="{{ decision['@id'] }}">{{ decision['title'] }}</a></td>
-                <td nowrap>{{ decision['issuedIso'] | formatDate }}</td>
-                <td>{{ decision['subject'] | formatDash }}</td>
-            </tr>
-        </table>
-        <div ng-show="isLoading()">Načítám data...</div>
-        <div ng-show="isEmpty()">Žádná dostupná rozhodnutí.</div>
-    </div>
+<div ng-controller="ActRelatedDecisionsController" sidebar-app is-open="true" is-disabled="false" heading="Judikáty">
+
+    <table class="table" ng-hide="isLoading() || isEmpty()">
+        <tr>
+            <th><a ng-click="sortBy('title')">Název</a></th>
+            <th><a ng-click="sortBy('-issuedIso')">Datum</a></th>
+            <th><a ng-click="sortBy('subject')">Předmět</a></th>
+        </tr>
+        <tr ng-repeat="decision in decisions | orderBy: predicate : reverse">
+            <td><a click module="court" application="decision-detail" resource="{{ decision['@id'] }}">{{ decision['title'] }}</a></td>
+            <td nowrap>{{ decision['issuedIso'] | formatDate }}</td>
+            <td>{{ decision['subject'] | formatDash }}</td>
+        </tr>
+    </table>
+
+    <div ng-show="isLoading()">Načítám data...</div>
+    <div ng-show="isEmpty()">Žádná dostupná rozhodnutí.</div>
+
 </div>
