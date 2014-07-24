@@ -8,7 +8,7 @@
                 <th><a ng-click="sortBy('title')">Kontrola</a></th>
                 <th><a ng-click="sortBy('resultCount')">Postih</a></th>
             </tr>
-            <tr ng-repeat="check in checks | orderBy: predicate : reverse | startFrom : page : limit | limitTo : limit">
+            <tr ng-repeat="check in checks | orderBy: predicate : reverse | select : page : limit">
                 <td nowrap>{{ check['dateIso'] | formatDate }}</td>
                 <td><abbr title="{{ check['location'] }}">{{ check['locationShort'] }}</abbr></td>
                 <td><a ng-href="{{ check['@id'] }}">{{ check['title'] }}</a></td>

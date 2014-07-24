@@ -28,9 +28,10 @@ appFilters.filter('formatDash', function() {
     }
 });
 
-appFilters.filter('startFrom', function() {
+appFilters.filter('select', function() {
     return function(input, page, limit) {
-        var start = (page-1)*limit;
-        return angular.isDefined(input) ? input.slice(start) : undefined;
+        var start = (page - 1) * limit;
+        var end = page * limit;
+        return angular.isDefined(input) ? input.slice(start, end) : undefined;
     }
 });
