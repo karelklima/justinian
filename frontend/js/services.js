@@ -132,6 +132,7 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
         $location.path(UtilService.getUrlPath(parts.path)).search(parts.search);
         if (redirect)
             $location.replace();
+        $rootScope.$$phase || $rootScope.$apply();
     };
 
     $rootScope.$on('$locationChangeSuccess', function() {
@@ -262,10 +263,10 @@ appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService',
         var deferred = $q.defer();
         $resource(url, paramDefaults, {get: {method: 'GET', cache: true}}).get(parameters, function (value, responseHeaders) {
             deferred.resolve(value);
-            $log.debug("NetworkService.getData: value - " + angular.toJson(value));
+            $log.debug("NetworkService.getData["+url+"]: value.length = " + angular.toJson(value).length);
         }, function(httpResponse) {
             deferred.resolve({});
-            $log.debug("NetworkService.getData: error");
+            $log.debug("NetworkService.getData["+url+"]: error");
         });
         return deferred.promise;
     };
