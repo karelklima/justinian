@@ -1,17 +1,14 @@
-<div class="panel panel-default" ng-controller="LexVersionsController">
-    <div class="panel-heading">
-        <h4 class="panel-title">Historie zákona</h4>
-    </div>
-    <div class="panel-body">
-        <table class="table">
-            <tr>
-                <th><a ng-click="sortBy('identifier')">Ve znění novely</a></th>
-                <th><a ng-click="sortBy('-validIso')">Platné od</a></th>
-            </tr>
-            <tr ng-repeat="item in versions | orderBy: predicate : reverse"  ng-class="{active: item['@id'] == resource}">
-                <td><a click module="lex" application="act-detail-version" resource="{{ resource }}" params='{ "version": "{{ item["@id"] }}"}'>{{item["identifier"]}}</a></td>
-                <td>{{ item["validIso"] | formatDate }} <a ng-show="{{ version !== undefined}}" click module="lex" application="act-compare" resource="{{ resource }}" params='{ "version": "{{ version }}", "secondVersion":"{{ item["@id"] }}"}'>Compare</a></td>
-            </tr>
-        </table>
-    </div>
+<div ng-controller="LexVersionsController" sidebar-app heading="Historie zákona" is-open="true">
+    <table class="table">
+        <tr>
+            <th><a ng-click="sortBy('identifier')">Ve znění novely</a></th>
+            <th><a ng-click="sortBy('-validIso')">Platné od</a></th>
+        </tr>
+        <tr ng-repeat="item in versions | orderBy: predicate : reverse"  ng-class="{active: item['@id'] == resource}">
+            <td><a click module="lex" application="act-detail-version" resource="{{ resource }}" version='{{ item["@id"] }}' ng-show='item["haveText"]'>{{item["identifier"]}}</a>
+                <span ng-show='!item["haveText"]'>{{item["identifier"]}}</span>
+            </td>
+            <td>{{ item["validIso"] | formatDate }} <a ng-show='version !== undefined && item["haveText"]' click module="lex" application="act-compare" resource="{{ resource }}" version='{{ version }}' sversion='{{ item["@id"] }}'>Compare</a></td>
+        </tr>
+    </table>
 </div>

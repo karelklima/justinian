@@ -10,13 +10,17 @@ module.exports = function(routeParams) {
                 "@type" : "http://www.w3.org/2001/XMLSchema#date"
             },
             "actID" : "http://purl.org/dc/terms/actID",
-            "exprID" : "http://purl.org/dc/terms/exprID"
+            "exprID" : "http://purl.org/dc/terms/exprID",
+            "partOf": "http://purl.org/vocab/frbr/core#partOf"
         }
     };
 
    route.prepareResponse = function(responseJSONLD, next) {
         responseJSONLD["@graph"].forEach(function(item) {
-        	item["exprID"] != undefined ? item["identifier"] = item["exprID"] : item["identifier"] = item["actID"]  
+        	item["exprID"] != undefined ? item["identifier"] = item["exprID"] : item["identifier"] = item["actID"];
+        	item["haveText"] = (item["partOf"]!==undefined);
+        	delete item["partOf"];
+
         });
         
         return responseJSONLD;
@@ -26,7 +30,8 @@ module.exports = function(routeParams) {
        return {
            "@id" : ["string", ""],
            "identifier" : ["string", ""],
-           "validIso" : ["string", ""]
+           "validIso" : ["string", ""],
+           "haveText": ["boolean", ""]
        }
    };
     

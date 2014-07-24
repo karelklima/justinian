@@ -1,5 +1,7 @@
 {
     "title" : "Verze zákona",
-    "datatypes" : ["frbr:Expression"],
-    "views": ["sidebar"]
+    "views": ["sidebar"],
+    "dependencies": {
+        "lex": ["act-detail","act-detail-version","act-compare"]
+    }
 }

@@ -5,7 +5,6 @@
             $scope.versions = undefined;
             $scope.predicate = '-validIso';
             $scope.reverse = false;
-            $scope.version = UrlService.getParam('version');
 
             $scope.sortBy = function (predicate) {
                 if ($scope.predicate === predicate) {
@@ -24,15 +23,17 @@
                 return angular.isDefined($scope.versions) && $scope.versions.length === 0;
             };
 
-            this.update = function () {
-                $log.debug("LexVersionsController.update");
-                NetworkService.getData('lex', 'act-versions', {'resource': $scope.resource})
-                    .then(function (data) {
-                        $scope.versions = data["@graph"];
-                    });
+            this.update = function (changes) {
+                if(angular.isDefined(changes['resource'])){
+                    NetworkService.getData('lex', 'act-versions', {'resource': $scope.resource})
+                        .then(function (data) {
+                            console.log(data);
+                            $scope.versions = data["@graph"];
+                        });
+                }
             };
 
-            AppService.init($scope, ['resource'], this.update);
+            AppService.init($scope, ['resource','version'], this.update);
 
         }]);
 

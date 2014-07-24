@@ -49,9 +49,9 @@
                         });
                 }
 
-                if(angular.isUndefined(self.actText1Raw) || self.actText1Raw["@id"] != $scope.secondVersion){
+                if(angular.isUndefined(self.actText1Raw) || self.actText1Raw["@id"] != $scope.sversion){
                     self.actText1Raw = undefined;
-                    NetworkService.getData('lex', 'act-text', {'resource': $scope.secondVersion})
+                    NetworkService.getData('lex', 'act-text', {'resource': $scope.sversion})
                         .then(function (data) {
                             console.log(data);
                             if (data["@graph"].length > 0)
@@ -106,9 +106,9 @@
                             if(item[0] == 0)
                                 result+= item[1];
                             else if(item[0] == -1){
-                                result+= self.colored(result, item[1], '#FF0000', 'remove');
+                                result+= self.colored(result, item[1], '#AA4139', 'remove');
                             } else if (item[0] == 1){
-                                result+= self.colored(result, item[1], '#00FF00', 'add');
+                                result+= self.colored(result, item[1], '#779D34', 'add');
                             }
                         }
                     }
@@ -140,14 +140,14 @@
                 }
 
                 if(normalText)
-                    result+='<font color="'+color+'">';
+                    result+='<font style="color:'+color+';">';
 
                 for(; textIndex<text.length; textIndex++){
                     if(text[textIndex] == '>'){
                         if(operation == 'add')
                             result+='>';
                         if(!normalText)
-                            result+='<font color="'+color+'">';
+                            result+='<font style="color:'+color+';">';
                         normalText = true;
                     } else if(text[textIndex] == '<'){
                         if(normalText)
@@ -165,7 +165,7 @@
                 return result;
             }
 
-            AppService.init($scope, ['resource', 'version', 'secondVersion'], this.update);
+            AppService.init($scope, ['resource', 'version', 'sversion'], this.update);
 
         }]);
 
