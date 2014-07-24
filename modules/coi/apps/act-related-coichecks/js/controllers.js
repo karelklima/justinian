@@ -1,10 +1,14 @@
 (function() {
     angular.module('appControllers')
-        .controller('ActRelatedCoiChecksController', ['$scope', 'NetworkService', 'UrlService', 'AppService', function ($scope, NetworkService, UrlService, AppService) {
+        .controller('ActRelatedCoiChecksController', ['$scope', 'NetworkService', 'UrlService', 'AppService', '$filter', function ($scope, NetworkService, UrlService, AppService, $filter) {
 
             $scope.checks = undefined;
             $scope.predicate = '-dateIso';
             $scope.reverse = false;
+
+            $scope.page = 1;
+            $scope.limit = 5;
+            $scope.size = 3 ;
 
             $scope.sortBy = function (predicate) {
                 if ($scope.predicate === predicate) {

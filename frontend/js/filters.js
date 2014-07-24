@@ -27,3 +27,10 @@ appFilters.filter('formatDash', function() {
         return text.replace(/\-/g,' ');
     }
 });
+
+appFilters.filter('startFrom', function() {
+    return function(input, page, limit) {
+        var start = (page-1)*limit;
+        return input.slice(start);
+    }
+});

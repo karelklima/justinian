@@ -1,19 +1,25 @@
 <div ng-controller="ActRelatedCoiChecksController" sidebar-app is-open="true" is-disabled="false" heading="Kontroly ČOI">
 
-    <table class="table" ng-hide="isLoading() || isEmpty()">
-        <tr>
-            <th><a ng-click="sortBy('-dateIso')">Datum</a></th>
-            <th><a ng-click="sortBy('locationShort')">Kraj</a></th>
-            <th><a ng-click="sortBy('title')">Kontrola</a></th>
-            <th><a ng-click="sortBy('resultCount')">Postih</a></th>
-        </tr>
-        <tr ng-repeat="check in checks | orderBy: predicate : reverse">
-            <td nowrap>{{ check['dateIso'] | formatDate }}</td>
-            <td><abbr title="{{ check['location'] }}">{{ check['locationShort'] }}</abbr></td>
-            <td><a ng-href="{{ check['@id'] }}">{{ check['title'] }}</a></td>
-            <td>{{ check['resultCount'] | formatZero }}</td>
-        </tr>
-    </table>
+    <div  ng-hide="isLoading() || isEmpty()">
+        <table class="table">
+            <tr>
+                <th><a ng-click="sortBy('-dateIso')">Datum</a></th>
+                <th><a ng-click="sortBy('locationShort')">Kraj</a></th>
+                <th><a ng-click="sortBy('title')">Kontrola</a></th>
+                <th><a ng-click="sortBy('resultCount')">Postih</a></th>
+            </tr>
+            <tr ng-repeat="check in checks | orderBy: predicate : reverse | startFrom : page : limit | limitTo : limit">
+                <td nowrap>{{ check['dateIso'] | formatDate }}</td>
+                <td><abbr title="{{ check['location'] }}">{{ check['locationShort'] }}</abbr></td>
+                <td><a ng-href="{{ check['@id'] }}">{{ check['title'] }}</a></td>
+                <td>{{ check['resultCount'] | formatZero }}</td>
+            </tr>
+            <tr>
+
+            </tr>
+        </table>
+        <div class="text-center"><pagination ng-model="page" total-items="checks.length" items-per-page="limit" max-size="size" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></pagination></div>
+    </div>
 
     <div ng-show="isLoading()">Načítám data...</div>
     <div ng-show="isEmpty()">Žádné dostupné kontroly.</div>

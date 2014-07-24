@@ -5,6 +5,7 @@
             $scope.decisions = undefined;
             $scope.predicate = '-issuedIso';
             $scope.reverse = false;
+            $scope.limit = 5;
 
             $scope.sortBy = function (predicate) {
                 if ($scope.predicate === predicate) {
