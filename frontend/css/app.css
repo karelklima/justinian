@@ -22,3 +22,8 @@ h1.navbar-brand {
 .cursor-pointer {
     cursor: pointer;
 }
+
+table tr td .pagination {
+    margin-top: 0;
+    margin-bottom: -20px;
+}

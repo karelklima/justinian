@@ -5,7 +5,10 @@
             $scope.decisions = undefined;
             $scope.predicate = '-issuedIso';
             $scope.reverse = false;
-            $scope.limit = 5;
+
+            $scope.page = 1;
+            $scope.limit = 2;
+            $scope.size = 5;
 
             $scope.sortBy = function (predicate) {
                 if ($scope.predicate === predicate) {
@@ -22,6 +25,10 @@
 
             $scope.isEmpty = function() {
                 return angular.isDefined($scope.decisions) && $scope.decisions.length === 0;
+            };
+
+            $scope.isShowPagination = function() {
+                return angular.isDefined($scope.decisions) && $scope.decisions.length > $scope.limit;
             };
 
             this.update = function () {

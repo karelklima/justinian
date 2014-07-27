@@ -1,24 +1,24 @@
 <div ng-controller="ActRelatedCoiChecksController" sidebar-app is-open="true" is-disabled="false" heading="Kontroly ČOI">
 
-    <div  ng-hide="isLoading() || isEmpty()">
-        <table class="table">
-            <tr>
-                <th><a ng-click="sortBy('-dateIso')">Datum</a></th>
-                <th><a ng-click="sortBy('locationShort')">Kraj</a></th>
-                <th><a ng-click="sortBy('title')">Kontrola</a></th>
-                <th><a ng-click="sortBy('resultCount')">Postih</a></th>
-            </tr>
-            <tr ng-repeat="check in checks | orderBy: predicate : reverse | select : page : limit">
-                <td nowrap>{{ check['dateIso'] | formatDate }}</td>
-                <td><abbr title="{{ check['location'] }}">{{ check['locationShort'] }}</abbr></td>
-                <td><a ng-href="{{ check['@id'] }}">{{ check['title'] }}</a></td>
-                <td>{{ check['resultCount'] | formatZero }}</td>
-            </tr>
-        </table>
-        <div class="text-center" ng-show="checks.length > limit">
-            <span pagination ng-model="page" total-items="checks.length" items-per-page="limit" max-size="size" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></span>
-        </div>
-    </div>
+    <table class="table" ng-hide="isLoading() || isEmpty()">
+        <tr>
+            <th><a ng-click="sortBy('-dateIso')">Datum</a></th>
+            <th><a ng-click="sortBy('locationShort')">Kraj</a></th>
+            <th><a ng-click="sortBy('title')">Kontrola</a></th>
+            <th><a ng-click="sortBy('resultCount')">Postih</a></th>
+        </tr>
+        <tr ng-repeat="check in checks | orderBy: predicate : reverse | select : page : limit">
+            <td nowrap>{{ check['dateIso'] | formatDate }}</td>
+            <td><abbr title="{{ check['location'] }}">{{ check['locationShort'] }}</abbr></td>
+            <td><a ng-href="{{ check['@id'] }}">{{ check['title'] }}</a></td>
+            <td>{{ check['resultCount'] | formatZero }}</td>
+        </tr>
+        <tr ng-show="isShowPagination()">
+            <td colspan="4" class="text-center">
+                <div pagination ng-model="page" total-items="checks.length" items-per-page="limit" max-size="size" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></div>
+            </td>
+        </tr>
+    </table>
 
     <div ng-show="isLoading()">Načítám data...</div>
     <div ng-show="isEmpty()">Žádné dostupné kontroly.</div>

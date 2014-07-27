@@ -6,11 +6,17 @@
             <th><a ng-click="sortBy('-issuedIso')">Datum</a></th>
             <th><a ng-click="sortBy('subject')">Předmět</a></th>
         </tr>
-        <tr ng-repeat="decision in decisions | orderBy: predicate : reverse | limitTo : limit">
+        <tr ng-repeat="decision in decisions | orderBy: predicate : reverse  | select : page : limit">
             <td><a click module="court" application="decision-detail" resource="{{ decision['@id'] }}">{{ decision['title'] }}</a></td>
             <td nowrap>{{ decision['issuedIso'] | formatDate }}</td>
             <td>{{ decision['subject'] | formatDash }}</td>
         </tr>
+        <tr ng-show="isShowPagination()">
+            <td colspan="3" class="text-center">
+                <div pagination ng-model="page" total-items="decisions.length" items-per-page="limit" max-size="size" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></div>
+            </td>
+        </tr>
+
     </table>
 
     <div ng-show="isLoading()">Načítám data...</div>
