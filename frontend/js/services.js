@@ -223,7 +223,10 @@ appServices.service('UtilService', ['$filter', function ($filter) {
     };
 }]);
 
-appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService', 'ConfigurationService', '$log', function ($resource, $http, $q, UtilService, ConfigurationService, $log) {
+appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService', 'ConfigurationService', '$log', '$cacheFactory', function ($resource, $http, $q, UtilService, ConfigurationService, $log, $cacheFactory) {
+
+    var lruCache = $cacheFactory('lruCache', { capacity: 10 });
+
     this.useApi = function(module,apiName,params,success,error){
         if(!params) params = [];
         if(!(params instanceof Array)) throw new TypeError("params must be an Array");
@@ -247,21 +250,21 @@ appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService',
     this.getData = function (module, api, parameters) {
         var url = ConfigurationService.getApiPath(module, api);
         var paramDefaults = ConfigurationService.getApiParamDefaults(module, api);
-        $log.debug("NetworkService.getData: url - " + angular.toJson(url));
-        $log.debug("NetworkService.getData: paramDefaults - " + angular.toJson(paramDefaults));
-        $log.debug("NetworkService.getData: parameters - " + angular.toJson(parameters));
+        $log.debug("NetworkService.getData["+url+"]: url - " + angular.toJson(url));
+        $log.debug("NetworkService.getData["+url+"]: paramDefaults - " + angular.toJson(paramDefaults));
+        $log.debug("NetworkService.getData["+url+"]: parameters - " + angular.toJson(parameters));
         angular.forEach(parameters, function(value, key) {
             if (key in paramDefaults) {
                 if (angular.isUndefined(value)) {
                     parameters[key] = paramDefaults[key];
-                    $log.warn("NetworkService.getData: Undefined parameter '" + key + "' for module '" + module + "' and api '" + api + "'.");
+                    $log.warn("NetworkService.getData["+url+"]: Undefined parameter '" + key + "' for module '" + module + "' and api '" + api + "'.");
                 }
             } else {
-                $log.error("NetworkService.getData: Wrong parameter '" + key + "' for module '" + module + "' and api '" + api + "'.");
+                $log.error("NetworkService.getData["+url+"]: Wrong parameter '" + key + "' for module '" + module + "' and api '" + api + "'.");
             }
         });
         var deferred = $q.defer();
-        $resource(url, paramDefaults, {get: {method: 'GET', cache: true}}).get(parameters, function (value, responseHeaders) {
+        $resource(url, paramDefaults, {get: {method: 'GET', cache: lruCache}}).get(parameters, function (value, responseHeaders) {
             deferred.resolve(value);
             $log.debug("NetworkService.getData["+url+"]: value.length = " + angular.toJson(value).length);
         }, function(httpResponse) {
