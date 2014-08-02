@@ -1,0 +1,30 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX s: <http://schema.org/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX ares: <http://linked.opendata.cz/ontology/ares#>
+PREFIX regorg: <http://www.w3.org/ns/regorg#>
+PREFIX my: <http://>
+
+CONSTRUCT{
+  ?check skos:notation ?id.
+  ?check dcterms:date ?date.
+}
+
+FROM <http://linked.opendata.cz/resource/dataset/coi.cz/kontroly>
+FROM <http://linked.opendata.cz/resource/dataset/ares/basic>
+FROM <http://linked.opendata.cz/resource/dataset/ares/rzp>
+
+WHERE {  
+
+SELECT DISTINCT ?check ?id ?date
+WHERE {
+
+?check skos:notation ?id.
+OPTIONAL { ?check dcterms:date ?date. }
+{{"param" : "values"}}
+}
+ORDER BY DESC(?date)
+
+OFFSET {{"param": "offset", "default": "0"}}
+LIMIT {{"param": "limit", "default": "10"}}
+}
