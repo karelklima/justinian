@@ -16,26 +16,7 @@ module.exports = function(routeParams) {
     };
 
     route.prepareResponse = function(responseJSONLD) {
-
-        var regions =  {
-            "Hlavní město Praha": "PHA",
-            "Středočeský kraj": "STČ",
-            "Jihočeský kraj": "JHČ",
-            "Plzeňský kraj": "PLK",
-            "Karlovarský kraj": "KVK",
-            "Ústecký kraj": "ULK",
-            "Liberecký kraj": "LBK",
-            "Královéhradecký kraj": "HKK",
-            "Pardubický kraj": "PAK",
-            "Kraj Vysočina": "VYS",
-            "Jihomoravský kraj": "JHM",
-            "Olomoucký kraj": "OLK",
-            "Zlínský kraj": "ZLK",
-            "Moravskoslezský kraj": "MSK"
-        };
-
         responseJSONLD["@graph"].forEach(function(data) {
-            data["locationShort"] = _.has(regions, data["location"]) ? regions[data["location"]] : data["location"];
             data["title"] = data["@id"].substring(data["@id"].lastIndexOf("/check-action/") + 14);
             data["resultCount"] = _.isArray(data["result"]) ? data["result"].length : 0;
         });
