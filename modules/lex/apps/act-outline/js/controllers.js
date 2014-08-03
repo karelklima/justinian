@@ -1,6 +1,6 @@
 (function() {
     angular.module('appControllers')
-        .controller('LexActOutlineController', ['$scope', '$sce', 'NetworkService', 'AppService', 'UrlService', function ($scope, $sce, NetworkService, AppService, UrlService) {
+        .controller('LexActOutlineController', ['$scope', 'AppService', function ($scope, AppService) {
 
             $scope.actExpression = undefined;
             $scope.actOutline = undefined;
@@ -22,21 +22,16 @@
 
             $scope.toggleSection = function ($event) {
                 var self = angular.element($event.target);
-                self.closest("section").children(':not(header):not(button)').toggle();
+                self.closest("section").children(':not(header):not(.toggle-button)').toggle();
                 self.toggleClass("glyphicon-plus").toggleClass("glyphicon-minus");
             };
-
-//            $scope.goto = function ($event) {
-//                var part = angular.element($event.target).closest("section").attr('resource');
-//                UrlService.setParam("section", part);
-//            };
 
             this.update = function () {
                 AppService.getData($scope, 'lex', 'act-text', {'resource': $scope.resource})
                     .then(function (actText) {
                         if (actText["@graph"].length > 0)
                         {
-                            var toggle = angular.element('<button ng-click="toggleSection($event)" class="btn-xs"><span class="glyphicon glyphicon-plus"></span></button>');
+                            var toggle = angular.element('<span ng-click="toggleSection($event)" class="glyphicon glyphicon-plus toggle-button"></span>');
                             var link = angular.element('<a click></a>');
                             var doc = angular.element("<div>" + actText["@graph"][0]["htmlValue"] + "</div>");
                             var content = doc.find("section[class='obsah']");

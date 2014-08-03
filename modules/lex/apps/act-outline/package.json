@@ -2,6 +2,6 @@
     "title": "Obsah zákona",
     "views": ["sidebar"],
     "dependencies": {
-        "lex": ["act-detail"]
+        "lex": ["act-detail", "act-compare"]
     }
 }
