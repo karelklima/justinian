@@ -19,10 +19,6 @@
                 }
             };
 
-            $scope.isLoading = function() {
-                return angular.isUndefined($scope.decisions);
-            };
-
             $scope.isEmpty = function() {
                 return angular.isDefined($scope.decisions) && $scope.decisions.length === 0;
             };
@@ -32,7 +28,7 @@
             };
 
             this.update = function () {
-                NetworkService.getData('court', 'act-related-decisions', {'resource': $scope.resource})
+                AppService.getData($scope, 'court', 'act-related-decisions', {'resource': $scope.resource})
                     .then(function (decisions) {
                         $scope.decisions = decisions["@graph"];
                     });

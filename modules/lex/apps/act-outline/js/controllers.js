@@ -6,6 +6,7 @@
             $scope.actOutline = undefined;
 
             $scope.isOpen = true;
+            $scope.isLoading = false;
 
             $scope.toggleOpen = function() {
                 $scope.isOpen = !$scope.isOpen;
@@ -31,7 +32,7 @@
 //            };
 
             this.update = function () {
-                NetworkService.getData('lex', 'act-text', {'resource': $scope.resource})
+                AppService.getData($scope, 'lex', 'act-text', {'resource': $scope.resource})
                     .then(function (actText) {
                         if (actText["@graph"].length > 0)
                         {

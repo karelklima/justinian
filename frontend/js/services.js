@@ -287,7 +287,7 @@ appServices.service('PageService', ['UrlService', '$window', function (UrlServic
     };
 }]);
 
-appServices.service('AppService', ['UrlService', 'UtilService', function (UrlService, UtilService){
+appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkService', function ($q, UrlService, UtilService, NetworkService){
     var self = this;
     /**
      * initialize params in application and setup listener for required params changing
@@ -296,6 +296,7 @@ appServices.service('AppService', ['UrlService', 'UtilService', function (UrlSer
      * @param {function} update function for view updating
     */
     this.init = function ($appScope, params, update){
+
         if(angular.isDefined($appScope) && angular.isDefined(params) && params instanceof Array && params.length > 0){
             var changes = {};
             for(var i = 0; i < params.length; i++){
@@ -327,5 +328,22 @@ appServices.service('AppService', ['UrlService', 'UtilService', function (UrlSer
             });
         }
         angular.isDefined(update) && update(changes);
+    };
+
+    this.getData = function ($scope, module, api, parameters) {
+        $scope.isLoading = true;
+        var promise = NetworkService.getData(module, api, parameters);
+        if (angular.isUndefined($scope.loadingQueue))
+            $scope.loadingQueue = [];
+        $scope.loadingQueue.push(promise);
+        var counter = $scope.loadingQueue.length;
+        $q.all($scope.loadingQueue).then(function() {
+            if ($scope.loadingQueue.length == counter) { // all requests have been resolved
+                $scope.loadingQueue = [];
+                $scope.isLoading = false;
+            }
+        });
+
+        return promise;
     }
 }]);

@@ -15,17 +15,13 @@
                 }
             };
 
-            $scope.isLoading = function() {
-                return angular.isUndefined($scope.versions);
-            };
-
             $scope.isEmpty = function() {
                 return angular.isDefined($scope.versions) && $scope.versions.length === 0;
             };
 
             this.update = function (changes) {
                 if(angular.isDefined(changes['resource'])){
-                    NetworkService.getData('lex', 'act-versions', {'resource': $scope.resource})
+                    AppService.getData($scope, 'lex', 'act-versions', {'resource': $scope.resource})
                         .then(function (data) {
                             console.log(data);
                             $scope.versions = data["@graph"];

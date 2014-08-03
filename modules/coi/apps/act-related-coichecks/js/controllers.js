@@ -19,10 +19,6 @@
                 }
             };
 
-            $scope.isLoading = function() {
-                return angular.isUndefined($scope.checks);
-            };
-
             $scope.isEmpty = function() {
                 return angular.isDefined($scope.checks) && $scope.checks.length === 0;
             };
@@ -32,7 +28,7 @@
             };
 
             this.update = function () {
-                NetworkService.getData('coi', 'act-related-coichecks', {'resource': $scope.resource})
+                AppService.getData($scope, 'coi', 'act-related-coichecks', {'resource': $scope.resource})
                     .then(function (checks) {
                         $scope.checks = checks["@graph"];
                     });

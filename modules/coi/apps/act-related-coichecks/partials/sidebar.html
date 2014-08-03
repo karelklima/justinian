@@ -1,6 +1,6 @@
 <div ng-controller="ActRelatedCoiChecksController" sidebar-app is-open="true" is-disabled="false" heading="Kontroly ČOI">
 
-    <table class="table" ng-hide="isLoading() || isEmpty()">
+    <table class="table" ng-hide="isLoading || isEmpty()">
         <tr>
             <th><a ng-click="sortBy('-dateIso')">Datum</a></th>
             <th><a ng-click="sortBy('locationShort')">Kraj</a></th>
@@ -20,7 +20,7 @@
         </tr>
     </table>
 
-    <div ng-show="isLoading()">Načítám data...</div>
+    <div ng-show="isLoading">Načítám data...</div>
     <div ng-show="isEmpty()">Žádné dostupné kontroly.</div>
 
 </div>

@@ -100,11 +100,6 @@
                     else if (angular.isUndefined(scope.heading))
                         scope.heading = "Aplikace";
 
-                    if (angular.isDefined(attrs.isLoading))
-                        scope.isLoading = attrs.isLoading == "true";
-                    else if (angular.isUndefined(scope.isLoading))
-                        scope.isLoading = false;
-
                     scope.toggleOpen = function() {
                         if ( !scope.isDisabled ) {
                             scope.isOpen = !scope.isOpen;

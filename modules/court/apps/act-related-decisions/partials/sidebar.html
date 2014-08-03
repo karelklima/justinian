@@ -1,6 +1,6 @@
 <div ng-controller="ActRelatedDecisionsController" sidebar-app is-open="true" is-disabled="false" heading="Judikáty">
 
-    <table class="table" ng-hide="isLoading() || isEmpty()">
+    <table class="table" ng-hide="isLoading || isEmpty()">
         <tr>
             <th><a ng-click="sortBy('title')">Název</a></th>
             <th><a ng-click="sortBy('-issuedIso')">Datum</a></th>
@@ -19,7 +19,7 @@
 
     </table>
 
-    <div ng-show="isLoading()">Načítám data...</div>
+    <div ng-show="isLoading">Načítám data...</div>
     <div ng-show="isEmpty()">Žádná dostupná rozhodnutí.</div>
 
 </div>
