@@ -66,13 +66,13 @@
                     "<div class=\"panel panel-default\">\n" +
                     "  <div class=\"panel-heading cursor-pointer\" ng-click=\"toggleOpen()\">\n" +
                     "    <h4 class=\"panel-title\">\n" +
-                    "      <a class=\"sidebar-toggle\">\n" +
+                    "      <div class=\"sidebar-toggle\">\n" +
                     "        <span ng-class=\"{'text-muted': isDisabled}\">{{heading}}</span>\n" +
                     "        <div class=\"pull-right\">\n" +
                     "          <span ng-show=\"isLoading\" spinner-glyphicon></span>\n" +
                     "          <span class=\"glyphicon\" ng-class=\"{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}\"></span>" +
                     "        </div>\n" +
-                    "      </a>\n" +
+                    "      </div>\n" +
                     "    </h4>\n" +
                     "  </div>\n" +
                     "  <div class=\"panel-collapse\" collapse=\"!isOpen\">\n" +
