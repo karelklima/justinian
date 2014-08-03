@@ -1,14 +1,25 @@
 <div ng-controller="LexVersionsController" sidebar-app heading="Historie zákona">
     <table class="table">
         <tr>
-            <th><a ng-click="sortBy('identifier')">Ve znění novely</a></th>
+            <th><a ng-click="sortBy('number')">č.</a></th>
             <th><a ng-click="sortBy('-validIso')">Platné od</a></th>
+            <th><a ng-click="sortBy('identifier')">Novela</a></th>
+            <th>Porovnat</th>
         </tr>
-        <tr ng-repeat="item in versions | orderBy: predicate : reverse"  ng-class="{active: item['@id'] == resource}">
-            <td><a click module="lex" application="act-detail-version" resource="{{ resource }}" version='{{ item["@id"] }}' ng-show='item["haveText"]'>{{item["identifier"]}}</a>
-                <span ng-show='!item["haveText"]'>{{item["identifier"]}}</span>
+        <tr ng-repeat="item in versions | orderBy: predicate : reverse"  ng-class="{active: item['@id'] == version}">
+            <td>{{item.number}}</td>
+            <td>
+                <a click module="lex" application="act-detail" resource="{{ resource }}" version='{{ item["@id"] }}' ng-show='item["haveText"]'>{{ item["validIso"] | formatDate }}</a>
+                <span ng-show='!item["haveText"]'>{{ item["validIso"] | formatDate }}</span>
             </td>
-            <td>{{ item["validIso"] | formatDate }} <a ng-show='version !== undefined && item["haveText"]' click module="lex" application="act-compare" resource="{{ resource }}" version='{{ version }}' sversion='{{ item["@id"] }}'>Compare</a></td>
+            <td>
+                {{item["identifier"]}}
+            </td>
+            <td class="text-center">
+                <a ng-show='version !== item["@id"] && item["haveText"]' click module="lex" application="act-compare" resource="{{ resource }}" version='{{ version }}' compare='{{ item["@id"] }}'>
+                    <span class="glyphicon glyphicon-transfer"></span>
+                </a>
+            </td>
         </tr>
     </table>
 </div>
