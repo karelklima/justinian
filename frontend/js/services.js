@@ -92,6 +92,14 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
             return paramDefaults;
         }
     };
+
+    this.getHomeApplication = function() {
+        return _data.home;
+    };
+
+    this.getErrorApplication = function() {
+        return _data.error;
+    };
 }]);
 
 // userSettings
@@ -157,7 +165,7 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
         }
     });
     this.setUrlError = function () {
-        this.setUrl(configuration.application.error.module, configuration.application.error.application);
+        this.setUrl(configuration.application.error);
     };
     this.getUrlParamValues = function (params) {
         var search = {};
@@ -287,7 +295,7 @@ appServices.service('PageService', ['UrlService', '$window', function (UrlServic
     };
 }]);
 
-appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkService', function ($q, UrlService, UtilService, NetworkService){
+appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkService', 'ConfigurationService', function ($q, UrlService, UtilService, NetworkService, ConfigurationService){
     var self = this;
     /**
      * initialize params in application and setup listener for required params changing
@@ -345,5 +353,10 @@ appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkSe
         });
 
         return promise;
+    };
+
+    this.pageNotFound = function() {
+        // TODO different error vs 404 page
+        UrlService.setUrl(ConfigurationService.getErrorApplication());
     }
 }]);

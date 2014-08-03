@@ -1,1 +1,32 @@
-/* I am lex.css */
+
+.lex-act-text section.uvod, .lex-act-text section.zaver {
+    text-align: center;
+}
+.lex-act-text section.obsah {
+    /*text-align: justify;*/
+    margin: auto;
+    max-width: 500px;
+}
+.lex-act-text section p {
+    font-family: Georgia;
+    font-size: 120%;
+}
+.lex-act-text section header {
+    text-align: center;
+}
+.lex-act-text section.cast h1, .lex-act-text section.preambule h1 {
+    font-size: 200%;
+}
+.lex-act-text section.hlava h1 {
+    font-size: 180%;
+}
+.lex-act-text section.dil h1 {
+    font-size: 160%;
+}
+.lex-act-text section.oddil h1, .lex-act-text section.pododdil h1 {
+    font-size: 140%;
+}
+.lex-act-text section.clanek h1, .lex-act-text section.paragraf h1 {
+    font-size: 130%;
+    font-family: Georgia;
+}
