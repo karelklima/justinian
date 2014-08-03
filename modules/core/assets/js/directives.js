@@ -2,6 +2,43 @@
 
     angular.module("appDirectives")
 
+        .directive('spinner', function() {
+            return {
+                scope: {
+                    spinner: '='
+                },
+                link: function(scope, element, attrs)
+                {
+                    var s = new Spinner(scope.spinner || {});
+                    s.spin(element[0]);
+
+                    scope.$on('$destroy', function () {
+                        s.stop();
+                        s = null;
+                    });
+                }
+            }
+        })
+
+        .directive('spinnerBar', function() {
+            return {
+                restrict: 'A',
+                replace: true,
+                transclude: true,
+                template: '<div class="spinner-bar"><div spinner="{radius:10, width:3, length: 0, shadow: false, color: \'#333\', trail: 40, lines: 11}"></div></div>'
+            }
+        })
+
+        .directive('spinnerGlyphicon', function() {
+            return {
+                restrict: 'A',
+                replace: true,
+                transclude: true,
+                template: '<span class="glyphicon glyphicon-spinner"><span spinner="{radius:6, width:2, length: 0, shadow: false, color: \'#333\', trail: 40, lines: 11}"></span></span>'
+            }
+        })
+
+
         .directive('mainApp', function () {
             return {
                 restrict: 'A',
@@ -31,7 +68,10 @@
                     "    <h4 class=\"panel-title\">\n" +
                     "      <a class=\"sidebar-toggle\">\n" +
                     "        <span ng-class=\"{'text-muted': isDisabled}\">{{heading}}</span>\n" +
-                    "        <i class=\"pull-right glyphicon\" ng-class=\"{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}\"></i>" +
+                    "        <div class=\"pull-right\">\n" +
+                    "          <span ng-show=\"isLoading\" spinner-glyphicon></span>\n" +
+                    "          <span class=\"glyphicon\" ng-class=\"{'glyphicon-chevron-down': isOpen, 'glyphicon-chevron-right': !isOpen}\"></span>" +
+                    "        </div>\n" +
                     "      </a>\n" +
                     "    </h4>\n" +
                     "  </div>\n" +
@@ -59,6 +99,11 @@
                         scope.heading = attrs.heading;
                     else if (angular.isUndefined(scope.heading))
                         scope.heading = "Aplikace";
+
+                    if (angular.isDefined(attrs.isLoading))
+                        scope.isLoading = attrs.isLoading == "true";
+                    else if (angular.isUndefined(scope.isLoading))
+                        scope.isLoading = false;
 
                     scope.toggleOpen = function() {
                         if ( !scope.isDisabled ) {

@@ -4,3 +4,22 @@
 .typeahead {
     width:200%;
 }
+
+.position-relative {
+    position: relative;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.spinner-bar {
+    position: relative;
+    height: 50px;
+}
+
+.glyphicon-spinner {
+    width: 16px;
+    height: 16px;
+    margin: 0 2px;
+}

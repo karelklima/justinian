@@ -14,15 +14,6 @@ h1.navbar-brand {
     position: relative;
 }
 
-.spinner-bar {
-    position: relative;
-    height: 50px;
-}
-
-.cursor-pointer {
-    cursor: pointer;
-}
-
 table tr td .pagination {
     margin-top: 0;
     margin-bottom: -20px;
