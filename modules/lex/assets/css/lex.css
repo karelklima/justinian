@@ -11,7 +11,7 @@
     font-family: Georgia;
     font-size: 120%;
 }
-.lex-act-text section header {
+.lex-act-text section header, .lex-act-text section .nadpis {
     text-align: center;
 }
 .lex-act-text section.cast h1, .lex-act-text section.preambule h1 {
@@ -29,4 +29,30 @@
 .lex-act-text section.clanek h1, .lex-act-text section.paragraf h1 {
     font-size: 130%;
     font-family: Georgia;
+}
+
+.lex-act-text .diff_remove{
+    color: red;
+    background-color: #FFFFEF;
+}
+
+.lex-act-text .diff_add{
+    color: #32CD32;
+    background-color: #FFFFEF;
+}
+
+.lex-act-text p! > .diff_add{
+     background-color: #FFFFEF;
+}
+
+.lex-act-text p! > .diff_remove{
+    background-color: #FFFFEF;
+}
+
+.lex-act-text .diff_remove > *{
+     background-color: #FFFFEF;
+}
+
+.lex-act-text .diff_add > *{
+     background-color: #FFFFEF;
 }
