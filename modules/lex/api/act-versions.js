@@ -36,6 +36,13 @@ module.exports = function(routeParams) {
            "haveText": ["boolean", ""]
        }
    };
+
+    route.getPrefixedProperties = function() {
+        return [
+            "@id",
+            "amendmentID"
+        ];
+    };
     
     return route;
 };
