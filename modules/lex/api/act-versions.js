@@ -10,6 +10,7 @@ module.exports = function(routeParams) {
                 "@type" : "http://www.w3.org/2001/XMLSchema#date"
             },
             "actID" : "http://purl.org/dc/terms/actID",
+            "amendmentID" : "http://purl.org/dc/terms/amendmentID",
             "exprID" : "http://purl.org/dc/terms/exprID",
             "partOf": "http://purl.org/vocab/frbr/core#partOf"
         }
@@ -30,6 +31,7 @@ module.exports = function(routeParams) {
        return {
            "@id" : ["string", ""],
            "identifier" : ["string", ""],
+           "amendmentID" : ["string", ""],
            "validIso" : ["string", ""],
            "haveText": ["boolean", ""]
        }
