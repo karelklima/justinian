@@ -129,6 +129,7 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
         $location.search(key, value);
         if (redirect)
             $location.replace();
+        $rootScope.$$phase || $rootScope.$apply();
     };
     this.setPath = function (module, application) {
         this.setUrl(module, application, null);
@@ -143,27 +144,6 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
         $rootScope.$$phase || $rootScope.$apply();
     };
 
-    $rootScope.$on('$locationChangeSuccess', function() {
-        var search = UtilService.getUrlSearch($location.search());
-//        console.log($rootScope.actualLocationPath + " == " + $location.path());
-//        console.log($rootScope.actualLocationSearch + " == " + search);
-//        console.log($rootScope.actualLocationPath + '?' + $rootScope.actualLocationSearch + ' == ' + $location.url());
-
-        if($rootScope.actualLocationPath + '?' + $rootScope.actualLocationSearch == $location.url())
-            return;
-
-        if($rootScope.actualLocationPath != $location.path()){
-            $rootScope.actualLocationPath = $location.path();
-            $rootScope.actualLocationSearch = search;
-        } else {
-            if($rootScope.actualLocationSearch != search){
-//                console.log("Emit event");
-                $rootScope.actualLocationSearch = search;
-                var eventObject = new LocationParamsChangedEvent();
-                var event = $rootScope.$emit(eventObject.getName(), eventObject);
-            }
-        }
-    });
     this.setUrlError = function () {
         this.setUrl(configuration.application.error, true);
     };
@@ -315,21 +295,16 @@ appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkSe
                     $appScope[appParamName] = paramValue;
                 }
             }
-            $appScope.$listen(LocationParamsChangedEvent.getName(), function(event, eventObject){
+            $appScope.$listen("$locationParamsChangedEvent", function(event, oldParams, newParams){
                 var paramsChanged = false;
                 var changes = {};
-                for(var i = 0; i < params.length; i++){
-                    var paramValue = UrlService.getParam(params[i]);
-                    var appParamName = UtilService.dashToCamel(params[i]);
-                    if(!UrlService.isParam(params[i]))
-                        paramValue = undefined;
-                    if(paramValue !== $appScope[appParamName])
-                    {
+                angular.forEach(params, function(param) {
+                    if (!angular.equals(oldParams[param], newParams[param])) {
+                        changes[param] = {old: oldParams[param], new: newParams[param]};
+                        $appScope[param] = newParams[param];
                         paramsChanged = true;
-                        changes[appParamName]={'old':$appScope[appParamName],'new':paramValue};
-                        $appScope[appParamName] = paramValue;
                     }
-                }
+                });
                 if(paramsChanged){
                     angular.isDefined(update) && update(changes);
                 }

@@ -20,28 +20,20 @@
 
 
             this.update = function (changes) {
-
-                //if (angular.isDefined(changes.version) && angular.isUndefined(changes.version.old))
-                //    return; // this can only happen when
-
                 $log.debug("LexActDetailController.update: running update");
                 var updateVersion = function () {
-                    var deferred = $q.defer();
-                    if (!angular.isDefined($scope.version)) {
                         $log.debug("LexActDetailController.update: retrieving latest act version");
-                        AppService.getData($scope, 'lex', 'act-detail', {resource: $scope.resource})
-                            .then(function (actDetail) {
+                        var actDetailPromise = AppService.getData($scope, 'lex', 'act-detail', {resource: $scope.resource});
+                        actDetailPromise.then(function (actDetail) {
                                 if (actDetail["@graph"].length > 0) {
                                     var version = actDetail["@graph"][0]["lastVersion"];
+                                    $log.debug("LexActDetailController.update: setting version parameter");
                                     UrlService.setParam("version", version, true);
                                 } else {
                                     $scope.actDetail = {}; // empty result indicator
                                 }
                             });
-                        deferred.reject();
-                    }
-                    deferred.resolve();
-                    return deferred.promise;
+                    return actDetailPromise;
                 };
 
                 var updateData = function () {
@@ -87,6 +79,7 @@
                 if (!angular.isDefined($scope.version)) {
                     updateVersion();
                 } else {
+                    $log.debug("LexActDetailController.update: updateData starting");
                     $scope.actText = undefined;
                     updateData()
                         .then(function () {

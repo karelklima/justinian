@@ -13,7 +13,9 @@
                 <span ng-show='!item["haveText"]'>{{ item["validIso"] | formatDate }}</span>
             </td>
             <td>
-                {{item["identifier"]}}
+                <a click module="lex" application="act-detail" resource="{{ item['amendmentID'] }}">
+                    {{item["identifier"]}}
+                </a>
             </td>
             <td class="text-center">
                 <a ng-show='version !== item["@id"] && item["haveText"]' click module="lex" application="act-compare" resource="{{ resource }}" version='{{ version }}' compare='{{ item["@id"] }}'>
