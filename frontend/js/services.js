@@ -165,7 +165,7 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
         }
     });
     this.setUrlError = function () {
-        this.setUrl(configuration.application.error);
+        this.setUrl(configuration.application.error, true);
     };
     this.getUrlParamValues = function (params) {
         var search = {};
@@ -357,6 +357,6 @@ appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkSe
 
     this.pageNotFound = function() {
         // TODO different error vs 404 page
-        UrlService.setUrl(ConfigurationService.getErrorApplication());
+        UrlService.setUrl(ConfigurationService.getErrorApplication(), true);
     }
 }]);
