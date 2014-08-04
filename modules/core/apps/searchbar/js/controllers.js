@@ -21,7 +21,6 @@
         };
 
         $scope.selected = function (item) {
-            console.log(item);
             UrlService.setUrl({ "resource": item["@id"], "type": item["@type"] });
         };
 

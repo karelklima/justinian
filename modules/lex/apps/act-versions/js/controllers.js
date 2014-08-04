@@ -23,7 +23,6 @@
                 if(angular.isDefined(changes['resource'])){
                     AppService.getData($scope, 'lex', 'act-versions', {'resource': $scope.resource})
                         .then(function (data) {
-                            console.log(data);
                             var versions = data["@graph"];
                             versions.sort(function(v1, v2) {
                                 return (new Date(v1["validIso"])) - (new Date(v2["validIso"]));

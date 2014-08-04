@@ -44,7 +44,6 @@
 
                     $q.all([promiseVersion, promiseCompare])
                         .then(function(results) {
-                            console.log(results);
                             $scope.isError = false;
                             var newer = results[0]["@graph"][0]["htmlValue"];
                             var older = results[1]["@graph"][0]["htmlValue"];

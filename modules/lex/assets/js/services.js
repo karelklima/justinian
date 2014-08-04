@@ -52,11 +52,11 @@
                     var dmp = new diff_match_patch();
                     dmp.Diff_Timeout = 0;
                     dmp.Diff_EditCost = 4;
-                    console.log("Text 1: "+text1.length);
-                    console.log("Text 2: "+text2.length);
+                    //console.log("Text 1: "+text1.length);
+                    //console.log("Text 2: "+text2.length);
                     var d = dmp.diff_main(text1, text2);
                     dmp.diff_cleanupSemantic(d);
-                    console.log(d);
+                    //console.log(d);
                     var result = "";
                     for(var i = 0; i< d.length; i++){
                         var item = d[i];
@@ -119,7 +119,7 @@
                 if(normalText)
                     result+='</font>';
 
-                console.log(result);
+                //console.log(result);
                 return result;
             }
         });
