@@ -38,7 +38,7 @@
                 }
             };
 
-            AppService.init($scope, ['resource','version'], this.update);
+            AppService.init($scope, ['resource','version','compare'], this.update);
 
         }]);
 

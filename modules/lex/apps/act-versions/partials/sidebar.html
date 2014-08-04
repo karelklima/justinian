@@ -1,12 +1,12 @@
 <div ng-controller="LexVersionsController" sidebar-app heading="Historie zákona">
-    <table class="table">
+    <table class="table table-condensed">
         <tr>
             <th><a ng-click="sortBy('number')">č.</a></th>
             <th><a ng-click="sortBy('-validIso')">Platné od</a></th>
             <th><a ng-click="sortBy('identifier')">Novela</a></th>
             <th>Porovnat</th>
         </tr>
-        <tr ng-repeat="item in versions | orderBy: predicate : reverse"  ng-class="{active: item['@id'] == version}">
+        <tr ng-repeat="item in versions | orderBy: predicate : reverse"  ng-class="{success: item['@id'] == version, danger: item['@id'] == compare}">
             <td>{{item.number}}</td>
             <td>
                 <a click module="lex" application="act-detail" resource="{{ resource }}" version='{{ item["@id"] }}' ng-show='item["haveText"]'>{{ item["validIso"] | formatDate }}</a>
