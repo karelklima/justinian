@@ -6,7 +6,7 @@ module.exports = function(routeParams) {
 
     route.prepareParams = function(params) {
     	var outputParams = {};
-    	outputParams.values = "";
+    	outputParams.values = " ";
     	
     	for(var param in params) {
     		
@@ -15,25 +15,23 @@ module.exports = function(routeParams) {
     		
     		// construct the SPARQL query
     		switch(param) {
-    			case "region" : outputParams.values += "?check s:location/s:addressRegion \"" + params["region"] + "\".\n"; break;
+    			case "region" : outputParams.values += "?check s:addressRegion \"" + params["region"] + "\".\n"; break;
     			case "state"  : outputParams.values += "?check s:object/ares:stav-zivnosti/skos:prefLabel \"" + params["state"] + "\"@cs.\n"; break;
     			case "dateGT" : outputParams.values += "?check dcterms:date ?date. \nFILTER ( ?date >= \"" + params["dateGT"] + "\"^^xsd:date)\n"; break;
     			case "dateLT" : outputParams.values += "?check dcterms:date ?date. \nFILTER ( ?date <= \"" + params["dateLT"] + "\"^^xsd:date)\n"; break;
     			case "town":
     				outputParams.values +=
-    					"?check s:location ?location.\n" +
     					"?location s:addressLocality ?locality.\n" +
     					"?locality bif:contains '[__enc \"UTF-8\"]\""
     					+ params["locality"] + "\"'.\n";
     				break;
     			case "street":
     				outputParams.values +=
-    					"?check s:location ?location.\n" +
     					"?location s:streetAddress ?street.\n" +
     					"?street bif:contains '[__enc \"UTF-8\"]\""
     					+ params["street"] + "\"'.\n";
     				break;
-    			case "zipcode" : outputParams.values += "?check s:location ?location. \n?location s:postalCode \"" + params["zipcode"] + "\".\n"; break;
+    			case "zipcode" : outputParams.values += "location s:postalCode \"" + params["zipcode"] + "\".\n"; break;
     			case "objectName" :
     				outputParams.values +=
     					"?check s:object ?object.\n" +
@@ -72,14 +70,36 @@ module.exports = function(routeParams) {
             	"@id" : "http://purl.org/dc/terms/date",
             	"@type": "http://www.w3.org/2001/XMLSchema#date"
         	},
+            "region" : "http://region",
+            "zipcode" : "http://zipcode",
+            "locality" : "http://locality",
+            "street" : "http://street",
+            "objectName" : "http://objectName",
+            "tradeState" : {
+            	"@id" : "http://state",
+            	"@language": "cs"
+        	},
+            "trade" : "http://trade",
+            //"activity" : "http://activity",
+            "result" : "http://result",	
         }
     };
+
 
     route.getModel = function() {
         return {
             "@id" : ["string", ""],
             "title" : ["string", ""],
-        	"dateIso" : ["string", ""]
+        	"dateIso" : ["string", ""],
+        	"region" : ["string", ""],
+        	"zipcode" : ["string", ""],
+        	"locality" : ["string", ""],
+        	"street" : ["string", ""],
+        	"objectName" : ["string", ""],
+            "tradeState" : ["string", ""],
+            "trade" : ["object", []],
+            //"activityName" : ["object", []],            
+            "result" : ["object", []]		
         }
     };
 

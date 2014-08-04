@@ -8,23 +8,68 @@ PREFIX my: <http://>
 CONSTRUCT{
   ?check skos:notation ?id.
   ?check dcterms:date ?date.
+  ?check my:region ?region.
+  ?check my:locality ?locality.
+  ?check my:zipcode ?zipcode.
+  ?check my:street ?street.
+  ?check my:objectName ?objectName.
+  ?check my:state ?stateLabel.
+  ?check my:trade ?tradeTitle.
+# ?check my:activity ?activity.
+# ?activity my:hasLabel ?activityLabel.
+  ?check my:result ?result.
+  
 }
 
 FROM <http://linked.opendata.cz/resource/dataset/coi.cz/kontroly>
 FROM <http://linked.opendata.cz/resource/dataset/ares/basic>
 FROM <http://linked.opendata.cz/resource/dataset/ares/rzp>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/sankce>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/zajisteni>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/zakazy>
 
 WHERE {  
-
-SELECT DISTINCT ?check ?id ?date
+SELECT DISTINCT ?check ?id ?date ?locality ?zipcode ?region ?street ?objectName ?stateLabel ?tradeTitle ?result #?activity ?activityLabel 
 WHERE {
+  
+  {
+  SELECT DISTINCT ?check ?id ?date ?locality ?zipcode ?region ?street
+  WHERE {
+    ?check skos:notation ?id.
+    ?check s:location ?location.
+    ?location s:postalCode ?zipcode.
+    OPTIONAL {
+    ?location s:addressLocality ?locality.
+    ?location s:addressRegion ?region.
+    }
+    OPTIONAL {?location s:streetAddress ?street.}
+    OPTIONAL { ?check dcterms:date ?date. }
+    {{"param" : "values"}}
+  }
+  ORDER BY DESC(?date)
+  OFFSET {{"param": "offset", "default": "0"}}
+  LIMIT {{"param": "limit", "default": "10"}}
+  }
 
-?check skos:notation ?id.
-OPTIONAL { ?check dcterms:date ?date. }
-{{"param" : "values"}}
+  OPTIONAL {
+    ?check s:object ?object.
+    ?object regorg:orgActivity ?activity.
+    ?object gr:legalName ?objectName.
+    ?object ares:stav-zivnosti/skos:prefLabel ?stateLabel.
+    ?object ares:zivnost ?zivnost.
+    ?zivnost dcterms:title ?tradeTitle.
+    #?object regorg:orgActivity ?activity.
+    #?activity skos:prefLabel ?activityLabel.
+  }
+  
+  OPTIONAL {
+    {
+    GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/sankce>{    ?check s:result ?result.}
+    } UNION {
+    GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/zajisteni>{    ?check s:result ?result.}
+    } UNION {
+    GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/zakazy>{    ?check s:result ?result.}
+    }
+  }
 }
-ORDER BY DESC(?date)
-
-OFFSET {{"param": "offset", "default": "0"}}
-LIMIT {{"param": "limit", "default": "10"}}
 }
