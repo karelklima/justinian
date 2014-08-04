@@ -5,7 +5,7 @@
             $scope.actExpression = undefined;
             $scope.actOutline = undefined;
 
-            $scope.isOpen = true;
+            $scope.isOpen = false;
             $scope.isLoading = false;
 
             $scope.toggleOpen = function() {

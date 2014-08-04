@@ -5,5 +5,5 @@
     "dependencies": {
         "lex": ["act-detail"]
     },
-    "priority" : -1
+    "priority" : 20
 }

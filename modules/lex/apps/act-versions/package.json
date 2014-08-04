@@ -3,5 +3,6 @@
     "views": ["sidebar"],
     "dependencies": {
         "lex": ["act-detail","act-detail-version","act-compare"]
-    }
+    },
+    "priority": 50
 }
