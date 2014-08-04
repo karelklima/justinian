@@ -9,9 +9,6 @@
 
             var self = this;
 
-            this.actText1Raw = undefined;
-            this.actText2Raw = undefined;
-
             $scope.isEmpty = function () {
                 return angular.isDefined($scope.actDetail) && $scope.actDetail.length === 0;
             };
@@ -39,6 +36,8 @@
                                 $scope.actDetail = actDetail["@graph"][0];
                             else $scope.actDetail = {};
                         });
+
+                    $scope.actText = undefined;
 
                     var promiseVersion = AppService.getData($scope, 'lex', 'act-text', {'resource': $scope.version});
                     var promiseCompare = AppService.getData($scope, 'lex', 'act-text', {'resource': $scope.compare});
