@@ -20,6 +20,10 @@
 
 
             this.update = function (changes) {
+                if (angular.isUndefined($scope.resource) || $scope.resource.length == 0) {
+                    AppService.pageNotFound();
+                    return;
+                }
                 $log.debug("LexActDetailController.update: running update");
                 var updateVersion = function () {
                         $log.debug("LexActDetailController.update: retrieving latest act version");

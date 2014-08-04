@@ -1,9 +1,9 @@
 {
     "title" : "Zákoný",
-    "datatypes" : ["lex:Act"],
+    "datatypes" : ["lex:Decision"],
     "views": ["sidebar"],
     "dependencies": {
         "court": ["decision-detail"]
     },
-    "priority" : 20
+    "priority" : -1
 }
