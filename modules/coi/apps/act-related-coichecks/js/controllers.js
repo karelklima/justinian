@@ -6,9 +6,10 @@
             $scope.predicate = '-dateIso';
             $scope.reverse = false;
 
-            $scope.page = 1;
+            // TODO remove me
+            /*$scope.page = 1;
             $scope.limit = 5;
-            $scope.size = 5;
+            $scope.size = 5;*/
 
             $scope.sortBy = function (predicate) {
                 if ($scope.predicate === predicate) {
@@ -21,10 +22,6 @@
 
             $scope.isEmpty = function() {
                 return angular.isDefined($scope.checks) && $scope.checks.length === 0;
-            };
-
-            $scope.isShowPagination = function() {
-                return angular.isDefined($scope.checks) && $scope.checks.length > $scope.limit;
             };
 
             this.update = function () {
