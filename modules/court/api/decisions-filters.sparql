@@ -1,0 +1,56 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX s: <http://schema.org/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX ares: <http://linked.opendata.cz/ontology/ares#>
+PREFIX lex: <http://purl.org/lex#>
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX sao: <http://salt.semanticauthoring.org/ontologies/sao#>
+PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
+PREFIX my: <http://>
+
+CONSTRUCT {
+my:decs my:haveMinDate ?minDate.
+my:decs my:haveMaxDate ?maxDate.
+my:decs my:haveCategories ?decisionCategoryLabel.
+my:decs my:haveDecKinds ?decisionKindLabel.
+my:decs my:haveCreators ?creator.
+my:decs my:haveSubjects ?subject.
+my:decs my:haveFileKinds ?fileKind.
+my:decs my:haveSenateNumbers ?senateNumber.
+?creator dcterms:title ?creatorTitle.
+}
+
+FROM <http://linked.opendata.cz/resource/dataset/coi.cz/kontroly>
+FROM <http://linked.opendata.cz/resource/dataset/ares/basic>
+FROM <http://linked.opendata.cz/resource/dataset/ares/rzp>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz/updates>
+
+
+WHERE {
+{
+  SELECT (MAX(?date) as ?maxDate) (MIN(?date) as ?minDate)
+  WHERE
+  {
+  ?dec a lex:Decision.
+  ?dec dcterms:issued ?date.
+  }
+}
+{
+  SELECT DISTINCT ?decisionCategoryLabel ?decisionKindLabel ?creator ?creatorTitle ?subject ?file ?fileKind ?senateNumber
+  WHERE
+  {
+  ?dec a lex:Decision.
+  ?dec lex:decisionCategory ?decisionCategory.
+  ?decisionCategory skos:prefLabel ?decisionCategoryLabel.
+  ?dec lex:decisionKind ?decisionKind.
+  ?decisionKind skos:prefLabel ?decisionKindLabel.
+  ?dec dcterms:creator ?creator.
+  ?creator dcterms:title ?creatorTitle.
+  ?dec dcterms:subject ?subject.
+  ?dec lex:belongsToFile ?file.
+  ?file lex:fileKind ?fileKind.
+  ?file lex:senateNumber ?senateNumber.
+  }
+}
+}
