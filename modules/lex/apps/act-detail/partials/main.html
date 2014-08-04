@@ -1,11 +1,13 @@
 <div ng-controller="LexActDetailController" main-app anchor-scroll offset-top="70">
         <h1>Předpis č. {{actDetail["identifier"]}}</h1>
-        <h2>{{actDetail["title"]}}</h2>
+        <h3>{{actDetail["title"]}}</h3>
+        <h4>Znění platné od {{actVersion.validIso | formatDate}}</h4>
         <div ng-hide="isTextLoading() || isEmpty()">
 
             <div class="lex-act-text" ng-bind-html="actText"></div>
 
         </div>
-        <div ng-show="isTextLoading()">Načítám data...</div>
-        <div ng-show="isTextEmpty()">Text není dostupný.</div>
+        <div ng-show="isTextLoading()" spinner-bar></div>
+
+        <div ng-show="isTextEmpty()" class="alert alert-info">Text není dostupný.</div>
 </div>

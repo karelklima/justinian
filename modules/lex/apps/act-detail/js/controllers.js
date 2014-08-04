@@ -3,11 +3,8 @@
         .controller('LexActDetailController', ['$scope', '$sce', '$log', '$q', 'NetworkService', 'AppService', 'UrlService', function ($scope, $sce, $log, $q, NetworkService, AppService, UrlService) {
 
             $scope.actDetail = undefined;
+            $scope.actVersion = undefined;
             $scope.actText = undefined;
-
-            $scope.isLoading = function () {
-                return angular.isUndefined($scope.actDetail);
-            };
 
             $scope.isEmpty = function () {
                 return angular.isDefined($scope.actDetail) && $scope.actDetail.length === 0;
@@ -32,7 +29,7 @@
                     var deferred = $q.defer();
                     if (!angular.isDefined($scope.version)) {
                         $log.debug("LexActDetailController.update: retrieving latest act version");
-                        NetworkService.getData('lex', 'act-detail', {resource: $scope.resource})
+                        AppService.getData($scope, 'lex', 'act-detail', {resource: $scope.resource})
                             .then(function (actDetail) {
                                 if (actDetail["@graph"].length > 0) {
                                     var version = actDetail["@graph"][0]["lastVersion"];
@@ -51,13 +48,24 @@
 
                     var deferred = $q.defer();
 
-                    var getDetailPromise = NetworkService.getData('lex', 'act-detail', {'resource': $scope.resource});
+                    var getDetailPromise = AppService.getData($scope, 'lex', 'act-detail', {'resource': $scope.resource});
                     getDetailPromise.then(function (actDetail) {
                         if (actDetail["@graph"].length > 0)
                             $scope.actDetail = actDetail["@graph"][0];
                         else $scope.actDetail = {};
                     });
-                    var getTextPromise = NetworkService.getData('lex', 'act-text', {'resource': $scope.version});
+
+                    var getVersionsPromise = AppService.getData($scope, 'lex', 'act-versions', {'resource': $scope.resource})
+                    getVersionsPromise.then(function(actVersions) {
+                        $scope.actVersion = undefined;
+                        angular.forEach(actVersions["@graph"], function(version, key) {
+                            if (version["@id"] == $scope.version) {
+                                $scope.actVersion = version;
+                            }
+                        });
+                    });
+
+                    var getTextPromise = AppService.getData($scope, 'lex', 'act-text', {'resource': $scope.version});
                     getTextPromise.then(function (actText) {
                         if (actText["@graph"].length > 0) {
                             var doc = angular.element("<div>" + actText["@graph"][0]["htmlValue"] + "</div>");
@@ -66,7 +74,7 @@
                         else $scope.actText = "";
                     });
 
-                    $q.all([getDetailPromise, getTextPromise])
+                    $q.all([getDetailPromise, getVersionsPromise, getTextPromise])
                         .then(function () {
                             deferred.resolve();
                             $log.debug("LexActDetailController.update: updateData resolved");
@@ -79,6 +87,7 @@
                 if (!angular.isDefined($scope.version)) {
                     updateVersion();
                 } else {
+                    $scope.actText = undefined;
                     updateData()
                         .then(function () {
                             $log.debug("LexActDetailController.update: updateData after resolve");
