@@ -10,11 +10,10 @@ module.exports = function(routeParams) {
     };
 
     
-    route.prepareResponse = function(responseJSONLD, next) {
+    route.prepareResponse = function(responseJSONLD) {
         if(responseJSONLD["@graph"].length > 0){
             // remove XML tag
-            responseJSONLD["@graph"][0]["xmlValue"] = responseJSONLD["@graph"][0]["xmlValue"].toString();
-            responseJSONLD["@graph"][0]["xmlValue"] = responseJSONLD["@graph"][0]["xmlValue"].substring(responseJSONLD["@graph"][0]["xmlValue"].indexOf(">") + 1);
+            responseJSONLD["@graph"][0]["xmlValue"] = responseJSONLD["@graph"][0]["xmlValue"][0].substring(responseJSONLD["@graph"][0]["xmlValue"].indexOf(">") + 1);
     	}
     	
         return responseJSONLD;

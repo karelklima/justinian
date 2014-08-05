@@ -4,7 +4,7 @@
         <h3>Resource: </h3><span><a ng-href="{{resource}}">{{resource}}</a></span>
 
         <h3>Detail judikátu:</h3>
-        <div ng-hide="isLoading() || isEmpty()">
+        <div ng-hide="isLoading || isEmpty()">
 
             <!--<div ng-bind="decisionDetail."></div>-->
             <h4>Creator: <a href="{{ decisionDetail.creator }}">{{ decisionDetail.creatorTitle }}</a></h4>
@@ -17,7 +17,7 @@
         <h3>Text:</h3>
         <div ng-hide="isTextLoading() || isTextEmpty()">
 
-            <div ng-bind-html="decisionText"></div>
+            <div compile="decisionText"></div>
 
         </div>
         <div ng-show="isTextLoading()">Načítám data...</div>

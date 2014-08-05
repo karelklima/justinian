@@ -2,6 +2,7 @@
     "title" : "Justinian",
     "home" : {"module" : "justinian", "application" : "home"},
     "error" : {"module" : "core", "application" : "error"},
+    "error404" : {"module" : "core", "application" : "error404"},
     "modules" : ["core", "lex", "court", "coi", "justinian"],
     "asset-extensions" : ["html", "js", "css", "png"],
     "sparql" : {

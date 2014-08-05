@@ -5,10 +5,7 @@
 //            $scope.resource = UrlService.getParam('resource');
 
             $scope.decisionDetail = undefined;
-
-            $scope.isLoading = function() {
-                return angular.isUndefined($scope.decisionDetail);
-            };
+            $scope.decisionText = undefined;
 
             $scope.isEmpty = function() {
                 return angular.isDefined($scope.decisionDetail) && $scope.decisionDetail.length === 0;
@@ -23,7 +20,9 @@
             };
 
             this.update = function () {
-                NetworkService.getData('court', 'decision-detail', {'resource': $scope.resource})
+                $scope.decisionDetail = undefined;
+                $scope.decisionText = undefined;
+                AppService.getData($scope, 'court', 'decision-detail', {'resource': $scope.resource})
                     .then(function (decisionDetail) {
                         if(angular.isDefined(decisionDetail['@graph']) && angular.isDefined(decisionDetail['@graph'][0])){
                             $scope.decisionDetail = decisionDetail['@graph'][0];
@@ -34,10 +33,9 @@
                     }, function fail(){
                            $scope.decisionDetail = {};
                     });
-                NetworkService.getData('court', 'decision-text', {'resource': $scope.resource})
+                AppService.getData($scope, 'court', 'decision-text', {'resource': $scope.resource})
                     .then(function(decisionText) {
-                        console.log(decisionText);
-                        var doc = angular.element("<div>" + decisionText["htmlValue"] + "</div>");
+                        var doc = angular.element("<div>" + decisionText["@graph"][0]["xmlValue"] + "</div>");
                         doc.find("span[rel='sdo:hasSection']").children().unwrap();
                         doc.find("span[rel='sdo:hasParagraph']").children().unwrap();
                         doc.find("paragraph").each(function() {
@@ -51,7 +49,7 @@
                             replacement.html(self.html());
                             self.replaceWith(replacement);
                         });
-                        $scope.decisionText = $sce.trustAsHtml(doc.html());
+                        $scope.decisionText = doc.html();
                     }, function fail(){
                         $scope.decisionText = "";
                     });
