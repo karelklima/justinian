@@ -1,0 +1,4 @@
+<div ng-controller="JustinianOpendataController" sidebar-app heading="OpenData.cz" set-hidden="true">
+    <p>Zobrazené datové entity:</p>
+    <p ng-repeat="item in items"><a ng-href="{{item['fullUrl']}}" target="_blank">{{item['fullUrl']}} <span class="glyphicon glyphicon-new-window"></span></a></p>
+</div>

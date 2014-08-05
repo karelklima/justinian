@@ -12,6 +12,7 @@ h1.navbar-brand {
 
 .sidebar {
     position: relative;
+    word-break: break-all;
 }
 
 table tr td .pagination {
