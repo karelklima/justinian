@@ -63,7 +63,7 @@
                 transclude: true,              // It transcludes the contents of the directive into the template
                 replace: true,                // The element containing the directive will be replaced with the template
                 template:
-                    "<div class=\"panel panel-default\">\n" +
+                    "<div class=\"panel panel-default\" ng-hide=\"isHidden\">\n" +
                     "  <div class=\"panel-heading cursor-pointer\" ng-click=\"toggleOpen()\">\n" +
                     "    <h4 class=\"panel-title\">\n" +
                     "      <div class=\"sidebar-toggle\">\n" +
@@ -85,15 +85,14 @@
                         element.find(".transclude").append(clone); // add to DOM
                     });
 
-                    if (angular.isDefined(attrs.isOpen)) // if it is defined as an attribute, initiate / overwrite scope
-                        scope.isOpen = attrs.isOpen == "true";
-                    else if (angular.isUndefined(scope.isOpen)) // if it is not defined in custom controller, initiate
-                        scope.isOpen = false;
+                    if (angular.isUndefined(scope.isOpen))
+                        scope.isOpen = angular.isDefined(attrs.setOpen) && attrs.setOpen == "true";
 
-                    if (angular.isDefined(attrs.isDisabled))
-                        scope.isDisabled = attrs.isDisabled == "true";
-                    else if (angular.isUndefined(scope.isDisabled))
-                        scope.isDisabled = false;
+                    if (angular.isUndefined(scope.isDisabled))
+                        scope.isDisabled = angular.isDefined(attrs.setDisabled) && attrs.setDisabled == "true";
+
+                    if (angular.isUndefined(scope.isHidden))
+                        scope.isHidden = angular.isDefined(attrs.setHidden) && attrs.setHidden == "true";
 
                     if (angular.isDefined(attrs.heading))
                         scope.heading = attrs.heading;

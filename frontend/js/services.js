@@ -10,6 +10,15 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
     var _data = configuration.application;
     var _modules = configuration.application.modules;
 
+    this.getPrefixes = function() {
+        var prefixes = {};
+        angular.forEach(_modules, function(spec, module) {
+            if (angular.isObject(spec["prefixes"]))
+                angular.extend(prefixes, spec["prefixes"]);
+        });
+        return prefixes;
+    };
+
     this.isModuleApplication = function (module, application) {
         return module in _modules && application in _modules[module].apps;
     };
@@ -119,8 +128,11 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
     this.getParam = function (key) {
         return $routeParams[key];
     };
-    this.getAllParams = function(){
+    this.getAllParams = function(){ // deprecated
         return angular.copy($routeParams);
+    };
+    this.getParams = function() {
+        return $location.search();
     };
     this.setParam = function (key, value, redirect) {
         //var params = $location.search();
@@ -263,6 +275,28 @@ appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService',
     };
 }]);
 
+appServices.service('PrefixService', ['ConfigurationService', function(ConfigurationService) {
+
+    var prefixes = ConfigurationService.getPrefixes();
+
+    this.expandString = function(value) {
+        for (var prefix in prefixes) {
+            if (value.indexOf(prefix) == 0)
+                return prefixes[prefix] + value.substr(prefix.length);
+        }
+        return value;
+    };
+
+    this.contractString = function(value) {
+        for (var prefix in prefixes) {
+            if (value.indexOf(prefixes[prefix]) == 0)
+                return prefix + value.substr(prefixes[prefix].length);
+        }
+        return value;
+    };
+
+}]);
+
 appServices.service('PageService', ['UrlService', '$window', function (UrlService, $window) {
     this.setTitle = function (title) {
         $window.document.title = title;
@@ -275,7 +309,7 @@ appServices.service('PageService', ['UrlService', '$window', function (UrlServic
     };
 }]);
 
-appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkService', 'ConfigurationService', function ($q, UrlService, UtilService, NetworkService, ConfigurationService){
+appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkService', 'ConfigurationService', 'PrefixService', function ($q, UrlService, UtilService, NetworkService, ConfigurationService, PrefixService){
     var self = this;
     /**
      * initialize params in application and setup listener for required params changing
@@ -333,5 +367,13 @@ appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkSe
     this.pageNotFound = function() {
         // TODO different error vs 404 page
         UrlService.setUrl(ConfigurationService.getErrorApplication(), true);
-    }
+    };
+
+    this.expandPrefix = function(prefixedString) {
+        return PrefixService.expandString(prefixedString);
+    };
+
+    this.contractPrefix = function(nonPrefixedString) {
+        return PrefixService.contractString(nonPrefixedString);
+    };
 }]);
