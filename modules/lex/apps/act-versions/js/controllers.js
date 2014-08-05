@@ -1,6 +1,9 @@
 (function() {
     angular.module('appControllers')
-        .controller('LexVersionsController', ['$scope', '$log', 'NetworkService', 'AppService','UrlService', function ($scope, $log, NetworkService, AppService, UrlService) {
+        .controller('LexVersionsController', ['$scope', '$log', 'NetworkService', 'AppService','UrlService','PageService', function ($scope, $log, NetworkService, AppService, UrlService, PageService) {
+
+            if(PageService.getModule()=='lex' && PageService.getApplication()=='act-compare')
+                $scope.isOpen = true;
 
             $scope.versions = undefined;
             $scope.predicate = '-validIso';
