@@ -9,13 +9,16 @@ PREFIX resource: <{{"param": "resource", "filter": "RemoveLTGT"}}>
 CONSTRUCT {
   ?decision dcterms:title ?title .
   ?decision dcterms:issued ?date .
-  ?decision dcterms:subject ?subjectLabel .
+  ?decision dcterms:subject ?subject .
+  ?decision dcterms:hasText ?hasText .	
 }
 
 FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz>
 FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz/updates>
 
 WHERE {
+  SELECT ?decision ?date ?title ?subject (bound(?text) as ?hasText)
+  WHERE { 
   {
   SELECT DISTINCT ?decision ?date
   WHERE {
@@ -24,15 +27,20 @@ WHERE {
       sdo:hasSection/sdo:hasParagraph/sdo:hasTextChunk/sdo:hasAnnotation/sao:hasTopic ?decision .
     ?decision a lex:Decision . 
     OPTIONAL { ?decision dcterms:issued ?date .}
-
   }
   ORDER BY DESC(?date)
   OFFSET {{"param": "offset", "default": "0"}}
   LIMIT {{"param": "limit", "default": "10"}}
   }
+  
   ?decision dcterms:title ?title .
+  
   OPTIONAL {
     ?decision dcterms:subject ?subject .
-    BIND( REPLACE(str(?subject), '^.*decision-subject/', "") AS ?subjectLabel) .
-  } 
+  }
+  
+  OPTIONAL {
+    ?decision ^frbr:realizationOf/<http://linked.opendata.cz/ontology/odcs/xmlValue> ?text.
+  }
+  }
 }
