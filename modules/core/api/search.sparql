@@ -12,12 +12,13 @@ CONSTRUCT{
 WHERE {
   SELECT ?resource ?type ?text ?label ?sc
   WHERE {
-    ?resource a ?type .
-    ?resource ?property ?text .
-    ?text bif:contains '[__enc "UTF-8"]"{{"param" : "query", "filter" : "EscapeDoubleQuotes"}}"'
-    OPTION ( SCORE ?sc) .
+    GRAPH ?graph {
+    	?resource a ?type .
+    	?resource ?property ?text .
+    	?text bif:contains '[__enc "UTF-8"]"{{"param" : "query", "filter" : "EscapeDoubleQuotes"}}"'
+    	OPTION ( SCORE ?sc) .
+    }
     {{"param" : "values"}}
-
   }
   ORDER BY DESC( ?sc)
   LIMIT {{"param" : "limit"}}

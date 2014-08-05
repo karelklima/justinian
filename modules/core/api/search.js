@@ -17,7 +17,9 @@ module.exports = function(routeParams) {
             _.extend(rawPrefixes, module["prefixes"]);
             _.each(module["universal-search"], function(specification) {
                 rawFrom = _.union(rawFrom, specification["datasets"]);
-                rawValues.push([specification["type"], specification["property"], specification["label"]]);
+                specification["datasets"].forEach(function(dataset){
+                	rawValues.push([specification["type"], specification["property"], specification["label"], dataset]);
+                });
             });
         }
 
@@ -27,11 +29,11 @@ module.exports = function(routeParams) {
         persistentParams.prefixes = persistentParams.prefixes + "PREFIX " + prefix + " <" + uri + ">\n";
     });
     _.each(rawFrom, function(uri) {
-        persistentParams.from = persistentParams.from + "FROM <" + uri + ">\n";
+        persistentParams.from = persistentParams.from + "FROM NAMED <" + uri + ">\n";
     });
     var rawValuesTemp = [];
     _.each(rawValues, function(triple) {
-        rawValuesTemp.push("VALUES (?type ?property ?label) { ( " + triple[0] + " " + triple[1] + ' "' + triple[2] + '"' + " ) }");
+        rawValuesTemp.push("VALUES (?type ?property ?label ?graph) { ( " + triple[0] + " " + triple[1] + ' "' + triple[2] + '" <' + triple[3] + '>' +" ) }");
     });
     persistentParams.values = "{\n" + rawValuesTemp.join("\n} UNION {\n") + "\n}\n";
 
