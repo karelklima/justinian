@@ -5,7 +5,8 @@ module.exports = function(routeParams) {
 
     route.getContext = function() {
         return {
-            "title": "http://purl.org/dc/terms/title"
+            "title": "http://purl.org/dc/terms/title",
+            "identifier": "http://purl.org/dc/terms/identifier"
         }
     };
 
@@ -26,7 +27,8 @@ module.exports = function(routeParams) {
     route.getModel = function() {
         return {
             "@id" : ["string", ""],
-            "title" : ["string", ""]
+            "title" : ["string", ""],
+            "identifier" : ["string", ""]
         }
     };
 

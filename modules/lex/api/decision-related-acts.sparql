@@ -7,6 +7,7 @@ PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
 PREFIX dec: <{{"param": "resource", "filter": "RemoveLTGT"}}>
 CONSTRUCT {
   ?parent dcterms:title ?actTitle .
+  ?parent dcterms:identifier ?identifier.
 }
 
 FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz>
@@ -15,7 +16,7 @@ FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz/updates>
 FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
 
 WHERE {
-  SELECT DISTINCT ?parent ?actTitle
+  SELECT DISTINCT ?parent ?actTitle ?identifier
   WHERE {
   dec: a lex:Decision .
   ?expression frbr:realizationOf dec:;
@@ -27,7 +28,8 @@ WHERE {
   }
  ?topic dcterms:title ?title.
  BIND(IRI(if(contains(str(?topic), "/section/"),strbefore(str(?topic), "/section/"), str(?topic))) as ?parent) .
- ?parent dcterms:title ?actTitle
+ ?parent dcterms:title ?actTitle.
+ ?parent dcterms:identifier ?identifier.
  }
  OFFSET {{"param": "offset", "default": "0"}}
  LIMIT {{"param": "limit", "default": "10"}}
