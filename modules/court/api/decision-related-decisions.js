@@ -21,11 +21,10 @@ module.exports = function(routeParams) {
             if (_.isArray(data["subject"])) {
             	data["subjectTitle"] = [];
             	data["subject"].forEach(function(subject){
-            		data["subjectTitle"].push( subject.substring(subject.lastIndexOf("/")) );
+            		data["subjectTitle"].push( subject.substring(subject.lastIndexOf("/") + 1) );
             	});
             	
             }
-        	data["subject"] = _.isArray(data["subject"]) ? data["subject"].join(', ') : "";
             
         });
 

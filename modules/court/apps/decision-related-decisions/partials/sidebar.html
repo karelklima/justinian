@@ -9,12 +9,22 @@
                 <th><a ng-click="sortBy('-issuedIso')">Datum</a></th>
                 <th><a ng-click="sortBy('subject')">Předmět</a></th>
             </tr>
-            <tr ng-repeat="decision in decisions | orderBy: predicate : reverse">
-                <td><a click module="court" application="decision-detail" resource="{{ decision['@id'] }}">{{ decision['title'] }}</a></td>
-                <td nowrap>{{ decision['issuedIso'] | formatDate }}</td>
-                <td>{{ decision['subject'] | formatDash }}</td>
-            </tr>
+            <tr ng-repeat="decision in filtered = ( decisions | filter : {hasText: 1}) | orderBy: predicate : reverse">
+            		<td><a click module="court" application="decision-detail" resource="{{ decision['@id'] }}">{{ decision['title'] }}</a></td>
+	            	<td nowrap>{{ decision['issuedIso'] | formatDate }}</td>
+	                <td>{{ decision['subjectTitle'].join(', ') | formatDash }}</td>
+            </tr>    
         </table>
+        
+        <div ng-show="filtered.length != decisions.length">
+            <a ng-model="collapsed" ng-click="collapsed=!collapsed">judik&#225;ty bez dal&#353;&#237;ch dostupn&#253;ch informac&#237;</a>
+            <table class="table" ng-show="collapsed">
+            	<tr ng-repeat="decision in decisions | filter : {hasText: 0}">
+            		<td>{{ decision['title'] }}</td>
+            	</tr>
+        	</table>
+        </div>
+        
         <div ng-show="isLoading()">Načítám data...</div>
         <div ng-show="isEmpty()">Žádná dostupná rozhodnutí.</div>
     </div>
