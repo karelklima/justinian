@@ -25,6 +25,7 @@ FROM <http://linked.opendata.cz/resource/dataset/ares/basic>
 FROM <http://linked.opendata.cz/resource/dataset/ares/rzp>
 FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz>
 FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz/updates>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/court/cz>
 
 
 WHERE {
@@ -46,7 +47,7 @@ WHERE {
   ?dec lex:decisionKind ?decisionKind.
   ?decisionKind skos:prefLabel ?decisionKindLabel.
   ?dec dcterms:creator ?creator.
-  ?creator dcterms:title ?creatorTitle.
+  GRAPH <http://linked.opendata.cz/resource/dataset/court/cz> { ?creator dcterms:title ?creatorTitle. }
   ?dec dcterms:subject ?subject.
   ?dec lex:belongsToFile ?file.
   ?file lex:fileKind ?fileKind.

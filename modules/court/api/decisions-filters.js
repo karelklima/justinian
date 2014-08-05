@@ -22,6 +22,10 @@ module.exports = function(routeParams) {
         	"states" : {
         		"@id" : "http://haveStates",
         		"@language": "cs"
+        	},
+        	"courtTitle" : {
+        		"@id" : "http://purl.org/dc/terms/title",
+        		"@language": "cs"
         	}
         }
     };
@@ -47,7 +51,7 @@ module.exports = function(routeParams) {
     		if (!_.isUndefined(data["creators"])) {
     			data["creators-titles"] = []
     			data["creators"].forEach(function(creator) {
-    				data["creators-titles"].push( [ creator, responseJSONLD["@graph"][creator]["http://purl.org/dc/terms/title"][0] ] );
+    				data["creators-titles"].push( [ creator, responseJSONLD["@graph"][creator]["courtTitle"][0] ] );
     			});
     		}
     		
