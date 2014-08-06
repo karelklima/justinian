@@ -219,7 +219,7 @@ appServices.service('UtilService', ['$filter', function ($filter) {
     };
     this.camelToDash = function (str) {
         return str.replace(/\W+/g, '-')
-            .replace(/([a-z\d])([A-Z])/g, '$1-$2');
+            .replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCase();
     };
     this.dashToCamel = function (str) {
         return str.replace(/\W+(.)/g, function (x, chr) {
