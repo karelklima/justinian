@@ -143,6 +143,11 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
             $location.replace();
         $rootScope.$$phase || $rootScope.$apply();
     };
+    this.setParams = function(params, redirect) {
+        $location.search(params);
+        if (redirect)
+            $location.replace();
+    };
     this.setPath = function (module, application) {
         this.setUrl(module, application, null);
     };
@@ -333,7 +338,7 @@ appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkSe
                 var paramsChanged = false;
                 var changes = {};
                 angular.forEach(params, function(param) {
-                    if (!angular.equals(oldParams[param], newParams[param])) {
+                    if (!angular.equals(oldParams[param], newParams[param]) && !angular.equals($appScope[param], newParams[param])) {
                         changes[param] = {old: oldParams[param], new: newParams[param]};
                         $appScope[param] = newParams[param];
                         paramsChanged = true;
@@ -362,6 +367,10 @@ appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkSe
         });
 
         return promise;
+    };
+
+    this.setParams = function(params, redirect) {
+        UrlService.setParams(params, redirect);
     };
 
     this.pageNotFound = function() {
