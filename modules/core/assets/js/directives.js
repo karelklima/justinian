@@ -38,6 +38,69 @@
             }
         })
 
+        .directive('datapager', function() {
+            return {
+                restrict: 'A',
+                replace: true,
+                scope: {
+                    source: '=',
+                    target: '=',
+                    itemsPerPage: '@'
+                },
+                template:
+                    "<div class=\"text-center\">\n" +
+                    "  <a class=\"btn btn-primary\" ng-click=\"appendPage()\" ng-class=\"{disabled: isLoading || page >= maxPage}\">Načíst další</a>\n" +
+                    "</div>",
+                link: function(scope, element, attrs) {
+
+                    if (angular.isUndefined(scope.source)
+                        || !angular.isFunction(scope.source.get)) {
+                        throw new Error("Datapager: data source is not valid");
+                    }
+
+                    scope.limit = scope.itemsPerPage;
+                    if (angular.isUndefined(scope.limit) || scope.limit < 1)
+                        scope.limit = 10; // default page size
+
+                    scope.page = 0;
+                    scope.maxPage = 1000;
+                    scope.append = false;
+                    scope.target = [];
+                    scope.isLoading = false;
+
+                    scope.appendPage = function() {
+                        scope.append = true;
+                        scope.page++;
+                        scope.update();
+                    };
+
+                    scope.$watch('source', function(current, previous) {
+                        if (angular.isUndefined(current.revision) || current.revision == previous.revision)
+                            return; // do not refresh
+                        scope.target = [];
+                        scope.page = 0;
+                        scope.update()
+                    }, true);
+
+                    scope.update = function() {
+                        scope.isLoading = true;
+                        if (!scope.append) {
+                            scope.target = [];
+                            scope.append = false;
+                        }
+                        scope.source.get(scope.page * scope.limit, scope.limit, function(data) {
+                            if (data.length < scope.limit)
+                                scope.maxPage = scope.page;
+                            scope.target.push.apply(scope.target, data);
+                            scope.isLoading = false;
+                        });
+                    };
+
+                    scope.update(); // initial load
+
+                }
+            }
+        })
 
         .directive('mainApp', function () {
             return {
