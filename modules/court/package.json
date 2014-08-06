@@ -8,6 +8,7 @@
     },
     "apis": {
         "decisions": {"limit": "10", "offset": "0"},
+        "decisions-filters": {},
         "decision-detail": {"resource": ""},
         "decision-text": {"resource": ""},
     	"decision-related-decisions": {"resource": "", "limit": "10", "offset": "0"},
