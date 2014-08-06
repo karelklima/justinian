@@ -216,7 +216,8 @@ SparqlRouteJSONLD.prototype.handleResponse = function(responseString, res) {
 
     var self = this;
 
-    Q.fcall(JSON.parse, responseString)
+    Q.fcall(function() { return responseString; })
+        .then(function(r) { return JSON.parse(responseString); })
         .then(function(r) { return self.applyContext(r); })
         .then(function(r) { return self.convertDates(r); })
         .then(function(r) { return self.prepareResponse(r); })
@@ -230,9 +231,9 @@ SparqlRouteJSONLD.prototype.handleResponse = function(responseString, res) {
         })
         .catch(function(err) {
             logger.err(err.stack);
-            // TODO
-            res.write(settings.options["sparql"]["jsonld"]["error-result"]);
+            res.write(JSON.stringify(settings.options["sparql"]["jsonld"]["error-result"], null, "  "));
             res.end();
+            return true;
         });
 
 };
