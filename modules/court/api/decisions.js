@@ -17,7 +17,6 @@ module.exports = function(routeParams) {
             	"@id" : "http://purl.org/dc/terms/creatorTitle",
             	"@language": "cs"
             },
-            "title" : "http://purl.org/dc/terms/title",
             "identifier" : "http://purl.org/dc/terms/identifier",
             "fileKind" : "http://purl.org/lex#fileKind",
             "fileNumber" : "http://purl.org/lex#fileNumber",
@@ -48,7 +47,7 @@ module.exports = function(routeParams) {
 					+ params["kind"].toLowerCase() + "> .\n";
 					break;
 				case "creator" : outputParams.values += "?dec dcterms:creator <" + params["creator"] + ">. \n"; break;
-				case "subject" : outputParams.values += "?dec dcterms:subject <http://linked.opendata.cz/resource/legislation/cz/decision-subject/" + params["subject"] + ">. \n"; break;
+				case "subject" : outputParams.values += "?dec dcterms:subject <http://linked.opendata.cz/resource/legislation/cz/decision-subject/" + params["subject"].replace(/ /g, '-') + ">. \n"; break;
 				case "fileKind" : outputParams.values += "?file lex:fileKind \"" + params["fileKind"] + "\". \n"; break;
 				case "senateNumber" : outputParams.values += "?file lex:senateNumber \"" + params["senateNumber"] + "\". \n"; break;
 				case "fileNumber" : outputParams.values += "?file lex:fileNumber \"" + params["fileNumber"] + "\"^^xsd:integer . \n"; break;
@@ -74,7 +73,9 @@ module.exports = function(routeParams) {
     		if (_.isArray(data["subject"])) {
     			data["subjectTitles"] = [];
     			data["subject"].forEach(function(subject){
-    				data["subjectTitles"].push( subject.substring(subject.lastIndexOf("/") + 1) );
+                    var label = subject.substring(subject.lastIndexOf('/') + 1).replace(/-/g, " ");
+                    if (label.length > 0)
+                        data["subjectTitles"].push(label);
     			});
     		}
     	});
@@ -88,7 +89,6 @@ module.exports = function(routeParams) {
         	"issuedIso" : ["string", ""],
             "subjectTitles" : ["object", []],
             "creator" : ["string", ""],
-            "title" : ["string", ""],
             "identifier" : ["string", ""],
             "fileKind" : ["string", ""],
             "fileNumber" : ["number", 0],

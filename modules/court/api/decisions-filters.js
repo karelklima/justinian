@@ -1,5 +1,5 @@
 module.exports = function(routeParams) {
-;
+
     var _ = routeParams.Underscore;
     var route = new routeParams.SparqlRouteJSONLD;
 
@@ -42,14 +42,16 @@ module.exports = function(routeParams) {
     		if (!_.isUndefined(data["subjects"])) {
     			data["subjectLabels"] = [];
     			data["subjects"].forEach(function(subject) {
-    				data["subjectLabels"].push( subject.substring(subject.lastIndexOf('/') + 1) );
+                    var label = subject.substring(subject.lastIndexOf('/') + 1).replace(/-/g, " ");
+                    if (label.length > 0)
+    				    data["subjectLabels"].push(label);
     			});
     			data["subjectLabels"].sort();
     		}
     		if (!_.isUndefined(data["senateNumbers"]))
     			data["senateNumbers"].sort(function(a,b){return a - b});
     		if (!_.isUndefined(data["creators"])) {
-    			data["creators-titles"] = []
+    			data["creators-titles"] = [];
     			data["creators"].forEach(function(creator) {
     				data["creators-titles"].push( [ creator, responseJSONLD["@graph"][creator]["courtTitle"][0] ] );
     			});
