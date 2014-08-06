@@ -377,6 +377,13 @@ appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkSe
         UrlService.setParam(key, value, redirect);
     };
 
+    this.getMainModuleApplication = function() {
+        return {
+            module: UrlService.getParam("module"),
+            application: UrlService.getParam("application")
+        };
+    };
+
     this.pageNotFound = function() {
         // TODO different error vs 404 page
         UrlService.setUrl(ConfigurationService.getErrorApplication(), true);
