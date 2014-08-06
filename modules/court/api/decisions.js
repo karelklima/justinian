@@ -51,8 +51,8 @@ module.exports = function(routeParams) {
 				case "fileKind" : outputParams.values += "?file lex:fileKind \"" + params["fileKind"] + "\". \n"; break;
 				case "senateNumber" : outputParams.values += "?file lex:senateNumber \"" + params["senateNumber"] + "\". \n"; break;
 				case "fileNumber" : outputParams.values += "?file lex:fileNumber \"" + params["fileNumber"] + "\"^^xsd:integer . \n"; break;
-				case "dateGT" : outputParams.values += "?dec dcterms:issued ?date. \nFILTER ( ?date >= \"" + params["dateGT"] + "\"^^xsd:date)\n"; break;
-				case "dateLT" : outputParams.values += "?dec dcterms:issued ?date. \nFILTER ( ?date <= \"" + params["dateLT"] + "\"^^xsd:date)\n"; break;
+				case "minDate" : outputParams.values += "?dec dcterms:issued ?date. \nFILTER ( ?date >= \"" + params["minDate"] + "\"^^xsd:date)\n"; break;
+				case "maxDate" : outputParams.values += "?dec dcterms:issued ?date. \nFILTER ( ?date <= \"" + params["maxDate"] + "\"^^xsd:date)\n"; break;
 				case "query":
 					outputParams.values +=
 						"?dec  ^frbr:realizationOf ?expr. \n" +
