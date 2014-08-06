@@ -49,6 +49,8 @@
                 },
                 template:
                     "<div class=\"text-center\">\n" +
+                    "  <a class=\"btn btn-default pull-left\" ng-click=\"previousPage()\" ng-class=\"{disabled: isLoading || page < 1}\">Předchozí</a>\n" +
+                    "  <a class=\"btn btn-default pull-right\" ng-click=\"nextPage()\" ng-class=\"{disabled: isLoading || page >= maxPage}\">Následující</a>\n" +
                     "  <a class=\"btn btn-primary\" ng-click=\"appendPage()\" ng-class=\"{disabled: isLoading || page >= maxPage}\">Načíst další</a>\n" +
                     "</div>",
                 link: function(scope, element, attrs) {
@@ -74,11 +76,22 @@
                         scope.update();
                     };
 
+                    scope.nextPage = function() {
+                        scope.page++;
+                        scope.update();
+                    };
+
+                    scope.previousPage = function() {
+                        scope.page--;
+                        scope.update();
+                    };
+
                     scope.$watch('source', function(current, previous) {
                         if (angular.isUndefined(current.revision) || current.revision == previous.revision)
                             return; // do not refresh
                         scope.target = [];
                         scope.page = 0;
+                        scope.maxPage = 1000;
                         scope.update()
                     }, true);
 
