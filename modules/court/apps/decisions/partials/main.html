@@ -3,7 +3,7 @@
 
     <div class="filters-bar">
         <span class="btn btn-primary btn-sm" ng-repeat="filter in filters" ng-click="removeFilter(filter.filter)">
-            {{filter.label}}: {{filter.title}}
+            {{filter.prefix}}{{filter.title}}
             <span class="glyphicon glyphicon-remove glyphicon-white cursor-pointer"></span>
         </span>
     </div>
@@ -17,7 +17,7 @@
         </tr>
         <tr ng-repeat-start="decision in decisions">
             <td nowrap><a click module="court" application="decision-detail" resource="{{decision['@id']}}">{{decision['title']}}</a></td>
-            <td>{{decision['dateIso'] | formatDate}}</td>
+            <td nowrap>{{decision['issuedIso'] | formatDate}}</td>
             <td>{{decision['creator']}}</td>
             <td>{{decision['subjectTitles'] | join}}</td>
         </tr>

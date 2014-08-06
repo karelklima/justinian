@@ -1,10 +1,10 @@
 (function() {
     angular.module('appControllers')
-        .controller('CourtDecisionsController', ['$scope', 'NetworkService', 'UrlService', 'AppService', function ($scope, NetworkService, UrlService, AppService) {
+        .controller('CourtDecisionsController', ['$scope', '$filter', 'AppService', function ($scope, $filter, AppService) {
 
 //            $scope.resource = UrlService.getParam('resource');
 
-            var filters = ['creator', 'subject'];
+            var filters = ['creator', 'subject', 'minDate', 'maxDate'];
             $scope.filterParams = {};
 
             $scope.decisions = [];
@@ -44,20 +44,26 @@
                     if (angular.isDefined($scope[filter])) {
                         $scope.filterParams[filter] = $scope[filter];
 
-                        var label = "Parametr";
+                        var prefix = "";
                         var title = $scope[filter];
 
                         switch (filter) {
                             case "creator":
-                                label = "Soud";
                                 break;
                             case "subject":
-                                label = "Předmět";
+                                break;
+                            case "minDate":
+                                prefix = "od ";
+                                title = $filter('date')(title, "dd. MM. yyyy");
+                                break;
+                            case "maxDate":
+                                prefix = "do ";
+                                title = $filter('date')(title, "dd. MM. yyyy");
                                 break;
                         }
 
                         $scope.filters.push({
-                            label: label,
+                            prefix: prefix,
                             title: title,
                             filter: filter
                         });

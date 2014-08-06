@@ -10,6 +10,32 @@
             <label for="filterSubject">Předmět</label>
             <input class="form-control" id="filterSubject" ng-model="subject" typeahead="s for s in filters['subjectLabels'] | filter:$viewValue | limitTo: 10"/>
         </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="filterMinDate">Datum od</label>
+                    <div class="input-group">
+                        <input class="form-control" id="filterMinDate" ng-model="minDateRaw" datepicker-popup="dd. MM. yyyy" is-open="popupMinDateIsOpen"
+                                starting-day="1" current-text="Dnes" clear-text="Vymazat" close-text="Zavřít"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openMinDatePopupCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="filterMaxDate">do</label>
+                    <div class="input-group">
+                        <input class="form-control" id="filterMaxDate" ng-model="maxDateRaw" datepicker-popup="dd. MM. yyyy" is-open="popupMaxDateIsOpen"
+                               starting-day="1" current-text="Dnes" clear-text="Vymazat" close-text="Zavřít"/>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-default" ng-click="openMaxDatePopupCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="text-center">
             <button type="submit" class="btn btn-primary">Vyhledat</button>
         </div>
