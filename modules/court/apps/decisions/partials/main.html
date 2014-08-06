@@ -1,14 +1,33 @@
-<div ng-controller="CourtDecisionsController">
-<h1>Judikáty</h1>
-<form>
+<div ng-controller="CourtDecisionsController" main-app>
+<h1>Soudní rozhodnutí</h1>
 
-</form>
-<div>
-    <p>Celkový počet výsledků: {{support[0]["totalCount"]}}</p>
-    <ul>
-        <li ng-repeat="decision in decisions">
-            <a click module="court" application="decision-detail" resource="{{decision['@id']}}">{{decision['@id']}}</a>
-        </li>
-    </ul>
-</div>
+    <div class="filters-bar">
+        <span class="btn btn-primary btn-sm" ng-repeat="filter in filters" ng-click="removeFilter(filter.filter)">
+            {{filter.label}}: {{filter.title}}
+            <span class="glyphicon glyphicon-remove glyphicon-white cursor-pointer"></span>
+        </span>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th nowrap>Spisová značka</th>
+            <th>Datum</th>
+            <th>Soud</th>
+            <th>Předmět</th>
+        </tr>
+        <tr ng-repeat-start="decision in decisions">
+            <td nowrap><a click module="court" application="decision-detail" resource="{{decision['@id']}}">{{decision['title']}}</a></td>
+            <td>{{decision['dateIso'] | formatDate}}</td>
+            <td>{{decision['creator']}}</td>
+            <td>{{decision['subjectTitles'] | join}}</td>
+        </tr>
+        <tr ng-repeat-end>
+
+        </tr>
+    </table>
+
+    <div spinner-bar ng-show="isLoading"></div>
+
+    <div datapager source="datasource" target="decisions" items-per-page="20"></div>
+
 </div>

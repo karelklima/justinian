@@ -1,0 +1,17 @@
+<div ng-controller="CourtDecisionsFiltersController" sidebar-app heading="Vyhledávání" set-open="true">
+    <form role="form" ng-submit="search()">
+        <div class="form-group">
+            <label for="filterCreator">Soud</label>
+            <select class="form-control" id="filterCreator" ng-model="creator" ng-options="ct[0] as ct[1] for ct in filters['creators-titles']" ng-disabled="isLoading">
+                <option value="">Všechny soudy</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="filterSubject">Předmět</label>
+            <input class="form-control" id="filterSubject" ng-model="subject" typeahead="s for s in filters['subjectLabels'] | filter:$viewValue | limitTo: 10"/>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Vyhledat</button>
+        </div>
+    </form>
+</div>

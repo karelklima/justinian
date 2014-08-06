@@ -1,0 +1,7 @@
+{
+    "title" : "Soudní rozhodnutí - vyhledávání",
+    "views": ["sidebar"],
+    "dependencies" : {
+        "court" : ["decisions"]
+    }
+}
