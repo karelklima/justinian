@@ -1,9 +1,9 @@
 
-.lex-act-text section.uvod, .lex-act-text section.zaver {
+/*.lex-act-text section.uvod, .lex-act-text section.zaver {
     text-align: center;
 }
 .lex-act-text section.obsah {
-    /*text-align: justify;*/
+    /*text-align: justify;
     margin: auto;
     max-width: 500px;
 }
@@ -13,22 +13,64 @@
 }
 .lex-act-text section header, .lex-act-text section .nadpis {
     text-align: center;
+}*/
+
+.lex-act-text section {
+    text-align: justify;
 }
+.lex-act-text section header {
+
+}
+
+.lex-act-text section.uvod > p,
+.lex-act-text section.zaver > p {
+    margin-left: 30px;
+    color: #999;
+}
+
+.lex-act-text section.preambule > p,
+.lex-act-text section.cast > section,
+.lex-act-text section.hlava > section,
+.lex-act-text section.dil > section,
+.lex-act-text section.oddil > section,
+.lex-act-text section.pododdil > section {
+    margin-left: 30px;
+}
+
+.lex-act-text section.clanek > p,
+.lex-act-text section.clanek > section,
+.lex-act-text section.paragraf > p,
+.lex-act-text section.paragraf > section {
+    margin-left: 30px;
+}
+
+.lex-act-text section.pismeno,
+.lex-act-text section.bod {
+    margin-left: 30px;
+}
+
+.lex-act-text section header h1:last-child {
+    margin-top: 0;
+}
+
 .lex-act-text section.cast h1, .lex-act-text section.preambule h1 {
-    font-size: 200%;
-}
-.lex-act-text section.hlava h1 {
     font-size: 180%;
 }
-.lex-act-text section.dil h1 {
+.lex-act-text section.hlava h1 {
     font-size: 160%;
+}
+.lex-act-text section.dil h1 {
+    font-size: 150%;
 }
 .lex-act-text section.oddil h1, .lex-act-text section.pododdil h1 {
     font-size: 140%;
 }
 .lex-act-text section.clanek h1, .lex-act-text section.paragraf h1 {
     font-size: 130%;
-    font-family: Georgia;
+}
+.lex-act-text h2 {
+    font-size: 140%;
+    margin-left: 30px;
 }
 
 .lex-act-text .diff_remove{
