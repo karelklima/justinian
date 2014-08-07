@@ -121,7 +121,7 @@
                 transclude: true,
                 replace: true,
                 template:
-                    "<div class=\"panel\">\n" +
+                    "<div class=\"panel main-app\">\n" +
                     "  <div class=\"panel-body transclude\"></div>\n" +
                     "</div>",
                 link: function(scope, element, attrs, controller, linker) {
@@ -139,7 +139,7 @@
                 transclude: true,              // It transcludes the contents of the directive into the template
                 replace: true,                // The element containing the directive will be replaced with the template
                 template:
-                    "<div class=\"panel panel-default\" ng-hide=\"isHidden\">\n" +
+                    "<div class=\"panel panel-default sidebar-app\" ng-hide=\"isHidden\">\n" +
                     "  <div class=\"panel-heading cursor-pointer\" ng-click=\"toggleOpen()\">\n" +
                     "    <h4 class=\"panel-title\">\n" +
                     "      <div class=\"sidebar-toggle\">\n" +
