@@ -51,9 +51,9 @@ module.exports = function(routeParams) {
     		if (!_.isUndefined(data["senateNumbers"]))
     			data["senateNumbers"].sort(function(a,b){return a - b});
     		if (!_.isUndefined(data["creators"])) {
-    			data["creators-titles"] = [];
+    			data["creatorTitles"] = [];
     			data["creators"].forEach(function(creator) {
-    				data["creators-titles"].push( [ creator, responseJSONLD["@graph"][creator]["courtTitle"][0] ] );
+    				data["creatorTitles"].push( responseJSONLD["@graph"][creator]["courtTitle"][0] );
     			});
     		}
     		
@@ -71,7 +71,7 @@ module.exports = function(routeParams) {
             "@id" : ["string", ""],
         	"categories" : ["object", []],
         	"decKinds" : ["object", []],
-        	"creators-titles" : ["object", []],
+        	"creatorTitles" : ["object", []],
         	"subjectLabels" : ["object", []],
         	"fileKinds" : ["object", []],
         	"senateNumbers" : ["object", []],

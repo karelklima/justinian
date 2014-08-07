@@ -2,7 +2,7 @@
     <form role="form" ng-submit="search()">
         <div class="form-group">
             <label for="filterCreator">Soud</label>
-            <select class="form-control" id="filterCreator" ng-model="creator" ng-options="ct[0] as ct[1] for ct in filters['creators-titles']" ng-disabled="isLoading">
+            <select class="form-control" id="filterCreator" ng-model="creator" ng-options="ct as ct for ct in filters['creatorTitles']" ng-disabled="isLoading">
                 <option value="">Všechny soudy</option>
             </select>
         </div>

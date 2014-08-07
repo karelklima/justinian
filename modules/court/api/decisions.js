@@ -46,7 +46,12 @@ module.exports = function(routeParams) {
 					"?dec lex:decisionKind <http://linked.opendata.cz/resource/legislation/cz/decision-kind/supreme-court/" 
 					+ params["kind"].toLowerCase() + "> .\n";
 					break;
-				case "creator" : outputParams.values += "?dec dcterms:creator <" + params["creator"] + ">. \n"; break;
+				case "creator" :
+					outputParams.values += 
+						"?dec dcterms:creator ?creator . \n" +
+						"GRAPH <http://linked.opendata.cz/resource/dataset/court/cz> {?creator dcterms:title \"" +
+						 params["creator"] + "\"@cs } \n"; 
+					break;
 				case "subject" : outputParams.values += "?dec dcterms:subject <http://linked.opendata.cz/resource/legislation/cz/decision-subject/" + params["subject"].replace(/ /g, '-') + ">. \n"; break;
 				case "fileKind" : outputParams.values += "?file lex:fileKind \"" + params["fileKind"] + "\". \n"; break;
 				case "senateNumber" : outputParams.values += "?file lex:senateNumber \"" + params["senateNumber"] + "\". \n"; break;
@@ -98,7 +103,7 @@ module.exports = function(routeParams) {
             "title" : ["string", ""],
         	"issuedIso" : ["string", ""],
             "subjectTitles" : ["object", []],
-            "creator" : ["string", ""],
+            "creator" : ["object", []],
             "identifier" : ["string", ""],
             "fileKind" : ["string", ""],
             "fileNumber" : ["number", 0],

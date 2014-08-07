@@ -18,7 +18,7 @@
         <tr ng-repeat-start="decision in decisions">
             <td nowrap><a click module="court" application="decision-detail" resource="{{decision['@id']}}">{{decision['title']}}</a></td>
             <td nowrap>{{decision['issuedIso'] | formatDate}}</td>
-            <td>{{decision['creator']}}</td>
+            <td>{{decision['creator'].join(", ")}}</td>
             <td>{{decision['subjectTitles'] | join}}</td>
         </tr>
         <tr ng-repeat-end>
