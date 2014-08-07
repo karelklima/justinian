@@ -29,6 +29,7 @@
 
 .app-bar {
     margin-top: -15px;
+    margin-bottom: 15px;
 }
 
 .app-bar .ui-scrollfix {
@@ -76,6 +77,6 @@
     float: right !important;
 }
 
-.app-bar-up-button {
-    color: #000000;
+.app-bar .navbar-brand, .app-bar-up-button {
+    color: #000;
 }

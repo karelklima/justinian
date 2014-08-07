@@ -115,7 +115,7 @@
             }
         })
 
-        .directive('appBar', ['$window', function($window) {
+        .directive('appBar', ['$window', '$timeout', function($window, $timeout) {
             return {
                 restrict: 'A',
                 transclude: true,
@@ -140,17 +140,20 @@
                     }
 
                     // set outer height via CSS so when the content "pops" out the height of the document is maintained
-                    element.height(element.height());
-                    element.find('.ui-scrollfix-element').width(element.width());
+                    $timeout(function () { // You might need this timeout to be sure its run after DOM render.
+                        element.find('.ui-scrollfix-element').width(element.width());
+                        element.height(element.height());
+                    }, 0, false);
 
-                    function adjustWidth() {
+                    function adjust() {
                         scope.$apply(function() {
                             element.find('.ui-scrollfix-element').width(element.width());
+                            element.height(element.find('.ui-scrollfix-element').height());
                         });
                     }
-                    angular.element($window).bind('resize', adjustWidth);
+                    angular.element($window).bind('resize', adjust);
                     scope.$on('$destroy', function () {
-                        $(window).unbind('resize',adjustWidth);
+                        $(window).unbind('resize',adjust);
                     });
 
                 }

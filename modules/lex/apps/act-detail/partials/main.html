@@ -1,8 +1,24 @@
 <div ng-controller="LexActDetailController" main-app anchor-scroll offset-top="70">
-        <h1>Předpis č. {{actDetail["identifier"]}}</h1>
-        <h3>{{actDetail["title"]}}</h3>
-        <h4>Znění platné od {{actVersion.validIso | formatDate}}</h4>
-        <div ng-hide="isTextLoading() || isEmpty()">
+    <div app-bar>
+        <div class="clearfix">
+        <div class="navbar-brand">
+            Předpis č. {{actDetail["identifier"]}}
+        </div>
+        <div class="navbar-right">
+            <a app-bar-up-button></a>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <p>{{actDetail["title"]}}</p>
+            </div>
+            <div class="col-sm-4">
+                <p class="pull-right text-muted">Znění platné od {{actVersion.validIso | formatDate}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div ng-hide="isTextLoading() || isEmpty()">
 
             <div class="lex-act-text" ng-bind-html="actText"></div>
 
