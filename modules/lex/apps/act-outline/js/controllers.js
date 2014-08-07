@@ -5,13 +5,6 @@
             $scope.actExpression = undefined;
             $scope.actOutline = undefined;
 
-            $scope.isOpen = false;
-            $scope.isLoading = false;
-
-            $scope.toggleOpen = function() {
-                $scope.isOpen = !$scope.isOpen;
-            };
-
             $scope.isTextLoading = function () {
                 return angular.isUndefined($scope.actOutline);
             };
