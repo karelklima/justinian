@@ -138,6 +138,9 @@
                 restrict: 'A',
                 transclude: true,              // It transcludes the contents of the directive into the template
                 replace: true,                // The element containing the directive will be replaced with the template
+                scope: {
+                    setOpen: '@'
+                },
                 template:
                     "<div class=\"panel panel-default\" ng-hide=\"isHidden\">\n" +
                     "  <div class=\"panel-heading cursor-pointer\" ng-click=\"toggleOpen()\">\n" +
@@ -157,12 +160,12 @@
                     "</div>",
                 link: function(scope, element, attrs, controller, linker) {
                     // Custom transclusion so we can share scope with custom controller
-                    linker(scope, function(clone){
+                    linker(scope.$parent, function(clone){
                         element.find(".transclude").append(clone); // add to DOM
                     });
 
                     if (angular.isUndefined(scope.isOpen))
-                        scope.isOpen = angular.isDefined(attrs.setOpen) && attrs.setOpen == "true";
+                        scope.isOpen = !(angular.isDefined(attrs.setOpen) && attrs.setOpen != "true");
 
                     if (angular.isUndefined(scope.isDisabled))
                         scope.isDisabled = angular.isDefined(attrs.setDisabled) && attrs.setDisabled == "true";
