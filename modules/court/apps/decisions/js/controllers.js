@@ -4,7 +4,7 @@
 
 //            $scope.resource = UrlService.getParam('resource');
 
-            var filters = ['creator', 'subject', 'minDate', 'maxDate', 'query', 'kind', 'category'];
+            var filters = ['creator', 'subject', 'minDate', 'maxDate', 'identifier', 'query', 'kind', 'category'];
             $scope.filterParams = {};
 
             $scope.decisions = [];
@@ -61,12 +61,14 @@
                                 title = $filter('date')(title, "dd. MM. yyyy");
                                 break;
                             case "query":
-                                prefix = "fulltext: ";
+                                prefix = "text ";
                                 break;
                             case 'kind':
                                 break;
                             case 'category':
                                 prefix = "kategorie ";
+                                break;
+                            case 'identifier':
                                 break;
                         }
 

@@ -8,7 +8,7 @@
         </div>
         <div class="form-group">
             <label for="filterSubject">Předmět</label>
-            <input class="form-control" id="filterSubject" ng-model="subject" typeahead="s for s in filters['subjectLabels'] | filter:$viewValue | limitTo: 10"/>
+            <input class="form-control" id="filterSubject" ng-model="subject" typeahead="s for s in filters['subjectLabels'] | filter:$viewValue | limitTo: 10" placeholder="př.: náhrada škody"/>
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -38,7 +38,11 @@
         </div>
         <div ng-show="advancedOptionsIsOpen">
             <div class="form-group">
-                <label for="filterQuery">Fulltext</label>
+                <label for="filterIdentifier">Spisová značka</label>
+                <input class="form-control" id="filterIdentifier" ng-model="identifier" placeholder="př.: 21 Cdo 3640/2012, Tdo, 2014,"/>
+            </div>
+            <div class="form-group">
+                <label for="filterQuery">Text</label>
                 <input class="form-control" id="filterQuery" ng-model="query"/>
             </div>
             <div class="row">

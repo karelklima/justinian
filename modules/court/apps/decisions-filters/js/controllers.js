@@ -4,8 +4,8 @@
 
         .controller('CourtDecisionsFiltersController', ['$scope', '$filter', 'AppService', function($scope, $filter, AppService) {
 
-            var filters = ['creator', 'subject', 'minDate', 'maxDate', 'query', 'kind', 'category'];
-            var advancedOptions = ['query', 'kind', 'category'];
+            var filters = ['creator', 'subject', 'minDate', 'maxDate', 'identifier','query', 'kind', 'category'];
+            var advancedOptions = ['identifier', 'query', 'kind', 'category'];
 
 
             var dates = {
