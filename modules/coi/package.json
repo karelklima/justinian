@@ -8,6 +8,7 @@
         "coi:": "http://linked.opendata.cz/resource/domain/coi.cz/"
     },
     "apis": {
-        "act-related-coichecks": {"resource": ""}
+        "act-related-coichecks": {"resource": ""},
+        "checkactions-filters": {}
     }
 }

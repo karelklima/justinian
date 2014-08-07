@@ -27,6 +27,7 @@ CONSTRUCT {
 
 FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz>
 FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz/updates>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/court/cz>
 #FROM <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
 #FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
 
@@ -34,7 +35,7 @@ WHERE {
   dec: dcterms:title ?title .
   OPTIONAL {
     dec: dcterms:creator ?creator .
-    ?creator dcterms:title ?creatorTitle .
+    ?creator dcterms:title ?creatorTitle .	# todo COURT graph: 
   }
   OPTIONAL { dec: dcterms:subject ?subject . }
   OPTIONAL { dec: dcterms:issued ?issued . }
