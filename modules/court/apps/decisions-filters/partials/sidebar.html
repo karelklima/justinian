@@ -36,8 +36,36 @@
                 </div>
             </div>
         </div>
-        <div class="text-center">
+        <div ng-show="advancedOptionsIsOpen">
+            <div class="form-group">
+                <label for="filterQuery">Fulltext</label>
+                <input class="form-control" id="filterQuery" ng-model="query"/>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="filterDecisionKind">Typ</label>
+                        <select class="form-control" id="filterDecisionKind" ng-model="kind" ng-options="t for t in filters['decKinds']" ng-disabled="isLoading">
+                            <option value="">Všechny</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for="filterDecisionCategory">Kategorie</label>
+                        <select class="form-control" id="filterDecisionCategory" ng-model="category" ng-options="t for t in filters['categories']" ng-disabled="isLoading">
+                            <option value="">Všechny</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
             <button type="submit" class="btn btn-primary">Vyhledat</button>
+            <a class="btn btn-link" ng-click="advancedOptionsIsOpen = !advancedOptionsIsOpen">
+                <span ng-show="advancedOptionsIsOpen">Méně parametrů</span>
+                <span ng-hide="advancedOptionsIsOpen">Více parametrů</span>
+            </a>
         </div>
     </form>
 </div>
