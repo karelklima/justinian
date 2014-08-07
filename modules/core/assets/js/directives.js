@@ -97,10 +97,10 @@
 
                     scope.update = function() {
                         scope.isLoading = true;
-                        if (!scope.append) {
+                        if (!scope.append)
                             scope.target = [];
+                        else
                             scope.append = false;
-                        }
                         scope.source.get(scope.page * scope.limit, scope.limit, function(data) {
                             if (data.length < scope.limit)
                                 scope.maxPage = scope.page;
