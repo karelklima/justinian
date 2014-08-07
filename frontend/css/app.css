@@ -6,13 +6,9 @@ h1.navbar-brand {
     margin: 0;
 }
 
-.content-top, .content-bottom {
-    padding: 15px 0;
-}
-
 .sidebar {
-    position: relative;
     word-break: break-all;
+    padding: 20px 0;
 }
 
 table tr td .pagination {

@@ -115,6 +115,62 @@
             }
         })
 
+        .directive('appBar', ['$window', function($window) {
+            return {
+                restrict: 'A',
+                transclude: true,
+                replace: true,
+                template:
+                    "<div class=\"app-bar ui-scrollfix-container\">\n" +
+                    "  <div class=\"ui-scrollfix-element\" ui-scrollfix=\"{{scrollfixOffset}}\">\n" +
+                    "    <div class=\"navbar navbar-default\">\n" +
+                    "       <div class=\"container-fluid transclude\">\n" +
+                    "       </div>\n" +
+                    "    </div>\n" +
+                    "  </div>\n" +
+                    "</div>",
+                link: function(scope, element, attrs, controller, linker) {
+                    linker(scope, function(clone) {
+                        element.find(".transclude").append(clone);
+                    });
+
+                    scope.scrollfixOffset = 0;
+                    if (attrs.appBar !== null && attrs.appBar.length > 0) {
+                        scope.scrollfixOffset = attrs.appBar;
+                    }
+
+                    // set outer height via CSS so when the content "pops" out the height of the document is maintained
+                    element.height(element.height());
+                    element.find('.ui-scrollfix-element').width(element.width());
+
+                    function adjustWidth() {
+                        scope.$apply(function() {
+                            element.find('.ui-scrollfix-element').width(element.width());
+                        });
+                    }
+                    angular.element($window).bind('resize', adjustWidth);
+                    scope.$on('$destroy', function () {
+                        $(window).unbind('resize',adjustWidth);
+                    });
+
+                }
+            }
+        }])
+
+        .directive('appBarUpButton', ['$window', '$document', function($window, $document) {
+            return {
+                restrict: 'A',
+                scope: true,
+                replace: true,
+                template: "<a class=\"app-bar-up-button btn btn-link navbar-btn\" ng-click=\"goUp()\"><span class=\"glyphicon glyphicon-chevron-up\"></span></a>",
+                link: function(scope, element, attrs) {
+                    scope.goUp = function() {
+                        $document.scrollTo(angular.element("body"), 0, 300);
+                    }
+                }
+            }
+        }])
+
         .directive('mainApp', function () {
             return {
                 restrict: 'A',
