@@ -53,12 +53,22 @@ module.exports = function(routeParams) {
 				case "fileNumber" : outputParams.values += "?file lex:fileNumber \"" + params["fileNumber"] + "\"^^xsd:integer . \n"; break;
 				case "minDate" : outputParams.values += "?dec dcterms:issued ?date. \nFILTER ( ?date >= \"" + params["minDate"] + "\"^^xsd:date)\n"; break;
 				case "maxDate" : outputParams.values += "?dec dcterms:issued ?date. \nFILTER ( ?date <= \"" + params["maxDate"] + "\"^^xsd:date)\n"; break;
+				case "text" : outputParams.values +=
+					"?dec  ^frbr:realizationOf ?expr. \n" +
+					"?expr <http://linked.opendata.cz/ontology/odcs/xmlValue> ?text . \n";
+					break;
 				case "query":
 					outputParams.values +=
 						"?dec  ^frbr:realizationOf ?expr. \n" +
 						"?expr <http://linked.opendata.cz/ontology/odcs/xmlValue> ?text . \n" +
-						"?text bif:contains '[__enc \"UTF-8\"]\""
-						+ params["query"] + "\"'.\n";
+						"?text bif:contains '[__enc \"UTF-8\"]\"" +
+						params["query"] + "\"'.\n";
+					break;
+				case "identifier":
+					outputParams.values += 
+						"?dec dcterms:identifier ?identifier .\n" +
+						"?identifier bif:contains '[__enc \"UTF-8\"]\"" +
+						params["identifier"] + "\"'.\n";
 					break;
 				default : outputParams[param] = params[param];
 	
