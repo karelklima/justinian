@@ -55,7 +55,7 @@
             $logProvider.debugEnabled(true);
         }])
 
-        .run(['$rootScope', '$location', function ($rootScope, $location) {
+        .run(['$rootScope', '$location', 'PageService', function ($rootScope, $location, PageService) {
 
             var lastLocationPath = $location.path();
             var lastLocationSearch = angular.copy($location.search());

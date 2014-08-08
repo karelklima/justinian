@@ -99,7 +99,7 @@ Settings.prototype.buildModulesSetup = function() {
         var moduleName = moduleDirs[i];
         var moduleInfo = {};
         _.defaults(moduleInfo, modulePackageInfo, {
-            "title" : "Undefined",
+            "title" : "",
             "apps" : {},
             "extends" : [],
             "prefixes" : {},
@@ -119,7 +119,7 @@ Settings.prototype.buildModulesSetup = function() {
             var applicationName = applicationDirs[j];
             var applicationInfo = {};
             _.defaults(applicationInfo, applicationPackageInfo, {
-                "title" : "Undefined",
+                "title" : "",
                 "views" : []
             });
             applicationInfo["name"] = applicationName;

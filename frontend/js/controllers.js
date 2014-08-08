@@ -4,7 +4,7 @@ appControllers = angular.module('appControllers', [
     'appServices'
 ]);
 
-appControllers.controller('RootController', ['$scope', 'ConfigurationService', 'UrlService', 'PageService', '$log', function ($scope, ConfigurationService, UrlService, PageService, $log) {
+appControllers.controller('RootController', ['$scope', 'ConfigurationService', 'UrlService', 'AppService', '$log', function ($scope, ConfigurationService, UrlService, AppService, $log) {
 
     // pokud mame url ve tvaru /#?type=xxx&resource=yyy najdeme defaultni aplikaci pro zadany typ
     if (!UrlService.isParam('module') && !UrlService.isParam('application')
@@ -32,7 +32,7 @@ appControllers.controller('RootController', ['$scope', 'ConfigurationService', '
         return;
     }
 
-    PageService.setTitle(ConfigurationService.getDefaultTitle());
+    AppService.setTitle(ConfigurationService.getModuleApplicationTitle(UrlService.getParam('module'), UrlService.getParam('application')));
 
     $scope.mainTemplateUrl = ConfigurationService.getMainTemplate();
     $scope.sidebarTemplates = ConfigurationService.getTemplates('sidebar');

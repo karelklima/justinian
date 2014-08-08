@@ -82,6 +82,19 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
         return _data["title"];
     };
 
+    this.getModuleApplicationTitle = function(module, application) {
+        var title = undefined;
+        angular.forEach(_modules, function(mods, modName) {
+            if (modName == module) {
+                angular.forEach(mods.apps, function (opts, appName) {
+                    if (appName == application && angular.isDefined(opts.title) && opts.title.length > 0)
+                        title = opts.title;
+                });
+            }
+        });
+        return title; // may return undefined
+    };
+
     this.getApiUrl = function (module, name, params) {
         if (module in _modules && name in _modules[module].apis) {
             return '/api/' + UtilService.matchUrlParams(_modules[module].apis[name], params)
@@ -308,7 +321,8 @@ appServices.service('PageService', ['UrlService', '$window', function (UrlServic
     };
 }]);
 
-appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkService', 'ConfigurationService', 'PrefixService', function ($q, UrlService, UtilService, NetworkService, ConfigurationService, PrefixService){
+appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkService', 'ConfigurationService', 'PrefixService', 'PageService',
+    function ($q, UrlService, UtilService, NetworkService, ConfigurationService, PrefixService, PageService){
     var self = this;
     /**
      * initialize params in application and setup listener for required params changing
@@ -361,6 +375,11 @@ appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkSe
         });
 
         return promise;
+    };
+
+    this.setTitle = function (title) {
+        title = angular.isDefined(title) ? title + " | " : "";
+        PageService.setTitle(title + ConfigurationService.getDefaultTitle());
     };
 
     this.setParams = function(params, redirect) {
