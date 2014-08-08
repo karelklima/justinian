@@ -230,7 +230,7 @@ appServices.service('UtilService', ['$filter', function ($filter) {
 
 appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService', 'ConfigurationService', '$log', '$cacheFactory', function ($resource, $http, $q, UtilService, ConfigurationService, $log, $cacheFactory) {
 
-    var lruCache = $cacheFactory('lruCache', { capacity: 10 });
+    var lruCache = $cacheFactory('lruCache', { capacity: 100 });
 
     this.useApi = function(module,apiName,params,success,error){
         if(!params) params = [];
