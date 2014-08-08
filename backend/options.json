@@ -1,5 +1,6 @@
 {
     "title" : "Justinian",
+    "favicon" : "modules/justinian/assets/img/justinian.ico",
     "home" : {"module" : "justinian", "application" : "home"},
     "error" : {"module" : "core", "application" : "error"},
     "error404" : {"module" : "core", "application" : "error404"},

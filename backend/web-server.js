@@ -9,6 +9,7 @@ var _ = require('underscore');
 var fs = require('fs');
 
 var expressWinston = require('express-winston');
+var favicon = require('serve-favicon');
 
 var settings = require('./lib/settings');
 
@@ -22,6 +23,8 @@ settings.useCache(!settings.options["development"]);
 var app = express();
 
 app.use( expressWinston.logger(loggingOptions.requestLogger) );					// request loggger middleware
+
+app.use(favicon(settings.baseDirectory + '/' + settings.options["favicon"]));
 
 app.use('/settings', require('./lib/settings-router'));
 app.use('/assets', require('./lib/asset-router'));
