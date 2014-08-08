@@ -1,5 +1,14 @@
 <div ng-controller="CourtDecisionsController" main-app>
-<h1>Soudní rozhodnutí</h1>
+    <div app-bar>
+        <div class="clearfix">
+            <div class="navbar-brand">
+                Soudní rozhodnutí
+            </div>
+            <div class="navbar-right">
+                <a app-bar-up-button></a>
+            </div>
+        </div>
+    </div>
 
     <div class="filters-bar">
         <span class="btn btn-primary btn-sm" ng-repeat="filter in filters" ng-click="removeFilter(filter.filter)">
