@@ -98,3 +98,8 @@
 .lex-act-text .diff_add > *{
      background-color: #FFFFEF;
 }
+
+.lex-act-text section > span {
+    display: block; /* diff tag mismatch fix */
+    margin-left: 30px;
+}
