@@ -245,14 +245,7 @@ appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService',
         if(error !== undefined && error != null)
             request.error(error);
     };
-    this.getDefaultSettings = function () {
-        var d = $q.defer();
-        $resource('/settings/default/json').get().$promise.then(function (result) {
-            d.resolve(angular.fromJson(result).appConfiguration);
-        });
-        return d.promise;
-    };
-    this.getData = function (module, api, parameters) {
+    this.getData = function (module, api, parameters, cache) {
         var url = ConfigurationService.getApiPath(module, api);
         var paramDefaults = ConfigurationService.getApiParamDefaults(module, api);
         $log.debug("NetworkService.getData["+url+"]: url - " + angular.toJson(url));
@@ -268,8 +261,9 @@ appServices.service('NetworkService', ['$resource','$http', '$q', 'UtilService',
                 $log.error("NetworkService.getData["+url+"]: Wrong parameter '" + key + "' for module '" + module + "' and api '" + api + "'.");
             }
         });
+        cache = angular.isDefined(cache) && !cache ? false : lruCache;
         var deferred = $q.defer();
-        $resource(url, paramDefaults, {get: {method: 'GET', cache: lruCache}}).get(parameters, function (value, responseHeaders) {
+        $resource(url, paramDefaults, {get: {method: 'GET', cache: cache}}).get(parameters, function (value, responseHeaders) {
             deferred.resolve(value);
             $log.debug("NetworkService.getData["+url+"]: value.length = " + angular.toJson(value).length);
         }, function(httpResponse) {
@@ -352,9 +346,9 @@ appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkSe
         angular.isDefined(update) && update(changes);
     };
 
-    this.getData = function ($scope, module, api, parameters) {
+    this.getData = function ($scope, module, api, parameters, cache) {
         $scope.isLoading = true;
-        var promise = NetworkService.getData(module, api, parameters);
+        var promise = NetworkService.getData(module, api, parameters, cache);
         if (angular.isUndefined($scope.loadingQueue))
             $scope.loadingQueue = [];
         $scope.loadingQueue.push(promise);
