@@ -1,0 +1,36 @@
+PREFIX lex: <http://purl.org/lex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX sao: <http://salt.semanticauthoring.org/ontologies/sao#>
+PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
+PREFIX odcs: <http://linked.opendata.cz/ontology/odcs/xmlValue>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX s: <http://schema.org/>
+
+PREFIX court: <{{"param": "resource", "filter": "RemoveLTGT"}}>
+
+CONSTRUCT {
+  court: dcterms:title ?title .
+  court: s:email ?email.
+  court: s:address ?address .
+  court: s:faxNumber ?faxNumber. 
+  court: s:telephone ?telephone.
+  court: s:url ?url.
+  court: s:addressLocality ?locality.
+  court: s:streetAddress ?streetAddress.
+  court: s:postalCode ?postalCode.
+}
+
+FROM <http://linked.opendata.cz/resource/dataset/court/cz>
+
+WHERE {
+  court: dcterms:title ?title .
+  court: s:email ?email.
+  court: s:address ?address .
+  ?address s:addressLocality ?locality.
+  ?address s:streetAddress ?streetAddress.
+  ?address s:postalCode ?postalCode.  
+  court: s:faxNumber ?faxNumber. 
+  court: s:telephone ?telephone.
+  court: s:url ?url.
+}
