@@ -49,16 +49,7 @@ FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/zakazy>
 FROM NAMED <http://linked.opendata.cz/resource/dataset/geocoordinates/google/schema.org>
 
 WHERE {
-SELECT DISTINCT ?id ?date ?locality ?zipcode ?region ?street ?lat ?long ?objectName
-	?sanction ?sanctionCurrency ?sanctionValue
-	?confiscation ?amount ?unit ?category ?brandName
-	?ban ?bAmount ?bUnit ?bCategory ?bBrandName	?banCurrency ?banValue
-WHERE {
-
-  {
-  SELECT DISTINCT ?id ?date ?locality ?zipcode ?region ?street ?lat ?long
-  WHERE {
-    check: skos:notation ?id.
+	check: skos:notation ?id.
     check: s:location ?location.    
     OPTIONAL { ?location s:postalCode ?zipcode. }
     OPTIONAL { ?location s:addressLocality ?locality. }
@@ -69,20 +60,16 @@ WHERE {
     	?location s:geo/s:latitude ?lat.
     	?location s:geo/s:longitude ?long.  
     }}
-  }
-  ORDER BY DESC(?date)
-  OFFSET 0
-  LIMIT 10
-  }
 
-  OPTIONAL {
-    GRAPH <http://linked.opendata.cz/resource/dataset/ares/basic> {
-      check: s:object ?object.
-      ?object gr:legalName ?objectName.
-    }
-  }
 
-  OPTIONAL {
+	OPTIONAL {
+		GRAPH <http://linked.opendata.cz/resource/dataset/ares/basic> {
+			check: s:object ?object.
+			?object gr:legalName ?objectName.
+    	}
+  	}
+
+  	OPTIONAL {
     {
         GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/sankce>{
                 check: s:result ?sanction.
@@ -118,8 +105,9 @@ WHERE {
     
 		}
     }
-  }
-}
+  
+  	}
+
 }
 
 
