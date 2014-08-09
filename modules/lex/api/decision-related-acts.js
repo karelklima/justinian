@@ -21,8 +21,8 @@ module.exports = function(routeParams) {
             	});
             }
             if(_.isArray(data["hasSectionsRaw"]))
-            data["hasSections"] = [];
             {
+            	data["hasSections"] = [];
             	data["hasSectionsRaw"].forEach(function(section){
             		if (section != data["@id"]) data["hasSections"].push(section);
             	});
