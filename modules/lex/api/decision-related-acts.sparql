@@ -8,6 +8,7 @@ PREFIX dec: <{{"param": "resource", "filter": "RemoveLTGT"}}>
 CONSTRUCT {
   ?parent dcterms:title ?actTitle .
   ?parent dcterms:identifier ?identifier.
+  ?parent dcterms:hasSection ?topic
 }
 
 FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz>
@@ -16,7 +17,7 @@ FROM <http://linked.opendata.cz/resource/dataset/legislation/nsoud.cz/updates>
 FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
 
 WHERE {
-  SELECT DISTINCT ?parent ?actTitle ?identifier
+  SELECT DISTINCT ?parent ?actTitle ?identifier ?topic
   WHERE {
   dec: a lex:Decision .
   ?expression frbr:realizationOf dec:;

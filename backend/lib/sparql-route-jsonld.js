@@ -179,8 +179,12 @@ SparqlRouteJSONLD.prototype.processPrefixedProperties = function(response) {
                 if (!_.isUndefined(item[property])) {
                     if (_.isString(item[property])) {
                         item[property] = prefixReplacer.contractString(item[property]);
+                    } else if (_.isArray(item[property])){
+                    	for (var i = 0; i < item[property].length; i++) {
+                    		item[property][i] = prefixReplacer.contractString(item[property][i])
+                    	}
                     } else {
-                        self.addWarning(response, "Prefixed property must be a string: " + property);
+                        self.addWarning(response, "Prefixed property must be either a string or an array: " + property);
                     }
                 } else {
                     self.addWarning(response, "Prefixed property not found: " + property);
