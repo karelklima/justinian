@@ -180,8 +180,20 @@ SparqlRouteJSONLD.prototype.processPrefixedProperties = function(response) {
                     if (_.isString(item[property])) {
                         item[property] = prefixReplacer.contractString(item[property]);
                     } else if (_.isArray(item[property])){
-                    	for (var i = 0; i < item[property].length; i++) {
-                    		item[property][i] = prefixReplacer.contractString(item[property][i])
+                    	if (_.isObject(item[property][0])){
+                        	// array of objects:
+                    		for (var i = 0; i < item[property].length; i++) {
+                    			for (var nestedProp in item[property][i]) {
+                    				if (_.isString(item[property][i][nestedProp])){
+                    					item[property][i][nestedProp] = prefixReplacer.contractString(item[property][i][nestedProp])
+                    				}
+                    			}
+                    		}
+                    	} else {
+                    		// array of strings:
+	                    	for (var i = 0; i < item[property].length; i++) {
+	                    		item[property][i] = prefixReplacer.contractString(item[property][i])
+	                    	}
                     	}
                     } else {
                         self.addWarning(response, "Prefixed property must be either a string or an array: " + property);

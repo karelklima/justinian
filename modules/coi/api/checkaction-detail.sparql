@@ -1,0 +1,127 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX s: <http://schema.org/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX ares: <http://linked.opendata.cz/ontology/ares#>
+PREFIX regorg: <http://www.w3.org/ns/regorg#>
+PREFIX my: <http://>
+
+PREFIX check: <{{"param": "resource", "filter": "RemoveLTGT"}}>
+
+CONSTRUCT{
+  check: skos:notation ?id.
+  check: dcterms:date ?date.
+  check: my:region ?region.
+  check: my:locality ?locality.
+  check: my:zipcode ?zipcode.
+  check: my:street ?street.
+  check: my:hasLatitude ?lat.
+  check: my:hasLongitude ?long.
+  check: my:objectName ?objectName.
+
+  # SANCTIONS:
+  check: my:resultSanction ?sanction.
+  ?sanction my:currency ?sanctionCurrency.
+  ?sanction my:value ?sanctionValue.
+
+  # CONFISCATIONS:
+  check: my:resultConfiscation ?confiscation.
+  ?confiscation my:amountOfGoods ?amount.
+  ?confiscation my:unitOfGoods ?unit.
+  ?confiscation my:category ?category.
+  ?confiscation my:brandName ?brandName.
+
+  # BANS:
+  check: my:resultBan ?ban.
+  ?ban my:amountOfGoods ?bAmount.
+  ?ban my:unitOfGoods ?bUnit.
+  ?ban my:category ?bCategory.
+  ?ban my:brandName ?bBrandName.
+  ?ban my:currency ?banCurrency.
+  ?ban my:value ?banValue.
+}
+
+FROM <http://linked.opendata.cz/resource/dataset/coi.cz/kontroly>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/ares/basic>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/ares/rzp>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/sankce>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/zajisteni>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/zakazy>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/geocoordinates/google/schema.org>
+
+WHERE {
+SELECT DISTINCT ?id ?date ?locality ?zipcode ?region ?street ?lat ?long ?objectName
+	?sanction ?sanctionCurrency ?sanctionValue
+	?confiscation ?amount ?unit ?category ?brandName
+	?ban ?bAmount ?bUnit ?bCategory ?bBrandName	?banCurrency ?banValue
+WHERE {
+
+  {
+  SELECT DISTINCT ?id ?date ?locality ?zipcode ?region ?street ?lat ?long
+  WHERE {
+    check: skos:notation ?id.
+    check: s:location ?location.    
+    OPTIONAL { ?location s:postalCode ?zipcode. }
+    OPTIONAL { ?location s:addressLocality ?locality. }
+    OPTIONAL { ?location s:addressRegion ?region. }
+    OPTIONAL { ?location s:streetAddress ?street.}
+    OPTIONAL { check: dcterms:date ?date. }
+    OPTIONAL { GRAPH <http://linked.opendata.cz/resource/dataset/geocoordinates/google/schema.org> { 
+    	?location s:geo/s:latitude ?lat.
+    	?location s:geo/s:longitude ?long.  
+    }}
+  }
+  ORDER BY DESC(?date)
+  OFFSET 0
+  LIMIT 10
+  }
+
+  OPTIONAL {
+    GRAPH <http://linked.opendata.cz/resource/dataset/ares/basic> {
+      check: s:object ?object.
+      ?object gr:legalName ?objectName.
+    }
+  }
+
+  OPTIONAL {
+    {
+        GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/sankce>{
+                check: s:result ?sanction.
+                ?sanction skos:notation ?sanctionNotation.
+                ?sanction s:result ?priceSpec.
+                ?priceSpec gr:hasCurrency ?sanctionCurrency.
+                ?priceSpec gr:hasCurrencyValue ?sanctionValue.
+        }
+    } UNION {
+    	GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/zajisteni>{ 
+     		 check: s:result ?confiscation.
+			 ?confiscation a coicz:Confiscation.
+			 ?confiscation gr:includesObject ?confObject.
+			 ?confObject gr:amountOfThisGood ?amount.
+			 ?confObject gr:hasUnitOfMeasurement ?unit.
+			 ?confObject gr:typeOfGood ?typeOfGood.
+			 ?typeOfGood gr:category ?category.
+			 OPTIONAL { ?typeOfGood gr:hasBrand/gr:name ?brandName. }
+    	}
+    } UNION {
+    	GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/zakazy>{
+		     check: s:result ?ban.
+			 ?ban gr:includesObject ?banObject.
+			 ?banObject gr:amountOfThisGood ?bAmount.
+			 ?banObject gr:hasUnitOfMeasurement ?bUnit.
+			 ?banObject gr:typeOfGood ?bTypeOfGood.
+			 ?bTypeOfGood gr:category ?bCategory.
+			 OPTIONAL { ?bTypeOfGood gr:hasBrand/gr:name ?bBrandName. }
+			
+			 ?ban gr:hasPriceSpecification ?priceSpec.
+			 ?priceSpec gr:hasCurrency ?banCurrency.
+			 ?priceSpec gr:hasCurrencyValue ?banValue.
+    
+		}
+    }
+  }
+}
+}
+
+
+
+
