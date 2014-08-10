@@ -1,3 +1,11 @@
+.sidebar {
+    word-break: break-all;
+    padding: 20px 0;
+}
+.sidebar .table {
+    margin-bottom: 0;
+}
+
 .typeahead li a{
     white-space: normal;
 }
