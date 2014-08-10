@@ -1,0 +1,36 @@
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX s: <http://schema.org/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX ares: <http://linked.opendata.cz/ontology/ares#>
+PREFIX regorg: <http://www.w3.org/ns/regorg#>
+PREFIX my: <http://>
+
+PREFIX resource: <http://linked.opendata.cz/resource/business-entity/CZ00031887>
+
+CONSTRUCT {
+  resource: my:hasName ?name.
+  resource: my:locality ?locality.
+  resource: my:postalCode ?postalCode.
+  resource: my:streetAddress ?streetAddress.
+  resource: my:trade ?zivnost.
+  resource: my:state ?stavZivnosti.
+}
+
+FROM <http://linked.opendata.cz/resource/dataset/ares/basic>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/ares/rzp>
+
+WHERE {
+  resource: a gr:BusinessEntity.
+  resource: gr:legalName ?name.
+  resource: s:address ?address.
+  OPTIONAL{ ?address s:addressLocality ?locality }
+  OPTIONAL{ ?address s:postalCode ?postalCode}
+  OPTIONAL{ ?address s:streetAddress ?streetAddress}
+  OPTIONAL { 
+    GRAPH <http://linked.opendata.cz/resource/dataset/ares/rzp> {
+      resource: ares:zivnost/dcterms:title ?zivnost.
+      resource: ares:stav-zivnosti/skos:prefLabel ?stavZivnosti.
+    }
+  }
+  
+}
