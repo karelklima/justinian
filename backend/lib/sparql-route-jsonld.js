@@ -98,7 +98,13 @@ SparqlRouteJSONLD.prototype.convertDates = function(response) {
                             if (_.has(item, convertedKey) && key != convertedKey) {
                                 self.addWarning(response, "Cannot convert date, overwrite of other key detected: " + convertedKey);
                             } else {
-                                item[convertedKey] = [moment(item[key][0], self.getDateInputFormats()).format(self.getDateOutputFormat())];
+                                // FIXME
+                                var temp = item[key][0].substring(0, 10);
+                                temp = moment(temp);
+                                temp.add('days', 1);
+                                //var date = moment(item[key][0], self.getDateInputFormats());
+
+                                item[convertedKey] = [temp.format(self.getDateOutputFormat())];
                             }
                         }
                         catch (e)
