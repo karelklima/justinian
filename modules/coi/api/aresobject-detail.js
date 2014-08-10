@@ -24,7 +24,6 @@ module.exports = function(routeParams) {
             "@id" : ["string", ""],
             "name" : ["string", ""],
         	"trade" : ["object", []],
-        	"http://zivnost" : ["string", ""], 
         	"state" : ["string", ""],
         	"postalCode" : ["string", ""],
         	"locality" : ["string", ""],
