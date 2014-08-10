@@ -116,20 +116,12 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
     };
 
     this.getHomeApplication = function() {
-        return _data.home;
+        return _data["home"];
     };
 
-    this.getErrorApplication = function() {
-        return _data.error;
+    this.getPageNotFoundApplication = function() {
+        return _data["page-not-found"];
     };
-}]);
-
-// userSettings
-appServices.service('SettingsService', [function () {
-    //var _data = angular.fromJson(configuration);
-    var _data = configuration.user;
-
-    // TODO
 }]);
 
 appServices.service('UrlService', ['$routeParams','$route', '$location', '$filter', 'UtilService', '$window','$rootScope', function ($routeParams,$route, $location, $filter, UtilService, $window, $rootScope) {
@@ -174,9 +166,6 @@ appServices.service('UrlService', ['$routeParams','$route', '$location', '$filte
         $rootScope.$$phase || $rootScope.$apply();
     };
 
-    this.setUrlError = function () {
-        this.setUrl(configuration.application.error, true);
-    };
     this.getUrlParamValues = function (params) {
         var search = {};
         var todo = $filter('filter')(params, this.isParam, true);
@@ -398,8 +387,7 @@ appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkSe
     };
 
     this.pageNotFound = function() {
-        // TODO different error vs 404 page
-        UrlService.setUrl(ConfigurationService.getErrorApplication(), true);
+        UrlService.setUrl(ConfigurationService.getPageNotFoundApplication(), true);
     };
 
     this.expandPrefix = function(prefixedString) {

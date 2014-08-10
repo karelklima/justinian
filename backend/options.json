@@ -2,8 +2,7 @@
     "title" : "Justinian",
     "favicon" : "modules/justinian/assets/img/justinian.ico",
     "home" : {"module" : "justinian", "application" : "home"},
-    "error" : {"module" : "core", "application" : "error"},
-    "error404" : {"module" : "core", "application" : "error404"},
+    "page-not-found" : {"module" : "core", "application" : "page-not-found"},
     "modules" : ["core", "lex", "court", "coi", "justinian"],
     "asset-extensions" : ["html", "js", "css", "png"],
     "sparql" : {

@@ -28,7 +28,7 @@ appControllers.controller('RootController', ['$scope', 'ConfigurationService', '
     }
     // pokud neexistuje aplikace, kterou mame zobrazit jdeme na errorpage
     if (!ConfigurationService.isModuleApplication(UrlService.getParam('module'), UrlService.getParam('application'))) {
-        UrlService.setUrlError();
+        AppService.pageNotFound();
         return;
     }
 
