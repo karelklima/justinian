@@ -1,8 +1,8 @@
 <div ng-controller="LexVersionsController" sidebar-app heading="Historie">
-    <table class="table table-condensed table-responsive">
+    <table class="table table-condensed">
         <tr>
             <th><a ng-click="sortBy('number')">č.</a></th>
-            <th><a ng-click="sortBy('-validIso')">Platnost od</a></th>
+            <th><a ng-click="sortBy('-validIso')">Platné od</a></th>
             <th><a ng-click="sortBy('identifier')">Novela</a></th>
             <th>Porovnat</th>
         </tr>
@@ -19,17 +19,14 @@
                 <span ng-show="!item['amendmentID']">{{item["identifier"]}}</span>
             </td>
             <td class="text-center">
-                <a ng-show="version !== item['@id'] && item['haveText'] && compare !== item['@id']" click module="lex" application="act-compare" resource="{{ resource }}" version="{{ version }}" compare="{{ item['@id'] }}">
+                <a ng-show='version !== item["@id"] && item["haveText"]' click module="lex" application="act-compare" resource="{{ resource }}" version='{{ version }}' compare='{{ item["@id"] }}'>
                     <span class="glyphicon glyphicon-transfer"></span>
-                </a>
-                <a ng-show="compare === item['@id']" click module="lex" application="act-detail" resource="{{resource}}" version="{{version}}">
-                    <span class="glyphicon glyphicon-remove"></span>
                 </a>
             </td>
         </tr>
         <tr ng-if="versions.length > 10">
-            <td colspan="4" class="text-right">
-                <a class="btn btn-primary"  ng-click="toggleLimit()">
+            <td colspan="4">
+                <a class="btn btn-primary pull-right"  ng-click="toggleLimit()">
                     <span ng-show="limit == 10">Zobrazit vše</span>
                     <span ng-hide="limit == 10">Skrýt</span>
                 </a>

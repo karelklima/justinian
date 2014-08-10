@@ -1,5 +1,6 @@
 {
-    "title" : "Verze zákona",
+    "title" : "Historie",
+    "datatypes": ["lex:Act"],
     "views": ["sidebar"],
     "dependencies": {
         "lex": ["act-detail","act-detail-version","act-compare"]
