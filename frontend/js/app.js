@@ -12,7 +12,7 @@
         'appFilters'
     ])
 
-        .config(function ($routeProvider, $locationProvider) {
+        .config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
             $routeProvider.when('/', {
                 templateUrl: 'partials/root.html',
                 controller: 'RootController',
@@ -25,13 +25,10 @@
                 controllerAs: 'root',
                 reloadOnSearch: false
             });
-            // TODO configuration service
+
             $routeProvider.otherwise({redirectTo: '/' + configuration.application.home.module + '/' + configuration.application.home.application});
             $locationProvider.html5Mode(false);
-
-            //If you want to set $locationProvider.hashPrefix, you should to check "click" directive -> line directives.js:33 `attributes.$set('href', XXX`
-            //$locationProvider.hashPrefix('!');
-        })
+        }])
 
         .config(['$provide', function ($provide) {
             $provide.decorator('$rootScope', ['$delegate', function ($delegate) {
@@ -55,7 +52,7 @@
             $logProvider.debugEnabled(true);
         }])
 
-        .run(['$rootScope', '$location', 'PageService', function ($rootScope, $location, PageService) {
+        .run(['$rootScope', '$location', function ($rootScope, $location) {
 
             var lastLocationPath = $location.path();
             var lastLocationSearch = angular.copy($location.search());
@@ -72,9 +69,6 @@
                     lastLocationSearch = angular.copy(search);
                 } else {
                     if (!angular.equals(lastLocationSearch, search)){
-                        //console.log("Emit event");
-                        //var eventObject = new LocationParamsChangedEvent();
-                        //var event = $rootScope.$emit(eventObject.getName(), eventObject);
                         $rootScope.$emit("$locationParamsChangedEvent", lastLocationSearch, search);
                         lastLocationSearch = angular.copy(search);
                     }
