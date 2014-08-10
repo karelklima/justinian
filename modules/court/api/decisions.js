@@ -48,8 +48,8 @@ module.exports = function(routeParams) {
 					break;
 				case "creator" :
 					outputParams.values += 
-						"?dec dcterms:creator ?creator . \n" +
-						"GRAPH <http://linked.opendata.cz/resource/dataset/court/cz> {?creator dcterms:title \"" +
+						"?dec dcterms:creator ?creator2 . \n" +
+						"GRAPH <http://linked.opendata.cz/resource/dataset/court/cz> {?creator2 dcterms:title \"" +
 						 params["creator"] + "\"@cs } \n"; 
 					break;
 				case "subject" : outputParams.values += "?dec dcterms:subject <http://linked.opendata.cz/resource/legislation/cz/decision-subject/" + params["subject"].replace(/ /g, '-') + ">. \n"; break;
