@@ -9,8 +9,6 @@ module.exports = function(routeParams) {
             "categories" : "http://haveCategories",
             "creators" : "http://haveCreators",
             "subjects" : "http://haveSubjects",
-            "fileKinds" : "http://haveFileKinds",
-            "senateNumbers" : "http://haveSenateNumbers",
             "minDate" : {
             	"@id" : "http://haveMinDate",
             	"@type": "http://www.w3.org/2001/XMLSchema#date"
@@ -48,8 +46,6 @@ module.exports = function(routeParams) {
     			});
     			data["subjectLabels"].sort();
     		}
-    		if (!_.isUndefined(data["senateNumbers"]))
-    			data["senateNumbers"].sort(function(a,b){return a - b});
     		if (!_.isUndefined(data["creators"])) {
     			data["creatorTitles"] = [];
     			data["creators"].forEach(function(creator) {
@@ -73,8 +69,6 @@ module.exports = function(routeParams) {
         	"decKinds" : ["object", []],
         	"creatorTitles" : ["object", []],
         	"subjectLabels" : ["object", []],
-        	"fileKinds" : ["object", []],
-        	"senateNumbers" : ["object", []],
         	"maxDateIso" : ["string", ""],
         	"minDateIso" : ["string", ""]
         }
