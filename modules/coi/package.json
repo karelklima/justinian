@@ -5,7 +5,8 @@
         "lex:": "http://purl.org/lex#",
         "lexcz:": "http://purl.org/lex/cz#",
         "legislation:": "http://linked.opendata.cz/resource/legislation/cz/",
-        "coi:": "http://linked.opendata.cz/resource/domain/coi.cz/"
+        "coi:": "http://linked.opendata.cz/resource/domain/coi.cz/",
+        "business-entity:" : "http://linked.opendata.cz/resource/business-entity/"
     },
     "apis": {
         "act-related-coichecks": {"resource": ""},
