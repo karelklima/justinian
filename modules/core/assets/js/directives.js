@@ -139,22 +139,27 @@
                         scope.scrollfixOffset = attrs.appBar;
                     }
 
-                    // set outer height via CSS so when the content "pops" out the height of the document is maintained
-                    $timeout(function () { // You might need this timeout to be sure its run after DOM render.
-                        element.find('.ui-scrollfix-element').width(element.width());
-                        element.height(element.height());
-                    }, 0, false);
-
                     function adjust() {
-                        scope.$apply(function() {
+                        $timeout(function () {
                             element.find('.ui-scrollfix-element').width(element.width());
                             element.height(element.find('.ui-scrollfix-element').height());
-                        });
+                        }, 0, false);
                     }
+
+                    adjust();
+
                     angular.element($window).bind('resize', adjust);
                     scope.$on('$destroy', function () {
                         $(window).unbind('resize',adjust);
                     });
+
+                    if (angular.isDefined(attrs.adjustOn)) {
+                        console.log("defined");
+                        scope.$watch(attrs.adjustOn, function() {
+                            console.log("change");
+                            adjust();
+                        });
+                    }
 
                 }
             }
