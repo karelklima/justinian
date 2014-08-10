@@ -18,7 +18,6 @@
                 return angular.isDefined($scope.actText) && $scope.actText.length === 0;
             };
 
-
             this.update = function (changes) {
                 if (angular.isUndefined($scope.resource) || $scope.resource.length == 0) {
                     AppService.pageNotFound();
@@ -46,8 +45,10 @@
 
                     var getDetailPromise = AppService.getData($scope, 'lex', 'act-detail', {'resource': $scope.resource});
                     getDetailPromise.then(function (actDetail) {
-                        if (actDetail["@graph"].length > 0)
+                        if (actDetail["@graph"].length > 0) {
                             $scope.actDetail = actDetail["@graph"][0];
+                            AppService.setTitle("Předpis č. " + $scope.actDetail["identifier"]);
+                        }
                         else $scope.actDetail = {};
                     });
 

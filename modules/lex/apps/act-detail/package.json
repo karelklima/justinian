@@ -1,5 +1,5 @@
 {
-    "title" : "Detail zákona",
+    "title" : "Předpis",
     "datatypes" : ["lex:Act"],
     "views": ["main"],
     "priority" : 1

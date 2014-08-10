@@ -1,8 +1,10 @@
 <div ng-controller="LexActDetailController" main-app anchor-scroll offset-top="150">
-    <div app-bar>
+    <div app-bar adjust-on="actDetail">
         <div class="clearfix">
         <div class="navbar-brand">
-            Předpis č. {{actDetail["identifier"]}}
+            <a click module="lex" application="act-detail" resource="{{resource}}">
+                Předpis č. {{actDetail["identifier"]}}
+            </a>
         </div>
         <div class="navbar-right">
             <a app-bar-up-button></a>
