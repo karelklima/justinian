@@ -3,7 +3,7 @@
         .controller('LexVersionsController', ['$scope', '$log', 'NetworkService', 'AppService','UrlService','PageService', function ($scope, $log, NetworkService, AppService, UrlService, PageService) {
 
             $scope.versions = undefined;
-            $scope.predicate = '-validIso';
+            $scope.predicate = '-number';
             $scope.reverse = false;
 
             $scope.sortBy = function (predicate) {
