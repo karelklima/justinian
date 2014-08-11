@@ -33,10 +33,10 @@
 
     <div class="container">
         <div class="row sheet">
-            <div class="main" ng-class="{'col-sm-8': sidebarTemplates.length > 0, 'col-sm-12': sidebarTemplates.length <= 0}">
+            <div class="main" ng-class="{'col-md-8': sidebarTemplates.length > 0, 'col-md-12': sidebarTemplates.length <= 0}">
                 <div ng-include="mainTemplateUrl" class="application"></div>
             </div>
-            <div class="sidebar col-sm-4" ng-show="sidebarTemplates.length > 0">
+            <div class="sidebar col-md-4" ng-show="sidebarTemplates.length > 0">
                 <div class="application" ng-repeat="template in sidebarTemplates" ng-include="template.url"></div>
             </div>
         </div>

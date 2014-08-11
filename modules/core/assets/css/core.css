@@ -1,6 +1,12 @@
 .sidebar {
     padding: 20px 0;
 }
+@media (max-width: 979px) {
+    .main {
+        padding-left: 0;
+        padding-right: 0;
+    }
+}
 .sidebar .table {
     margin-bottom: 0;
 }
@@ -54,7 +60,7 @@
     border-top: none;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 979px) {
     .app-bar .navbar {
         margin-left: -31px;
         margin-right: -31px;
