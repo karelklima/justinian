@@ -20,6 +20,9 @@ module.exports = function(routeParams) {
             data["subject"] = _.isArray(data["subject"]) ? data["subject"].join(', ') : "";
         });
 
+        // order by issued desc
+        responseJSONLD["@graph"].sort(function(a, b) { return a.issued > b.issued ? -1 : 1 });
+
         return responseJSONLD;
     };
 

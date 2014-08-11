@@ -2,10 +2,10 @@
 
     <table class="table table-condensed" ng-hide="isLoading || isEmpty()">
         <tr>
-            <th><a ng-click="sortBy('title')">Název</a></th>
-            <th><a ng-click="sortBy('subject')">Předmět</a></th>
+            <th>Název</th>
+            <th>Předmět</th>
         </tr>
-        <tr ng-repeat="decision in decisions | orderBy: predicate : reverse  | limitTo : limit">
+        <tr ng-repeat="decision in decisions | limitTo : limit">
             <td nowrap>
                 <a click module="court" application="decision-detail" resource="{{ decision['@id'] }}">{{ decision['title'] }}</a><br/>
                 <small class="text-muted">{{ decision['issuedIso'] | formatDate }}</small>
@@ -22,7 +22,7 @@
 
     <div datapager source="datasource" target="decisions" items-per-page="10" hide-controls="true"></div>
 
-    <div ng-show="isLoading">Načítám data ...</div>
-    <div ng-show="isEmpty()">Žádná dostupná rozhodnutí.</div>
+    <div ng-show="isLoading">Načítám data</div>
+    <div ng-show="!isLoading && isEmpty()">Žádná dostupná rozhodnutí.</div>
 
 </div>
