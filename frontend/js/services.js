@@ -48,7 +48,7 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
                     var types = opts.datatypes;
                     if (angular.isDefined(dependencies) && module in dependencies && dependencies[module].indexOf(application) !== -1) {
                         push = true;
-                    } else if (angular.isDefined(types) && angular.isDefined(datatypes)) {
+                    } else if (angular.isDefined(types) && angular.isDefined(datatypes) && angular.isUndefined(dependencies)) {
                         angular.forEach(types, function (type) {
                             if (datatypes.indexOf(type) !== -1) {
                                 push = true;
