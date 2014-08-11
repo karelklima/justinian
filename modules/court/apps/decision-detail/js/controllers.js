@@ -53,6 +53,50 @@
                             replacement.html(self.html());
                             self.replaceWith(replacement);
                         });
+                        doc.find("footer > div").each(function(){
+                            var self = angular.element(this);
+                            var annotation = self.get(0);
+                            var chunk = annotation.attributes["about"].value;
+                            if(angular.isUndefined(chunk)) return;
+                            var target = self.children("div[typeof='sao:Annotation']").children("div").get(0);
+                            if(angular.isUndefined(target) || angular.isUndefined(target.attributes)) return;
+                            var targetType = target.attributes["typeof"] === undefined ? undefined : target.attributes["typeof"].value;
+                            var resource = target.attributes["resource"] == undefined ? undefined : target.attributes["resource"].value;
+                            if(angular.isDefined(targetType) && angular.isDefined(resource)){
+                                doc.find("span[resource='"+annotation.attributes["about"].value+"']").each(function(){
+                                    var self = angular.element(this);
+                                    var replacement = angular.element("<a/>");
+                                    var attributes = {};
+                                    if(targetType == 'lex:Decision'){
+                                        attributes['click']='';
+                                        attributes['resource'] = resource.replace("/cz/",":");
+                                        attributes['type'] = targetType;
+                                        attributes['class'] = 'annotation-decision';
+                                    } else if (targetType == 'lex:Court'){
+                                        attributes['href']="http://linked.opendata.cz/resource/"+resource;
+                                        attributes['class'] = 'annotation-court';
+                                    } else if(targetType == 'lex:Act'){
+                                        attributes['click'] = '';
+                                        attributes['resource'] = resource.replace("/cz/",":");
+                                        attributes['type'] = targetType;
+                                        attributes['class'] = 'annotation-act';
+                                    }else if(targetType == 'frbr:Work'){
+                                        attributes['click']='';
+                                        attributes['resource'] = resource.replace("/cz/",":");
+                                        attributes['type'] = "lex:ActSection";
+                                        attributes['class'] = 'annotation-work';
+                                    }else{
+                                        console.log(chunk);
+                                        console.log(resource);
+                                        console.log(targetType);
+                                        return;
+                                    }
+                                    replacement.attr(attributes);
+                                    replacement.html(self.html());
+                                    self.replaceWith(replacement);
+                                });
+                            }
+                        });
                         $scope.decisionText = doc.html();
                     }, function fail(){
                         $scope.decisionText = "";

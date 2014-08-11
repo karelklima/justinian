@@ -2,5 +2,5 @@
     "title" : "Předpis",
     "datatypes" : ["lex:Act"],
     "views": ["main"],
-    "priority" : 1
+    "priority" : 1000
 }
