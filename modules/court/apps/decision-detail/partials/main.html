@@ -1,23 +1,29 @@
 <div ng-controller="CourtDecisionDetailController">
-    <div>
-        <h3>Aplikace: court/decision-detail</h3>
-        <h3>Resource: </h3><span><a ng-href="{{resource}}">{{resource}}</a></span>
-
-        <h3>Detail judikátu:</h3>
-        <div ng-hide="isLoading || isEmpty()">
-
-            <!--<div ng-bind="decisionDetail."></div>-->
-            <h4>Creator: <a href="{{ decisionDetail.creator }}">{{ decisionDetail.creatorTitle }}</a></h4>
-            <h4>Category: <span ng-bind="decisionDetail.decisionCategory" /></h4>
-            <h4>Kind: <span ng-bind="decisionDetail.decisionKind" /></h4>
-            <h4>Identifier: <span ng-bind="decisionDetail.identifier" /></h4>
-            <h4>Issued ISO: <span ng-bind="decisionDetail.issuedIso" /></h4>
-
+    <div app-bar adjust-on="decisionDetail">
+        <div class="clearfix">
+            <div class="navbar-brand">
+                <a click module="court" application="decision-detail" resource="{{resource}}">
+                    Judikát č. {{decisionDetail["title"]}}
+                </a>
+            </div>
+            <div class="navbar-right">
+                <a app-bar-up-button></a>
+            </div>
         </div>
-        <h3>Text:</h3>
+        <div class="row">
+            <div class="col-sm-8">
+                <a href="{{ decisionDetail.creator }}">{{ decisionDetail.creatorTitle }}</a>
+                <p class="pull-right text-muted">{{decisionDetail.decisionKind}} ({{decisionDetail.decisionCategory}})</p>
+            </div>
+            <div class="col-sm-4">
+                <p class="pull-right text-muted">{{decisionDetail.issuedIso | formatDate}}</p>
+            </div>
+        </div>
+    </div>
+    <div>
         <div ng-hide="isTextLoading() || isTextEmpty()">
 
-            <div compile="decisionText"></div>
+            <div class="court-decision-text" compile="decisionText"></div>
 
         </div>
         <div ng-show="isTextLoading()">Načítám data...</div>

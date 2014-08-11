@@ -35,6 +35,10 @@
                     });
                 AppService.getData($scope, 'court', 'decision-text', {'resource': $scope.resource})
                     .then(function(decisionText) {
+                        if(decisionText["@graph"].length == 0) {
+                            $scope.decisionText = "";
+                            return;
+                        }
                         var doc = angular.element("<div>" + decisionText["@graph"][0]["xmlValue"] + "</div>");
                         doc.find("span[rel='sdo:hasSection']").children().unwrap();
                         doc.find("span[rel='sdo:hasParagraph']").children().unwrap();
