@@ -28,7 +28,11 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
     };
 
     this.getMainTemplate = function () {
-        return UtilService.getTemplateUrl(PageService.getModule(), PageService.getApplication(), 'main');
+        var module = PageService.getModule();
+        var application = PageService.getApplication();
+        return (this.isModuleApplication(module, application) && _modules[module].apps[application].views.indexOf('main') !== -1)
+            ? UtilService.getTemplateUrl(module, application, 'main')
+            : undefined;
     };
 
     this.getTemplates = function (template) {
@@ -116,11 +120,11 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
     };
 
     this.getHomeApplication = function() {
-        return _data["home"];
+        return _data.home;
     };
 
     this.getPageNotFoundApplication = function() {
-        return _data["page-not-found"];
+        return _data.pageNotFound;
     };
 }]);
 
@@ -379,11 +383,16 @@ appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkSe
         UrlService.setParam(key, value, redirect);
     };
 
-    this.getMainModuleApplication = function() {
+    this.getMainApplication = function() {
         return {
             module: UrlService.getParam("module"),
             application: UrlService.getParam("application")
         };
+    };
+
+    this.isMainApplication = function(module, application) {
+        var main = this.getMainApplication();
+        return main.module == module && main.application == application;
     };
 
     this.pageNotFound = function() {

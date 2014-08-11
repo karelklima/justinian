@@ -40,7 +40,7 @@ app.get('/', function(req, res, next) {
         application : {
             title: settings.options["title"],
             home: settings.options["home"],
-            error : settings.options["error"],
+            pageNotFound : settings.options["page-not-found"],
             modules: settings.getModulesSetup()
         },
         user: {}

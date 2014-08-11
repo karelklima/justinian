@@ -26,8 +26,9 @@ appControllers.controller('RootController', ['$scope', 'ConfigurationService', '
         UrlService.setUrl(configuration.application.home);
         return;
     }
-    // pokud neexistuje aplikace, kterou mame zobrazit jdeme na errorpage
-    if (!ConfigurationService.isModuleApplication(UrlService.getParam('module'), UrlService.getParam('application'))) {
+
+    // requested application or its main view does not exist
+    if (angular.isUndefined(ConfigurationService.getMainTemplate())) {
         AppService.pageNotFound();
         return;
     }
