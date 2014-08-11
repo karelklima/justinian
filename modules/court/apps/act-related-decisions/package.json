@@ -1,9 +1,9 @@
 {
-    "title" : "Judikáty",
+    "title" : "Judikáty k předpisu",
     "datatypes" : ["lex:Act"],
     "views": ["main", "sidebar"],
     "dependencies": {
         "lex": ["act-detail"]
     },
-    "priority" : 0
+    "priority" : 20
 }

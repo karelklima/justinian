@@ -7,6 +7,8 @@
             $scope.reverse = false;
             $scope.limit = 9;
 
+            $scope.actIdentifier = undefined;
+
             $scope.increase = function() {
                 $scope.datasource.revision = $scope.datasource.revision + 1;
             };
@@ -15,10 +17,8 @@
                 get: function(offset, limit, callback) {
 
                     var params = {'limit': limit, 'offset': offset, 'resource': $scope.resource};
-
                     AppService.getData($scope, 'court', 'act-related-decisions', params)
                         .then(function (decisions) {
-                            console.log("nao");
                             callback(angular.isArray(decisions["@graph"]) ? decisions["@graph"] : []);
                         }, function(error) {
                             callback([]);
@@ -46,17 +46,16 @@
 
             this.update = function (changes) {
 
-                console.log("CHANGES");
-                console.log(changes);
-
-                /*AppService.getData($scope, 'court', 'act-related-decisions', {'resource': $scope.resource})
-                    .then(function (decisions) {
-                        $scope.decisions = decisions["@graph"];
-                    });*/
                 $scope.increase();
 
                 if (AppService.isMainApplication("court", "act-related-decisions")) {
-                    console.log("isMain");
+                    AppService.getData($scope, 'lex', 'act-detail', {'resource': $scope.resource})
+                        .then(function(actDetail) {
+                           if (angular.isArray(actDetail["@graph"])) {
+                               $scope.actIdentifier = actDetail["@graph"][0]["identifier"];
+                               AppService.setTitle("Judikáty k předpisu č. " + $scope.actIdentifier);
+                           }
+                        });
                 }
             };
 
