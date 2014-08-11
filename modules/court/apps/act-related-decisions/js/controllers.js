@@ -18,11 +18,13 @@
 
                     AppService.getData($scope, 'court', 'act-related-decisions', params)
                         .then(function (decisions) {
+                            console.log("nao");
                             callback(angular.isArray(decisions["@graph"]) ? decisions["@graph"] : []);
                         }, function(error) {
                             callback([]);
                         });
-                }
+                },
+                revision: 0
             };
 
             $scope.sortBy = function (predicate) {
@@ -42,12 +44,20 @@
                 return angular.isDefined($scope.decisions) && $scope.decisions.length > $scope.limit;
             };
 
-            this.update = function () {
-                AppService.getData($scope, 'court', 'act-related-decisions', {'resource': $scope.resource})
+            this.update = function (changes) {
+
+                console.log("CHANGES");
+                console.log(changes);
+
+                /*AppService.getData($scope, 'court', 'act-related-decisions', {'resource': $scope.resource})
                     .then(function (decisions) {
                         $scope.decisions = decisions["@graph"];
-                    });
+                    });*/
                 $scope.increase();
+
+                if (AppService.isMainApplication("court", "act-related-decisions")) {
+                    console.log("isMain");
+                }
             };
 
             AppService.init($scope, ['resource'], this.update);
