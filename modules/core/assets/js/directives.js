@@ -45,13 +45,16 @@
                 scope: {
                     source: '=',
                     target: '=',
-                    itemsPerPage: '@'
+                    itemsPerPage: '@',
+                    hideControls: '@'
                 },
                 template:
-                    "<div class=\"text-center\">\n" +
+                    "<div class=\"text-center\" ng-show=\"showControls\">\n" +
                     "  <a class=\"btn btn-default pull-left\" ng-click=\"previousPage()\" ng-class=\"{disabled: isLoading || page < 1}\">Předchozí</a>\n" +
                     "  <a class=\"btn btn-default pull-right\" ng-click=\"nextPage()\" ng-class=\"{disabled: isLoading || page >= maxPage}\">Následující</a>\n" +
-                    "  <a class=\"btn btn-primary\" ng-click=\"appendPage()\" ng-class=\"{disabled: isLoading || page >= maxPage}\">Načíst další</a>\n" +
+                    "  <a class=\"btn btn-primary\" ng-click=\"appendPage()\" ng-class=\"{disabled: isLoading || page >= maxPage}\">\n" +
+                    "    <span ng-hide=\"isLoading\">Načíst další</span><span ng-show=\"isLoading\">Načítám</span>\n" +
+                    "  </a>\n" +
                     "</div>",
                 link: function(scope, element, attrs) {
 
@@ -63,6 +66,8 @@
                     scope.limit = scope.itemsPerPage;
                     if (angular.isUndefined(scope.limit) || scope.limit < 1)
                         scope.limit = 10; // default page size
+
+                    scope.showControls = angular.isUndefined(scope.hideControls) || scope.hideControls != "true";
 
                     scope.page = 0;
                     scope.maxPage = 1000;
@@ -96,16 +101,26 @@
                     }, true);
 
                     scope.update = function() {
+                        console.log("loading true");
                         scope.isLoading = true;
                         if (!scope.append)
                             scope.target = [];
                         else
                             scope.append = false;
+
+                        var originalRevision = scope.source.revision;
+                        console.log(originalRevision);
+
                         scope.source.get(scope.page * scope.limit, scope.limit, function(data) {
+                            if (scope.source.revision !== originalRevision) {
+                                console.log("NNN");
+                                return; // newer datasource is already in place
+                            }
                             if (data.length < scope.limit)
                                 scope.maxPage = scope.page;
                             scope.target.push.apply(scope.target, data);
                             scope.isLoading = false;
+                            console.log("loading false");
                         });
                     };
 
