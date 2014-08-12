@@ -39,6 +39,7 @@ module.exports = function(routeParams) {
     	if (_.has(decision, "rawIdentifier")) {
             decision["rawIdentifier"].forEach(function(identifier){
                 if (identifier.match(/^[0-9]/)) { decision["identifier"] = identifier; }
+                if (identifier.match(/^ECLI/)) { decision["ecli"] = identifier; }
             });
     	}
     	
@@ -55,6 +56,7 @@ module.exports = function(routeParams) {
         return {
             "@id" : ["string", ""],
             "identifier" : ["string", ""],
+            "ecli" : ["string", ""],
             "creator" : ["string", ""],
             "creatorTitle" : ["string", ""],
             "title" : ["string", ""],
