@@ -26,8 +26,6 @@
 
                     angular.extend(params, $scope.filterParams);
 
-                    console.log(params.haveText);
-
                     AppService.getData($scope, 'court', 'decisions', params)
                         .then(function (decisions) {
                             callback(angular.isArray(decisions["@graph"]) ? decisions["@graph"] : []);
