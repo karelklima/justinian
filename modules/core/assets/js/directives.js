@@ -101,7 +101,6 @@
                     }, true);
 
                     scope.update = function() {
-                        console.log("loading true");
                         scope.isLoading = true;
                         if (!scope.append)
                             scope.target = [];
@@ -109,18 +108,15 @@
                             scope.append = false;
 
                         var originalRevision = scope.source.revision;
-                        console.log(originalRevision);
 
                         scope.source.get(scope.page * scope.limit, scope.limit, function(data) {
                             if (scope.source.revision !== originalRevision) {
-                                console.log("NNN");
                                 return; // newer datasource is already in place
                             }
                             if (data.length < scope.limit)
                                 scope.maxPage = scope.page;
                             scope.target.push.apply(scope.target, data);
                             scope.isLoading = false;
-                            console.log("loading false");
                         });
                     };
 
@@ -169,9 +165,7 @@
                     });
 
                     if (angular.isDefined(attrs.adjustOn)) {
-                        console.log("defined");
                         scope.$watch(attrs.adjustOn, function() {
-                            console.log("change");
                             adjust();
                         });
                     }
