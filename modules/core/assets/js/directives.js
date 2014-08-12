@@ -49,7 +49,7 @@
                     hideControls: '@'
                 },
                 template:
-                    "<div class=\"text-center\" ng-show=\"showControls\">\n" +
+                    "<div class=\"text-center\" ng-show=\"showControls && !source.isEmpty\">\n" +
                     "  <a class=\"btn btn-default pull-left\" ng-click=\"previousPage()\" ng-class=\"{disabled: isLoading || page < 1}\">Předchozí</a>\n" +
                     "  <a class=\"btn btn-default pull-right\" ng-click=\"nextPage()\" ng-class=\"{disabled: isLoading || page >= maxPage}\">Následující</a>\n" +
                     "  <a class=\"btn btn-primary\" ng-click=\"appendPage()\" ng-class=\"{disabled: isLoading || page >= maxPage}\">\n" +
@@ -73,7 +73,9 @@
                     scope.maxPage = 1000;
                     scope.append = false;
                     scope.target = [];
-                    scope.isLoading = false;
+
+                    scope.source.isEmpty = false;
+                    scope.source.isLoading = false;
 
                     scope.appendPage = function() {
                         scope.append = true;
@@ -101,7 +103,8 @@
                     }, true);
 
                     scope.update = function() {
-                        scope.isLoading = true;
+                        scope.source.isLoading = true;
+                        scope.source.isEmpty = false;
                         if (!scope.append)
                             scope.target = [];
                         else
@@ -115,8 +118,10 @@
                             }
                             if (data.length < scope.limit)
                                 scope.maxPage = scope.page;
+                            if (data.length == 0 && scope.maxPage == 0)
+                                scope.source.isEmpty = true;
                             scope.target.push.apply(scope.target, data);
-                            scope.isLoading = false;
+                            scope.source.isLoading = false;
                         });
                     };
 
