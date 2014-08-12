@@ -12,7 +12,7 @@
                 var items = [];
 
                 angular.forEach(params, function(value, key) {
-                    if (value.indexOf("http://linked.opendata.cz") != -1 || value.indexOf(":") != -1)
+                    if (angular.isString(value) && (value.indexOf("http://linked.opendata.cz") != -1 || value.indexOf(":") != -1))
                         items.push({
                             prefixedUrl: value,
                             fullUrl: AppService.expandPrefix(value)
