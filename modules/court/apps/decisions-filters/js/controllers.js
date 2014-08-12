@@ -54,6 +54,7 @@
                         .then(function (decisionFilters) {
                             if (angular.isDefined(decisionFilters['@graph'][0])) {
                                 $scope.filters = decisionFilters['@graph'][0];
+                                $scope.filters['categories'].sort();
                                 //$scope.filterMinDate = new Date($scope.filters["minDateIso"]);
                                 //$scope.filterMaxDate = new Date($scope.filters["maxDateIso"]);
                                 $scope.filtersLoaded = true;
