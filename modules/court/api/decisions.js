@@ -58,7 +58,7 @@ module.exports = function(routeParams) {
 				case "fileNumber" : outputParams.values += "?file lex:fileNumber \"" + params["fileNumber"] + "\"^^xsd:integer . \n"; break;
 				case "minDate" : outputParams.values += "?dec dcterms:issued ?date. \nFILTER ( ?date >= \"" + params["minDate"] + "\"^^xsd:date)\n"; break;
 				case "maxDate" : outputParams.values += "?dec dcterms:issued ?date. \nFILTER ( ?date <= \"" + params["maxDate"] + "\"^^xsd:date)\n"; break;
-				case "text" : outputParams.values +=
+				case "hasText" : outputParams.values +=
 					"?dec  ^frbr:realizationOf ?expr. \n" +
 					"?expr <http://linked.opendata.cz/ontology/odcs/xmlValue> ?text . \n";
 					break;
