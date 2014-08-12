@@ -219,10 +219,6 @@ appServices.service('UtilService', ['$filter', function ($filter) {
         return url;
     };
 
-    //decode escaped unicode characters to normal form
-     this.decodeUnicodeString = function (value){
-        return $filter('decodeUnicode')(value);
-    };
     this.camelToDash = function (str) {
         return str.replace(/\W+/g, '-')
             .replace(/([a-z\d])([A-Z])/g, '$1-$2').toLowerCase();
