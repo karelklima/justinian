@@ -4,8 +4,8 @@
 
         .controller('CourtDecisionsFiltersController', ['$scope', '$filter', 'AppService', function($scope, $filter, AppService) {
 
-            var filters = ['creator', 'subject', 'minDate', 'maxDate', 'identifier','query', 'kind', 'category'];
-            var advancedOptions = ['identifier', 'query', 'kind', 'category'];
+            var filters = ['creator', 'subject', 'minDate', 'maxDate', 'identifier','query', 'kind', 'category', 'hasText'];
+            var advancedOptions = ['identifier', 'query', 'kind', 'category', 'hasText'];
 
 
             var dates = {
@@ -16,7 +16,7 @@
             $scope.search = function() {
                 var params = {};
                 angular.forEach(filters, function(filter) {
-                    if (angular.isDefined($scope[filter]) && $scope[filter] !== null && $scope[filter].length > 0) {
+                    if (angular.isDefined($scope[filter]) && $scope[filter] !== null && ($scope[filter].length > 0 || $scope[filter] === true)) {
                         params[filter] = $scope[filter];
                     }
                 });

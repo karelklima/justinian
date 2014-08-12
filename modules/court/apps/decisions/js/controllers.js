@@ -4,16 +4,15 @@
 
 //            $scope.resource = UrlService.getParam('resource');
 
-            var filters = ['creator', 'subject', 'minDate', 'maxDate', 'identifier', 'query', 'kind', 'category'];
+            var filters = ['creator', 'subject', 'minDate', 'maxDate', 'identifier', 'query', 'kind', 'category', 'hasText'];
             $scope.filterParams = {};
 
             $scope.decisions = [];
             $scope.courtDecisionsLimit = "10";
             $scope.courtDecisionsOffset = 0;
 
-
-            $scope.increase = function() {
-                $scope.datasource.revision = $scope.datasource.revision + 1;
+            $scope.isEmpty = function() {
+                return !$scope.isLoading && angular.isDefined($scope.decisions) && $scope.decisions.length == 0;
             };
 
             $scope.removeFilter = function(filter) {
@@ -26,6 +25,8 @@
                     var params = {'limit': limit, 'offset': offset};
 
                     angular.extend(params, $scope.filterParams);
+
+                    console.log(params.haveText);
 
                     AppService.getData($scope, 'court', 'decisions', params)
                         .then(function (decisions) {
@@ -69,6 +70,9 @@
                                 prefix = "kategorie ";
                                 break;
                             case 'identifier':
+                                break;
+                            case 'hasText':
+                                title = "judikáty s dostupným textem";
                                 break;
                         }
 
