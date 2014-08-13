@@ -105,25 +105,23 @@ Settings.prototype.buildModulesSetup = function() {
 
         moduleInfo["name"] = moduleName;
 
-        if (!fs.existsSync(moduleDir + '/apps'))
-            continue;
+        if (fs.existsSync(moduleDir + '/apps')) {
+            var applicationDirs = fs.readdirSync(moduleDir + '/apps');
+            for (var j in applicationDirs) {
+                var applicationDir = moduleDir + '/apps/' + applicationDirs[j];
+                if (!fs.lstatSync(applicationDir).isDirectory())
+                    continue; // neni to aplikace
+                var applicationPackageInfo = require(applicationDir + '/package.json');
+                var applicationName = applicationDirs[j];
+                var applicationInfo = {};
+                _.defaults(applicationInfo, applicationPackageInfo, {
+                    "title": "",
+                    "views": []
+                });
+                applicationInfo["name"] = applicationName;
 
-        var applicationDirs = fs.readdirSync(moduleDir + '/apps');
-        for (var j in applicationDirs)
-        {
-            var applicationDir = moduleDir + '/apps/' + applicationDirs[j];
-            if (!fs.lstatSync(applicationDir).isDirectory())
-                continue; // neni to aplikace
-            var applicationPackageInfo = require(applicationDir + '/package.json');
-            var applicationName = applicationDirs[j];
-            var applicationInfo = {};
-            _.defaults(applicationInfo, applicationPackageInfo, {
-                "title" : "",
-                "views" : []
-            });
-            applicationInfo["name"] = applicationName;
-
-            moduleInfo["apps"][applicationName] = applicationInfo;
+                moduleInfo["apps"][applicationName] = applicationInfo;
+            }
         }
 
         modules[moduleName] = moduleInfo;
