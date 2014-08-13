@@ -11,13 +11,6 @@
     margin-bottom: 0;
 }
 
-.typeahead li a{
-    white-space: normal;
-}
-.typeahead {
-    width:200%;
-}
-
 .position-relative {
     position: relative;
 }

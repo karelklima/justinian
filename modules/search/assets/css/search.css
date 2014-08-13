@@ -1,0 +1,9 @@
+.search-typeahead {
+    max-width: 550px;
+}
+.search-typeahead .dropdown-menu {
+    max-width: 550px;
+}
+.search-typeahead .dropdown-menu a {
+    white-space: normal;
+}
