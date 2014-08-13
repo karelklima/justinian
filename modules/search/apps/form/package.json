@@ -1,4 +1,4 @@
 {
-    "name": "searchbar",
+    "title": "Search form",
     "views": ["header-left"]
 }

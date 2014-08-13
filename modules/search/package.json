@@ -1,0 +1,8 @@
+{
+    "title": "Search",
+    "dependencies": ["core"],
+    "apis": {
+        "search": {"query": "", "limit": "100", "offset": "0"}
+    }
+
+}

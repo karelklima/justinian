@@ -1,0 +1,30 @@
+<div id="lex-search-app" ng-controller="SearchResultsController" main-app>
+    <div app-bar adjust-on="datasource.revision">
+        <div class="clearfix">
+            <div class="navbar-brand">
+                <a click module="search" application="results" resource="{{query}}">Výsledky vyhledávání pro "{{query}}"</a>
+            </div>
+            <div class="navbar-right">
+                <a app-bar-up-button></a>
+            </div>
+        </div>
+    </div>
+
+    <div class="result-container" ng-hide="datasource.isEmpty">
+        <div class="dl-horizontal" ng-repeat="item in results">
+            <dl class="dl-horizontal">
+                <dt>{{item.label}}</dt>
+                <dd><a click resource="{{item['@id']}}" type="{{item['@type']}}">{{item.text}}</a></dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="alert alert-warning" ng-show="datasource.isEmpty">
+        Zadaným parametrům neodpovídají žádné judikáty.
+    </div>
+
+    <div spinner-bar ng-show="datasource.isLoading"></div>
+
+    <div datapager source="datasource" target="results" items-per-page="50"></div>
+
+</div>

@@ -39,6 +39,9 @@ function ApiRoutingTable()
         var moduleName = modules[i];
         var apiDirectory = settings.modulesDirectory + '/' + moduleName + '/api';
 
+        if (!fs.existsSync(apiDirectory))
+            continue;
+
         var files = fs.readdirSync(apiDirectory);
 
         var apiJSFiles = _.filter(files, function(file) { return /^[a-z-]+\.js$/.test(file); });
