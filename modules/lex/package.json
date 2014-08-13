@@ -1,6 +1,6 @@
 {
     "title" : "Lex",
-    "extends": ["core"],
+    "dependencies": ["core"],
     "prefixes": {
         "dcterms:" : "http://purl.org/dc/terms/",
         "lex:" : "http://purl.org/lex#",

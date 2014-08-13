@@ -98,10 +98,9 @@ Settings.prototype.buildModulesSetup = function() {
         _.defaults(moduleInfo, modulePackageInfo, {
             "title" : "",
             "apps" : {},
-            "extends" : [],
+            "dependencies" : [],
             "prefixes" : {},
-            "universal-search" : [],
-            "custom-search" : []
+            "universal-search" : []
         });
 
         moduleInfo["name"] = moduleName;

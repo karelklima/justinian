@@ -1,6 +1,4 @@
 {
     "title" : "Justinian",
-    "extends": ["lex"],
-    "prefixes": {},
-    "apis": {}
+    "dependencies": ["core", "lex", "court", "coi"]
 }

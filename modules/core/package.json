@@ -1,5 +1,6 @@
 {
     "title": "Core",
+    "dependencies": [],
     "prefixes": {
         "frbr:" : "http://purl.org/vocab/frbr/core#",
         "sdo:" : "http://salt.semanticauthoring.org/ontologies/sdo#"

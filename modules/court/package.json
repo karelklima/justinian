@@ -1,6 +1,6 @@
 {
     "title": "Court",
-    "extends": ["core"],
+    "dependencies": ["core"],
     "prefixes": {
         "lex:": "http://purl.org/lex#",
         "lexcz:": "http://purl.org/lex/cz#",
