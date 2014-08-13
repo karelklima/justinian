@@ -93,6 +93,8 @@ Settings.prototype.buildModulesSetup = function() {
     for (var i in moduleDirs)
     {
 
+        if (_.indexOf(options.modules, moduleDirs[i]) == -1)
+            continue;
 
         var moduleDir = this.modulesDirectory + '/' + moduleDirs[i];
         var modulePackageInfo = require(moduleDir + '/package.json');
