@@ -5,6 +5,7 @@ module.exports = function(routeParams) {
     route.getContext = function() {
         return {
             "type" : "http://type",
+            "act" : "http://act",
             "ancestorsRaw" : "http://hasAncestor",
             "realizations" : "http://hasRealization",
             "identifier" : "http://purl.org/dc/terms/identifier",
@@ -36,9 +37,8 @@ module.exports = function(routeParams) {
 	   	responseJSONLD["@graph"].forEach(function(data) {
 	   		if (! _.isUndefined(data["ancestorsRaw"])) {
 	   			
-	   			// the shortest ancestor (URI-wise) is the parent act:
+	   			// the shortest ancestor (URI-wise) is the most general one:
 	   			data["ancestorsRaw"].sort();
-	   			data["act"] = data["ancestorsRaw"].splice(0,1);
 	   			
 	   			// for each ancestor select its last expression
 	   			data["ancestors"] = [];

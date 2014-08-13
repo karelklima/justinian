@@ -8,6 +8,7 @@ PREFIX resource: <{{"param": "resource", "filter": "RemoveLTGT"}}>
 CONSTRUCT {
   resource: my:type ?type.
   resource: my:hasAncestor ?ancSection.
+  resource: my:act ?act.
   resource: my:sectionExpression ?sectExpr.
   ?sectExpr dcterms:valid ?sectExprDate.
   ?ancSection dcterms:identifier ?ancId.
@@ -36,4 +37,9 @@ WHERE {
   ?sectExpr frbr:realizationOf  resource: .
   ?sectExpr frbr:partOf+ ?e2 .
   GRAPH <http://linked.opendata.cz/resource/dataset/legislation/psp.cz> { ?e2 dcterms:valid ?sectExprDate. }
+
+  OPTIONAL {
+    ?ancSection frbr:partOf ?act.
+    GRAPH <http://linked.opendata.cz/resource/dataset/legislation/psp.cz> { ?act a lex:Act }
+  }
 }
