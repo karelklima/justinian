@@ -7,9 +7,7 @@
 
     "apis": {
         "search": {"query": "", "limit": "10", "offset": "0"},
-        "act-search": {"query":"", "limit": "10", "offset": "0"},
-        "generic": {"resource":""},
-        "expression": {"resource":""}
+        "act-search": {"query":"", "limit": "10", "offset": "0"}
     }
 
 }
