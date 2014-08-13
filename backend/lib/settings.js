@@ -105,6 +105,9 @@ Settings.prototype.buildModulesSetup = function() {
 
         moduleInfo["name"] = moduleName;
 
+        if (!fs.existsSync(moduleDir + '/apps'))
+            continue;
+
         var applicationDirs = fs.readdirSync(moduleDir + '/apps');
         for (var j in applicationDirs)
         {
