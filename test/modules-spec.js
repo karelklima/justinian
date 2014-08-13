@@ -10,15 +10,17 @@ describe('Modules', function() {
         options = require('../backend/options.json');
     } catch (e) {}
 
-    it('configuration should contain at least one module', function() {
-        options["modules"].length.should.be.above(0);
+    describe("General", function() {
+
+        it('configuration should contain at least one module', function() {
+            options["modules"].length.should.be.above(0);
+        });
+
+        it('configuration should contain core module', function() {
+            options["modules"].should.containEql("core");
+        });
+
     });
-
-    it('configuration should contain core module', function() {
-        options["modules"].should.containEql("core");
-    });
-
-
 
     var moduleProperties = {
         "title": ["string", true],
@@ -30,38 +32,45 @@ describe('Modules', function() {
 
     _.each(options["modules"], function(module) {
 
-        var packageJson;
-        try {
-            packageJson = require(settings.modulesDirectory + '/' + module + '/package.json');
-        }
-        catch (e) { }
+        describe("Module " + module, function() {
 
-        it('module ' + module + ' should contain valid package.json file', function() {
-            packageJson.should.be.of.type("object");
-        });
-
-        _.each(moduleProperties, function(definition, property) {
-            var type = definition[0];
-            var required = definition[1];
-
-            if (required) {
-                it('module ' + module + ' should contain property ' + property, function() {
-                    packageJson.should.have.property(property);
-                });
+            var packageJson;
+            try {
+                packageJson = require(settings.modulesDirectory + '/' + module + '/package.json');
             }
+            catch (e) { }
 
-            if (_.has(packageJson, property)) {
-                it('module ' + module + ' property ' + property + ' should be of type ' + type, function () {
-                    packageJson[property].should.be.of.type(type);
+            describe("Configuration", function() {
+
+                it('should contain valid package.json file', function() {
+                    packageJson.should.be.of.type("object");
                 });
-            }
-        });
 
-        it('module ' + module + ' should have valid dependencies', function() {
-            _.each(packageJson["dependencies"], function(dependency) {
-                options["modules"].should.containEql(dependency);
+                _.each(moduleProperties, function(definition, property) {
+                    var type = definition[0];
+                    var required = definition[1];
+
+                    if (required) {
+                        it('should contain property ' + property, function() {
+                            packageJson.should.have.property(property);
+                        });
+                    }
+
+                    if (_.has(packageJson, property)) {
+                        it('property ' + property + ' should be of type ' + type, function () {
+                            packageJson[property].should.be.of.type(type);
+                        });
+                    }
+                });
+
+                it('should have valid dependencies', function() {
+                    _.each(packageJson["dependencies"], function(dependency) {
+                        options["modules"].should.containEql(dependency);
+                    });
+                });
             });
-        });
+
+        })
 
     });
 
