@@ -1,6 +1,6 @@
 {
     "base" : "/..",
-    "backend" : "/",x
+    "backend" : "/",
     "frontend" : "/../frontend",
     "modules" : "/../modules"
 }
