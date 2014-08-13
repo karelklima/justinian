@@ -36,11 +36,6 @@ function Settings() {
      * @public
      * @type {string}
      */
-    this.cacheDirectory = path.normalize(__dirname + '/..' + directories["cache"]);
-    /**
-     * @public
-     * @type {string}
-     */
     this.frontendDirectory = path.normalize(__dirname + '/..' + directories["frontend"]);
     /**
      * @public

@@ -1,7 +1,6 @@
 {
     "base" : "/..",
-    "backend" : "/",
-    "cache" : "/cache",
+    "backend" : "/",x
     "frontend" : "/../frontend",
     "modules" : "/../modules"
 }
