@@ -4,6 +4,7 @@
 
 var util = require('util');
 var _ = require('underscore');
+var Q = require('q');
 var settings = require('./settings');
 var ApiRoute = require('./api-route');
 var SparqlClient = require('./sparql-client');
@@ -41,7 +42,7 @@ SparqlRoute.prototype.get = function(req, res) {
     var thisInstance = this;
 
     this.client.sendRequest(sparqlQuery, function(responseString) {
-        thisInstance.handleResponse(responseString, res);
+        thisInstance.handleResponse(responseString, res, params);
     }, function(responseError) {
         thisInstance.handleError(responseError, res);
     });
@@ -53,17 +54,20 @@ SparqlRoute.prototype.prepareParams = function(params) {
     return params;
 };
 
-SparqlRoute.prototype.prepareResponse = function(response, next) {
-    // Override this if necessary
-    next(response);
+SparqlRoute.prototype.prepareResponse = function(response, requstParams) {
+    // Override this if necessary, can return a promise
+    return response;
 };
 
-SparqlRoute.prototype.handleResponse = function(responseString, res) {
+SparqlRoute.prototype.handleResponse = function(responseString, res, requestParams) {
     // Override this if necessary
-    this.prepareResponse(responseString, function(processedResponse) {
-        res.write(processedResponse);
-        res.end();
-    });
+    var self = this;
+    Q.fcall(function() { return responseString; })
+        .then(function(r) { return self.prepareResponse(responseString, requestParams) })
+        .then(function(r) {
+            res.write(r);
+            res.end();
+        });
 };
 
 SparqlRoute.prototype.handleError = function (responseError, res) {

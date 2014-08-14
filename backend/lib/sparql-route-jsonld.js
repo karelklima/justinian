@@ -239,7 +239,7 @@ SparqlRouteJSONLD.prototype.processWarnings = function(response) {
     return response;
 };
 
-SparqlRouteJSONLD.prototype.handleResponse = function(responseString, res) {
+SparqlRouteJSONLD.prototype.handleResponse = function(responseString, res, requestParams) {
 
 //    logger.debug(responseString);
 
@@ -249,7 +249,7 @@ SparqlRouteJSONLD.prototype.handleResponse = function(responseString, res) {
         .then(function(r) { return JSON.parse(responseString); })
         .then(function(r) { return self.applyContext(r); })
         .then(function(r) { return self.convertDates(r); })
-        .then(function(r) { return self.prepareResponse(r); })
+        .then(function(r) { return self.prepareResponse(r, requestParams); })
         .then(function(r) { return self.processModel(r); })
         .then(function(r) { return self.processPrefixedProperties(r); })
         .then(function(r) { return self.processWarnings(r); })
