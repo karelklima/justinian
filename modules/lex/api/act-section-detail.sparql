@@ -10,6 +10,7 @@ CONSTRUCT {
   resource: my:hasAncestor ?ancSection.
   resource: my:act ?act.
   resource: my:sectionExpression ?sectExpr.
+  resource: dcterms:identifier ?identifier.
   ?sectExpr dcterms:valid ?sectExprDate.
   ?ancSection dcterms:identifier ?ancId.
   ?ancSection my:type ?ancType.
@@ -24,10 +25,13 @@ WHERE {
   resource: a ?type.
   FILTER(?type != frbr:Work)
 
+  resource: dcterms:identifier ?identifier.
+
   resource: frbr:partOf+ ?ancSection.
 
   ?ancSection a ?ancType.
   FILTER( ?ancType != frbr:Work).
+  FILTER( ?ancType != lex:Act).
   ?ancSection dcterms:identifier ?ancId.
 
   ?ancExpr frbr:realizationOf ?ancSection.
