@@ -61,18 +61,20 @@ SparqlRouteJSONLD.prototype.getDateOutputFormat = function() {
  * @param {object} response data in JSON-LD format
  * @return {object} modified data in JSON-LD format OR a promise
  */
-SparqlRouteJSONLD.prototype.prepareResponse = function(response) {
+SparqlRouteJSONLD.prototype.prepareResponse = function(response, requestParams) {
     // Override this if necessary
     return response;
 };
 
 SparqlRouteJSONLD.prototype.getApplyModel = function() {
-    return settings.options["sparql"]["jsonld"]["default-apply-model"];
+    return settings.options["sparql"]["jsonld"]["apply-model"];
 };
 SparqlRouteJSONLD.prototype.getModel = function() {
     return settings.options["sparql"]["jsonld"]["default-model"];
 };
-
+SparqlRouteJSONLD.prototype.getApplyPrefixedProperties = function() {
+    return settings.options["sparql"]["jsonld"]["apply-prefixed-properties"];
+};
 SparqlRouteJSONLD.prototype.getPrefixedProperties = function() {
     return settings.options["sparql"]["jsonld"]["default-prefixed-properties"];
 };
@@ -184,6 +186,10 @@ SparqlRouteJSONLD.prototype.processModel = function(response) {
 };
 
 SparqlRouteJSONLD.prototype.processPrefixedProperties = function(response) {
+
+    if (!this.getApplyPrefixedProperties()) // do not apply prefixed properties
+        return response;
+
     try {
         var prefixedProperties = this.getPrefixedProperties();
         var self = this;
