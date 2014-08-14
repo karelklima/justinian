@@ -36,6 +36,7 @@
                 ],
                 "output-format" : "YYYY-MM-DD"
             },
+            "reconstruct-complex-objects": false,
             "apply-model": true,
             "default-model": { "@id" : ["string", ""]},
             "apply-prefixed-properties": true,

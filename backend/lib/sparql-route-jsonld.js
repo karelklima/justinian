@@ -55,7 +55,9 @@ SparqlRouteJSONLD.prototype.getDateInputFormats = function() {
 SparqlRouteJSONLD.prototype.getDateOutputFormat = function() {
     return settings.options["sparql"]["jsonld"]["dates"]["output-format"];
 };
-
+SparqlRouteJSONLD.prototype.getReconstructComplexObjects = function() {
+    return settings.options["sparql"]["jsonld"]["reconstruct-complex-objects"];
+};
 /**
  * Modification of JSON-LD response
  * @param {object} response data in JSON-LD format
@@ -124,7 +126,42 @@ SparqlRouteJSONLD.prototype.convertDates = function(response) {
     return response;
 };
 
+SparqlRouteJSONLD.prototype.reconstructComplexObjects = function(response) {
 
+    if (!this.getReconstructComplexObjects()) // do not reconstruct
+        return response;
+
+    var objects = {};
+
+    _.each(response["@graph"], function(object) {
+        objects[object["@id"]] = {
+            data: object,
+            isLinked: false
+        };
+    });
+
+    _.each(response["@graph"], function(object) {
+        _.each(object, function(values, key) {
+            if (key.indexOf("@") == 0)
+                return; // RDF-specific property
+            _.each(values, function(value, index) {
+                if (_.has(objects, value)) { // link to another object
+                    values[index] = objects[value].data;
+                    objects[value].isLinked = true;
+                }
+            });
+        });
+    });
+
+    response["@graph"] = [];
+
+    _.each(objects, function(object) {
+        if (!object.isLinked)
+            response["@graph"].push(object.data);
+    });
+
+    return response;
+};
 
 SparqlRouteJSONLD.prototype.processModel = function(response) {
 
@@ -134,47 +171,63 @@ SparqlRouteJSONLD.prototype.processModel = function(response) {
     var self = this;
     try {
         var model = this.getModel();
-        var keys = _.keys(model);
-        var defaults = {};
-        _.each(keys, function (key) {
-            defaults[key] = model[key][1];
-        });
 
-        _.each(response["@graph"], function (item) {
-            _.each(keys, function(key) {
-                if (!_.isUndefined(item[key]) && typeof item[key] != model[key][0]) {
-                    if (_.isArray(item[key]) && item[key].length > 0) {
-                        if (item[key].length > 1) {
-                            self.addWarning(response, "Single value expected for key '" + key + "', multiple received");
-                        }
-                        item[key] = item[key][0];
-                    }
+        var processModelPart = function(objects, model) {
 
-                    if (typeof item[key] != model[key][0]) {
-                        // possibly corrupted data
-                        self.addWarning(response, "Invalid data for key '" + key + "':   expected type '" + model[key][0] + "', recieved '" + typeof item[key] + "'");
-
-                        // let's fix some cases
-                        switch (model[key][0]) {
-                            case "array":
-                                item[key] = [item[key]];
-                                break;
-                            case "number":
-                                item[key] = Number(item[key]);
-                                break;
-                            case "string":
-                                item[key] = item[key].toString();
-                                break;
-                        }
-                    }
-                }
+            var keys = _.keys(model);
+            var defaults = {};
+            _.each(keys, function (key) {
+                defaults[key] = model[key][1];
             });
-            _.defaults(item, defaults); // fill in default values
-            var trailingKeys = _.difference(_.keys(item), keys); // omit unwanted fields
-            _.each(trailingKeys, function(key) {
-                delete item[key];
-            })
-        });
+            _.each(objects, function (item) {
+                _.each(keys, function(key) {
+                    if (!_.isUndefined(item[key]) && typeof item[key] != model[key][0]) {
+
+                        var validType = model[key][0];
+                        if (_.isObject(model[key][0]) && !_.isString(model[key][0])) {
+                            validType = "object";
+                        }
+
+                        if (_.isObject(model[key][0]) && !_.isString(model[key][0]) && _.isArray(item[key])) {
+                            processModelPart(item[key], model[key][0]);
+                        } else {
+                            if (_.isArray(item[key]) && item[key].length > 0) {
+                                if (item[key].length > 1) {
+                                    self.addWarning(response, "Single value expected for key '" + key + "', multiple received");
+                                }
+                                item[key] = item[key][0];
+                            }
+
+                            if (typeof item[key] != model[key][0]) {
+                                // possibly corrupted data
+                                self.addWarning(response, "Invalid data for key '" + key + "':   expected type '" + model[key][0] + "', recieved '" + typeof item[key] + "'");
+
+                                // let's fix some cases
+                                switch (model[key][0]) {
+                                    case "array":
+                                        item[key] = [item[key]];
+                                        break;
+                                    case "number":
+                                        item[key] = Number(item[key]);
+                                        break;
+                                    case "string":
+                                        item[key] = item[key].toString();
+                                        break;
+                                }
+                            }
+                        }
+                    }
+                });
+                _.defaults(item, defaults); // fill in default values
+                var trailingKeys = _.difference(_.keys(item), keys); // omit unwanted fields
+                _.each(trailingKeys, function(key) {
+                    delete item[key];
+                })
+            });
+        };
+
+        processModelPart(response["@graph"], model);
+
     }
     catch (e) {
         console.log(e);
@@ -193,35 +246,31 @@ SparqlRouteJSONLD.prototype.processPrefixedProperties = function(response) {
     try {
         var prefixedProperties = this.getPrefixedProperties();
         var self = this;
-        _.each(response["@graph"], function(item) {
-            _.each(prefixedProperties, function(property) {
-                if (!_.isUndefined(item[property])) {
-                    if (_.isString(item[property])) {
-                        item[property] = prefixReplacer.contractString(item[property]);
-                    } else if (_.isArray(item[property])){
-                    	if (_.isObject(item[property][0])){
-                        	// array of objects:
-                    		for (var i = 0; i < item[property].length; i++) {
-                    			for (var nestedProp in item[property][i]) {
-                    				if (_.isString(item[property][i][nestedProp])){
-                    					item[property][i][nestedProp] = prefixReplacer.contractString(item[property][i][nestedProp])
-                    				}
-                    			}
-                    		}
-                    	} else {
-                    		// array of strings:
-	                    	for (var i = 0; i < item[property].length; i++) {
-	                    		item[property][i] = prefixReplacer.contractString(item[property][i])
-	                    	}
-                    	}
-                    } else {
-                        self.addWarning(response, "Prefixed property must be either a string or an array: " + property);
+
+        var prefixPart = function(objects) {
+            _.each(objects, function(item) {
+                _.each(prefixedProperties, function(property) {
+                    if (!_.isUndefined(item[property])) {
+                        if (_.isString(item[property])) {
+                            item[property] = prefixReplacer.contractString(item[property]);
+                        } else if (_.isArray(item[property]) && _.isString(item[property][0])){
+                            // array of strings:
+                            for (var i = 0; i < item[property].length; i++) {
+                                item[property][i] = prefixReplacer.contractString(item[property][i])
+                            }
+                        } else {
+                            self.addWarning(response, "Prefixed property must be either a string or an array: " + property);
+                        }
                     }
-                } else {
-                    self.addWarning(response, "Prefixed property not found: " + property);
-                }
+                });
+                _.each(item, function(value, key) {
+                    if (_.isArray(value) && _.isObject(value[0]))
+                        prefixPart(value);
+                });
             });
-        });
+        };
+
+        prefixPart(response["@graph"]);
     }
     catch (e) {
         logger.err(e);
@@ -255,6 +304,7 @@ SparqlRouteJSONLD.prototype.handleResponse = function(responseString, res, reque
         .then(function(r) { return JSON.parse(responseString); })
         .then(function(r) { return self.applyContext(r); })
         .then(function(r) { return self.convertDates(r); })
+        .then(function(r) { return self.reconstructComplexObjects(r); })
         .then(function(r) { return self.prepareResponse(r, requestParams); })
         .then(function(r) { return self.processModel(r); })
         .then(function(r) { return self.processPrefixedProperties(r); })
