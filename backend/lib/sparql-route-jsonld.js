@@ -66,6 +66,9 @@ SparqlRouteJSONLD.prototype.prepareResponse = function(response) {
     return response;
 };
 
+SparqlRouteJSONLD.prototype.getApplyModel = function() {
+    return settings.options["sparql"]["jsonld"]["default-apply-model"];
+};
 SparqlRouteJSONLD.prototype.getModel = function() {
     return settings.options["sparql"]["jsonld"]["default-model"];
 };
@@ -122,6 +125,10 @@ SparqlRouteJSONLD.prototype.convertDates = function(response) {
 
 
 SparqlRouteJSONLD.prototype.processModel = function(response) {
+
+    if (!this.getApplyModel()) // do not apply model
+        return response;
+
     var self = this;
     try {
         var model = this.getModel();

@@ -36,6 +36,7 @@
                 ],
                 "output-format" : "YYYY-MM-DD"
             },
+            "default-apply-model": true,
             "default-model": { "@id" : ["string", ""]},
             "default-prefixed-properties": ["@id"],
             "send-warnings": true
