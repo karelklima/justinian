@@ -46,8 +46,11 @@ WHERE {
 
   OPTIONAL {
     ?ancSection frbr:partOf ?act.
-    ?act dcterms:title ?title.
-    ?act dcterms:identifier ?actId.
-    GRAPH <http://linked.opendata.cz/resource/dataset/legislation/psp.cz> { ?act a lex:Act }
+    GRAPH <http://linked.opendata.cz/resource/dataset/legislation/psp.cz> { ?act a lex:Act 
+    OPTIONAL {
+      ?act dcterms:title ?title.
+      ?act dcterms:identifier ?actId.
+    }
+    }
   }
 }
