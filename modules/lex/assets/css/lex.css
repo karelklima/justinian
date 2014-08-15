@@ -1,31 +1,13 @@
-
-/*.lex-act-text section.uvod, .lex-act-text section.zaver {
-    text-align: center;
-}
-.lex-act-text section.obsah {
-    /*text-align: justify;
-    margin: auto;
-    max-width: 500px;
-}
-.lex-act-text section p {
-    font-family: Georgia;
-    font-size: 120%;
-}
-.lex-act-text section header, .lex-act-text section .nadpis {
-    text-align: center;
-}*/
-
 .lex-act-text section {
     text-align: justify;
 }
-.lex-act-text section header {
 
-}
-
-.lex-act-text section.uvod > p,
-.lex-act-text section.zaver > p {
-    margin-left: 30px;
-    color: #999;
+@media (min-width: 768px) {
+    .lex-act-text section.uvod > p,
+    .lex-act-text section.zaver > p {
+        margin-left: 30px;
+        color: #999;
+    }
 }
 
 .lex-act-text section.preambule > p,
@@ -49,20 +31,29 @@
     margin-right: 7px;
 }
 
-.lex-act-text section.preambule > p,
-.lex-act-text section.clanek > p,
-.lex-act-text section.paragraf > p {
-    margin-left: 24px;
-}
-
 .lex-act-text section.odstavec > p {
     position: relative;
-    margin-left: 48px;
+    margin-left: 24px;
 }
 .lex-act-text section.pismeno > p,
 .lex-act-text section.bod > p {
     position: relative;
-    margin-left: 72px;
+    margin-left: 48px;
+}
+
+@media (min-width: 768px) {
+    .lex-act-text section.preambule > p,
+    .lex-act-text section.clanek > p,
+    .lex-act-text section.paragraf > p {
+        margin-left: 24px;
+    }
+    .lex-act-text section.odstavec > p {
+        margin-left: 48px;
+    }
+    .lex-act-text section.pismeno > p,
+    .lex-act-text section.bod > p {
+        margin-left: 72px;
+    }
 }
 
 .lex-act-text section.odstavec > p > span.identifier,

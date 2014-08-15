@@ -193,13 +193,13 @@
             }
         }])
 
-        .directive('appBarTools', ['$document', function($document) {
+        .directive('appBarToolbox', ['$document', function($document) {
             return {
                 restrict: 'A',
                 scope: true,
                 replace: true,
                 template:
-                    "<span class=\"app-bar-toolbox\">\n" +
+                    "<span class=\"app-bar-toolbox navbar-default\">\n" +
                     "  <a title=\"Nástroje\" class=\"app-bar-up-button btn btn-link navbar-btn\" ng-click=\"goToSidebar()\"><span class=\"glyphicon glyphicon-list-alt\"></span></a>" +
                     "  <a title=\"Nahoru\" class=\"app-bar-up-button btn btn-link navbar-btn\" ng-click=\"goUp()\"><span class=\"glyphicon glyphicon-chevron-up\"></span></a>" +
                     "</span>"
