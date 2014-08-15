@@ -3,7 +3,7 @@
     padding-bottom: 20px;
     padding-left: 0;
 }
-@media (max-width: 979px) {
+@media (max-width: 991px) {
     .main {
         padding-left: 0;
         padding-right: 0;
@@ -58,7 +58,7 @@
     margin-right: -16px;
 }
 
-@media (max-width: 979px) {
+@media (max-width: 767px) {
     .app-bar .navbar {
         border-left: none;
         border-right: none;

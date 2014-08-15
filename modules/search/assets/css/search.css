@@ -1,9 +1,17 @@
-.search-typeahead {
-    max-width: 550px;
+@media (min-width: 992px) {
+    .search-typeahead {
+        max-width: 550px;
+    }
+    .search-typeahead .dropdown-menu {
+        max-width: 550px;
+    }
 }
-.search-typeahead .dropdown-menu {
-    max-width: 550px;
-}
-.search-typeahead .dropdown-menu a {
-    white-space: normal;
+
+@media (max-width: 991px) {
+    .search-typeahead {
+        max-width: 300px;
+    }
+    .search-typeahead .dropdown-menu {
+        max-width: 300px;
+    }
 }
