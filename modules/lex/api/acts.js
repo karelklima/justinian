@@ -143,7 +143,6 @@ module.exports = function(routeParams) {
             "creator" : ["string", ""],
             "identifier" : ["string", ""],
             "hasText" : ["number", 0],
-            "validIso" : ["string", ""],
             "hitExpressions" : [{
                 "@id" : ["string", ""],
                 "validIso" : ["string", ""],
