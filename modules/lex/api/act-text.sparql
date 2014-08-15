@@ -1,5 +1,5 @@
 PREFIX odcs: <http://linked.opendata.cz/ontology/odcs/>
-PREFIX resource: <http://linked.opendata.cz/resource/legislation/cz/act/2012/89-2012/expression/cz/act/2012/89-2012/cs>
+PREFIX resource: <{{"param":"resource", "filter":"RemoveLTGT"}}>
 
 CONSTRUCT {
     resource: odcs:htmlValue ?html .
