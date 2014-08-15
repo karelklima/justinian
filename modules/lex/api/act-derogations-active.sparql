@@ -1,0 +1,38 @@
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX lex: <http://purl.org/lex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX my: <http://>
+
+PREFIX resource: <{{"param": "resource", "filter": "RemoveLTGT"}}>
+
+CONSTRUCT{
+?change my:type ?type.
+?change my:original ?original.
+?change my:result ?result.
+?change my:valid ?valid.
+}
+
+FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
+
+
+WHERE {
+  SELECT ?expr ?change ?type ?original ?result ?valid
+  WHERE {
+    {
+      SELECT ?expr MIN(?valid)
+      WHERE {
+        ?expr frbr:realizationOf resource: .
+        ?expr dcterms:valid ?valid.
+      }
+    }
+    
+  ?expr lex:definesChange ?change.
+  ?change a ?type.
+  OPTIONAL { ?change lex:changedOriginal ?original }
+  OPTIONAL { ?change lex:changeResult ?result }
+  OPTIONAL { ?result dcterms:valid ?valid}
+  }
+  ORDER BY DESC(?valid)
+  OFFSET {{"param": "offset", "default": "0"}}
+  LIMIT {{"param": "limit", "default": "10"}}
+}
