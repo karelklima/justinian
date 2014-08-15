@@ -10,6 +10,8 @@ module.exports = function(routeParams) {
             "realization" : "http://hasRealization",
             "identifier" : "http://purl.org/dc/terms/identifier",
             "expression" : "http://sectionExpression",
+        	"actTitle" : "http://actTitle",
+        	"actId" : "http://actId",
             "valid" : {
                 "@id" : "http://purl.org/dc/terms/valid",
                 "@type": "http://www.w3.org/2001/XMLSchema#date"
@@ -85,7 +87,12 @@ module.exports = function(routeParams) {
         return {
             "@id" : ["string", ""],
             "type" : ["string", ""],
-            "act" : ["string", ""],
+            //"act" : ["string", ""],
+            "act" : [{
+            	"@id" : ["string", ""],
+            	"actTitle" : ["string", ""],
+            	"actId" : ["string", ""]
+            }],
             "expression" : ["string", ""],
             "validIso" : ["string", ""],
             "identifier": ["string", ""],
@@ -102,7 +109,6 @@ module.exports = function(routeParams) {
     route.getPrefixedProperties = function() {
         return [
             "@id",
-            "act",
             "type",
             "expression",
             "realization"

@@ -9,6 +9,8 @@ CONSTRUCT {
   resource: my:type ?type.
   resource: my:hasAncestor ?ancSection.
   resource: my:act ?act.
+  ?act my:actTitle ?title.
+  ?act my:actId ?actId.
   resource: my:sectionExpression ?sectExpr.
   resource: dcterms:identifier ?identifier.
   ?sectExpr dcterms:valid ?sectExprDate.
@@ -44,6 +46,8 @@ WHERE {
 
   OPTIONAL {
     ?ancSection frbr:partOf ?act.
+    ?act dcterms:title ?title.
+    ?act dcterms:identifier ?actId.
     GRAPH <http://linked.opendata.cz/resource/dataset/legislation/psp.cz> { ?act a lex:Act }
   }
 }
