@@ -17,7 +17,7 @@ module.exports = function(routeParams) {
         if (responseJSON["@graph"].length > 0) {
             var value = responseJSON["@graph"][0]["htmlValue"][0];
             if (value.indexOf("<?xml") == 0) { // it starts with XML declaration
-                responseJSON["@graph"][0]["htmlValue"][0] = value.substring(value.indexOf(">"));
+                responseJSON["@graph"][0]["htmlValue"][0] = value.substring(value.indexOf(">") + 1);
             }
         }
         return responseJSON;
