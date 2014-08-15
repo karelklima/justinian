@@ -11,6 +11,7 @@
     	"acts" : {"limit": "10", "offset": "0"},
         "act-detail": {"resource": ""},
         "act-section-detail": {"resource": ""},
+        "act-section-versions" : {"resource": "", "limit" : "10", "offset" : "0"},
     	"act-versions": {"resource": "", "limit" : "100", "offset" : "0"},
     	"act-text" : {"resource": ""},
     	"act-search" : {"query":"", "limit": "100", "offset": "0"},
