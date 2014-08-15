@@ -8,6 +8,7 @@
         "legislation:": "http://linked.opendata.cz/resource/legislation/cz/"
     },
     "apis": {
+    	"acts" : {"limit": "10", "offset": "0"},
         "act-detail": {"resource": ""},
         "act-section-detail": {"resource": ""},
     	"act-versions": {"resource": "", "limit" : "100", "offset" : "0"},
