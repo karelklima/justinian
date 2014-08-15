@@ -18,10 +18,19 @@
             $scope.limit = 10;
             $scope.toggleLimit = function() {
                 $scope.limit = ($scope.limit == 10) ? 100 : 10;
-            }
+            };
 
             $scope.isEmpty = function() {
                 return angular.isDefined($scope.versions) && $scope.versions.length === 0;
+            };
+
+            $scope.getVersionValidIso = function(versionId) {
+                var valid = undefined;
+                angular.forEach($scope.versions, function(version) {
+                    if (version['@id'] == versionId)
+                        valid = version['validIso'];
+                });
+                return valid;
             };
 
             this.update = function (changes) {
