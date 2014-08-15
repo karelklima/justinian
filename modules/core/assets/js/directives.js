@@ -193,6 +193,28 @@
             }
         }])
 
+        .directive('appBarTools', ['$document', function($document) {
+            return {
+                restrict: 'A',
+                scope: true,
+                replace: true,
+                template:
+                    "<span class=\"app-bar-toolbox\">\n" +
+                    "  <a title=\"Nástroje\" class=\"app-bar-up-button btn btn-link navbar-btn\" ng-click=\"goToSidebar()\"><span class=\"glyphicon glyphicon-list-alt\"></span></a>" +
+                    "  <a title=\"Nahoru\" class=\"app-bar-up-button btn btn-link navbar-btn\" ng-click=\"goUp()\"><span class=\"glyphicon glyphicon-chevron-up\"></span></a>" +
+                    "</span>"
+                ,
+                link: function(scope, element, attrs) {
+                    scope.goUp = function() {
+                        $document.scrollTo(angular.element("body"), 0, 300);
+                    };
+                    scope.goToSidebar = function() {
+                        $document.scrollTo(angular.element("div.sidebar"), 150, 300);
+                    };
+                }
+            }
+        }])
+
         .directive('mainApp', function () {
             return {
                 restrict: 'A',
