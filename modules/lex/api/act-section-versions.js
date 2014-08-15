@@ -10,7 +10,7 @@ module.exports = function(routeParams) {
                 "@type" : "http://www.w3.org/2001/XMLSchema#date"
             },
             "version" : "http://purl.org/dc/terms/partOf",
-            "identifier" : "http://purl.org/dc/terms/identifier",
+            "amendmentId" : "http://purl.org/dc/terms/identifier",
             "amendment" : "http://purl.org/dc/terms/amendment"
         }
     };
@@ -41,12 +41,10 @@ module.exports = function(routeParams) {
 	route.getModel = function() {
        return {
            "@id" : ["string", ""],
-           "version": ["object", ""],
+           "version": ["string", ""],
            "validIso" : ["string", ""],
-           "amendment" : [{
-        	   "@id" : ["string", ""],
-        	   "identifier" : ["object", ""]
-           }]
+           "amendment" : ["string", ""],
+           "amendmentId" : ["string", ""]
        }
 	};
     

@@ -7,8 +7,8 @@ PREFIX resource: <{{"param": "resource", "filter": "RemoveLTGT"}}>
 CONSTRUCT{
 ?expr dcterms:valid ?valid.
 ?expr dcterms:partOf ?lexExpr.
-?lexExpr dcterms:amendment ?amendment.
-?amendment dcterms:identifier ?amendmentId.
+?expr dcterms:amendment ?amendment.
+?expr dcterms:identifier ?amendmentId.
 }
 
 FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
