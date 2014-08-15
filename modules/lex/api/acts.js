@@ -23,7 +23,7 @@ module.exports = function(routeParams) {
                 "@id" : "http://purl.org/dc/terms/valid",
                 "@type" : "http://www.w3.org/2001/XMLSchema#date"
             },
-            "hitExpressions" : "http://purl.org/vocab/frbr/core#realization"
+            "expressions" : "http://purl.org/vocab/frbr/core#realization"
         };
     };
     
@@ -117,17 +117,18 @@ module.exports = function(routeParams) {
         
     	 if (responseJSONLD["@graph"].length > 0) {
 
-    		// sorting function for ordering all the expressions of a section according to its validity date:
-	        var sortByDate = function (a,b) {
-	            if ( !_.isUndefined(a["validIso"]) && !_.isUndefined(b["validIso"]) ) {
-	                return (a["validIso"] > b["validIso"]) ? -1 :
-	                    (a["validIso"] < b["validIso"]) ? 1 : 0;
-	            }
-	        };
+    		function sortByProperty(array, propertyName) {
+    			return array.sort(function (a, b) {
+     	            return (a[propertyName] > b[propertyName]) ? -1 :
+     	                    (a[propertyName] < b[propertyName]) ? 1 : 0;
+    			});
+    		}
 
+    		sortByProperty(responseJSONLD["@graph"], "issuedIso");
+    		
 	        responseJSONLD["@graph"].forEach(function(data){
 	        	if (_.isArray(data["expressions"])) {
-	        		data["expressions"].sort(sortByDate);
+	        		sortByProperty(data["expressions"], "validIso");
 	        	}
 	        });
 	        
@@ -143,7 +144,7 @@ module.exports = function(routeParams) {
             "creator" : ["string", ""],
             "identifier" : ["string", ""],
             "hasText" : ["number", 0],
-            "hitExpressions" : [{
+            "expressions" : [{
                 "@id" : ["string", ""],
                 "validIso" : ["string", ""],
             }, []]

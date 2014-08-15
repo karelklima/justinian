@@ -38,6 +38,7 @@ WHERE {
 ###
 
   }
+  ORDER BY DESC (?issued)
   OFFSET {{"param": "offset", "default": "0"}}
   LIMIT {{"param": "limit", "default": "10"}}
   }
