@@ -10,7 +10,11 @@ module.exports = function(routeParams) {
             "realization" : "http://hasRealization",
             "identifier" : "http://purl.org/dc/terms/identifier",
             "expression" : "http://sectionExpression",
-        	"actTitle" : "http://actTitle",
+        	//"actTitle" : "http://actTitle",
+            "actTitle" : {
+            	"@id" : "http://actTitle",
+                "@language": "cs",
+            },
         	"actId" : "http://actId",
             "valid" : {
                 "@id" : "http://purl.org/dc/terms/valid",
@@ -87,7 +91,6 @@ module.exports = function(routeParams) {
         return {
             "@id" : ["string", ""],
             "type" : ["string", ""],
-            //"act" : ["string", ""],
             "act" : [{
             	"@id" : ["string", ""],
             	"actTitle" : ["string", ""],
