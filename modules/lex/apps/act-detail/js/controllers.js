@@ -1,6 +1,6 @@
 (function() {
     angular.module('appControllers')
-        .controller('LexActDetailController', ['$scope', '$sce', '$log', '$q', 'NetworkService', 'AppService', 'UrlService', function ($scope, $sce, $log, $q, NetworkService, AppService, UrlService) {
+        .controller('LexActDetailController', ['$scope', '$log', '$q', 'AppService', 'LexActService', function ($scope, $log, $q, AppService, LexActService) {
 
             $scope.actDetail = undefined;
             $scope.actVersion = undefined;
@@ -31,7 +31,7 @@
                                 if (actDetail["@graph"].length > 0) {
                                     var version = actDetail["@graph"][0]["lastVersion"];
                                     $log.debug("LexActDetailController.update: setting version parameter");
-                                    UrlService.setParam("version", version, true);
+                                    AppService.setParam("version", version, true);
                                 } else {
                                     $scope.actDetail = {}; // empty result indicator
                                 }
@@ -66,7 +66,9 @@
                     getTextPromise.then(function (actText) {
                         if (actText["@graph"].length > 0) {
                             var doc = angular.element("<div>" + actText["@graph"][0]["htmlValue"] + "</div>");
-                            $scope.actText = $sce.trustAsHtml(doc.html());
+                            doc = LexActService.fixSectionsInActText(doc);
+                            doc = LexActService.addLinksToActText(doc, $scope.resource);
+                            $scope.actText = doc.html();
                         }
                         else $scope.actText = "";
                     });

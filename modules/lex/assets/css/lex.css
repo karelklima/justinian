@@ -34,20 +34,44 @@
 .lex-act-text section.dil > section,
 .lex-act-text section.oddil > section,
 .lex-act-text section.pododdil > section {
-    margin-left: 30px;
+
 }
 
+.lex-act-text section.dil > header h1,
+.lex-act-text section.oddil > header h1,
+.lex-act-text section.pododdil > header h1 {
+    display: inline-block;
+}
+.lex-act-text section.dil > header h1:first-child:after,
+.lex-act-text section.oddil > header h1:first-child:after,
+.lex-act-text section.pododdil > header h1:first-child:after {
+    content: " - ";
+    margin-right: 7px;
+}
+
+.lex-act-text section.preambule > p,
 .lex-act-text section.clanek > p,
-.lex-act-text section.clanek > section,
-.lex-act-text section.paragraf > p,
-.lex-act-text section.paragraf > section {
-    margin-left: 30px;
+.lex-act-text section.paragraf > p {
+    margin-left: 24px;
 }
 
-.lex-act-text section.pismeno,
-.lex-act-text section.bod {
-    margin-left: 30px;
+.lex-act-text section.odstavec > p {
+    position: relative;
+    margin-left: 48px;
 }
+.lex-act-text section.pismeno > p,
+.lex-act-text section.bod > p {
+    position: relative;
+    margin-left: 72px;
+}
+
+.lex-act-text section.odstavec > p > span.identifier,
+.lex-act-text section.pismeno > p > span.identifier,
+.lex-act-text section.bod > p > span.identifier {
+    position: absolute;
+    margin-left: -24px;
+}
+
 
 .lex-act-text section header h1:last-child {
     margin-top: 0;
@@ -70,7 +94,6 @@
 }
 .lex-act-text h2 {
     font-size: 140%;
-    margin-left: 30px;
 }
 
 .lex-act-text .diff_remove{

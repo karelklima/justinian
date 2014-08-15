@@ -41,6 +41,50 @@
 
         }])
 
+        .service('LexActService', function() {
+
+            this.fixSectionsInActText = function(rootElement) {
+
+                rootElement.find("section.odstavec, section.pismeno, section.bod").each(function() {
+                    console.log(this);
+                    var self = angular.element(this);
+                    var delimiter = self.hasClass('bod') ? '.' : ")";
+                    var firstParagraph = self.children("p");
+                    if (firstParagraph.length > 0) {
+                        firstParagraph = angular.element(firstParagraph[0]);
+                        var innerHtml = firstParagraph.html();
+                        var delimiterIndex = innerHtml.indexOf(delimiter)
+                        if (delimiterIndex != -1) {
+                            firstParagraph.html('<span class="identifier">' + innerHtml.substring(0, delimiterIndex + 1)
+                                + '</span><span class="description">' + innerHtml.substring(delimiterIndex + 1).trim() + '</span>');
+                        }
+                    }
+                });
+
+                return rootElement
+            };
+
+            this.addLinksToActText = function(rootElement, actUri) {
+                var content = rootElement.find("section.obsah");
+                //console.log(content);
+                content.find("section").each(function() {
+                    var self = angular.element(this);
+                    var a = angular.element('<a click type="lex:ActSection"></a>');
+                    a.attr("resource", actUri + '/' + self.attr("resource"));
+
+                    if (self.hasClass("odstavec") || self.hasClass("pismeno") || self.hasClass("bod")) {
+                        self.children("p").children("span.identifier").wrapInner(a);
+                    } else if (self.hasClass("clanek") || self.hasClass("paragraph")) { // works for outline too
+                        self.children("header").wrapInner(a);
+                    }
+
+                });
+
+                return rootElement;
+            }
+
+        })
+
         .service('LexDiffService', function() {
 
             var self = this;
