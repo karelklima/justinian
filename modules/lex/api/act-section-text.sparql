@@ -1,0 +1,12 @@
+PREFIX odcs: <http://linked.opendata.cz/ontology/odcs/>
+PREFIX resource: <{{"param":"resource", "filter":"RemoveLTGT"}}>
+
+CONSTRUCT {
+    resource: odcs:htmlValue ?html .
+}
+
+FROM <http://linked.opendata.cz/resource/dataset/legislation/acts/fulltexts>
+
+WHERE {
+    resource: odcs:htmlValue ?html .
+}
