@@ -15,15 +15,13 @@ module.exports = function(routeParams) {
             "zipcode" : "http://zipcode",
             "locality" : "http://locality",
             "street" : "http://street",
-            "latitude" : "http://hasLatitude",
-            "longitude" : "http://hasLongitude",
             "objectName" : "http://objectName",
             // sankce ČOI
             "resultSanctionsRaw" : "http://resultSanction",
-            "value" : {
+            "value" : "http://value",/*{
             	"@id" : "http://value",
             	"@type": "http://www.w3.org/2001/XMLSchema#decimal"
-            },
+            },*/
             "currency" : "http://currency",
             // zabavení ČOI
             "resultConfiscationsRaw" : "http://resultConfiscation",
@@ -86,11 +84,11 @@ module.exports = function(routeParams) {
             	data["resultBansRaw"].forEach(function(ban) {
             		console.log(ban);
             		banDetail = {} ;
-            		banDetail["uri"] = ban;
+            		banDetail["uri"] = ban;         		
             		if (!_.isUndefined(responseJSONLD["@graph"][ban]["amountOfGoods"])) banDetail["amount"] = responseJSONLD["@graph"][ban]["amountOfGoods"][0];
             		if (!_.isUndefined(responseJSONLD["@graph"][ban]["unitOfGoods"])) banDetail["unit"] = responseJSONLD["@graph"][ban]["unitOfGoods"][0];
             		if (!_.isUndefined(responseJSONLD["@graph"][ban]["category"])) banDetail["category"] = responseJSONLD["@graph"][ban]["category"][0];
-            		if (!_.isUndefined(responseJSONLD["@graph"][ban]["brandName"])) banDetail["brand"] = responseJSONLD["@graph"][confiscation]["brandName"][0];
+            		if (!_.isUndefined(responseJSONLD["@graph"][ban]["brandName"])) banDetail["brand"] = responseJSONLD["@graph"][ban]["brandName"][0];
             		if (!_.isUndefined(responseJSONLD["@graph"][ban]["value"])) banDetail["value"] = responseJSONLD["@graph"][ban]["value"][0];
             		if (!_.isUndefined(responseJSONLD["@graph"][ban]["currency"])) banDetail["currency"] = responseJSONLD["@graph"][ban]["currency"][0];
             		data["resultBans"].push( banDetail );
@@ -117,8 +115,6 @@ module.exports = function(routeParams) {
         	"zipcode" : ["string", ""],
         	"locality" : ["string", ""],
         	"street" : ["string", ""],
-        	"latitude" : ["string", ""],
-        	"longitude" : ["string", ""],
         	"objectName" : ["string", ""],
             "resultSanctions" : ["object", []],
             "resultConfiscations" : ["object", []],
@@ -129,9 +125,7 @@ module.exports = function(routeParams) {
     route.getPrefixedProperties = function() {
         return [
             "@id",
-            "resultSanctions",
-            "resultConfiscations",
-            "resultBans"
+            "uri"
         ];
     };
     

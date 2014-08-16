@@ -15,8 +15,6 @@ CONSTRUCT{
   check: my:locality ?locality.
   check: my:zipcode ?zipcode.
   check: my:street ?street.
-  check: my:hasLatitude ?lat.
-  check: my:hasLongitude ?long.
   check: my:objectName ?objectName.
 
   # SANCTIONS:
@@ -47,7 +45,6 @@ FROM NAMED <http://linked.opendata.cz/resource/dataset/ares/rzp>
 FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/sankce>
 FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/zajisteni>
 FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/zakazy>
-FROM NAMED <http://linked.opendata.cz/resource/dataset/geocoordinates/google/schema.org>
 
 WHERE {
 	check: skos:notation ?id.
@@ -57,15 +54,10 @@ WHERE {
     OPTIONAL { ?location s:addressRegion ?region. }
     OPTIONAL { ?location s:streetAddress ?street.}
     OPTIONAL { check: dcterms:date ?date. }
-    OPTIONAL { GRAPH <http://linked.opendata.cz/resource/dataset/geocoordinates/google/schema.org> { 
-    	?location s:geo/s:latitude ?lat.
-    	?location s:geo/s:longitude ?long.  
-    }}
-
 
 	OPTIONAL {
+		check: s:object ?object.
 		GRAPH <http://linked.opendata.cz/resource/dataset/ares/basic> {
-			check: s:object ?object.
 			?object gr:legalName ?objectName.
     	}
   	}
