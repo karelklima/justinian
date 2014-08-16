@@ -1,0 +1,48 @@
+<div ng-controller="CoiCheckactionsController" main-app>
+    <div app-bar adjust-on="datasource.revision">
+        <div class="clearfix">
+            <div class="navbar-right">
+                <span app-bar-toolbox></span>
+            </div>
+            <div class="navbar-brand">
+                <a click module="court" application="decisions">Kontroly ČOI</a>
+            </div>
+        </div>
+        <div class="filters-bar">
+            <span class="btn btn-primary btn-sm" ng-repeat="filter in filters" ng-click="removeFilter(filter.filter)">
+                {{filter.prefix}}{{filter.title}}
+                <span class="glyphicon glyphicon-remove glyphicon-white cursor-pointer"></span>
+            </span>
+        </div>
+    </div>
+
+    <table class="table" ng-hide="isEmpty()">
+        <tr>
+            <th nowrap>Číslo kontroly</th>
+            <th>Ulice</th>
+            <th>Město</th>
+            <th>Kraj</th>
+        </tr>
+        <tr ng-repeat="checkaction in checkactions">
+            <td nowrap>
+                <a click module="coi" application="checkaction-detail" resource="{{ checkaction['@id'] }}">{{ checkaction['title'] }}</a><br/>
+                <small class="text-muted">{{ checkaction['dateIso'] | formatDate }}</small>
+            </td>
+            <td>{{ checkaction["street"] }}</td>
+            <td>
+                {{checkaction['locality'] }}<br/>
+                <small class="text-muted">{{checkaction['zipcode'] }}</small>
+            </td>
+            <td>{{checkaction['region'] }}</td>
+        </tr>
+    </table>
+
+    <div class="alert alert-warning" ng-show="datasource.isEmpty">
+        Zadaným parametrům neodpovídají žádné kontroly.
+    </div>
+
+    <div spinner-bar ng-show="datasource.isLoading"></div>
+
+    <div datapager source="datasource" target="checkactions" items-per-page="20"></div>
+
+</div>

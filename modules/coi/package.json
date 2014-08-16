@@ -12,6 +12,7 @@
     "apis": {
         "act-related-coichecks": {"resource": "", "limit": "10", "offset": "0"},
         "checkactions-filters": {},
-        "checkaction-detail": {"resource": ""}
+        "checkaction-detail": {"resource": ""},
+        "checkactions": {"limit": "10", "offset": "0"}
     }
 }
