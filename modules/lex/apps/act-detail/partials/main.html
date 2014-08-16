@@ -6,24 +6,28 @@
             </div>
             <div class="navbar-brand">
                 <a click module="lex" application="act-detail" resource="{{resource}}">
-                    Předpis č. {{actDetail["identifier"]}} bla bla bla bla bla nbla lasd asodi jasod ijasod  asd oais daosid asdo iasd oasid asd
+                    Předpis
+                    <span ng-show="isEmpty()"> nenalezen</span>
+                    <span ng-show="!isEmpty()"> č. {{actDetail["identifier"]}}</span>
                 </a>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12 clearfix">
-                <p class="pull-right text-muted">Znění platné od {{actVersion.validIso | formatDate}}</p>
+                <p class="pull-right text-muted" ng-show="!isEmpty()">Znění platné od {{actVersion.validIso | formatDate}}</p>
                 <p>{{actDetail["title"]}}</p>
             </div>
         </div>
     </div>
 
     <div ng-hide="isTextLoading() || isEmpty()">
+        <div class="lex-act-text" compile="actText"></div>
+    </div>
 
-            <div class="lex-act-text" compile="actText"></div>
-
-        </div>
-        <div ng-show="isTextLoading()" spinner-bar></div>
-
-        <div ng-show="isTextEmpty()" class="alert alert-info">Text není dostupný.</div>
+    <div ng-show="isTextLoading()" spinner-bar></div>
+    <div ng-show="isEmpty()" class="alert alert-warning">
+        Předpis nenalezen!<br>
+        Zkuste ho najít pomocí vyhledávacího pole nahoře.
+    </div>
+    <div ng-show="isTextEmpty() && !isEmpty()" class="alert alert-warning">Text pro tento předpis není dostupný.</div>
 </div>
