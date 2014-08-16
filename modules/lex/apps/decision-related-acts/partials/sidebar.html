@@ -1,23 +1,28 @@
-<div ng-controller="DecisionRelatedActsController" sidebar-app heading="Zákoný">
+<div ng-controller="DecisionRelatedActsController" sidebar-app heading="Zákony" set-open="false">
 
-    <table class="table" ng-hide="isLoading || isEmpty()">
+    <table class="table table-condensed" ng-hide="isLoading || isEmpty()">
         <tr>
-            <th><a ng-click="sortBy('identifier')">Novela</a></th>
-            <th><a ng-click="sortBy('title')">Název</a></th>
+            <th>Označení</th>
+            <th>Název</th>
         </tr>
-        <tr ng-repeat="act in acts | select : page : limit">
-            <td>{{ act['identifier'] }}</td>
-            <td><a click module="lex" application="act-detail" resource="{{ act['@id'] }}">{{ act['title'] }}</a></td>
-        </tr>
-        <tr ng-show="isShowPagination()">
-            <td colspan="3" class="text-center">
-                <div pagination ng-model="page" total-items="acts.length" items-per-page="limit" max-size="size" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></div>
+        <tr ng-repeat="act in acts | limitTo : limit">
+            <td nowrap>
+                <a click module="lex" application="act-detail" resource="{{ act['@id'] }}">{{ act['identifier'] }}</a>
+            </td>
+            <td>
+                {{ act['title'] }}
             </td>
         </tr>
-
+        <tr ng-show="isShowMore()">
+            <td colspan="3" class="text-right">
+                <a class="btn btn-primary" click module="lex" application="decision-related-acts" resource="{{ resource }}">Zobrazit vše</a>
+            </td>
+        </tr>
     </table>
 
-    <div ng-show="isLoading">Načítám data...</div>
-    <div ng-show="isEmpty()">Žádná dostupná rozhodnutí.</div>
+    <div datapager source="datasource" target="acts" items-per-page="10" hide-controls="true"></div>
+
+    <div ng-show="isLoading">Načítám data</div>
+    <div ng-show="!isLoading && isEmpty()">Žádné dostupné zákony.</div>
 
 </div>
