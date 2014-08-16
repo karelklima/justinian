@@ -3,14 +3,15 @@
     <table class="table table-condensed" ng-hide="isLoading || isEmpty()">
         <tr>
             <th>Označení</th>
-            <th>Datum</th>
+            <th>Název</th>
         </tr>
         <tr ng-repeat="act in acts | limitTo : limit">
             <td nowrap>
-                <abbr title="{{ act['title'] }}"><a click module="lex" application="act-detail" resource="{{ act['@id'] }}">{{ act['identifier'] }}</a></abbr>
+                <a click module="lex" application="act-detail" resource="{{ act['@id'] }}">{{ act['identifier'] }}</a><br />
+                <small class="text-muted">{{ act['issuedIso'] | formatDate }}</small>
             </td>
-            <td nowrap>
-                {{ act['issuedIso'] | formatDate }}
+            <td>
+                {{ act['title'] }}
             </td>
         </tr>
         <tr ng-show="isShowMore()">
