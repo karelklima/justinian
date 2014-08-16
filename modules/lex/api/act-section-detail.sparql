@@ -8,9 +8,8 @@ PREFIX resource: <{{"param": "resource", "filter": "RemoveLTGT"}}>
 CONSTRUCT {
   resource: my:type ?type.
   resource: my:hasAncestor ?ancSection.
-  resource: my:act ?act.
-  ?act my:actTitle ?title.
-  ?act my:actId ?actId.
+  resource: my:actTitle ?title.
+  resource: my:actId ?actId.
   resource: my:sectionExpression ?sectExpr.
   resource: dcterms:identifier ?identifier.
   ?sectExpr dcterms:valid ?sectExprDate.
@@ -31,26 +30,29 @@ WHERE {
 
   resource: frbr:partOf+ ?ancSection.
 
-  ?ancSection a ?ancType.
+  {?ancSection a ?ancType.} UNION { GRAPH <http://linked.opendata.cz/resource/dataset/legislation/psp.cz> {?ancSection a ?ancType.} }
   FILTER( ?ancType != frbr:Work).
-  FILTER( ?ancType != lex:Act).
-  ?ancSection dcterms:identifier ?ancId.
-
-  ?ancExpr frbr:realizationOf ?ancSection.
-  ?ancExpr frbr:partOf* ?e .
-  GRAPH <http://linked.opendata.cz/resource/dataset/legislation/psp.cz> { ?e dcterms:valid ?ancExprDate. }
 
   ?sectExpr frbr:realizationOf  resource: .
   ?sectExpr frbr:partOf+ ?e2 .
   GRAPH <http://linked.opendata.cz/resource/dataset/legislation/psp.cz> { ?e2 dcterms:valid ?sectExprDate. }
+    
+  {
+    ?ancSection dcterms:identifier ?ancId.
 
-  OPTIONAL {
-    ?ancSection frbr:partOf ?act.
-    GRAPH <http://linked.opendata.cz/resource/dataset/legislation/psp.cz> { ?act a lex:Act 
-    OPTIONAL {
-      ?act dcterms:title ?title.
-      ?act dcterms:identifier ?actId.
+    ?ancExpr frbr:realizationOf ?ancSection.
+    ?ancExpr frbr:partOf* ?e .
+    GRAPH <http://linked.opendata.cz/resource/dataset/legislation/psp.cz> { ?e dcterms:valid ?ancExprDate. }
+
+  } UNION {
+  
+    GRAPH <http://linked.opendata.cz/resource/dataset/legislation/psp.cz> {
+      ?ancSection a lex:Act.
+      OPTIONAL {
+        ?ancSection dcterms:title ?title.
+        ?ancSection dcterms:identifier ?actId.
+      }
     }
-    }
+  
   }
 }

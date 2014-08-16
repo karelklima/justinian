@@ -8,7 +8,7 @@
         </tr>
         <tr ng-repeat="check in checks | limitTo : limit">
             <td nowrap>
-                <a click module="coi" application="checkaction-detail" act="{{ check['@id'] }}">{{ check['title'] }}</a><br/>
+                <a click module="coi" application="checkaction-detail" resource="{{ check['@id'] }}">{{ check['title'] }}</a><br/>
                 <small class="text-muted">{{ check['dateIso'] | formatDate }}</small>
             </td>
             <td nowrap>

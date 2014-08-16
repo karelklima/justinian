@@ -1,0 +1,6 @@
+{
+    "title" : "Detail kontroly ČOI",
+    "datatypes" : ["s:CheckAction"],
+    "views": ["main"],
+    "priority" : 1000
+}
