@@ -53,6 +53,51 @@
                             replacement.html(self.html());
                             self.replaceWith(replacement);
                         });
+
+                        var paragraphs = doc.find("p");
+
+                        //HEADER
+                        var header = true;
+                        for(var i = 0;i<paragraphs.length;i++){
+                            if(paragraphs[i].textContent != undefined){
+                                var content = paragraphs[i].textContent;
+                                if(content[content.length-1] == '.') {
+                                    header = false;
+                                    continue;
+                                }
+                                if(content.length<80){
+                                    var item = angular.element(paragraphs[i]);
+                                    console.log(item);
+                                    if(header)
+                                        item.addClass("header");
+                                    else
+                                        item.addClass("bold");
+                                }
+                                else header = false;
+                            }
+                        }
+
+                        //FOOTER
+                        var footer = true;
+                        for(var i = paragraphs.length-1;i>=0;i--){
+                            if(paragraphs[i].textContent != undefined){
+                                var content = paragraphs[i].textContent;
+                                if(content[content.length-1] == '.') {
+                                    footer = false;
+                                    continue;
+                                }
+                                if(content.length<80){
+                                    var item = angular.element(paragraphs[i]);
+                                    console.log(item);
+                                    if(footer){
+                                        item.addClass("footer");
+                                        item.removeClass("bold");
+                                    }
+                                }
+                                else footer = false;
+                            }
+                        }
+
                         doc.find("footer > div").each(function(){
                             var self = angular.element(this);
                             var annotation = self.get(0);
@@ -73,7 +118,9 @@
                                         attributes['type'] = targetType;
                                         attributes['class'] = 'annotation-decision';
                                     } else if (targetType == 'lex:Court'){
-                                        attributes['href']="http://linked.opendata.cz/resource/"+resource;
+                                        attributes['click']='';
+                                        attributes['resource'] = resource.replace("/cz/",":");
+                                        attributes['type'] = targetType;
                                         attributes['class'] = 'annotation-court';
                                     } else if(targetType == 'lex:Act'){
                                         attributes['click'] = '';

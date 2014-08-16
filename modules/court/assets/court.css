@@ -13,15 +13,34 @@
 
 .court-decision-text section > p {
     margin-left: 30px;
+    margin-top: 10px;
 }
 
-.court-decision-text section header h1:last-child {
+.court-decision-text .header, .court-decision-text .footer, .court-decision-text .bold{
     margin-top: 0;
+    margin-left: 0px;
 }
+
+.court-decision-text .header{
+    font-size: 130%;
+}
+
+.court-decision-text .bold{
+     font-size: 120%;
+}
+.court-decision-text .footer{
+    font-size: 110%;
+}
+
+.court-decision-text .header, .court-decision-text .bold{
+    font-weight: bold;
+}
+
+.court-decision-text .footer{
+    color: #AAA;
+}
+
+
 .court-decision-text section  p  span {
   text-decoration: underline;
-}
-
-.annotation-act {
-    font-weight: bold;
 }

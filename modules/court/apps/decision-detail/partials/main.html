@@ -13,10 +13,10 @@
         <div class="row">
             <div class="col-sm-8">
                 <a href="{{ decisionDetail.creator }}">{{ decisionDetail.creatorTitle }}</a>
-                <p class="pull-right text-muted">{{decisionDetail.decisionKind}} ({{decisionDetail.decisionCategory}})</p>
+                <p class="pull-right text-muted" ng-show="decisionDetail.decisionKind.length>0">{{decisionDetail.decisionKind}} <span ng-show="decisionDetail.decisionCategory.length>0">({{decisionDetail.decisionCategory}})</span></p>
             </div>
             <div class="col-sm-4">
-                <p class="pull-right text-muted">{{decisionDetail.issuedIso | formatDate}}</p>
+                <p class="pull-right text-muted" ng-show="decisionDetail.issuedIso.length>0">{{decisionDetail.issuedIso | formatDate}}</p>
             </div>
         </div>
     </div>
