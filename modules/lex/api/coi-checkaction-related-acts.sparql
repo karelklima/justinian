@@ -1,0 +1,44 @@
+PREFIX lex: <http://purl.org/lex#>
+PREFIX dcterms: <http://purl.org/dc/terms/>
+PREFIX s: <http://schema.org/>
+PREFIX my: <http://>
+
+PREFIX resource: <{{"param": "resource", "filter": "RemoveLTGT"}}>
+
+CONSTRUCT {
+?act my:actId ?actRaw.
+?act my:title ?title.
+?act my:issued ?issued
+}
+
+FROM <http://linked.opendata.cz/resource/dataset/coi.cz/zamereni>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
+
+WHERE {
+
+  SELECT DISTINCT ?act ?actRaw ?issued ?title
+  WHERE {
+    resource: s:instrument ?coiActRaw .
+    GRAPH <http://linked.opendata.cz/resource/dataset/legislation/psp.cz> {
+      ?act a lex:Act.
+      ?act dcterms:identifier ?actRaw .
+    } 
+
+	# The datasets aren't linked together - we must link them by comparing identifier values:
+    BIND(REPLACE(?coiActRaw, '^[^0-9]+', "") AS ?coiActId).
+    BIND(REPLACE(?actRaw, '[^0-9]+$', "") AS ?actId).
+    FILTER (?actId = ?coiActId)
+    
+    GRAPH <http://linked.opendata.cz/resource/dataset/legislation/cz/uz> { 
+    OPTIONAL {
+      ?act dcterms:issued ?issued. 
+	  ?act dcterms:title ?title.
+    }
+    }	
+    
+  }
+  ORDER BY DESC(?issued)
+  OFFSET {{"param": "offset", "default": "0"}}
+  LIMIT {{"param": "limit", "default": "10"}}
+}

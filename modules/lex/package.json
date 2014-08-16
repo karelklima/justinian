@@ -18,7 +18,8 @@
     	"act-text" : {"resource": ""},
         "act-section-text" : {"resource": ""},
     	"act-search" : {"query":"", "limit": "100", "offset": "0"},
-    	"decision-related-acts": {"resource":"", "limit": "10", "offset": "0"}
+    	"decision-related-acts": {"resource":"", "limit": "10", "offset": "0"},
+    	"coi-checkaction-related-acts": {"resource": "", "limit" : "10", "offset" : "0"}
     },
     "universal-search": [
         {
