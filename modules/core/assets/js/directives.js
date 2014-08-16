@@ -138,7 +138,7 @@
                 replace: true,
                 template:
                     "<div class=\"app-bar ui-scrollfix-container\">\n" +
-                    "  <div class=\"ui-scrollfix-element\" ui-scrollfix=\"{{scrollfixOffset}}\">\n" +
+                    "  <div class=\"ui-scrollfix-element\" ui-scrollfix>\n" +
                     "    <div class=\"navbar navbar-default\">\n" +
                     "       <div class=\"container-fluid transclude\">\n" +
                     "       </div>\n" +
@@ -149,11 +149,6 @@
                     linker(scope, function(clone) {
                         element.find(".transclude").append(clone);
                     });
-
-                    scope.scrollfixOffset = 0;
-                    if (attrs.appBar !== null && attrs.appBar.length > 0) {
-                        scope.scrollfixOffset = attrs.appBar;
-                    }
 
                     function adjust() {
                         $timeout(function () {
