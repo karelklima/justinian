@@ -8,7 +8,7 @@
 
                 AppService.getData($scope, 'coi', 'checkaction-detail', {'resource': $scope.resource})
                     .then(function(data) {
-                        $scope.data = data;
+                        $scope.data = data["@graph"][0];
                     });
             };
 
