@@ -301,6 +301,12 @@ SparqlRouteJSONLD.prototype.handleResponse = function(responseString, res, reque
     var self = this;
 
     Q.fcall(function() { return responseString; })
+        .then(function(r) {
+            if (_.isString(r) && r.indexOf("{") !== 0) { // not a valid JSON-LD response
+                throw new Error(r);
+            }
+            return r;
+        })
         .then(function(r) { return JSON.parse(responseString); })
         .then(function(r) { return self.applyContext(r); })
         .then(function(r) { return self.convertDates(r); })
