@@ -48,6 +48,14 @@ module.exports = function(routeParams) {
             var data = responseJSONLD["@graph"][0];
             if (_.isArray(data["ancestors"])) {
                 data["ancestors"].sort(sortById);
+                
+                data["act"] = [{
+                		"@id" : data["ancestors"][0]["@id"],
+                		"actId" : data["actId"][0],
+                		"actTitle" : data["actTitle"][0]
+                }]
+                data["ancestors"].splice(0, 1);
+                
                 _.each(data["ancestors"], function(ancestor) {
                     path.push([ancestor["type"], ancestor["identifier"]]);
                     if (_.isArray(ancestor["realization"])) {
@@ -105,7 +113,7 @@ module.exports = function(routeParams) {
                 "type" : ["string", ""],
                 "identifier": ["string", ""],
                 "realization": ["string", ""]
-            }, []]
+            }, []],
         }
     };
 
