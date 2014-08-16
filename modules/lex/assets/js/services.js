@@ -46,7 +46,6 @@
             this.fixSectionsInActText = function(rootElement) {
 
                 rootElement.find("section.odstavec, section.pismeno, section.bod").each(function() {
-                    console.log(this);
                     var self = angular.element(this);
                     var delimiter = self.hasClass('bod') ? '.' : ")";
                     var firstParagraph = self.children("p");
@@ -66,7 +65,6 @@
 
             this.addLinksToActText = function(rootElement, actUri) {
                 var content = rootElement.find("section.obsah");
-                //console.log(content);
                 content.find("section").each(function() {
                     var self = angular.element(this);
                     var a = angular.element('<a click type="lex:ActSection"></a>');
