@@ -63,7 +63,7 @@
                         if (actText["@graph"].length > 0) {
                             var doc = angular.element("<div>" + actText["@graph"][0]["htmlValue"] + "</div>");
                             doc = LexActService.fixSectionsInActText(doc);
-                            doc = LexActService.addLinksToActText(doc, $scope.resource);
+                            doc = LexActService.addLinksToActText(doc, $scope.resource, $scope.version);
                             $scope.actText = doc.html();
                         }
                         else $scope.actText = null;
@@ -75,9 +75,9 @@
                 if (angular.isDefined(changes.resource)) {
                     updateResource()
                         .then(function() {
-                            if (angular.isUndefined($scope.version)) {
+                            if (angular.isUndefined($scope.version) && angular.isDefined($scope.actDetail["lastVersion"])) {
                                 $log.debug("LexActDetailController.update: setting version parameter");
-                                AppService.setParam("version", version, true);
+                                AppService.setParam("version", $scope.actDetail["lastVersion"], true);
                             }
                             resourceLoaded.resolve();
                         });

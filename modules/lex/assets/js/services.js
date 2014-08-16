@@ -63,12 +63,13 @@
                 return rootElement
             };
 
-            this.addLinksToActText = function(rootElement, actUri) {
+            this.addLinksToActText = function(rootElement, actUri, actExpressionUri) {
                 var content = rootElement.find("section.obsah");
                 content.find("section").each(function() {
                     var self = angular.element(this);
                     var a = angular.element('<a click type="lex:ActSection"></a>');
                     a.attr("resource", actUri + '/' + self.attr("resource"));
+                    a.attr("version", actExpressionUri + '/' + self.attr("resource"));
 
                     if (self.hasClass("odstavec") || self.hasClass("pismeno") || self.hasClass("bod")) {
                         self.children("p").children("span.identifier").wrapInner(a);

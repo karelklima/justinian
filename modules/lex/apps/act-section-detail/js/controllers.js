@@ -4,11 +4,12 @@
 
             $scope.actSectionDetail = undefined;
             $scope.actDetail = undefined;
+            $scope.actVersions = undefined;
             $scope.actVersion = undefined;
             $scope.actText = undefined;
 
             $scope.isEmpty = function () {
-                return angular.isDefined($scope.actDetail) && $scope.actDetail.length === 0;
+                return $scope.actDetail === null;
             };
 
             $scope.isTextLoading = function () {
@@ -16,7 +17,7 @@
             };
 
             $scope.isTextEmpty = function () {
-                return angular.isDefined($scope.actText) && $scope.actText.length === 0;
+                return $scope.actText === null;
             };
 
             this.update = function (changes) {
@@ -24,44 +25,39 @@
                     AppService.pageNotFound();
                     return;
                 }
-                $log.debug("LexActSectionDetailController.update: running update");
-                var updateVersion = function () {
-                    $log.debug("LexActSectionDetailController.update: retrieving latest act section version");
-                    var actDetailPromise = AppService.getData($scope, 'lex', 'act-section-detail', {resource: $scope.resource});
-                    actDetailPromise.then(function (actSectionDetail) {
-                        if (actSectionDetail["@graph"].length > 0) {
-                            var version = actSectionDetail["@graph"][0]["expression"];
-                            $log.debug("LexActDetailController.update: setting version parameter");
-                            AppService.setParam("version", version, true);
-                        } else {
-                            $scope.actSectionDetail = {}; // empty result indicator
-                        }
-                    });
-                    return actDetailPromise;
-                };
+                $log.debug("LexActDetailController.update: running update");
 
-                var updateData = function () {
+                var updateResource = function() {
 
-                    var deferred = $q.defer();
+                    $scope.actDetail = undefined;
+                    $scope.actVersions = undefined;
 
-                    var getDetailPromise = AppService.getData($scope, 'lex', 'act-section-detail', {'resource': $scope.resource});
+                    var getDetailPromise = AppService.getData($scope, 'lex', 'act-detail', {'resource': $scope.resource});
                     getDetailPromise.then(function (actDetail) {
                         if (actDetail["@graph"].length > 0) {
                             $scope.actDetail = actDetail["@graph"][0];
                             AppService.setTitle("Předpis č. " + $scope.actDetail["identifier"]);
                         }
-                        else $scope.actDetail = {};
+                        else {
+                            $scope.actDetail = null;
+                            AppService.setTitle("Předpis nenalezen");
+                        }
                     });
 
                     var getVersionsPromise = AppService.getData($scope, 'lex', 'act-versions', {'resource': $scope.resource})
-                    getVersionsPromise.then(function(actVersions) {
+                    getVersionsPromise.then(function (actVersions) {
                         $scope.actVersion = undefined;
-                        angular.forEach(actVersions["@graph"], function(version, key) {
-                            if (version["@id"] == $scope.version) {
-                                $scope.actVersion = version;
-                            }
+                        angular.forEach(actVersions["@graph"], function (version, key) {
+                            $scope.actVersions = actVersions["@graph"];
                         });
                     });
+
+                    return $q.all([getDetailPromise, getVersionsPromise])
+                };
+
+                var updateVersion = function() {
+
+                    $scope.actText = undefined;
 
                     var getTextPromise = AppService.getData($scope, 'lex', 'act-text', {'resource': $scope.version});
                     getTextPromise.then(function (actText) {
@@ -71,31 +67,52 @@
                             doc = LexActService.addLinksToActText(doc, $scope.resource);
                             $scope.actText = doc.html();
                         }
-                        else $scope.actText = "";
+                        else $scope.actText = null;
                     });
-
-                    $q.all([getDetailPromise, getVersionsPromise, getTextPromise])
-                        .then(function () {
-                            deferred.resolve();
-                            $log.debug("LexActDetailController.update: updateData resolved");
-                        });
-
-                    return deferred.promise;
+                    return $q.all([getTextPromise]);
                 };
 
-
-                if (!angular.isDefined($scope.version)) {
-                    updateVersion();
-                } else {
-                    $log.debug("LexActDetailController.update: updateData starting");
-                    $scope.actText = undefined;
-                    updateData()
-                        .then(function () {
-                            $log.debug("LexActDetailController.update: updateData after resolve");
-                            $scope.$broadcast('anchor-scroll', {target: 'section[resource="' + $scope.section + '"]'});
-
+                var resourceLoaded = $q.defer();
+                if (angular.isDefined(changes.resource)) {
+                    updateResource()
+                        .then(function() {
+                            if (angular.isUndefined($scope.version)) {
+                                $log.debug("LexActDetailController.update: setting version parameter");
+                                AppService.setParam("version", version, true);
+                            }
+                            resourceLoaded.resolve();
                         });
+                } else {
+                    resourceLoaded.resolve();
                 }
+
+                var versionLoaded = $q.defer();
+                resourceLoaded.promise.then(function() {
+                    if (angular.isDefined($scope.resource) && angular.isDefined(changes.version)) {
+
+                        $scope.actVersion = undefined;
+                        angular.forEach($scope.actVersions, function (version, key) {
+                            console.log(version);
+                            if (version['@id'] == $scope.version) {
+                                $scope.actVersion = version;
+                            }
+                        });
+
+                        updateVersion()
+                            .then(function () {
+                                versionLoaded.resolve();
+                            });
+                    } else {
+                        versionLoaded.resolve();
+                    }
+                });
+
+                versionLoaded.promise.then(function() {
+                    $log.debug("LexActDetailController.update: update complete");
+                    if (angular.isDefined(changes.section)) {
+                        $scope.$broadcast('anchor-scroll', {target: 'section[resource="' + $scope.section + '"]'});
+                    }
+                });
 
             };
 
