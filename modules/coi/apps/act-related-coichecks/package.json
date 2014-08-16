@@ -1,7 +1,7 @@
 {
     "title" : "Kontroly ČOI",
     "datatypes" : ["lex:Act"],
-    "views": ["sidebar"],
+    "views": ["sidebar","main"],
     "dependencies": {
         "lex": ["act-detail"]
     },

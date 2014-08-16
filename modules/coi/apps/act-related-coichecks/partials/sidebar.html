@@ -1,28 +1,33 @@
-<div ng-controller="ActRelatedCoiChecksController" sidebar-app heading="Kontroly ČOI">
+<div ng-controller="ActRelatedCoiChecksController" sidebar-app heading="Kontroly ČOI" set-open="false">
 
-    <div ng-hide="isLoading || isEmpty()">
+    <table class="table table-condensed" ng-hide="isLoading || isEmpty()">
+        <tr>
+            <th>Název</th>
+            <th>Kraj</th>
+            <th>Subjekt</th>
+        </tr>
+        <tr ng-repeat="check in checks | limitTo : limit">
+            <td nowrap>
+                <a click module="coi" application="checkaction-detail" act="{{ check['@id'] }}">{{ check['title'] }}</a><br/>
+                <small class="text-muted">{{ check['dateIso'] | formatDate }}</small>
+            </td>
+            <td nowrap>
+                <abbr title="{{ check['location'] }}">{{ check['location'] | abbreviateRegion }}</abbr>
+            </td>
+            <td>
+                {{ check['object'] | join }}
+            </td>
+        </tr>
+        <tr ng-show="isShowMore()">
+            <td colspan="3" class="text-right">
+                <a class="btn btn-primary" click module="coi" application="act-related-coichecks" resource="{{ resource }}">Zobrazit vše</a>
+            </td>
+        </tr>
+    </table>
 
-        <table class="table" ng-hide="isLoading || isEmpty()">
-            <tr>
-                <th><a ng-click="sortBy('-dateIso')">Datum</a></th>
-                <th><a ng-click="sortBy('locationShort')">Kraj</a></th>
-                <th><a ng-click="sortBy('object')">Subjekt</a></th>
-            </tr>
-            <tr ng-repeat="check in checks | orderBy: predicate : reverse">
-                <td nowrap><a click module="coi" application="checkaction-detail" act="{{resource}}">{{ check['dateIso'] | formatDate }}</a></td>
-                <td><abbr title="{{ check['location'] }}">{{ check['location'] | abbreviateRegion }}</abbr></td>
-                <td>{{ check['object'] | join }}</td>
-            </tr>
-        </table>
+    <div datapager source="datasource" target="checks" items-per-page="10" hide-controls="true"></div>
 
-        <div class="text-center" ng-show="false">
-                <div pagination ng-model="page" total-items="checks.length" items-per-page="limit" max-size="size" class="pagination-sm" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;"></div>
-        </div>
-
-        <a class="btn btn-primary pull-right" click module="coi" application="checkactions" act="{{resource}}">Zobrazit všechny kontroly</a>
-
-    </div>
-
-    <div ng-show="isEmpty()">Žádné dostupné kontroly.</div>
+    <div ng-show="isLoading">Načítám data</div>
+    <div ng-show="!isLoading && isEmpty()">Žádné dostupné kontroly.</div>
 
 </div>
