@@ -25,10 +25,7 @@
             <th>Předmět</th>
         </tr>
         <tr ng-repeat="decision in decisions">
-            <td nowrap ng-show="decision['hasText'] === 0">
-                {{ decision['title'] }}
-            </td>
-            <td nowrap ng-show="decision['hasText'] === 1">
+            <td nowrap>
                 <a click module="court" application="decision-detail" resource="{{decision['@id']}}">{{decision['title']}}</a><br/>
                 <small class="text-muted">{{decision['issuedIso'] | formatDate}}</small>
             </td>

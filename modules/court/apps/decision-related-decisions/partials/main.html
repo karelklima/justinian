@@ -18,10 +18,7 @@
             <th><a ng-click="sortBy('object')">Předmět</a></th>
         </tr>
         <tr ng-repeat="decision in decisions | orderBy: predicate : reverse">
-            <td nowrap ng-show="decision['hasText'] === 0">
-                {{ decision['title'] }}
-            </td>
-            <td nowrap ng-show="decision['hasText'] === 1">
+            <td nowrap>
                 <a click module="court" application="decision-detail" resource="{{ decision['@id'] }}">{{ decision['title'] }}</a>
             </td>
             <td nowrap>

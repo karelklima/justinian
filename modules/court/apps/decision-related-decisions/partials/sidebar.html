@@ -20,7 +20,7 @@
             </td>
         </tr>
         <tr ng-repeat="decision in decisions | filter : {hasText: 0}" ng-show="collapsed">
-            <td colspan="2">{{ decision['title'] }}</td>
+            <td colspan="2"><a click module="court" application="decision-detail" resource="{{ decision['@id'] }}">{{ decision['title'] }}</a></td>
         </tr>
         <tr ng-show="isShowMore()">
             <td colspan="2" class="text-right">
