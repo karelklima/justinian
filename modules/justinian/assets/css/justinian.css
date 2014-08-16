@@ -39,3 +39,9 @@
 .justinian-footer .logo-container:hover {
     text-decoration: none;
 }
+
+@media (max-width: 767px) {
+    .justinian-footer div {
+        text-align: center;
+    }
+}
