@@ -28,7 +28,10 @@
                 <a click module="coi" application="checkaction-detail" resource="{{ checkaction['@id'] }}">{{ checkaction['title'] }}</a><br/>
                 <small class="text-muted">{{ checkaction['dateIso'] | formatDate }}</small>
             </td>
-            <td>{{ checkaction["street"] }}</td>
+            <td>
+                {{ checkaction["objectName"] }}<br/>
+                <small class="text-muted">{{ checkaction["street"] }}</small>
+            </td>
             <td>
                 {{checkaction['locality'] }}<br/>
                 <small class="text-muted">{{checkaction['zipcode'] }}</small>
