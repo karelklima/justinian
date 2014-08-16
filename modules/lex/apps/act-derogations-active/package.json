@@ -1,0 +1,6 @@
+{
+    "title": "Derogace aktivní",
+    "views": ["main", "sidebar"],
+    "datatypes": ["lex:Act"],
+    "priority": 40
+}

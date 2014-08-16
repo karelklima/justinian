@@ -1,0 +1,42 @@
+<div ng-controller="LexActDerogationsActiveController" main-app>
+
+    <div app-bar adjust-on="actDetail">
+        <div class="clearfix">
+            <div class="navbar-right">
+                <span app-bar-toolbox></span>
+            </div>
+            <div class="navbar-brand">
+                <a click module="lex" application="act-derogations-active" resource="{{resource}}">
+                    Předpis č. {{actIdentifier}} &ndash; derogace aktivní
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <p class="text-right"><a class="text-muted" click module="lex" application="act-detail" resource="{{resource}}">Zpět na předpis č. {{actIdentifier}}</a></p>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-condensed" ng-show="!datasource.isEmpty">
+        <tr>
+
+        </tr>
+        <tr ng-repeat="derogation in derogations">
+            <td>
+                <a click module="lex" application="act-detail" resource="{{derogation.act}}" version="{{derogation.result}}">{{derogation.actId}}</a><br>
+                <small class="text-muted">{{derogation.type}}</small>
+            </td>
+            <td>{{derogation.actTitle}}</td>
+        </tr>
+    </table>
+
+    <div spinner-bar ng-show="datasource.isLoading"></div>
+
+    <div ng-show="datasource.isEmpty" class="alert alert-warning">
+        Nenalezeny žádné záznamy.
+    </div>
+
+    <div datapager source="datasource" target="derogations" items-per-page="100"></div>
+
+</div>
