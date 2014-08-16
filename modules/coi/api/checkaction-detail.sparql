@@ -3,6 +3,7 @@ PREFIX s: <http://schema.org/>
 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX ares: <http://linked.opendata.cz/ontology/ares#>
 PREFIX regorg: <http://www.w3.org/ns/regorg#>
+PREFIX coicz: <http://linked.opendata.cz/ontology/coi.cz/>
 PREFIX my: <http://>
 
 PREFIX check: <{{"param": "resource", "filter": "RemoveLTGT"}}>
