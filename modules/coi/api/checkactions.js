@@ -6,7 +6,10 @@ module.exports = function(routeParams) {
 
     route.prepareParams = function(params) {
     	var outputParams = {};
-    	outputParams.values = " ";
+    	outputParams.values = "?check dcterms:date ?date. \n";
+    	
+    	if( ! _.isUndefined(params["dateGT"]) || ! _.isUndefined(params["dateLT"]))
+    		outputParams.values = "";
     	
     	for(var param in params) {
     		
@@ -15,7 +18,7 @@ module.exports = function(routeParams) {
     		
     		// construct the SPARQL query
     		switch(param) {
-    			case "region" : outputParams.values += "?check s:addressRegion \"" + params["region"] + "\".\n"; break;
+    			case "region" : outputParams.values += "?location s:addressRegion \"" + params["region"] + "\".\n"; break;
     			case "state"  : outputParams.values += "?check s:object/ares:stav-zivnosti/skos:prefLabel \"" + params["state"] + "\"@cs.\n"; break;
     			case "dateGT" : outputParams.values += "?check dcterms:date ?date. \nFILTER ( ?date >= \"" + params["dateGT"] + "\"^^xsd:date)\n"; break;
     			case "dateLT" : outputParams.values += "?check dcterms:date ?date. \nFILTER ( ?date <= \"" + params["dateLT"] + "\"^^xsd:date)\n"; break;
@@ -80,11 +83,9 @@ module.exports = function(routeParams) {
             	"@language": "cs"
         	},
             "trade" : "http://trade",
-            //"activity" : "http://activity",
             "result" : "http://result",	
         }
     };
-
 
     route.getModel = function() {
         return {
@@ -96,9 +97,8 @@ module.exports = function(routeParams) {
         	"locality" : ["string", ""],
         	"street" : ["string", ""],
         	"objectName" : ["string", ""],
-            "tradeState" : ["string", ""],
-            "trade" : ["object", []],
-            //"activityName" : ["object", []],            
+            //"tradeState" : ["string", ""],
+            //"trade" : ["object", []],         
             "result" : ["object", []]		
         }
     };

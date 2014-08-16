@@ -13,10 +13,8 @@ CONSTRUCT{
   ?check my:zipcode ?zipcode.
   ?check my:street ?street.
   ?check my:objectName ?objectName.
-  ?check my:state ?stateLabel.
-  ?check my:trade ?tradeTitle.
-# ?check my:activity ?activity.
-# ?activity my:hasLabel ?activityLabel.
+#  ?check my:state ?stateLabel.
+#  ?check my:trade ?tradeTitle.
   ?check my:result ?result.
   
 }
@@ -29,22 +27,26 @@ FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/zajisteni>
 FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/zakazy>
 
 WHERE {  
-SELECT DISTINCT ?check ?id ?date ?locality ?zipcode ?region ?street ?objectName ?stateLabel ?tradeTitle ?result #?activity ?activityLabel 
+SELECT DISTINCT ?check ?id ?date ?locality ?zipcode ?region ?street ?objectName ?result #?tradeTitle ?stateLabel 
 WHERE {
   
   {
   SELECT DISTINCT ?check ?id ?date ?locality ?zipcode ?region ?street
   WHERE {
+	?check a s:CheckAction.		# just because of performance
     ?check skos:notation ?id.
     ?check s:location ?location.
     ?location s:postalCode ?zipcode.
     OPTIONAL {
-    ?location s:addressLocality ?locality.
-    ?location s:addressRegion ?region.
+    	?location a s:PostalAddress. # just because of performance
+    	?location s:addressLocality ?locality.
+    	?location s:addressRegion ?region.
+    	#?location s:streetAddress ?street.
     }
     OPTIONAL {?location s:streetAddress ?street.}
-    OPTIONAL { ?check dcterms:date ?date. }
-    {{"param" : "values"}}
+
+{{"param" : "values"}}
+  
   }
   ORDER BY DESC(?date)
   OFFSET {{"param": "offset", "default": "0"}}
@@ -52,23 +54,30 @@ WHERE {
   }
 
   OPTIONAL {
+  	?check a s:CheckAction.		# just because of performance
     ?check s:object ?object.
-    ?object regorg:orgActivity ?activity.
     ?object gr:legalName ?objectName.
-    ?object ares:stav-zivnosti/skos:prefLabel ?stateLabel.
-    ?object ares:zivnost ?zivnost.
-    ?zivnost dcterms:title ?tradeTitle.
-    #?object regorg:orgActivity ?activity.
-    #?activity skos:prefLabel ?activityLabel.
+# WAITING FOR A <http://linked.opendata.cz/resource/dataset/ares/rzp> DATASET:
+#    ?object regorg:orgActivity ?activity.
+#    ?object ares:stav-zivnosti/skos:prefLabel ?stateLabel.	
+#    ?object ares:zivnost ?zivnost.
+#    ?zivnost dcterms:title ?tradeTitle.
+
   }
   
   OPTIONAL {
     {
-    GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/sankce>{    ?check s:result ?result.}
+    GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/sankce>{
+    	?check s:result ?result.
+    }
     } UNION {
-    GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/zajisteni>{    ?check s:result ?result.}
+    GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/zajisteni>{
+    	?check s:result ?result.
+    }
     } UNION {
-    GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/zakazy>{    ?check s:result ?result.}
+    GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/zakazy>{
+    	?check s:result ?result.
+    }
     }
   }
 }
