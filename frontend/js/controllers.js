@@ -9,14 +9,18 @@ appControllers.controller('RootController', ['$scope', 'ConfigurationService', '
     // pokud mame url ve tvaru /#?type=xxx&resource=yyy najdeme defaultni aplikaci pro zadany typ
     if (!UrlService.isParam('module') && !UrlService.isParam('application')
         && UrlService.isParam('type') && UrlService.isParam('resource')) {
+
         var path = ConfigurationService.getDefaultModuleApplication(UrlService.getParam('type'));
+
+        var params = UrlService.getAllParams();
         if (angular.isDefined(path)) {
-            path.resource = UrlService.getParam('resource');
-            delete path.priority;
-            UrlService.setUrl(path, true);
+            delete params["type"];
+            angular.extend(params, path)
         } else {
-            UrlService.setUrl(configuration.application.home, true);
+            params = ConfigurationService.getPageNotFoundApplication();
         }
+
+        UrlService.setUrl(params, true);
         return;
     }
 
