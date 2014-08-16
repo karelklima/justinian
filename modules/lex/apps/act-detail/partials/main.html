@@ -1,21 +1,19 @@
 <div ng-controller="LexActDetailController" main-app anchor-scroll offset-top="150">
     <div app-bar adjust-on="actDetail">
         <div class="clearfix">
-        <div class="navbar-brand">
-            <a click module="lex" application="act-detail" resource="{{resource}}">
-                Předpis č. {{actDetail["identifier"]}}
-            </a>
-        </div>
-        <div class="navbar-right">
-            <span app-bar-toolbox></span>
-        </div>
+            <div class="navbar-right">
+                <span app-bar-toolbox></span>
+            </div>
+            <div class="navbar-brand">
+                <a click module="lex" application="act-detail" resource="{{resource}}">
+                    Předpis č. {{actDetail["identifier"]}} bla bla bla bla bla nbla lasd asodi jasod ijasod  asd oais daosid asdo iasd oasid asd
+                </a>
+            </div>
         </div>
         <div class="row">
-            <div class="col-sm-8">
-                <p>{{actDetail["title"]}}</p>
-            </div>
-            <div class="col-sm-4">
+            <div class="col-sm-12 clearfix">
                 <p class="pull-right text-muted">Znění platné od {{actVersion.validIso | formatDate}}</p>
+                <p>{{actDetail["title"]}}</p>
             </div>
         </div>
     </div>

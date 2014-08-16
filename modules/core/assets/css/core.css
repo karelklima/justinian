@@ -89,6 +89,8 @@
 
 .app-bar .navbar > .container-fluid .navbar-brand {
     margin-left: -15px;
+    float: none;
+    height: auto;
 }
 
 .app-bar .navbar-nav {
