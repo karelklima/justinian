@@ -4,20 +4,20 @@
 
             $scope.actSectionDetail = undefined;
             $scope.actDetail = undefined;
-            $scope.actVersions = undefined;
-            $scope.actVersion = undefined;
-            $scope.actText = undefined;
+            $scope.actSectionVersions = undefined;
+            $scope.actSectionVersion = undefined;
+            $scope.actSectionText = undefined;
 
             $scope.isEmpty = function () {
-                return $scope.actDetail === null;
+                return $scope.actSectionDetail === null;
             };
 
             $scope.isTextLoading = function () {
-                return angular.isUndefined($scope.actText);
+                return angular.isUndefined($scope.actSectionText);
             };
 
             $scope.isTextEmpty = function () {
-                return $scope.actText === null;
+                return $scope.actSectionText === null;
             };
 
             this.update = function (changes) {
@@ -29,27 +29,29 @@
 
                 var updateResource = function() {
 
+                    $scope.actSectionDetail = undefined;
                     $scope.actDetail = undefined;
-                    $scope.actVersions = undefined;
+                    $scope.actSectionVersions = undefined;
+                    $scope.actSectionVersion = undefined;
+                    $scope.actSectionText = undefined;
 
-                    var getDetailPromise = AppService.getData($scope, 'lex', 'act-detail', {'resource': $scope.resource});
+                    var getDetailPromise = AppService.getData($scope, 'lex', 'act-section-detail', {'resource': $scope.resource});
                     getDetailPromise.then(function (actDetail) {
                         if (actDetail["@graph"].length > 0) {
-                            $scope.actDetail = actDetail["@graph"][0];
-                            AppService.setTitle("Předpis č. " + $scope.actDetail["identifier"]);
+                            $scope.actSectionDetail = actDetail["@graph"][0];
+                            $scope.actDetail = $scope.actSectionDetail["act"][0];
+                            AppService.setTitle("Předpis č. " + $scope.actDetail["actId"] + ", " + $scope.actSectionDetail["title"]);
                         }
                         else {
+                            $scope.actSectionDetail = null;
                             $scope.actDetail = null;
                             AppService.setTitle("Předpis nenalezen");
                         }
                     });
 
-                    var getVersionsPromise = AppService.getData($scope, 'lex', 'act-versions', {'resource': $scope.resource})
+                    var getVersionsPromise = AppService.getData($scope, 'lex', 'act-section-versions', {'resource': $scope.resource})
                     getVersionsPromise.then(function (actVersions) {
-                        $scope.actVersion = undefined;
-                        angular.forEach(actVersions["@graph"], function (version, key) {
-                            $scope.actVersions = actVersions["@graph"];
-                        });
+                        $scope.actSectionVersions = actVersions["@graph"];
                     });
 
                     return $q.all([getDetailPromise, getVersionsPromise])
@@ -57,17 +59,17 @@
 
                 var updateVersion = function() {
 
-                    $scope.actText = undefined;
+                    $scope.actSectionText = undefined;
 
-                    var getTextPromise = AppService.getData($scope, 'lex', 'act-text', {'resource': $scope.version});
-                    getTextPromise.then(function (actText) {
-                        if (actText["@graph"].length > 0) {
-                            var doc = angular.element("<div>" + actText["@graph"][0]["htmlValue"] + "</div>");
+                    var getTextPromise = AppService.getData($scope, 'lex', 'act-section-text', {'resource': $scope.version});
+                    getTextPromise.then(function (actSectionText) {
+                        if (actSectionText["@graph"].length > 0) {
+                            var doc = angular.element("<div>" + actSectionText["@graph"][0]["htmlValue"] + "</div>");
                             doc = LexActService.fixSectionsInActText(doc);
                             doc = LexActService.addLinksToActText(doc, $scope.resource);
-                            $scope.actText = doc.html();
+                            $scope.actSectionText = doc.html();
                         }
-                        else $scope.actText = null;
+                        else $scope.actSectionText = null;
                     });
                     return $q.all([getTextPromise]);
                 };
@@ -76,9 +78,9 @@
                 if (angular.isDefined(changes.resource)) {
                     updateResource()
                         .then(function() {
-                            if (angular.isUndefined($scope.version)) {
+                            if (angular.isUndefined($scope.version) && angular.isDefined($scope.actSectionDetail)) {
                                 $log.debug("LexActDetailController.update: setting version parameter");
-                                AppService.setParam("version", version, true);
+                                AppService.setParam("version", $scope.actSectionDetail["expression"], true);
                             }
                             resourceLoaded.resolve();
                         });
@@ -90,11 +92,10 @@
                 resourceLoaded.promise.then(function() {
                     if (angular.isDefined($scope.resource) && angular.isDefined(changes.version)) {
 
-                        $scope.actVersion = undefined;
-                        angular.forEach($scope.actVersions, function (version, key) {
-                            console.log(version);
+                        $scope.actSectionVersion = undefined;
+                        angular.forEach($scope.actSectionVersions, function (version, key) {
                             if (version['@id'] == $scope.version) {
-                                $scope.actVersion = version;
+                                $scope.actSectionVersion = version;
                             }
                         });
 

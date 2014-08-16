@@ -1,5 +1,5 @@
 <div ng-controller="LexActSectionDetailController" main-app anchor-scroll offset-top="150">
-    <div app-bar adjust-on="actDetail">
+    <div app-bar adjust-on="actSectionDetail">
         <div class="clearfix">
             <div class="navbar-right">
                 <span app-bar-toolbox></span>
@@ -8,20 +8,20 @@
                 <a click module="lex" application="act-detail" resource="{{resource}}">
                     Předpis
                     <span ng-show="isEmpty()"> nenalezen</span>
-                    <span ng-show="!isEmpty()"> č. {{actDetail["identifier"]}}</span>
+                    <span ng-show="!isEmpty()"> č. {{actDetail["actId"]}}, {{actSectionDetail["title"]}}</span>
                 </a>
             </div>
         </div>
         <div class="row">
             <div class="col-sm-12 clearfix">
-                <p class="pull-right text-muted" ng-show="!isEmpty()">Znění platné od {{actVersion.validIso | formatDate}}</p>
-                <p>{{actDetail["title"]}}</p>
+                <p class="pull-right text-muted" ng-show="!isEmpty()">Znění platné od {{actSectionVersion.validIso | formatDate}}</p>
+                <p>{{actDetail["actTitle"]}}</p>
             </div>
         </div>
     </div>
 
     <div ng-hide="isTextLoading() || isEmpty()">
-        <div class="lex-act-text" compile="actText"></div>
+        <div class="lex-act-text" compile="actSectionText"></div>
     </div>
 
     <div ng-show="isTextLoading()" spinner-bar></div>

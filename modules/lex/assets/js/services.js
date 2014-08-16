@@ -65,6 +65,9 @@
 
             this.addLinksToActText = function(rootElement, actUri, actExpressionUri) {
                 var content = rootElement.find("section.obsah");
+                if (content.length < 1) {
+                    content = rootElement; // part of act
+                }
                 content.find("section").each(function() {
                     var self = angular.element(this);
                     var a = angular.element('<a click type="lex:ActSection"></a>');
