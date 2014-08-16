@@ -14,7 +14,7 @@
         </div>
         <div class="row">
             <div class="col-sm-12 clearfix">
-                <p class="pull-right text-muted" ng-show="!isEmpty()">Znění platné od {{actVersion.validIso | formatDate}}</p>
+                <p class="pull-right text-muted" ng-show="!isEmpty() && actVersion.validIso.length>0">Znění platné od {{actVersion.validIso | formatDate}}</p>
                 <p>{{actDetail["title"]}}</p>
             </div>
         </div>

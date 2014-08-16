@@ -1,11 +1,33 @@
-<div ng-controller="LexActCompareController">
+<div ng-controller="LexActCompareController" main-app anchor-scroll offset-top="150">
+    <div app-bar adjust-on="actDetail">
+        <div class="clearfix">
+            <div class="navbar-right">
+                <span app-bar-toolbox></span>
+            </div>
+            <div class="navbar-brand">
+                <a click module="lex" application="act-detail" resource="{{resource}}">
+                    Předpis
+                    <span ng-show="isEmpty()"> nenalezen</span>
+                    <span ng-show="!isEmpty()"> č. {{actDetail["identifier"]}}</span>
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 clearfix">
+                <p>{{actDetail["title"]}}</p>
+            </div>
+        </div>
+    </div>
     <div>
-        <h1>Předpis č. {{actDetail["identifier"]}}</h1>
-        <h2>{{actDetail["title"]}}</h2>
         <div ng-hide="isTextLoading() || isEmpty()">
             <div class="lex-act-text" compile="actText"></div>
         </div>
+
         <div ng-show="isTextLoading()" spinner-bar></div>
-        <div ng-show="isTextEmpty()">Text není dostupný.</div>
+        <div ng-show="isEmpty()" class="alert alert-warning">
+            Předpis nenalezen!<br>
+            Zkuste ho najít pomocí vyhledávacího pole nahoře.
+        </div>
+        <div ng-show="isTextEmpty() && !isEmpty()" class="alert alert-warning">Text pro tento předpis není dostupný.</div>
     </div>
 </div>
