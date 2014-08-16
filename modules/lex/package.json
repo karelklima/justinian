@@ -10,6 +10,8 @@
     "apis": {
     	"acts" : {"limit": "10", "offset": "0"},
         "act-detail": {"resource": ""},
+        "act-derogations-active" : {"resource": "", "limit" : "10", "offset" : "0"},
+        "act-derogations-passive" : {"resource": "", "limit" : "10", "offset" : "0"},
         "act-section-detail": {"resource": ""},
         "act-section-versions" : {"resource": "", "limit" : "10", "offset" : "0"},
     	"act-versions": {"resource": "", "limit" : "100", "offset" : "0"},
