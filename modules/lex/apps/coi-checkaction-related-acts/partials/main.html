@@ -1,0 +1,31 @@
+<div ng-controller="CoiCheckactionsRelatedActsController" main-app>
+    <div app-bar>
+        <div class="clearfix">
+            <div class="navbar-right">
+                <span app-bar-toolbox></span>
+            </div>
+            <div class="navbar-brand">
+                <a click module="lex" application="coi-checkaction-related-acts" resource="{{resource}}">Zákony ke kontrole ČOI č. {{coiIdentifier}}</a>
+            </div>
+        </div>
+        <p class="text-right"><a class="text-muted" click module="coi" application="checkaction-detail" resource="{{resource}}">Zpět na kontrolu ČOI č. {{coiIdentifier}}</a></p>
+    </div>
+
+    <table class="table">
+        <tr>
+            <th><a ng-click="sortBy('identifier')">Označení</a></th>
+            <th><a ng-click="sortBy('-issuedIso')">Datum</a></th>
+            <th><a ng-click="sortBy('title')">Název</a></th>
+        </tr>
+        <tr ng-repeat="act in acts | orderBy: predicate : reverse">
+            <td nowrap><a click module="lex" application="act-detail" resource="{{ act['@id'] }}">{{ act['identifier'] }}</a></td>
+            <td nowrap>{{ act['issuedIso'] | formatDate }}</td>
+            <td>{{ act['title'] }}</td>
+        </tr>
+    </table>
+
+    <div spinner-bar ng-show="isLoading"></div>
+
+    <div datapager source="datasource" target="acts" items-per-page="20"></div>
+
+</div>

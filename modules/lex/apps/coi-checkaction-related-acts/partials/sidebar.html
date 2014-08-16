@@ -1,0 +1,28 @@
+<div ng-controller="CoiCheckactionsRelatedActsController" sidebar-app heading="Zákony" set-open="false">
+
+    <table class="table table-condensed" ng-hide="isLoading || isEmpty()">
+        <tr>
+            <th>Označení</th>
+            <th>Datum</th>
+        </tr>
+        <tr ng-repeat="act in acts | limitTo : limit">
+            <td nowrap>
+                <abbr title="{{ act['title'] }}"><a click module="lex" application="act-detail" resource="{{ act['@id'] }}">{{ act['identifier'] }}</a></abbr>
+            </td>
+            <td nowrap>
+                {{ act['issuedIso'] | formatDate }}
+            </td>
+        </tr>
+        <tr ng-show="isShowMore()">
+            <td colspan="3" class="text-right">
+                <a class="btn btn-primary" click module="lex" application="coi-checkaction-related-acts" resource="{{ resource }}">Zobrazit vše</a>
+            </td>
+        </tr>
+    </table>
+
+    <div datapager source="datasource" target="acts" items-per-page="10" hide-controls="true"></div>
+
+    <div ng-show="isLoading">Načítám data</div>
+    <div ng-show="!isLoading && isEmpty()">Žádné dostupné zákony.</div>
+
+</div>

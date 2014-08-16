@@ -1,0 +1,9 @@
+{
+    "title" : "Zákony",
+    "datatypes" : ["s:CheckAction"],
+    "views": ["sidebar","main"],
+    "dependencies": {
+        "coi": ["checkaction-detail"]
+    },
+    "priority" : -1
+}
