@@ -9,7 +9,8 @@
         "business-entity:" : "http://linked.opendata.cz/resource/business-entity/"
     },
     "apis": {
-        "act-related-coichecks": {"resource": ""},
-        "checkactions-filters": {}
+        "act-related-coichecks": {"resource": "", "limit": "10", "offset": "0"},
+        "checkactions-filters": {},
+        "checkaction-detail": {"resource": ""}
     }
 }
