@@ -52,7 +52,7 @@
                         .then(function(decisionDetail) {
                             if (angular.isArray(decisionDetail["@graph"])) {
                                 $scope.decisionIdentifier = decisionDetail["@graph"][0]["identifier"];
-                                AppService.setTitle("Kontroly ČOI k předpisu č. " + $scope.decisionIdentifier);
+                                AppService.setTitle("Judikáty k judikátu č. " + $scope.decisionIdentifier);
                             }
                         });
                 }
