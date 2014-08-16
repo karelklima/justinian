@@ -2,7 +2,7 @@
     angular.module('appControllers')
         .controller('CoiCheckactionsController', ['$scope', '$filter', 'AppService', function ($scope, $filter, AppService) {
 
-            var filters = [];
+            var filters = ['region', 'dateGT', 'dateLT'];
             $scope.filterParams = {};
 
             $scope.checkactions = undefined;
@@ -46,32 +46,17 @@
                         var title = $scope[filter];
 
                         switch (filter) {
-                            case "creator":
+                            case "region":
                                 break;
-                            case "subject":
-                                break;
-                            case "minDate":
+                            case "minDateIso":
                                 prefix = "od ";
                                 title = $filter('date')(title, "dd. MM. yyyy");
                                 break;
-                            case "maxDate":
+                            case "maxDateIso":
                                 prefix = "do ";
                                 title = $filter('date')(title, "dd. MM. yyyy");
                                 break;
-                            case "query":
-                                prefix = "text ";
-                                break;
-                            case 'kind':
-                                break;
-                            case 'category':
-                                prefix = "kategorie ";
-                                break;
-                            case 'identifier':
-                                break;
-                            case 'hasText':
-                                title = "judikáty s dostupným textem";
-                                break;
-                        } // FIXME
+                        }
 
                         $scope.filters.push({
                             prefix: prefix,

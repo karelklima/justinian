@@ -1,0 +1,7 @@
+{
+    "title" : "Kontroly ČOI - vyhledávání",
+    "views": ["sidebar"],
+    "dependencies" : {
+        "coi" : ["checkactions"]
+    }
+}
