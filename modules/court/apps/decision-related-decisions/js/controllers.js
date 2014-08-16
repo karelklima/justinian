@@ -5,7 +5,7 @@
             $scope.decisions = undefined;
             $scope.predicate = '-issuedIso';
             $scope.reverse = false;
-            $scope.limit = 2;
+            $scope.limit = 9;
 
             $scope.decisionIdentifier = undefined;
 
