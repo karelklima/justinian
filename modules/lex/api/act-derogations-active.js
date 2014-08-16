@@ -11,7 +11,13 @@ module.exports = function(routeParams) {
             },
             "typeRaw" : "http://type",
             "original" : "http://original",
-            "result" : "http://result"
+            "result" : "http://result",
+            "act" : "http://act",
+            "actId" : "http://actId",
+            "actTitle" : {
+            	"@id" : "http://actTitle",
+                "@language": "cs",
+            }
         }
     };
 
@@ -25,7 +31,6 @@ module.exports = function(routeParams) {
         		default : item["type"] = "neznámý typ"; break;
         		
         		}
-        		console.log(item["typeRaw"][0])
         });
         
         return responseJSONLD;
@@ -37,7 +42,10 @@ module.exports = function(routeParams) {
            "type" : ["string", ""],
            "original" : ["string", ""],
            "result" : ["string", ""],
-           "validIso": ["string", ""]
+           "validIso": ["string", ""],
+           "act" : ["string", ""],
+           "actId" : ["string", ""],
+           "actTitle" : ["string", ""]
        }
    };
 
@@ -45,7 +53,8 @@ module.exports = function(routeParams) {
         return [
             "@id",
             "original",
-            "result"
+            "result",
+            "act"
         ];
     };
     

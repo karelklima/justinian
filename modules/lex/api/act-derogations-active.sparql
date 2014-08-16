@@ -10,13 +10,16 @@ CONSTRUCT{
 ?change my:original ?original.
 ?change my:result ?result.
 ?change my:valid ?valid.
+?change my:act ?act.
+?change my:actId ?actId.
+?change my:actTitle ?actTitle.
 }
 
 FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
 
 
 WHERE {
-  SELECT ?expr ?change ?type ?original ?result ?valid
+  SELECT ?expr ?change ?type ?original ?result ?valid ?act ?actId ?actTitle
   WHERE {
     {
       SELECT ?expr MIN(?valid)
@@ -31,6 +34,9 @@ WHERE {
   OPTIONAL { ?change lex:changedOriginal ?original }
   OPTIONAL { ?change lex:changeResult ?result }
   OPTIONAL { ?result dcterms:valid ?valid}
+  {?result frbr:realizationOf ?act} UNION {?original frbr:realizationOf ?act}
+  ?act dcterms:identifier ?actId.
+  ?act dcterms:title ?actTitle.
   }
   ORDER BY DESC(?valid)
   OFFSET {{"param": "offset", "default": "0"}}
