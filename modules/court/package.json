@@ -4,7 +4,8 @@
     "prefixes": {
         "lex:": "http://purl.org/lex#",
         "lexcz:": "http://purl.org/lex/cz#",
-        "legislation:": "http://linked.opendata.cz/resource/legislation/cz/"
+        "legislation:": "http://linked.opendata.cz/resource/legislation/cz/",
+        "court:": "http://linked.opendata.cz/resource/court/cz/"
     },
     "apis": {
         "act-related-decisions": {"resource": "", "limit": "10", "offset": "0"},
@@ -12,6 +13,7 @@
         "decisions-filters": {},
         "decision-detail": {"resource": ""},
         "decision-text": {"resource": ""},
+        "court-detail": {"resource": ""},
     	"decision-related-decisions": {"resource": "", "limit": "10", "offset": "0"}
     },
     "universal-search": [

@@ -1,0 +1,6 @@
+{
+    "title" : "Soud",
+    "datatypes" : ["lex:Court"],
+    "views": ["main"],
+    "priority": 1000
+}
