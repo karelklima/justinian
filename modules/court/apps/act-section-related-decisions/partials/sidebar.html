@@ -1,0 +1,29 @@
+<div ng-controller="ActSectionRelatedDecisionsController" sidebar-app heading="Judikáty" set-open="false">
+
+    <table class="table table-condensed" ng-hide="isLoading || isEmpty()">
+        <tr>
+            <th>Název</th>
+            <th>Předmět</th>
+        </tr>
+        <tr ng-repeat="decision in decisions | limitTo : limit">
+            <td nowrap>
+                <a click module="court" application="decision-detail" resource="{{ decision['@id'] }}">{{ decision['title'] }}</a><br/>
+                <small class="text-muted">{{ decision['issuedIso'] | formatDate }}</small>
+            </td>
+            <td>
+                {{ decision['subject'] | join | formatDash }}
+            </td>
+        </tr>
+        <tr ng-show="isShowMore()">
+            <td colspan="2" class="text-right">
+                <a class="btn btn-primary" click module="court" application="act-section-related-decisions" resource="{{ resource }}">Zobrazit vše</a>
+            </td>
+        </tr>
+    </table>
+
+    <div datapager source="datasource" target="decisions" items-per-page="10" hide-controls="true"></div>
+
+    <div ng-show="isLoading">Načítám data</div>
+    <div ng-show="!isLoading && isEmpty()">Žádné dostupné judikáty.</div>
+
+</div>
