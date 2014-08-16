@@ -13,8 +13,6 @@ CONSTRUCT{
   ?check my:zipcode ?zipcode.
   ?check my:street ?street.
   ?check my:objectName ?objectName.
-#  ?check my:state ?stateLabel.
-#  ?check my:trade ?tradeTitle.
   ?check my:result ?result.
   
 }
@@ -27,7 +25,7 @@ FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/zajisteni>
 FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/zakazy>
 
 WHERE {  
-SELECT DISTINCT ?check ?id ?date ?locality ?zipcode ?region ?street ?objectName ?result #?tradeTitle ?stateLabel 
+SELECT DISTINCT ?check ?id ?date ?locality ?zipcode ?region ?street ?objectName ?result
 WHERE {
   
   {
@@ -57,11 +55,6 @@ WHERE {
   	?check a s:CheckAction.		# just because of performance
     ?check s:object ?object.
     ?object gr:legalName ?objectName.
-# WAITING FOR A <http://linked.opendata.cz/resource/dataset/ares/rzp> DATASET:
-#    ?object regorg:orgActivity ?activity.
-#    ?object ares:stav-zivnosti/skos:prefLabel ?stateLabel.	
-#    ?object ares:zivnost ?zivnost.
-#    ?zivnost dcterms:title ?tradeTitle.
 
   }
   

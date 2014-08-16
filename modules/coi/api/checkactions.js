@@ -96,9 +96,7 @@ module.exports = function(routeParams) {
         	"zipcode" : ["string", ""],
         	"locality" : ["string", ""],
         	"street" : ["string", ""],
-        	"objectName" : ["string", ""],
-            //"tradeState" : ["string", ""],
-            //"trade" : ["object", []],         
+        	"objectName" : ["string", ""],      
             "result" : ["object", []]		
         }
     };

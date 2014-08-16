@@ -15,10 +15,10 @@ module.exports = function(routeParams) {
             	"@id" : "http://haveMaxDate",
             	"@type": "http://www.w3.org/2001/XMLSchema#date"
         	},
-        	"states" : {
+        	/*"states" : {
         		"@id" : "http://haveStates",
         		"@language": "cs"
-        	}
+        	}*/
         }
     };
 
@@ -26,7 +26,7 @@ module.exports = function(routeParams) {
         return {
             "@id" : ["string", ""],
         	"regions" : ["object", []],
-        	"states" : ["object", []],
+        	//"states" : ["object", []],
         	"maxDateIso" : ["string", ""],
         	"minDateIso" : ["string", ""]
         }

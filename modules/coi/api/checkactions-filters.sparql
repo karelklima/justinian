@@ -8,7 +8,7 @@ CONSTRUCT {
 my:checks my:haveRegions ?region.
 my:checks my:haveMinDate ?minDate.
 my:checks my:haveMaxDate ?maxDate.
-my:checks my:haveStates ?stavLabel.
+#my:checks my:haveStates ?stavLabel.
 }
 
 FROM <http://linked.opendata.cz/resource/dataset/coi.cz/kontroly>
@@ -25,15 +25,15 @@ WHERE {
   }
 }
 {
-  SELECT DISTINCT ?region ?stavLabel
+  SELECT DISTINCT ?region #?stavLabel
   WHERE
   {
   ?check s:location/s:addressRegion ?region.
-  OPTIONAL { 
-    ?check s:object ?object.
-    ?object ares:stav-zivnosti ?stavZivnosti.
-    ?stavZivnosti skos:prefLabel ?stavLabel.
-  }
+#  OPTIONAL { 
+#    ?check s:object ?object.
+#    ?object ares:stav-zivnosti ?stavZivnosti.
+#    ?stavZivnosti skos:prefLabel ?stavLabel.
+#  }
   }
 }
 }
