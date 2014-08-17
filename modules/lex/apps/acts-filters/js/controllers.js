@@ -2,11 +2,10 @@
 
     angular.module('appControllers')
 
-        .controller('CourtDecisionsFiltersController', ['$scope', '$filter', 'AppService', function($scope, $filter, AppService) {
+        .controller('LexActsFiltersController', ['$scope', '$filter', 'AppService', function($scope, $filter, AppService) {
 
-            var filters = ['creator', 'subject', 'minDate', 'maxDate', 'identifier','query', 'kind', 'category', 'hasText'];
-            var advancedOptions = ['identifier', 'query', 'kind', 'category', 'hasText'];
-
+            var filters = ['identifier', 'title', 'minDate', 'maxDate', 'query'];
+            var advancedOptions = ['query'];
 
             var dates = {
                 "minDate" : "minDateRaw",
@@ -50,13 +49,12 @@
 
                 if (!$scope.filtersLoaded) {
                     // load filters specification
-                    AppService.getData($scope, 'court', 'decisions-filters')
-                        .then(function (decisionFilters) {
-                            if (angular.isDefined(decisionFilters['@graph'][0])) {
-                                $scope.filters = decisionFilters['@graph'][0];
-                                $scope.filters['categories'].sort();
-                                $scope.filterMinDate = new Date($scope.filters["minDateIso"]);
-                                $scope.filterMaxDate = new Date($scope.filters["maxDateIso"]);
+                    AppService.getData($scope, 'lex', 'acts-filters')
+                        .then(function (filters) {
+                            if (angular.isDefined(filters['@graph'][0])) {
+                                $scope.filters = filters['@graph'][0];
+                                $scope.filterMinDate = $scope.filters["minDateIso"];
+                                $scope.filterMaxDate = $scope.filters["maxDateIso"];
                                 $scope.filtersLoaded = true;
                             }
                         });

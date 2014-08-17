@@ -1,14 +1,12 @@
-<div ng-controller="CoiCheckactionsFiltersController" sidebar-app heading="Vyhledávání" set-open="true">
+<div ng-controller="LexActsFiltersController" sidebar-app heading="Vyhledávání" set-open="true">
     <form role="form" ng-submit="search()">
         <div class="form-group">
-            <label for="filterSubject">Předmět</label>
-            <input class="form-control" id="filterSubject" ng-model="objectName" placeholder="př.: Tesco Stores"/>
+            <label for="filterIdentifier">Předpis</label>
+            <input class="form-control" id="filterIdentifier" ng-model="identifier" placeholder="př.: 1/1993 Sb."/>
         </div>
         <div class="form-group">
-            <label for="filterRegion">Kraj</label>
-            <select class="form-control" id="filterRegion" ng-model="region" ng-options="reg as reg for reg in filters['regions']" ng-disabled="isLoading">
-                <option value="">Všechny kraje</option>
-            </select>
+            <label for="filterTitle">Název</label>
+            <input class="form-control" id="filterTitle" ng-model="title" placeholder="př.: Ústava České republiky"/>
         </div>
         <div class="row">
             <div class="col-md-6">
@@ -38,16 +36,8 @@
         </div>
         <div ng-show="advancedOptionsIsOpen">
             <div class="form-group">
-                <label for="filterStreet">Ulice</label>
-                <input class="form-control" id="filterStreet" ng-model="street" placeholder="př.: Jeremiášova"/>
-            </div>
-            <div class="form-group">
-                <label for="filterTown">Město</label>
-                <input class="form-control" id="filterTown" ng-model="town" placeholder="př.: Praha 5"/>
-            </div>
-            <div class="form-group">
-                <label for="filterZipcode">PSČ</label>
-                <input class="form-control" id="filterZipcode" ng-model="zipcode" placeholder="př.: 15000"/>
+                <label for="filterQuery">Text</label>
+                <input class="form-control" id="filterQuery" ng-model="query"/>
             </div>
         </div>
         <div>

@@ -1,11 +1,11 @@
-<div ng-controller="CourtDecisionsController" main-app>
+<div ng-controller="LexActsController" main-app>
     <div app-bar adjust-on="datasource.revision">
         <div class="clearfix">
             <div class="navbar-right">
                 <span app-bar-toolbox></span>
             </div>
             <div class="navbar-brand">
-                <a click module="court" application="decisions">Judikáty</a>
+                <a click module="court" application="decisions">Zákony</a>
             </div>
         </div>
         <div class="filters-bar">
@@ -16,30 +16,28 @@
         </div>
     </div>
 
-
-
     <table class="table" ng-hide="isEmpty()">
         <tr>
-            <th nowrap>Spisová značka</th>
-            <th>Soud</th>
-            <th>Předmět</th>
+            <th nowrap>Předpis</th>
+            <th>Název</th>
         </tr>
-        <tr ng-repeat="decision in decisions">
+        <tr ng-repeat="act in acts">
             <td nowrap>
-                <a click module="court" application="decision-detail" resource="{{decision['@id']}}">{{decision['title']}}</a><br/>
-                <small class="text-muted">{{decision['issuedIso'] | formatDate}}</small>
+                <a click module="lex" application="act-detail" resource="{{ act['@id'] }}">{{ act['identifier'] }}</a><br/>
+                <small class="text-muted">{{ act['issuedIso'] | formatDate }}</small>
             </td>
-            <td nowrap>{{decision['creator'] | join }}</td>
-            <td>{{decision['subjectTitles'] | join }}</td>
+            <td>
+                {{ act["title"] }}
+            </td>
         </tr>
     </table>
 
     <div class="alert alert-warning" ng-show="datasource.isEmpty">
-        Zadaným parametrům neodpovídají žádné judikáty.
+        Zadaným parametrům neodpovídají žádné zákony.
     </div>
 
     <div spinner-bar ng-show="datasource.isLoading"></div>
 
-    <div datapager source="datasource" target="decisions" items-per-page="20"></div>
+    <div datapager source="datasource" target="acts" items-per-page="20"></div>
 
 </div>

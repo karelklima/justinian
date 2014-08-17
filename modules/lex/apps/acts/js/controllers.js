@@ -1,16 +1,16 @@
 (function() {
     angular.module('appControllers')
-        .controller('CoiCheckactionsController', ['$scope', '$filter', 'AppService', function ($scope, $filter, AppService) {
+        .controller('LexActsController', ['$scope', '$filter', 'AppService', function ($scope, $filter, AppService) {
 
-            var filters = ['objectName', 'region', 'dateGT', 'dateLT', 'town', 'street', 'zipcode'];
+            var filters = ['identifier', 'title', 'minDate', 'maxDate', 'query'];
             $scope.filterParams = {};
 
-            $scope.checkactions = undefined;
-            $scope.checkactionsLimit = "10";
-            $scope.checkactionsOffset = "0";
+            $scope.acts = undefined;
+            $scope.actsLimit = "10";
+            $scope.actsOffset = "0";
 
             $scope.isEmpty = function() {
-                return !$scope.isLoading && angular.isDefined($scope.checkactions) && $scope.checkactions.length === 0;
+                return !$scope.isLoading && angular.isDefined($scope.acts) && $scope.acts.length === 0;
             };
 
             $scope.removeFilter = function(filter) {
@@ -24,9 +24,9 @@
 
                     angular.extend(params, $scope.filterParams);
 
-                    AppService.getData($scope, 'coi', 'checkactions', params)
-                        .then(function (checkactions) {
-                            callback(angular.isArray(checkactions["@graph"]) ? checkactions["@graph"] : []);
+                    AppService.getData($scope, 'lex', 'acts', params)
+                        .then(function (acts) {
+                            callback(angular.isArray(acts["@graph"]) ? acts["@graph"] : []);
                         }, function(error) {
                             callback([]);
                         });
