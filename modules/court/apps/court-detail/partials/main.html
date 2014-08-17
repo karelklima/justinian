@@ -12,7 +12,7 @@
         </div>
     </div>
     <div>
-        <ul ng-hide="isEmpty()">
+        <ul ng-hide="isEmpty">
             <li><span>Tel.: </span><a href='tel:{{courtDetail["telephone"]}}'>{{courtDetail["telephone"]}}</a></li>
             <li><span>Fax.: </span><a href='fax:{{courtDetail["faxNumber"]}}'>{{courtDetail["faxNumber"]}}</a></li>
             <li><span>E-mail: </span><a href='mailto:{{courtDetail["email"]}}'>{{courtDetail["email"]}}</a></li>
@@ -20,7 +20,7 @@
             <li><span>Location: </span><span>{{courtDetail["streetAddress"]}}, {{courtDetail["postalCode"]}}, {{courtDetail["locality"]}}</span></li>
         </ul>
         <iframe id="google_maps_window" width="100%" height="450" frameborder="0" style="border:0" ng-show="isLocationAvailable()"></iframe>
-        <div ng-show="isLoading()" spinner-bar></div>
-        <div ng-show="isEmpty()" class="alert alert-warning">Data nejsou dostupne.</div>
+        <div ng-show="isLoading" spinner-bar></div>
+        <div ng-show="!isLoading && isEmpty" class="alert alert-warning">Data nejsou dostupne.</div>
     </div>
 </div>
