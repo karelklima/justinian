@@ -5,7 +5,7 @@
                 <span app-bar-toolbox></span>
             </div>
             <div class="navbar-brand">
-                <a click module="lex" application="act-detail" resource="{{resource}}">
+                <a click type="lex:Act" resource="{{resource}}">
                     Předpis
                     <span ng-show="isEmpty()"> nenalezen</span>
                     <span ng-show="!isEmpty()"> č. {{actDetail["identifier"]}}</span>
