@@ -1,6 +1,6 @@
 (function() {
     angular.module('appControllers')
-        .controller('LexActCompareController', ['$scope', '$sce', '$q', 'NetworkService', 'AppService', 'LexDiffService', function ($scope, $sce, $q, NetworkService, AppService, LexDiffService) {
+        .controller('LexActCompareController', ['$rootScope','$scope', '$sce', '$q', 'NetworkService', 'AppService', 'LexDiffService', function ($rootScope,$scope, $sce, $q, NetworkService, AppService, LexDiffService) {
 
             $scope.actDetail = undefined;
             $scope.actText = undefined;
@@ -53,21 +53,37 @@
                             var newer = results[0]["@graph"][0]["htmlValue"];
                             var older = results[1]["@graph"][0]["htmlValue"];
                             $scope.actText = LexDiffService.diff(older, newer);
-                            if (!$scope.isEmpty() && angular.isDefined(changes.section)) {
-                                $scope.$broadcast('anchor-scroll', {target: 'section[resource="' + $scope.section + '"]'});
-                            }
+                            self.updateScroll(changes);
+                            $rootScope.$emit("$LexActCompareFinished", $scope.actText);
                         })
                         .catch(function() {
                             $scope.isError = true;
                             $scope.actText = "";
                         });
                 }
+
+                self.updateScroll(changes);
+            };
+
+            this.updateScroll = function(changes){
                 if (!$scope.isEmpty() && angular.isDefined(changes.section)) {
                     $scope.$broadcast('anchor-scroll', {target: 'section[resource="' + $scope.section + '"]'});
                 }
-            };
+                if(!$scope.isEmpty() && angular.isDefined(changes.diffindex)){
+                    var doc = $(".lex-act-text");
+                    var changes = doc.find(".diff_remove, .diff_add");
+                    console.log(changes);
+                    for(var i =0;i<changes.length;i++){
+                        var item = angular.element(changes[i]);
+                        if(i == $scope.diffindex){
+                            $scope.$broadcast('anchor-scroll', {target: item});
+                            break;
+                        }
+                    }
+                }
+            }
 
-            AppService.init($scope, ['resource', 'version', 'compare', 'section'], this.update);
+            AppService.init($scope, ['resource', 'version', 'compare', 'section', 'diffindex'], this.update);
 
         }]);
 

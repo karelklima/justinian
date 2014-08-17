@@ -1,0 +1,8 @@
+{
+    "title": "Seznam změn zákona",
+    "views": ["sidebar"],
+    "dependencies": {
+        "lex": ["act-compare"]
+    },
+    "priority": 99
+}

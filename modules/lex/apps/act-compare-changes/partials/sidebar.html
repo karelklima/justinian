@@ -1,0 +1,13 @@
+<div ng-controller="LexActCompareChangesController" sidebar-app heading="Seznam změn zákona" set-open="true">
+    <table ng-hide="isLoading || isEmpty()" class="table table-condensed table-responsive">
+        <tr>
+            <th>#</th>
+            <th>Text</th>
+        </tr>
+        <tr ng-repeat="item in list" ng-class="{success: item['type'] == 'add', danger: item['type'] == 'remove'}">
+            <td>{{item.index}}</td>
+            <td><a click diffIndex="{{item.index-1}}">{{item.content}}</a></td>
+        </tr>
+    </table>
+    <div ng-show="!isLoading && isEmpty()" class="alert alert-warning">Žádna dostupna informace.</div>
+</div>
