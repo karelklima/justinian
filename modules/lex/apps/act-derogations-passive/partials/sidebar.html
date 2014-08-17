@@ -1,0 +1,25 @@
+<div ng-controller="LexActDerogationsPassiveController" sidebar-app heading="Derogace pasivní" set-open="false">
+
+    <table class="table table-condensed" ng-show="!datasource.isEmpty">
+        <tr>
+
+        </tr>
+        <tr ng-repeat="derogation in derogations">
+            <td>
+                <a click module="lex" application="act-detail" resource="{{derogation.act}}" version="{{derogation.result}}">{{derogation.actId}}</a><br>
+                <small class="text-muted">{{derogation.type}}</small>
+            </td>
+            <td>{{derogation.actTitle}}</td>
+        </tr>
+    </table>
+
+    <div class="text-right" ng-show="!datasource.isEmpty && derogations.length > 9">
+        <a class="btn btn-primary" click module="lex" application="act-derogations-passive" resource="{{resource}}" version="{{version}}">Zobrazit vše</a>
+    </div>
+
+    <div ng-show="datasource.isEmpty">
+        Nenalezeny žádné záznamy.
+    </div>
+
+    <div datapager source="datasource" target="derogations" hide-controls="true"></div>
+</div>

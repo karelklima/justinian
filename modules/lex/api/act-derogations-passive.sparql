@@ -18,16 +18,7 @@ FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
 WHERE {
   SELECT ?expr ?change ?type ?act ?actId ?actTitle ?valid 
   WHERE {
-    {
-      SELECT ?expr
-      WHERE {
-        resource: frbr:realizationOf ?act.
-        resource: dcterms:valid ?resourceValid.
-        ?expr frbr:realizationOf ?act .
-        ?expr dcterms:valid ?valid.
-        FILTER (?valid <= ?resourceValid)
-      }
-    }
+    ?expr frbr:realizationOf resource:
     {?expr ^lex:changedOriginal ?change} UNION {?expr ^lex:changedResult ?change}
     ?change a ?type.
     ?change ^lex:definesChange ?changingExpression.

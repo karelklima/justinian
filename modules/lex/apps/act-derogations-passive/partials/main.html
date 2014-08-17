@@ -1,0 +1,47 @@
+<div ng-controller="LexActDerogationsPassiveController" main-app>
+
+    <div app-bar adjust-on="actDetail">
+        <div class="clearfix">
+            <div class="navbar-right">
+                <span app-bar-toolbox></span>
+            </div>
+            <div class="navbar-brand">
+                <a click module="lex" application="act-derogations-active" resource="{{resource}}">
+                    Předpis č. {{actIdentifier}} &ndash; derogace pasivní
+                </a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 clearfix">
+                <p class="pull-right"><a class="text-muted" click module="lex" application="act-detail" resource="{{resource}}">Zpět na předpis č. {{actIdentifier}}</a></p>
+                <p>{{actTitle}}</p>
+            </div>
+        </div>
+    </div>
+
+    <table class="table" ng-show="!datasource.isEmpty">
+        <tr>
+            <td><a class="cursor-pointer" ng-click="sortBy('type')">Typ</a></td>
+            <td><a class="cursor-pointer" ng-click="sortBy('actId')">Číslo</a></td>
+            <td><a class="cursor-pointer" ng-click="sortBy('actTitle')">Název</a></td>
+        </tr>
+        <tr ng-repeat="derogation in derogations | orderBy: predicate : reverse" ng-class="{'bg-warning': derogation.type == 'zrušení'}">
+            <td>
+                {{derogation.type == "zrušení" ? "ruší" : "novelizuje"}}
+            </td>
+            <td>
+                <a click module="lex" application="act-detail" resource="{{derogation.act}}" version="{{derogation.result}}">{{derogation.actId}}</a><br>
+            </td>
+            <td>{{derogation.actTitle}}</td>
+        </tr>
+    </table>
+
+    <div spinner-bar ng-show="datasource.isLoading"></div>
+
+    <div ng-show="datasource.isEmpty" class="alert alert-warning">
+        Nenalezeny žádné záznamy.
+    </div>
+
+    <div datapager source="datasource" target="derogations" items-per-page="200"></div>
+
+</div>

@@ -1,0 +1,9 @@
+{
+    "title": "Derogace pasivní",
+    "views": ["main", "sidebar"],
+    "datatypes": ["lex:Act"],
+    "dependencies": {
+        "lex": ["act-detail"]
+    },
+    "priority": 35
+}
