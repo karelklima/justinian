@@ -37,6 +37,9 @@ SparqlQuery.prototype.renderQuery = function(params) {
 
         var result = params[key] ? params[key] : definition['default'];
 
+        if (_.isUndefined(result))
+            result = "";
+
         if (definition['filter']) {
             var filterName = "filter" + definition['filter'];
             if (!_.contains(_.methods(thisInstance), filterName))
