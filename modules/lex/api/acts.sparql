@@ -7,17 +7,44 @@ PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX my: <http://>
 
 CONSTRUCT{
-  my:acts my:minDate ?minDate.
-  my:acts my:maxDate ?maxDate.
+  ?act dcterms:title ?title.
+  ?act my:issued ?issued.
+  ?act dcterms:creator ?creator.
+  ?act dcterms:identifier ?id .
+  ?act my:hasText ?hasText.
+  
+# inserted construct triples:  
+{{"param" : "construct"}}
+###
+
 }
 
-FROM <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/legislation/acts/fulltexts/txt>
+FROM NAMED <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
 FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
 
 WHERE {
-  SELECT (MAX(?date) as ?maxDate) (MIN(?date) as ?minDate)
+  {
+  SELECT DISTINCT ?act ?title ?creator ?issued ?id (bound(?text) as ?hasText)
   WHERE {
     ?act a lex:Act .
-    ?act dcterms:issued ?date .
+    ?act dcterms:title ?title .
+    OPTIONAL {?act dcterms:creator ?creator }
+    OPTIONAL { GRAPH <http://linked.opendata.cz/resource/dataset/legislation/cz/uz> { ?act dcterms:issued ?issued } }
+    OPTIONAL {?act dcterms:identifier ?id   }
+    
+# inserted values:
+{{"param" : "values"}}
+###
+
   }
+  ORDER BY DESC (?issued)
+  OFFSET {{"param": "offset", "default": "0"}}
+  LIMIT {{"param": "limit", "default": "10"}}
+  }
+
+# inserted values outside the scope of the limit:  
+{{"param" : "outsideLimitValues"}}	
+###
+
 }
