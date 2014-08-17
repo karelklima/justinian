@@ -1,4 +1,4 @@
-<div ng-controller="CoiCheckactionsRelatedActsController" sidebar-app heading="Zákony" set-open="false">
+<div ng-controller="CoiCheckactionsRelatedActsController" sidebar-app heading="Dotčené předpisy" set-open="false">
 
     <table class="table table-condensed" ng-hide="isLoading || isEmpty()">
         <tr>
@@ -24,6 +24,6 @@
     <div datapager source="datasource" target="acts" items-per-page="10" hide-controls="true"></div>
 
     <div ng-show="isLoading">Načítám data</div>
-    <div ng-show="!isLoading && isEmpty()">Žádné dostupné zákony.</div>
+    <div ng-show="!isLoading && isEmpty()">Žádné dostupné předpisy.</div>
 
 </div>
