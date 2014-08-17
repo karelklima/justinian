@@ -25,30 +25,32 @@ FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/zajisteni>
 FROM NAMED <http://linked.opendata.cz/resource/dataset/coi.cz/zakazy>
 
 WHERE {  
+
 SELECT DISTINCT ?check ?id ?date ?locality ?zipcode ?region ?street ?objectName ?result
 WHERE {
   
   {
-  SELECT DISTINCT ?check ?id ?date ?locality ?zipcode ?region ?street
-  WHERE {
-	?check a s:CheckAction.		# just because of performance
-    ?check skos:notation ?id.
-    ?check s:location ?location.
-    ?location s:postalCode ?zipcode.
-    OPTIONAL {
+    SELECT DISTINCT ?check ?id ?date ?locality ?zipcode ?region ?street
+    WHERE {
+	  ?check a s:CheckAction.		# just because of performance
+      ?check skos:notation ?id.
+      ?check s:location ?location.
+      ?location s:postalCode ?zipcode.
+      OPTIONAL {
     	?location a s:PostalAddress. # just because of performance
-    	?location s:addressLocality ?locality.
-    	?location s:addressRegion ?region.
-    	#?location s:streetAddress ?street.
-    }
-    OPTIONAL {?location s:streetAddress ?street.}
+      	?location s:addressLocality ?locality.
+      	?location s:addressRegion ?region.
+      	#?location s:streetAddress ?street.
+      }
+      OPTIONAL {?location s:streetAddress ?street.}
 
 {{"param" : "values"}}
+{{"param" : "checkResultsA"}}
   
-  }
-  ORDER BY DESC(?date)
-  OFFSET {{"param": "offset", "default": "0"}}
-  LIMIT {{"param": "limit", "default": "10"}}
+    }
+    ORDER BY DESC(?date)
+    OFFSET {{"param": "offset", "default": "0"}}
+    LIMIT {{"param": "limit", "default": "10"}}
   }
 
   OPTIONAL {
@@ -57,8 +59,8 @@ WHERE {
     ?object gr:legalName ?objectName.
 
   }
-  
-  OPTIONAL {
+
+{{"param" : "checkResultsB"}}  
     {
     GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/sankce>{
     	?check s:result ?result.
@@ -71,7 +73,8 @@ WHERE {
     GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/zakazy>{
     	?check s:result ?result.
     }
-    }
+{{"param" : "checkResultsC"}}    
   }
 }
+
 }
