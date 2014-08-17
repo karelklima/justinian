@@ -4,6 +4,7 @@
  */
 
 var express = require('express');
+var compression = require('compression');
 var http = require('http');
 var _ = require('underscore');
 var fs = require('fs');
@@ -22,6 +23,7 @@ settings.useCache(!settings.options["development"]);
 
 var app = express();
 
+app.use(compression());
 app.use( expressWinston.logger(loggingOptions.requestLogger) );					// request loggger middleware
 
 app.use(favicon(settings.baseDirectory + '/' + settings.options["favicon"]));
