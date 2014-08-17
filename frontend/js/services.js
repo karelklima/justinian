@@ -78,7 +78,7 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
         });
         //$log.debug("ConfigurationService.getDefaultModuleApplication: " +  angular.toJson(result));
         var path = $filter('orderBy')(result, 'priority').pop();
-        if (angular.isDefined(path.priority))
+        if (angular.isDefined(path))
             delete path.priority;
         $log.debug("ConfigurationService.getDefaultModuleApplication: " + type + " - " +  angular.toJson(path));
         return path;
