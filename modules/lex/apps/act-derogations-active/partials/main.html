@@ -12,20 +12,25 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-sm-12">
-                <p class="text-right"><a class="text-muted" click module="lex" application="act-detail" resource="{{resource}}">Zpět na předpis č. {{actIdentifier}}</a></p>
+            <div class="col-sm-12 clearfix">
+                <p class="pull-right"><a class="text-muted" click module="lex" application="act-detail" resource="{{resource}}">Zpět na předpis č. {{actIdentifier}}</a></p>
+                <p>{{actTitle}}</p>
             </div>
         </div>
     </div>
 
-    <table class="table table-condensed" ng-show="!datasource.isEmpty">
+    <table class="table" ng-show="!datasource.isEmpty">
         <tr>
-
+            <td><a class="cursor-pointer" ng-click="sortBy('type')">Typ</a></td>
+            <td><a class="cursor-pointer" ng-click="sortBy('actId')">Číslo</a></td>
+            <td><a class="cursor-pointer" ng-click="sortBy('actTitle')">Název</a></td>
         </tr>
-        <tr ng-repeat="derogation in derogations">
+        <tr ng-repeat="derogation in derogations | orderBy: predicate : reverse" ng-class="{'bg-warning': derogation.type == 'zrušení'}">
+            <td>
+                {{derogation.type == "zrušení" ? "ruší" : "novelizuje"}}
+            </td>
             <td>
                 <a click module="lex" application="act-detail" resource="{{derogation.act}}" version="{{derogation.result}}">{{derogation.actId}}</a><br>
-                <small class="text-muted">{{derogation.type}}</small>
             </td>
             <td>{{derogation.actTitle}}</td>
         </tr>
@@ -37,6 +42,6 @@
         Nenalezeny žádné záznamy.
     </div>
 
-    <div datapager source="datasource" target="derogations" items-per-page="100"></div>
+    <div datapager source="datasource" target="derogations" items-per-page="200"></div>
 
 </div>
