@@ -1,0 +1,31 @@
+<div ng-controller="LexSectionVersionsController" sidebar-app heading="Historie">
+    <table class="table table-condensed" ng-hide="isLoading || isEmpty()">
+        <tr>
+            <th><a ng-click="sortBy('number')">č.</a></th>
+            <th><a ng-click="sortBy('-validIso')">Platnost od</a></th>
+            <th><a ng-click="sortBy('amendmentId')">Novela</a></th>
+        </tr>
+        <tr ng-repeat="item in versions | orderBy: predicate : reverse | limitTo:limit"  ng-class="{success: item['@id'] == version, danger: item['@id'] == compare}">
+            <td>{{item.number}}</td>
+            <td>
+                <a click module="lex" application="act-section-detail" resource="{{ resource }}" version='{{ item["@id"] }}'>{{ item["validIso"] | formatDate }}</a>
+            </td>
+            <td>
+                <a click module="lex" application="act-detail" resource="{{ item['amendment'] }}" ng-show="item['amendmentId']">
+                    {{item["amendmentId"]}}
+                </a>
+            </td>
+        </tr>
+        <tr ng-if="versions.length > 10">
+            <td colspan="4" class="text-right">
+                <a class="btn btn-primary"  ng-click="toggleLimit()">
+                    <span ng-show="limit == 10">Zobrazit vše</span>
+                    <span ng-hide="limit == 10">Skrýt</span>
+                </a>
+            </td>
+        </tr>
+    </table>
+
+    <div ng-show="isLoading">Načítám data</div>
+    <div ng-show="!isLoading && isEmpty()">Žádná dostupná historie.</div>
+</div>
