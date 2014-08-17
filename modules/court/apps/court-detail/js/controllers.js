@@ -1,24 +1,25 @@
 (function(angular) {
     angular.module('appControllers')
-        .controller('CourtDetailController', ['$scope', '$sce', 'AppService', function ($scope, $sce, AppService) {
+        .controller('CourtDetailController', ['$scope', 'AppService', function ($scope, AppService) {
+
             $scope.courtDetail = undefined;
 
             $scope.isEmpty = function() {
-                return angular.isDefined($scope.courtDetail) && $scope.courtDetail.length === 0;
+                return angular.isDefined($scope.courtDetail) && $scope.courtDetail == null;
             };
+
             $scope.isLocationAvailable = function(){
                 if(angular.isUndefined($scope.courtDetail)) return false;
                 return angular.isDefined($scope.courtDetail["streetAddress"]) && angular.isDefined($scope.courtDetail["locality"]);
-            }
-             $scope.isLoading = function() {
-                return angular.isUndefined($scope.courtDetail);
             };
 
             this.update = function(){
+
+                $scope.courtDetail = undefined;
+
                 AppService.getData($scope, 'court', 'court-detail', {'resource': $scope.resource})
                     .then(function(data){
-                        console.log(data);
-                        if(data["@graph"].length>0){
+                        if(data["@graph"].length > 0){
                             $scope.courtDetail = data["@graph"][0];
                             AppService.setTitle($scope.courtDetail.title);
                             if($scope.isLocationAvailable()){
@@ -30,11 +31,11 @@
                             }
                         }
                         else {
-                            $scope.courtDetail = {};
+                            $scope.courtDetail = null;
                             AppService.setTitle("Soud nenalezen");
                         }
                     });
-            }
+            };
 
             AppService.init($scope,['resource'], this.update);
         }]);
