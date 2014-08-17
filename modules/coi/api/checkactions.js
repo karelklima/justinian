@@ -8,6 +8,10 @@ module.exports = function(routeParams) {
     	var outputParams = {};
     	outputParams.values = "?check dcterms:date ?date. \n";
     	
+    	outputParams.checkResultsA = "";
+    	outputParams.checkResultsB = "OPTIONAL {\n";
+    	outputParams.checkResultsC = "}\n";
+    	
     	if( ! _.isUndefined(params["dateGT"]) || ! _.isUndefined(params["dateLT"]))
     		outputParams.values = "";
     	
@@ -57,6 +61,14 @@ module.exports = function(routeParams) {
     					"?trade dcterms:title ?tradeTitle.\n" +
     					"?tradeTitle bif:contains '[__enc \"UTF-8\"]\""
     					+ params["trade"] + "\"'.\n";
+    				break;
+    			case "results" :
+    				outputParams.checkResultsA = "{ GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/sankce>{\n " +
+    					" ?check s:result ?result. } } UNION { GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/zajisteni>{\n " +
+    					" ?check s:result ?result. } } UNION { GRAPH <http://linked.opendata.cz/resource/dataset/coi.cz/zakazy>{\n" +
+    					" ?check s:result ?result. } }\n";
+    				outputParams.checkResultsB = "";
+    				outputParams.checkResultsC = "";
     				break;
     			default : outputParams[param] = params[param];
  
