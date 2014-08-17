@@ -1,4 +1,4 @@
 {
     "title" : "Justinian",
-    "dependencies": ["core", "lex", "court", "coi"]
+    "dependencies": ["core", "lex", "court", "coi", "concept"]
 }

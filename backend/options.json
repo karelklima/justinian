@@ -3,7 +3,7 @@
     "favicon" : "modules/justinian/assets/img/justinian.ico",
     "home" : {"module" : "justinian", "application" : "home"},
     "page-not-found" : {"module" : "core", "application" : "page-not-found"},
-    "modules" : ["core", "search", "lex", "court", "coi", "justinian"],
+    "modules" : ["core", "search", "lex", "court", "coi", "concept", "justinian"],
     "asset-extensions" : ["html", "js", "css", "png"],
     "sparql" : {
         "datastore-url" : "http://internal.xrg.cz:8900/sparql",
