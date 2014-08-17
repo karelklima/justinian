@@ -20,6 +20,7 @@
                         console.log(data);
                         if(data["@graph"].length>0){
                             $scope.courtDetail = data["@graph"][0];
+                            AppService.setTitle($scope.courtDetail.title);
                             if($scope.isLocationAvailable()){
                                 var google_maps_url = "https://www.google.cz/maps/embed/v1/search?key=AIzaSyBI6JFokjlnevxRI3FXFwdIwTWXXfw4OPs&q="+
                                 ($scope.courtDetail["streetAddress"]+" "+
@@ -28,7 +29,10 @@
                                 document.getElementById("google_maps_window").src = google_maps_url;
                             }
                         }
-                        else $scope.courtDetail = {};
+                        else {
+                            $scope.courtDetail = {};
+                            AppService.setTitle("Soud nenalezen");
+                        }
                     });
             }
 

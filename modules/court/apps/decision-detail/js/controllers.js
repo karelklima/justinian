@@ -26,9 +26,10 @@
                     .then(function (decisionDetail) {
                         if(angular.isDefined(decisionDetail['@graph']) && angular.isDefined(decisionDetail['@graph'][0])){
                             $scope.decisionDetail = decisionDetail['@graph'][0];
-                            console.log($scope.decisionDetail);
+                            AppService.setTitle("Judikát č. "+$scope.decisionDetail.identifier);
                         } else {
                            $scope.decisionDetail = {};
+                            AppService.setTitle("Judikát nenalezen");
                         }
                     }, function fail(){
                            $scope.decisionDetail = {};
@@ -67,7 +68,6 @@
                                 }
                                 if(content.length<80){
                                     var item = angular.element(paragraphs[i]);
-                                    console.log(item);
                                     if(header)
                                         item.addClass("header");
                                     else
@@ -88,7 +88,6 @@
                                 }
                                 if(content.length<80){
                                     var item = angular.element(paragraphs[i]);
-                                    console.log(item);
                                     if(footer){
                                         item.addClass("footer");
                                         item.removeClass("bold");

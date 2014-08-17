@@ -32,9 +32,14 @@
 
                     AppService.getData($scope, 'lex', 'act-detail', {'resource': $scope.resource})
                         .then(function (actDetail) {
-                            if (actDetail["@graph"].length > 0)
+                            if (actDetail["@graph"].length > 0){
                                 $scope.actDetail = actDetail["@graph"][0];
-                            else $scope.actDetail = {};
+                                AppService.setTitle("Předpis č. " + $scope.actDetail["identifier"]);
+                            }
+                            else {
+                                $scope.actDetail = {};
+                                AppService.setTitle("Předpis nenalezen");
+                            }
                         });
 
                     $scope.actText = undefined;
