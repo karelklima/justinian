@@ -48,15 +48,21 @@
                             var newer = results[0]["@graph"][0]["htmlValue"];
                             var older = results[1]["@graph"][0]["htmlValue"];
                             $scope.actText = LexDiffService.diff(older, newer);
+                            if (!$scope.isEmpty() && angular.isDefined(changes.section)) {
+                                $scope.$broadcast('anchor-scroll', {target: 'section[resource="' + $scope.section + '"]'});
+                            }
                         })
                         .catch(function() {
                             $scope.isError = true;
                             $scope.actText = "";
                         });
                 }
+                if (!$scope.isEmpty() && angular.isDefined(changes.section)) {
+                    $scope.$broadcast('anchor-scroll', {target: 'section[resource="' + $scope.section + '"]'});
+                }
             };
 
-            AppService.init($scope, ['resource', 'version', 'compare'], this.update);
+            AppService.init($scope, ['resource', 'version', 'compare', 'section'], this.update);
 
         }]);
 
