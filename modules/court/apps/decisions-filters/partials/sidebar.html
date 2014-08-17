@@ -16,7 +16,7 @@
                     <label for="filterMinDate">Datum od</label>
                     <div class="input-group">
                         <input class="form-control" id="filterMinDate" ng-model="minDateRaw" datepicker-popup="dd. MM. yyyy" is-open="popupMinDateIsOpen"
-                                starting-day="1" current-text="Dnes" clear-text="Vymazat" close-text="Zavřít"/>
+                                starting-day="1" current-text="Dnes" clear-text="Vymazat" close-text="Zavřít" placeholder="{{ filterMinDate | formatDate }}"/>
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="openMinDatePopupCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>
@@ -28,7 +28,7 @@
                     <label for="filterMaxDate">do</label>
                     <div class="input-group">
                         <input class="form-control" id="filterMaxDate" ng-model="maxDateRaw" datepicker-popup="dd. MM. yyyy" is-open="popupMaxDateIsOpen"
-                               starting-day="1" current-text="Dnes" clear-text="Vymazat" close-text="Zavřít"/>
+                               starting-day="1" current-text="Dnes" clear-text="Vymazat" close-text="Zavřít" placeholder="{{ filterMaxDate | formatDate }}"/>
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="openMaxDatePopupCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>
