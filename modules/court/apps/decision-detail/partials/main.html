@@ -12,7 +12,7 @@
         </div>
         <div class="row">
             <div class="col-sm-8">
-                <a href="{{ decisionDetail.creator }}">{{ decisionDetail.creatorTitle }}</a>
+                <a click resource="{{decisionDetail.creator}}" type="lex:Court">{{ decisionDetail.creatorTitle }}</a>
                 <p class="pull-right text-muted" ng-show="decisionDetail.decisionKind.length>0">{{decisionDetail.decisionKind}} <span ng-show="decisionDetail.decisionCategory.length>0">({{decisionDetail.decisionCategory}})</span></p>
             </div>
             <div class="col-sm-4">
@@ -26,7 +26,7 @@
             <div class="court-decision-text" compile="decisionText"></div>
 
         </div>
-        <div ng-show="isTextLoading()">Načítám data...</div>
-        <div ng-show="isTextEmpty()">Text není dostupný.</div>
+        <div ng-show="isTextLoading()" spinner-bar></div>
+        <div ng-show="isTextEmpty()" class="alert alert-warning">Text není dostupný.</div>
     </div>
 </div>
