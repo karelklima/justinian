@@ -29,7 +29,7 @@ WHERE {
 SELECT ?dec ?title ?fileKind ?fileNb ?senateNb ?creatorTitle ?identifier (bound(?text) as ?hasText) ?decisionCategory ?decisionKind ?date ?subject
 WHERE {
 {
-  SELECT DISTINCT ?dec ?title ?fileKind ?fileNb ?senateNb ?creatorTitle
+  SELECT DISTINCT ?dec ?title ?fileKind ?fileNb ?senateNb ?creatorTitle ?date
   WHERE {
     ?dec a lex:Decision.
     ?dec dcterms:title ?title .
@@ -38,9 +38,12 @@ WHERE {
 	?file lex:fileNumber ?fileNb. 	
 	?file lex:senateNumber ?senateNb.
 	?dec dcterms:creator ?creator.
+	OPTIONAL { ?dec dcterms:issued ?optDate }.
+	BIND(bif:either(bound(?optDate), ?optDate, "1900-01-01"^^xsd:date) as ?date)
     GRAPH <http://linked.opendata.cz/resource/dataset/court/cz> {?creator dcterms:title ?creatorTitle}
     {{"param" : "values"}}
   }
+  ORDER BY DESC(?date)
   OFFSET {{"param": "offset", "default": "0"}}
   LIMIT {{"param": "limit", "default": "10"}}
 }
@@ -54,7 +57,6 @@ WHERE {
     ?dec lex:decisionKind/skos:prefLabel ?decisionKind .
   }
 
-  OPTIONAL { ?dec dcterms:issued ?date }
   OPTIONAL { ?dec dcterms:subject ?subject }
 }
 }

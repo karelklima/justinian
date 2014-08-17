@@ -93,6 +93,10 @@ module.exports = function(routeParams) {
                         data["subjectTitles"].push(label);
     			});
     		}
+            if (_.isArray(data["issuedIso"])) {
+                if (_.isString(data["issuedIso"][0]) && data["issuedIso"][0] == "1900-01-01")
+                    delete data["issuedIso"];
+            }
     	});
         return responseJSONLD;
     };
