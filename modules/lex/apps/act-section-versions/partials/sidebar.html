@@ -4,6 +4,7 @@
             <th><a ng-click="sortBy('number')">č.</a></th>
             <th><a ng-click="sortBy('-validIso')">Platnost od</a></th>
             <th><a ng-click="sortBy('amendmentId')">Novela</a></th>
+            <th>Porovnat</th>
         </tr>
         <tr ng-repeat="item in versions | orderBy: predicate : reverse | limitTo:limit"  ng-class="{success: item['@id'] == version, danger: item['@id'] == compare}">
             <td>{{item.number}}</td>
@@ -13,6 +14,19 @@
             <td>
                 <a click module="lex" application="act-detail" resource="{{ item['amendment'] }}" ng-show="item['amendmentId']">
                     {{item["amendmentId"]}}
+                </a>
+            </td>
+            <td class="text-center">
+                <span ng-show="version !== item['@id'] && compare !== item['@id']">
+                    <a ng-show="getVersionValidIso(version) > item['validIso']" click module="lex" application="act-compare" resource="{{ resource }}" version="{{ version }}" compare="{{ item['@id'] }}">
+                        <span class="glyphicon glyphicon-transfer"></span>
+                    </a>
+                    <a ng-show="getVersionValidIso(version) <= item['validIso']" click module="lex" application="act-compare" resource="{{ resource }}" version="{{ item['@id'] }}" compare="{{ version }}">
+                        <span class="glyphicon glyphicon-transfer"></span>
+                    </a>
+                </span>
+                <a ng-show="compare === item['@id']" click module="lex" application="act-detail" resource="{{resource}}" version="{{version}}">
+                    <span class="glyphicon glyphicon-remove"></span>
                 </a>
             </td>
         </tr>
