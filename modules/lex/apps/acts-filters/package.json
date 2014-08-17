@@ -1,0 +1,7 @@
+{
+    "title" : "Zákony - vyhledávání",
+    "views": ["sidebar"],
+    "dependencies" : {
+        "lex" : ["acts"]
+    }
+}

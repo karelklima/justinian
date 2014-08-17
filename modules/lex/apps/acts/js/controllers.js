@@ -2,7 +2,7 @@
     angular.module('appControllers')
         .controller('LexActsController', ['$scope', '$filter', 'AppService', function ($scope, $filter, AppService) {
 
-            var filters = [];
+            var filters = ['identifier', 'title', 'minDate', 'maxDate', 'query'];
             $scope.filterParams = {};
 
             $scope.acts = undefined;
