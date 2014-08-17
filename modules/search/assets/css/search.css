@@ -1,17 +1,24 @@
 @media (min-width: 992px) {
     .search-typeahead {
-        max-width: 550px;
+        max-width: 580px;
     }
     .search-typeahead .dropdown-menu {
-        max-width: 550px;
+        max-width: 580px;
     }
 }
 
 @media (max-width: 991px) {
     .search-typeahead {
-        max-width: 300px;
+        max-width: 330px;
     }
     .search-typeahead .dropdown-menu {
-        max-width: 300px;
+        max-width: 330px;
+    }
+}
+
+@media (max-width: 767px) {
+    .search-typeahead {
+        max-width: 100%;
+        margin-left: 0;
     }
 }
