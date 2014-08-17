@@ -26,7 +26,7 @@ module.exports = function(routeParams) {
     				outputParams.values +=
     					"?location s:addressLocality ?locality.\n" +
     					"?locality bif:contains '[__enc \"UTF-8\"]\""
-    					+ params["locality"] + "\"'.\n";
+    					+ params["town"] + "\"'.\n";
     				break;
     			case "street":
     				outputParams.values +=
@@ -34,7 +34,7 @@ module.exports = function(routeParams) {
     					"?street bif:contains '[__enc \"UTF-8\"]\""
     					+ params["street"] + "\"'.\n";
     				break;
-    			case "zipcode" : outputParams.values += "location s:postalCode \"" + params["zipcode"] + "\".\n"; break;
+    			case "zipcode" : outputParams.values += "?location s:postalCode \"" + params["zipcode"] + "\".\n"; break;
     			case "objectName" :
     				outputParams.values +=
     					"?check s:object ?object.\n" +
