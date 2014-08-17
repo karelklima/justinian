@@ -29,14 +29,14 @@
                 <small class="text-muted">{{ checkaction['dateIso'] | formatDate }}</small>
             </td>
             <td>
-                {{ checkaction["objectName"] }}<br/>
-                <small class="text-muted">{{ checkaction["street"] }}</small>
+                {{ checkaction["objectName"] }}
             </td>
             <td>
-                {{ checkaction['region'] }}<br/>
-                <small class="text-muted">{{ checkaction['locality'] }}, {{ checkaction['zipcode'] }}</small>
+                {{ checkaction['region'] }}<br />
+                <small class="text-muted">{{ checkaction["street"] }}</small><br/>
+                <small class="text-muted">{{ checkaction['zipcode'] }} {{ checkaction['locality'] }}</small>
             </td>
-            <td>{{ checkaction['result'].length | formatZero }}</td>
+            <td>{{ checkaction['result'].length > 0 ? "Udělena sankce" : "V pořádku" }}</td>
         </tr>
     </table>
 

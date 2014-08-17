@@ -2,7 +2,7 @@
     angular.module('appControllers')
         .controller('CoiCheckactionsController', ['$scope', '$filter', 'AppService', function ($scope, $filter, AppService) {
 
-            var filters = ['objectName', 'region', 'dateGT', 'dateLT', 'town', 'street', 'zipcode'];
+            var filters = ['objectName', 'region', 'dateGT', 'dateLT', 'town', 'street', 'zipcode', 'results'];
             $scope.filterParams = {};
 
             $scope.checkactions = undefined;
@@ -68,6 +68,9 @@
                                 break;
                             case "zipcode":
                                 prefix = "PSČ: ";
+                                break;
+                            case 'results':
+                                title = "kontroly se sankcí";
                                 break;
                         }
 

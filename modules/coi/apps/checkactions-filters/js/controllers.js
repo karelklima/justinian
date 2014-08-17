@@ -4,8 +4,8 @@
 
         .controller('CoiCheckactionsFiltersController', ['$scope', '$filter', 'AppService', function($scope, $filter, AppService) {
 
-            var filters = ['objectName', 'region', 'dateGT', 'dateLT', 'town', 'street', 'zipcode'];
-            var advancedOptions = ['town', 'street', 'zipcode'];
+            var filters = ['objectName', 'region', 'dateGT', 'dateLT', 'town', 'street', 'zipcode', 'results'];
+            var advancedOptions = ['town', 'street', 'zipcode', 'results'];
 
             var dates = {
                 "dateGT" : "minDateRaw",

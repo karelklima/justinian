@@ -49,6 +49,14 @@
                 <label for="filterZipcode">PSČ</label>
                 <input class="form-control" id="filterZipcode" ng-model="zipcode" placeholder="př.: 15000"/>
             </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" ng-model="results"/> Pouze kontroly s udělěnou sankcí
+                    </label>
+                </div>
+            </div>
+
         </div>
         <div>
             <button type="submit" class="btn btn-primary">Vyhledat</button>
