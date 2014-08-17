@@ -10,7 +10,8 @@ module.exports = function(routeParams) {
             "actTitle" : { 
             	"@id" : "http://actTitle",
             	"@language" : "cs"
-            }
+            },
+            "expression" : "http://expression"
         }
     };
 
@@ -37,6 +38,7 @@ module.exports = function(routeParams) {
                 "@id" : ["string", ""],
                 "actId" : ["string", ""],
                 "actTitle" : ["string", ""],
+                "expression" : ["string", ""],
             }, []]
             
         }

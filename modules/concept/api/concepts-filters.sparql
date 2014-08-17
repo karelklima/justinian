@@ -8,6 +8,7 @@ CONSTRUCT {
   my:concepts my:haveActs ?act.
   ?act my:actId ?actId.
   ?act my:actTitle ?actTitle.
+  ?act my:expression ?expr
 }
 #SELECT DISTINCT ?act ?identifier ?title
 

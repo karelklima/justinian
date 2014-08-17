@@ -1,0 +1,44 @@
+PREFIX lex: <http://purl.org/lex#>
+PREFIX lexc: <http://purl.org/lex/ontology/concepts#>
+PREFIX lingv: <http://purl.org/lingv/ontology#>
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX odcs: <http://linked.opendata.cz/ontology/odcs/>
+PREFIX my: <http://>
+
+CONSTRUCT {
+  ?conceptVersion my:hasAct ?act.
+  ?conceptVersion my:hasLabel ?label.
+  ?act my:actId ?actId.
+  ?act my:actTitle ?actTitle.
+  ?act my:hasText ?hasText.
+  ?act my:expression ?expr.
+  ?act my:actIssued ?date.
+}
+
+FROM <http://linked.opendata.cz/resource/dataset/legislation/entities-rels/2014-08-14>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/acts/fulltexts>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
+
+WHERE {
+
+	{
+		SELECT DISTINCT ?conceptVersion ?act (BOUND(?html) as ?hasText) ?date ?expr # ?definition
+		WHERE {
+			?conceptVersion a lexc:ConceptVersion .
+			?conceptVersion frbr:partOf ?expr.
+			?expr frbr:realizationOf ?act.	
+			{{"param" : "values"}}
+			?act a lex:Act.
+			OPTIONAL { ?act dcterms:issued ?date. }
+		}
+		ORDER BY DESC(?date)
+		OFFSET {{"param": "offset", "default": "0"}}
+		LIMIT {{"param": "limit", "default": "10"}}
+	}
+	
+	# keep the following outside the scope of LIMIT - they may return multiple values
+	?act dcterms:title ?actTitle.
+	?act dcterms:identifier ?actId.
+    OPTIONAL {	?conceptVersion skos:prefLabel ?label. }
+}
