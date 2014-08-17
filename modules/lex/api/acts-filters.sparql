@@ -1,14 +1,10 @@
 PREFIX lex: <http://purl.org/lex#>
 PREFIX dcterms: <http://purl.org/dc/terms/>
-PREFIX frbr: <http://purl.org/vocab/frbr/core#>
-PREFIX sao: <http://salt.semanticauthoring.org/ontologies/sao#>
-PREFIX sdo: <http://salt.semanticauthoring.org/ontologies/sdo#>
-PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 PREFIX my: <http://>
 
-CONSTRUCT{
-  my:acts my:minDate ?minDate.
-  my:acts my:maxDate ?maxDate.
+CONSTRUCT {
+my:acts my:minDate ?minDate .
+my:acts my:maxDate ?maxDate
 }
 
 FROM <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
@@ -19,5 +15,6 @@ WHERE {
   WHERE {
     ?act a lex:Act .
     ?act dcterms:issued ?date .
+    FILTER (STRLEN(str(?date)) = 10) 			# excludes erroneous data
   }
 }
