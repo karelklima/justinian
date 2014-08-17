@@ -62,7 +62,7 @@
                         for(var i = 0;i<paragraphs.length;i++){
                             if(paragraphs[i].textContent != undefined){
                                 var content = paragraphs[i].textContent;
-                                if(content[content.length-1] == '.') {
+                                if(content[content.length-1] == '.' && i>1) {
                                     header = false;
                                     continue;
                                 }
@@ -82,7 +82,7 @@
                         for(var i = paragraphs.length-1;i>=0;i--){
                             if(paragraphs[i].textContent != undefined){
                                 var content = paragraphs[i].textContent;
-                                if(content[content.length-1] == '.') {
+                                if(content[content.length-1] == '.' && i<paragraphs.length-3) {
                                     footer = false;
                                     continue;
                                 }
