@@ -6,25 +6,38 @@ module.exports = function(routeParams) {
     route.getContext = function() {
         return {
             "acts" : "http://haveActs",
-            "actId" : "http://actId",
-            "actTitle" : "http://actTitle"
+            "actIdRaw" : "http://actId",
+            "actTitle" : { 
+            	"@id" : "http://actTitle",
+            	"@language" : "cs"
+            }
         }
     };
-/*
+
+    route.getReconstructComplexObjects = function() {
+        return true;
+    };
+    
     route.prepareResponse = function(responseJSONLD) {
-        responseJSONLD["@graph"].forEach(function(data) {
-            data["title"] = data["@id"].substring(data["@id"].lastIndexOf("/check-action/") + 14);
-            data["resultCount"] = _.isArray(data["result"]) ? data["result"].length : 0;
+        responseJSONLD["@graph"][0]["acts"].forEach( function(act) {
+        	if ( _.isArray(act["actIdRaw"]) ) {
+        		act["actId"] = act["actIdRaw"][0];
+        		act["actIdRaw"].forEach( function(id) {
+        			if ( id.indexOf("Sb.") > -1 ) act["actId"] = id;
+        		});
+        	}
         });
 
         return responseJSONLD;
     };
-*/
+    
     route.getModel = function() {
         return {
-        	"acts" : ["object", []],
-        	"actId" : ["object", []],
-        	"actTitle" : ["object", []],
+        	"acts" : [{
+                "@id" : ["string", ""],
+                "actId" : ["string", ""],
+                "actTitle" : ["string", ""],
+            }, []]
             
         }
     };
