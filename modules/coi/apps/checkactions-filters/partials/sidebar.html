@@ -1,6 +1,10 @@
 <div ng-controller="CoiCheckactionsFiltersController" sidebar-app heading="Vyhledávání" set-open="true">
     <form role="form" ng-submit="search()">
         <div class="form-group">
+            <label for="filterSubject">Předmět</label>
+            <input class="form-control" id="filterSubject" ng-model="objectName" placeholder="př.: Billa, Benzina, ..."/>
+        </div>
+        <div class="form-group">
             <label for="filterRegion">Kraj</label>
             <select class="form-control" id="filterRegion" ng-model="region" ng-options="reg as reg for reg in filters['regions']" ng-disabled="isLoading">
                 <option value="">Všechny kraje</option>
@@ -12,7 +16,7 @@
                     <label for="filterMinDate">Datum od</label>
                     <div class="input-group">
                         <input class="form-control" id="filterMinDate" ng-model="minDateRaw" datepicker-popup="dd. MM. yyyy" is-open="popupMinDateIsOpen"
-                                starting-day="1" current-text="Dnes" clear-text="Vymazat" close-text="Zavřít"/>
+                                starting-day="1" current-text="Dnes" clear-text="Vymazat" close-text="Zavřít" placeholder="{{ filterMinDate | formatDate }}"/>
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="openMinDatePopupCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>
@@ -24,7 +28,7 @@
                     <label for="filterMaxDate">do</label>
                     <div class="input-group">
                         <input class="form-control" id="filterMaxDate" ng-model="maxDateRaw" datepicker-popup="dd. MM. yyyy" is-open="popupMaxDateIsOpen"
-                               starting-day="1" current-text="Dnes" clear-text="Vymazat" close-text="Zavřít"/>
+                               starting-day="1" current-text="Dnes" clear-text="Vymazat" close-text="Zavřít" placeholder="{{ filterMaxDate | formatDate }}"/>
                         <span class="input-group-btn">
                             <button type="button" class="btn btn-default" ng-click="openMaxDatePopupCalendar($event)"><i class="glyphicon glyphicon-calendar"></i></button>
                         </span>
@@ -32,8 +36,26 @@
                 </div>
             </div>
         </div>
+        <div ng-show="advancedOptionsIsOpen">
+            <div class="form-group">
+                <label for="filterStreet">Ulice</label>
+                <input class="form-control" id="filterStreet" ng-model="street" placeholder="př.: Jeremiášova"/>
+            </div>
+            <div class="form-group">
+                <label for="filterTown">Město</label>
+                <input class="form-control" id="filterTown" ng-model="town" placeholder="př.: Praha 5"/>
+            </div>
+            <div class="form-group">
+                <label for="filterZipcode">PSČ</label>
+                <input class="form-control" id="filterZipcode" ng-model="zipcode" placeholder="př.: 15000"/>
+            </div>
+        </div>
         <div>
             <button type="submit" class="btn btn-primary">Vyhledat</button>
+            <a class="btn btn-link" ng-click="advancedOptionsIsOpen = !advancedOptionsIsOpen">
+                <span ng-show="advancedOptionsIsOpen">Méně parametrů</span>
+                <span ng-hide="advancedOptionsIsOpen">Více parametrů</span>
+            </a>
         </div>
     </form>
 </div>

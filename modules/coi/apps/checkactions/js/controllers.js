@@ -2,7 +2,7 @@
     angular.module('appControllers')
         .controller('CoiCheckactionsController', ['$scope', '$filter', 'AppService', function ($scope, $filter, AppService) {
 
-            var filters = ['region', 'dateGT', 'dateLT'];
+            var filters = ['objectName', 'region', 'dateGT', 'dateLT', 'town', 'street', 'zipcode'];
             $scope.filterParams = {};
 
             $scope.checkactions = undefined;

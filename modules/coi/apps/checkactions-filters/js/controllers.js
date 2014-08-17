@@ -4,8 +4,8 @@
 
         .controller('CoiCheckactionsFiltersController', ['$scope', '$filter', 'AppService', function($scope, $filter, AppService) {
 
-            var filters = ['region', 'dateGT', 'dateLT'];
-            var advancedOptions = [];
+            var filters = ['objectName', 'region', 'dateGT', 'dateLT', 'town', 'street', 'zipcode'];
+            var advancedOptions = ['town', 'street', 'zipcode'];
 
             var dates = {
                 "dateGT" : "minDateRaw",
@@ -54,9 +54,17 @@
                             if (angular.isDefined(filters['@graph'][0])) {
                                 $scope.filters = filters['@graph'][0];
                                 $scope.filters['regions'].sort();
+                                $scope.filterMinDate = $scope.filters["minDateIso"];
+                                $scope.filterMaxDate = $scope.filters["maxDateIso"];
                                 $scope.filtersLoaded = true;
                             }
                         });
+
+                    // open advanced options if necessary
+                    angular.forEach(advancedOptions, function(option) {
+                        if (angular.isDefined($scope[option]) && $scope[option] !== null)
+                            $scope.advancedOptionsIsOpen = true;
+                    });
                 }
 
                 angular.forEach(dates, function(dateValue, stringValue) {
