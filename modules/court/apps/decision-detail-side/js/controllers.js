@@ -8,10 +8,6 @@
                 return angular.isDefined($scope.decisionDetail) && $scope.decisionDetail.length == 0;
             };
 
-            $scope.isLoading = function() {
-                return angular.isUndefined($scope.decisionDetail);
-            };
-
             this.update = function () {
                 $scope.decisionDetail = undefined;
                 AppService.getData($scope, 'court', 'decision-detail', {'resource': $scope.resource})

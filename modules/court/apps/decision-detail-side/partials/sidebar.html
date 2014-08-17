@@ -1,31 +1,31 @@
-<div ng-controller="CourtDecisionDetailSidebarController" sidebar-app heading="Detail judikátu" set-open="true">
+<div ng-controller="CourtDecisionDetailSidebarController" sidebar-app heading="Informace o judikátu" set-open="true">
 
     <table class="table table-condensed" ng-hide="isLoading || isEmpty()">
         <tr>
-            <td>Judikát č.</td>
+            <th>Spis zn.</th>
             <td><a click resource="{{resource}}" type="lex:Decision">{{decisionDetail.identifier}}</a></td>
         </tr>
         <tr ng-show="decisionDetail.creator!=undefined && decisionDetail.creator.length>0 && decisionDetail.creatorTitle!=undefined && decisionDetail.creatorTitle.length>0">
-            <td>Soud</td>
+            <th>Soud</th>
             <td><a click resource="{{decisionDetail.creator}}" type="lex:Court">{{ decisionDetail.creatorTitle }}</a></td>
         </tr>
-        <tr ng-show="decisionDetail.decisionCategory!=undefined && decisionDetail.decisionCategory.length>0">
-            <td>Kategorie</td>
-            <td>{{ decisionDetail.decisionCategory }}</td>
+        <tr ng-show="decisionDetail.ecli!=undefined && decisionDetail.ecli.length>0">
+            <th>ECLI</th>
+            <td class="word-break">{{ decisionDetail.ecli }}</td>
         </tr>
         <tr ng-show="decisionDetail.decisionKind!=undefined && decisionDetail.decisionKind.length>0">
-            <td>Druh</td>
+            <th>Druh</th>
             <td>{{ decisionDetail.decisionKind }}</td>
         </tr>
-        <tr ng-show="decisionDetail.ecli!=undefined && decisionDetail.ecli.length>0">
-            <td>ECLI</td>
-            <td>{{ decisionDetail.ecli }}</td>
+        <tr ng-show="decisionDetail.decisionCategory!=undefined && decisionDetail.decisionCategory.length>0">
+            <th>Kategorie</th>
+            <td>{{ decisionDetail.decisionCategory }}</td>
         </tr>
         <tr ng-show="decisionDetail.issuedIso!=undefined && decisionDetail.issuedIso.length>0">
-            <td>Datum</td>
+            <th>Datum</th>
             <td>{{ decisionDetail.issuedIso | formatDate }}</td>
         </tr>
     </table>
-    <div ng-show="!isLoading && isEmpty()" class="alert alert-warning">Žádna dostupna informace.</div>
+    <div ng-show="!isLoading && isEmpty()" class="alert alert-warning">Žádné dostupné informace.</div>
 
 </div>
