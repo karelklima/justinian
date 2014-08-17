@@ -52,7 +52,7 @@
             $logProvider.debugEnabled(true);
         }])
 
-        .run(['$rootScope', '$location', function ($rootScope, $location) {
+        .run(['$rootScope', '$location', '$document', function ($rootScope, $location, $document) {
 
             var lastLocationPath = $location.path();
             var lastLocationSearch = angular.copy($location.search());
@@ -67,6 +67,7 @@
                 if(!angular.equals(lastLocationPath, path)){
                     lastLocationPath = path;
                     lastLocationSearch = angular.copy(search);
+                    $document.scrollTo(angular.element("body"), 0); // main application has changed, scroll to top
                 } else {
                     if (!angular.equals(lastLocationSearch, search)){
                         $rootScope.$emit("$locationParamsChangedEvent", lastLocationSearch, search);
