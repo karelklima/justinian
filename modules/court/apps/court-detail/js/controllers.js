@@ -23,10 +23,17 @@
                             $scope.courtDetail = data["@graph"][0];
                             AppService.setTitle($scope.courtDetail.title);
                             if($scope.isLocationAvailable()){
+
+                                var locationParam = $scope.courtDetail["streetAddress"]+", "+
+                                    (angular.isDefined($scope.courtDetail["postalCode"])?($scope.courtDetail["postalCode"]+" "):"");
+
+                                locationParam = locationParam + $scope.courtDetail["locality"].replace(/[0-9]+$/, "");
+
+                                locationParam = locationParam.replace(/ /g,"+");
+
                                 var google_maps_url = "https://www.google.cz/maps/embed/v1/search?key=AIzaSyBI6JFokjlnevxRI3FXFwdIwTWXXfw4OPs&q="+
-                                ($scope.courtDetail["streetAddress"]+" "+
-                                (angular.isDefined($scope.courtDetail["postalCode"])?($scope.courtDetail["postalCode"]+" "):"")+
-                                $scope.courtDetail["locality"]).replace(" ","+");
+                                    locationParam;
+                                console.log(google_maps_url);
                                 document.getElementById("google_maps_window").src = google_maps_url;
                             }
                         }
