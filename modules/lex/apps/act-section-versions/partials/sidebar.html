@@ -6,7 +6,7 @@
             <th><a ng-click="sortBy('amendmentId')">Novela</a></th>
             <th>Porovnat</th>
         </tr>
-        <tr ng-repeat="item in versions | orderBy: predicate : reverse | limitTo:limit"  ng-class="{success: item['@id'] == version, danger: item['@id'] == compare}">
+        <tr ng-repeat="item in versions | orderBy: predicate : reverse | limitTo:limit"  ng-class="{success: item['version'] == version, danger: item['version'] == compare}">
             <td>{{item.number}}</td>
             <td>
                 <a click module="lex" application="act-section-detail" resource="{{ resource }}" version='{{ item["@id"] }}'>{{ item["validIso"] | formatDate }}</a>
@@ -17,17 +17,14 @@
                 </a>
             </td>
             <td class="text-center">
-                <span ng-show="version !== item['@id'] && compare !== item['@id']">
-                    <a ng-show="getVersionValidIso(version) > item['validIso']" click module="lex" application="act-compare" resource="{{ resource }}" version="{{ version }}" compare="{{ item['@id'] }}">
+                <span ng-show="version !== item['@id']">
+                    <a ng-show="getVersionValidIso(version) > item['validIso']" click module="lex" application="act-compare" resource="{{ actResource }}" version="{{ actVersion }}" compare="{{ item['version'] }}" section="{{ actSection }}">
                         <span class="glyphicon glyphicon-transfer"></span>
                     </a>
-                    <a ng-show="getVersionValidIso(version) <= item['validIso']" click module="lex" application="act-compare" resource="{{ resource }}" version="{{ item['@id'] }}" compare="{{ version }}">
+                    <a ng-show="getVersionValidIso(version) <= item['validIso']" click module="lex" application="act-compare" resource="{{ actResource }}" version="{{ item['version'] }}" compare="{{ actVersion }}" section="{{ actSection }}">
                         <span class="glyphicon glyphicon-transfer"></span>
                     </a>
                 </span>
-                <a ng-show="compare === item['@id']" click module="lex" application="act-detail" resource="{{resource}}" version="{{version}}">
-                    <span class="glyphicon glyphicon-remove"></span>
-                </a>
             </td>
         </tr>
         <tr ng-if="versions.length > 10">

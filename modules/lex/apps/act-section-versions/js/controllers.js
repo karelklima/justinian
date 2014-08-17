@@ -46,7 +46,14 @@
                                 version["number"] = counter;
                                 counter++;
                             });
-                            $scope.versions = data["@graph"];
+                            $scope.versions = versions;
+                        });
+
+                    AppService.getData($scope, 'lex', 'act-section-detail', {'resource': $scope.resource})
+                        .then(function (data) {
+                            $scope.actResource = data["@graph"][0]["act"][0]["@id"];
+                            $scope.actSection = data["@graph"][0]["@id"].substring($scope.actResource.length);
+                            $scope.actVersion = data["@graph"][0]["expression"].substring(0,data["@graph"][0]["expression"].length - $scope.actSection.length);
                         });
                 }
             };

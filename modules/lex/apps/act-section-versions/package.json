@@ -3,7 +3,7 @@
     "datatypes": ["lex:ActSection"],
     "views": ["sidebar"],
     "dependencies": {
-        "lex": ["act-section-detail","act-compare"]
+        "lex": ["act-section-detail"]
     },
     "priority": 50
 }
