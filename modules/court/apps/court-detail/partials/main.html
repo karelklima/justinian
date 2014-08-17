@@ -16,7 +16,7 @@
             <li><span>Tel.: </span><a href='tel:{{courtDetail["telephone"]}}'>{{courtDetail["telephone"]}}</a></li>
             <li><span>Fax.: </span><a href='fax:{{courtDetail["faxNumber"]}}'>{{courtDetail["faxNumber"]}}</a></li>
             <li><span>E-mail: </span><a href='mailto:{{courtDetail["email"]}}'>{{courtDetail["email"]}}</a></li>
-            <li><span>WWW: </span><a href='mailto:{{courtDetail["url"]}}'>{{courtDetail["url"]}}</a></li>
+            <li><span>WWW: </span><a href='{{courtDetail["url"]}}'>{{courtDetail["url"]}}</a></li>
             <li><span>Location: </span><span>{{courtDetail["streetAddress"]}}, {{courtDetail["postalCode"]}}, {{courtDetail["locality"]}}</span></li>
         </ul>
         <iframe id="google_maps_window" width="100%" height="450" frameborder="0" style="border:0" ng-show="isLocationAvailable()"></iframe>
