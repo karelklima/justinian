@@ -1,1 +1,21 @@
-<h1 class="pis-logo"><a click module="justinian" application="home"><span>§</span><b>Justinian</b></a></h1>
+<div class="justinian-header">
+    <h1 class="logo"><a click module="justinian" application="home"><span>§</span><b>Justinian</b></a></h1>
+    <button class="toggle" type="button" ng-init="justinianNavOpen = false" ng-click="justinianNavOpen = !justinianNavOpen">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+    </button>
+    <div class="justinian-navigation" collapse="!justinianNavOpen">
+        <ul>
+            <li class="header">Právní prostředí</li>
+            <li><a click module="lex" application="acts">Zákony</a></li>
+            <li><a click module="court" application="decisions">Judikáty</a></li>
+            <li><a click module="concept" application="concepts">Právní pojmy</a></li>
+            <li class="divider"></li>
+            <li class="header">Ostatní agendy</li>
+            <li><a click module="coi" application="checkactions">Kontroly ČOI</a></li>
+            <li class="divider"></li>
+            <li><a click module="justinian" application="about">O projektu</a></li>
+        </ul>
+    </div>
+</div>
