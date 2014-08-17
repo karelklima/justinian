@@ -90,6 +90,14 @@ module.exports = function(routeParams) {
             
         }
     };
+    
+    route.getPrefixedProperties = function() {
+        return [
+            "@id",
+            "expression"
+        ];
+    };
+    
 
     return route;
 };
