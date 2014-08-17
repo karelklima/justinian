@@ -46,15 +46,28 @@
                         var title = $scope[filter];
 
                         switch (filter) {
-                            case "region":
-                                break;
-                            case "minDateIso":
+                            case "dateGT":
                                 prefix = "od ";
                                 title = $filter('date')(title, "dd. MM. yyyy");
                                 break;
-                            case "maxDateIso":
+                            case "dateLT":
                                 prefix = "do ";
                                 title = $filter('date')(title, "dd. MM. yyyy");
+                                break;
+                            case "objectName":
+                                prefix = "Předmět: ";
+                                break;
+                            case "region":
+                                prefix = "Kraj: ";
+                                break;
+                            case "town":
+                                prefix = "Město: ";
+                                break;
+                            case "street":
+                                prefix = "Ulice: ";
+                                break;
+                            case "zipcode":
+                                prefix = "PSČ: ";
                                 break;
                         }
 

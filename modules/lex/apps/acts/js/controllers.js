@@ -46,15 +46,22 @@
                         var title = $scope[filter];
 
                         switch (filter) {
-                            case "region":
-                                break;
-                            case "minDateIso":
+                            case "minDate":
                                 prefix = "od ";
                                 title = $filter('date')(title, "dd. MM. yyyy");
                                 break;
-                            case "maxDateIso":
+                            case "maxDate":
                                 prefix = "do ";
                                 title = $filter('date')(title, "dd. MM. yyyy");
+                                break;
+                            case "identifier":
+                                prefix = "Předpis: ";
+                                break;
+                            case "title":
+                                prefix = "Název: ";
+                                break;
+                            case "query":
+                                prefix = "Text: ";
                                 break;
                         }
 
