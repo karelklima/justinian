@@ -65,8 +65,9 @@
                     getTextPromise.then(function (actSectionText) {
                         if (actSectionText["@graph"].length > 0) {
                             var doc = angular.element("<div>" + actSectionText["@graph"][0]["htmlValue"] + "</div>");
+                            var sectionUriPartLength = $scope.resource.length - $scope.actDetail["@id"].length;
                             doc = LexActService.fixSectionsInActText(doc);
-                            doc = LexActService.addLinksToActText(doc, $scope.resource);
+                            doc = LexActService.addLinksToActText(doc, $scope.actDetail["@id"], $scope.version.substring(0, $scope.version.length - sectionUriPartLength));
                             $scope.actSectionText = doc.html();
                         }
                         else $scope.actSectionText = null;
