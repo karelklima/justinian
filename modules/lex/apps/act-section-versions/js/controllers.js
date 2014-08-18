@@ -48,18 +48,18 @@
                             });
                             $scope.versions = versions;
                         });
+
+                    AppService.getData($scope, 'lex', 'act-section-detail', {'resource': $scope.resource})
+                        .then(function (data) {
+                            $scope.actResource = data["@graph"][0]["act"][0]["@id"];
+                            $scope.actSection = data["@graph"][0]["@id"].substring($scope.actResource.length + 1);
+                        });
                 }
 
-                if(angular.isDefined(changes['resource']) || angular.isDefined(changes['version'])) {
+                if(angular.isDefined(changes['version'])) {
                     AppService.getData($scope, 'lex', 'act-section-text', {'resource': $scope.version})
-                        .then(function (version) {
-                            $scope.actVersion = version["@graph"][0]["@id"];
-
-                            AppService.getData($scope, 'lex', 'act-section-detail', {'resource': $scope.resource})
-                                .then(function (resource) {
-                                    $scope.actResource = resource["@graph"][0]["act"][0]["@id"];
-                                    $scope.actSection = resource["@graph"][0]["@id"].substring($scope.actResource.length + 1);
-                                });
+                        .then(function (data) {
+                            $scope.actVersion = data["@graph"][0]["@id"];
                         });
                 }
             };
