@@ -10,7 +10,7 @@ module.exports = function(routeParams) {
             "realization" : "http://hasRealization",
             "identifier" : "http://purl.org/dc/terms/identifier",
             "expression" : "http://sectionExpression",
-        	//"actTitle" : "http://actTitle",
+        	"resourceTitle" : "http://resourceTitle",
             "actTitle" : {
             	"@id" : "http://actTitle",
                 "@language": "cs",
@@ -28,9 +28,13 @@ module.exports = function(routeParams) {
     };
     
    route.prepareResponse = function(responseJSONLD, requestParams) {
+	   
+	   if (responseJSONLD["@graph"].length > 0) {
 
-        if (responseJSONLD["@graph"].length > 0) {
-
+		   if (responseJSONLD["@graph"][0]["resourceTitle"]) {
+			   // the result is just "resourceTitle", nothing else
+		   } else {
+		   
             // sorting function for ordering all the expressions of a section according to its validity date:
             var sortByDate = function (a,b) {
                 if ( !_.isUndefined(a["validIso"]) && !_.isUndefined(b["validIso"]) ) {
@@ -90,7 +94,9 @@ module.exports = function(routeParams) {
             };
 
             data["title"] = _.map(path, formatSection).join(" ");
-        }
+		   }
+        
+	   }
 
         return responseJSONLD;
     };
@@ -99,6 +105,7 @@ module.exports = function(routeParams) {
         return {
             "@id" : ["string", ""],
             "type" : ["string", ""],
+            "resourceTitle" : ["string", ""],
             "act" : [{
             	"@id" : ["string", ""],
             	"actTitle" : ["string", ""],
