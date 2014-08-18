@@ -1,0 +1,7 @@
+{
+    "title" : "Právní pojmy - vyhledávání",
+    "views": ["sidebar"],
+    "dependencies" : {
+        "concept" : ["concepts"]
+    }
+}

@@ -1,0 +1,45 @@
+<div ng-controller="ConceptConceptsController" main-app>
+    <div app-bar adjust-on="datasource.revision">
+        <div class="clearfix">
+            <div class="navbar-right">
+                <span app-bar-toolbox></span>
+            </div>
+            <div class="navbar-brand">
+                <a click module="concept" application="concepts">Právní pojmy</a>
+            </div>
+        </div>
+        <div class="filters-bar">
+            <span class="btn btn-primary btn-sm" ng-repeat="filter in filters" ng-click="removeFilter(filter.filter)">
+                {{filter.prefix}}{{filter.title}}
+                <span class="glyphicon glyphicon-remove glyphicon-white cursor-pointer"></span>
+            </span>
+        </div>
+    </div>
+
+
+
+    <table class="table" ng-hide="datasource.isEmpty">
+        <tr>
+            <th nowrap>Pojem</th>
+            <th>Předpis</th>
+        </tr>
+        <tr ng-repeat="concept in concepts">
+            <td class="col-md-4">
+                <a click module="concept" application="concept-detail" resource="{{concept['@id']}}">{{concept['label'] | cleanConcept}}</a><br/>
+            </td>
+            <td>
+                <a click type="lex:Act" resource="{{concept['act'][0]['@id']}}" version="{{concept['act'][0]['expression']}}">{{concept['act'][0]['actId']}}</a>
+                <br><small class="text-muted">{{concept['act'][0]['actTitle']}}</small>
+            </td>
+        </tr>
+    </table>
+
+    <div class="alert alert-warning" ng-show="datasource.isEmpty">
+        Zadaným parametrům neodpovídají žádné právní pojmy.
+    </div>
+
+    <div spinner-bar ng-show="datasource.isLoading"></div>
+
+    <div datapager source="datasource" target="concepts" items-per-page="50"></div>
+
+</div>

@@ -1,0 +1,22 @@
+<div ng-controller="ConceptConceptsFiltersController" sidebar-app heading="Vyhledávání" set-open="true">
+    <form role="form" ng-submit="search()">
+        <div class="form-group">
+            <label for="filterLabel">Pojem</label>
+            <input class="form-control" id="filterLabel" ng-model="label"/>
+        </div>
+        <div class="form-group">
+            <label for="filterDefinition">Definice</label>
+            <input class="form-control" id="filterDefinition" ng-model="definition"/>
+        </div>
+        <div class="form-group">
+            <label for="filterAct">Předpis obsahující definici</label>
+            <select class="form-control" id="filterAct" ng-model="expression" ng-options="ct.expression as ct.actTitle for ct in filters['acts']" ng-disabled="isLoading">
+                <option value="">Všechny předpisy</option>
+            </select>
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary">Vyhledat</button>
+        </div>
+    </form>
+</div>
