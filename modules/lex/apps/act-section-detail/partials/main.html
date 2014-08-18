@@ -8,7 +8,8 @@
                 <a click type="lex:ActSection" resource="{{resource}}">
                     Předpis
                     <span ng-show="isEmpty()"> nenalezen</span>
-                    <span ng-show="!isEmpty()"> č. {{actDetail["actId"]}}, {{actSectionDetail["title"]}}</span>
+                    <span ng-show="!isEmpty() && actDetail">č. {{actDetail["actId"]}}, {{actSectionDetail["title"]}}</span>
+                    <span ng-show="!isEmpty() && actSectionDetail['resourceTitle'].length > 0">{{actSectionDetail['resourceTitle']}}</span>
                 </a>
             </div>
         </div>

@@ -39,8 +39,12 @@
                     getDetailPromise.then(function (actDetail) {
                         if (actDetail["@graph"].length > 0) {
                             $scope.actSectionDetail = actDetail["@graph"][0];
-                            $scope.actDetail = $scope.actSectionDetail["act"][0];
-                            AppService.setTitle("Předpis č. " + $scope.actDetail["actId"] + ", " + $scope.actSectionDetail["title"]);
+                            if (angular.isDefined($scope.actSectionDetail["act"][0])) {
+                                $scope.actDetail = $scope.actSectionDetail["act"][0];
+                                AppService.setTitle("Předpis č. " + $scope.actDetail["actId"] + ", " + $scope.actSectionDetail["title"]);
+                            } else {
+                                AppService.setTitle("Předpis " + $scope.actSectionDetail["resourceTitle"]);
+                            }
                         }
                         else {
                             $scope.actSectionDetail = null;
