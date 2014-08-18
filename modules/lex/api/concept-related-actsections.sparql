@@ -1,0 +1,44 @@
+PREFIX lex: <http://purl.org/lingv/ontology#>
+PREFIX lexc: <http://purl.org/lex/ontology/concepts#>
+PREFIX lingv: <http://purl.org/lingv/ontology#>
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX app: <http://justinian.cz/ontology/>
+PREFIX my: <http://>
+
+PREFIX resource: <{{"param": "resource", "filter": "RemoveLTGT"}}>
+
+CONSTRUCT {
+  resource: my:textChunk ?textChunk .
+  ?textChunk my:label ?humanLabel .
+  ?textChunk my:id ?id.
+  
+  resource: my:act ?act.
+  ?act my:version ?expr.
+  ?act my:title ?actTitle.
+  ?act my:actId ?actId.
+}
+FROM <http://linked.opendata.cz/resource/dataset/legislation/entities-rels/2014-08-14>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
+WHERE {
+  {
+  SELECT DISTINCT ?textChunk ?humanLabel ?id ?act ?expr
+  WHERE{
+    resource: frbr:partOf ?expr.
+	?expr frbr:realizationOf ?act.
+    
+    resource: ^oa:hasBody/oa:hasTarget ?textChunk .
+    ?textChunk lingv:hasForm/skos:prefLabel ?humanLabel .
+    
+    BIND(xsd:decimal( REPLACE(str(?textChunk), '^.*/', "") ) AS ?id)
+  }
+  ORDER BY (?id)
+  OFFSET {{"param": "offset", "default": "0"}}
+  LIMIT {{"param": "limit", "default": "10"}}
+  }
+  
+  OPTIONAL { ?act dcterms:title ?actTitle. }
+  OPTIONAL { ?act dcterms:identifier ?actId. }
+}
