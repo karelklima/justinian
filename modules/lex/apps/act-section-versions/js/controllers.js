@@ -34,31 +34,37 @@
             };
 
             this.update = function (changes) {
-                if(angular.isDefined(changes['resource'])){
+                if(angular.isDefined(changes['resource'])) {
                     AppService.getData($scope, 'lex', 'act-section-versions', {'resource': $scope.resource, 'limit': 100})
                         .then(function (data) {
                             var versions = data["@graph"];
-                            versions.sort(function(v1, v2) {
+                            versions.sort(function (v1, v2) {
                                 return (new Date(v1["validIso"])) - (new Date(v2["validIso"]));
                             });
                             var counter = 0;
-                            angular.forEach(versions, function(version) {
+                            angular.forEach(versions, function (version) {
                                 version["number"] = counter;
                                 counter++;
                             });
                             $scope.versions = versions;
                         });
+                }
 
-                    AppService.getData($scope, 'lex', 'act-section-detail', {'resource': $scope.resource})
-                        .then(function (data) {
-                            $scope.actResource = data["@graph"][0]["act"][0]["@id"];
-                            $scope.actSection = data["@graph"][0]["@id"].substring($scope.actResource.length + 1);
-                            $scope.actVersion = data["@graph"][0]["expression"].substring(0,data["@graph"][0]["expression"].length - $scope.actSection.length - 1);
+                if(angular.isDefined(changes['resource']) || angular.isDefined(changes['version'])) {
+                    AppService.getData($scope, 'lex', 'act-section-text', {'resource': $scope.version})
+                        .then(function (version) {
+                            $scope.actVersion = version["@graph"][0]["@id"];
+
+                            AppService.getData($scope, 'lex', 'act-section-detail', {'resource': $scope.resource})
+                                .then(function (resource) {
+                                    $scope.actResource = resource["@graph"][0]["act"][0]["@id"];
+                                    $scope.actSection = resource["@graph"][0]["@id"].substring($scope.actResource.length + 1);
+                                });
                         });
                 }
             };
 
-            AppService.init($scope, ['resource','version','compare'], this.update);
+            AppService.init($scope, ['resource','version'], this.update);
 
         }]);
 
