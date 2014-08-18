@@ -8,6 +8,8 @@
         "entities" : "http://linked.opendata.cz/resource/dataset/legislation/entities-rel/"
     },
     "apis": {
-        "concepts-filters": {}
+    	"concepts" : {"limit": "10", "offset": "0"},
+        "concepts-filters": {},
+        "concept-detail" : {"resource": ""},
     }
 }

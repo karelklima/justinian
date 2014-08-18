@@ -1,0 +1,50 @@
+PREFIX lex: <http://purl.org/lex#>
+PREFIX lexc: <http://purl.org/lex/ontology/concepts#>
+PREFIX lingv: <http://purl.org/lingv/ontology#>
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX my: <http://>
+
+PREFIX resource: <{{"param": "resource", "filter": "RemoveLTGT"}}>
+
+CONSTRUCT {
+  resource: my:hasAct ?act.
+  resource: my:hasDefinition ?definition.
+  resource: my:hasLabel ?label.
+  resource: my:appearsAs ?appearLabel.
+  resource: my:hasGeneralConcepts ?generalConcept.
+  resource: my:hasSpecificConcepts ?specificConcept.
+  ?generalConcept my:hasLabel ?generalLabel.
+  ?specificConcept my:hasLabel ?specificLabel.
+  ?act my:actId ?actId.
+  ?act my:actTitle ?actTitle.
+  ?act my:expression ?expr.
+
+}
+#SELECT DISTINCT ?act ?identifier ?title
+
+FROM <http://linked.opendata.cz/resource/dataset/legislation/entities-rels/2014-08-14>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
+
+WHERE {
+resource: a lexc:ConceptVersion .
+resource: frbr:partOf ?expr.
+OPTIONAL {resource: lexc:hasDefinition ?definition .}
+OPTIONAL {resource: skos:prefLabel ?label.}
+resource: frbr:partOf ?expr.
+OPTIONAL {resource: skos:broader ?generalConcept.}
+OPTIONAL {?generalConcept a lexc:ConceptVersion; skos:prefLabel ?generalLabel.}
+OPTIONAL {resource: ^skos:broader ?specificConcept.}
+OPTIONAL {?specificConcept a lexc:ConceptVersion; skos:prefLabel ?specificLabel.}
+
+OPTIONAL {
+	?annotation oa:hasBody resource: .
+    ?annotation oa:hasTarget ?textchunk .
+  	?textchunk lingv:hasForm/skos:prefLabel ?appearLabel .
+}
+
+?expr frbr:realizationOf ?act.
+?act dcterms:identifier ?actId.
+?act dcterms:title ?actTitle.
+}
