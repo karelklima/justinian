@@ -5,11 +5,21 @@
         "lex:": "http://purl.org/lex#",
         "lexcz:": "http://purl.org/lex/cz#",
         "legislation:": "http://linked.opendata.cz/resource/legislation/cz/",
-        "entities" : "http://linked.opendata.cz/resource/dataset/legislation/entities-rel/"
+        "entities:" : "http://linked.opendata.cz/resource/dataset/legislation/entities-rel/",
+        "lexc:" : "http://purl.org/lex/ontology/concepts#",
+        "skos:" : "http://www.w3.org/2004/02/skos/core#"
     },
     "apis": {
     	"concepts" : {"limit": "10", "offset": "0"},
         "concepts-filters": {},
         "concept-detail" : {"resource": ""}
-    }
+    },
+    "universal-search": [
+        {
+            "datasets": ["http://linked.opendata.cz/resource/dataset/legislation/entities-rels/2014-08-14"],
+            "type" : "lexc:ConceptVersion",
+            "property" : "skos:prefLabel",
+            "label" : "Právní pojem"
+        }
+    ]
 }
