@@ -10,6 +10,6 @@
     "apis": {
     	"concepts" : {"limit": "10", "offset": "0"},
         "concepts-filters": {},
-        "concept-detail" : {"resource": ""},
+        "concept-detail" : {"resource": ""}
     }
 }
