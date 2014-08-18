@@ -52,9 +52,8 @@
                     AppService.getData($scope, 'lex', 'act-section-detail', {'resource': $scope.resource})
                         .then(function(actDetail) {
                             if (angular.isArray(actDetail["@graph"])) {
-                                $scope.actIdentifier = actDetail["@graph"][0]["title"];
-                                $scope.actSectionIdentifier = actDetail["@graph"][0]["act"][0]["actId"];
-                                AppService.setTitle("Související judikáty k předpisu " + $scope.actSectionIdentifier + ", "+ $scope.actIdentifier);
+                                $scope.resourceTitle = actDetail["@graph"][0]["resourceTitle"];
+                                AppService.setTitle("Související judikáty k předpisu " + $scope.resourceTitle);
                             }
                         });
                 }
