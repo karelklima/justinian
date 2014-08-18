@@ -110,7 +110,7 @@ module.exports = function(routeParams) {
             	"@id" : ["string", ""],
             	"actTitle" : ["string", ""],
             	"actId" : ["string", ""]
-            }],
+            }, []],
             "expression" : ["string", ""],
             "validIso" : ["string", ""],
             "identifier": ["string", ""],
@@ -120,7 +120,7 @@ module.exports = function(routeParams) {
                 "type" : ["string", ""],
                 "identifier": ["string", ""],
                 "realization": ["string", ""]
-            }, []],
+            }, []]
         }
     };
 
