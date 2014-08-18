@@ -1,5 +1,5 @@
 {
-    "title" : "Judikáty",
+    "title" : "Související judikáty",
     "datatypes" : ["lex:Act"],
     "views": ["sidebar","main"],
     "dependencies": {

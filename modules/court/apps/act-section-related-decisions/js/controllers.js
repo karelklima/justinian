@@ -54,7 +54,7 @@
                             if (angular.isArray(actDetail["@graph"])) {
                                 $scope.actIdentifier = actDetail["@graph"][0]["title"];
                                 $scope.actSectionIdentifier = actDetail["@graph"][0]["act"][0]["actId"];
-                                AppService.setTitle("Judikáty k předpisu " + $scope.actSectionIdentifier + ", "+ $scope.actIdentifier);
+                                AppService.setTitle("Související judikáty k předpisu " + $scope.actSectionIdentifier + ", "+ $scope.actIdentifier);
                             }
                         });
                 }
