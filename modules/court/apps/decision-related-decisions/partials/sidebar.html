@@ -1,8 +1,8 @@
-<div ng-controller="DecisionRelatedDecisionsController" sidebar-app heading="Judikáty" set-open="false">
+<div ng-controller="DecisionRelatedDecisionsController" sidebar-app heading="Související judikáty" set-open="true">
 
     <table class="table table-condensed" ng-hide="isLoading || isEmpty()">
         <tr>
-            <th>Název</th>
+            <th>Spisová značka</th>
             <th>Předmět</th>
         </tr>
         <tr ng-repeat="decision in filtered = ( decisions | filter : {hasText: 1}) | limitTo : limit">
@@ -14,12 +14,7 @@
                 {{ decision['subjectTitle'] | join | formatDash }}
             </td>
         </tr>
-        <tr ng-show="filtered.length != decisions.length">
-            <td colspan="2" class="text-right">
-                <a class="btn btn-info" ng-model="collapsed" ng-click="collapsed=!collapsed">judik&#225;ty bez dal&#353;&#237;ch dostupn&#253;ch informac&#237;</a>
-            </td>
-        </tr>
-        <tr ng-repeat="decision in decisions | filter : {hasText: 0}" ng-show="collapsed">
+        <tr ng-repeat="decision in decisions | filter : {hasText: 0}">
             <td colspan="2"><a click module="court" application="decision-detail" resource="{{ decision['@id'] }}">{{ decision['title'] }}</a></td>
         </tr>
         <tr ng-show="isShowMore()">
@@ -32,6 +27,6 @@
     <div datapager source="datasource" target="decisions" items-per-page="10" hide-controls="true"></div>
 
     <div ng-show="isLoading">Načítám data</div>
-    <div ng-show="!isLoading && isEmpty()">Žádné dostupné kontroly.</div>
+    <div ng-show="!isLoading && isEmpty()">Žádné související judikáty.</div>
 
 </div>
