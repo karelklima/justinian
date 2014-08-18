@@ -12,7 +12,9 @@ var settings = require('./settings');
 function Pile()
 {
     this.useRand = true;
-    this.rand = '?v=' + crypto.randomBytes(20).toString('hex').substring(0,5);
+    this.rand = '';
+    if (settings.options.development)
+        this.rand = '?v=' + crypto.randomBytes(20).toString('hex').substring(0,5);
     this.list = [];
     this.regex = /\.*/;
 }
