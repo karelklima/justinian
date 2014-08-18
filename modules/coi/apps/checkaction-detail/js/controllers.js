@@ -18,6 +18,7 @@
                 AppService.getData($scope, 'coi', 'checkaction-detail', {'resource': $scope.resource})
                     .then(function(data) {
                         $scope.data = data["@graph"][0];
+                        AppService.setTitle("Kontrola ČOI č. " + data["title"]);
                         if($scope.isLocationAvailable()){
 
                             var locationParam = $scope.data["street"]+", "+
@@ -29,7 +30,6 @@
 
                             var google_maps_url = "https://www.google.cz/maps/embed/v1/search?key=AIzaSyBI6JFokjlnevxRI3FXFwdIwTWXXfw4OPs&q="+
                                 locationParam;
-                            console.log(google_maps_url);
                             document.getElementById("google_maps_window").src = google_maps_url;
                         }
                     });
