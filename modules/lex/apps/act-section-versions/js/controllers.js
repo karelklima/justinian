@@ -51,15 +51,19 @@
 
                     AppService.getData($scope, 'lex', 'act-section-detail', {'resource': $scope.resource})
                         .then(function (data) {
-                            $scope.actResource = data["@graph"][0]["act"][0]["@id"];
-                            $scope.actSection = data["@graph"][0]["@id"].substring($scope.actResource.length + 1);
+                            if (angular.isDefined(data["@graph"][0]["act"][0])) {
+                                $scope.actResource = data["@graph"][0]["act"][0]["@id"];
+                                $scope.actSection = data["@graph"][0]["@id"].substring($scope.actResource.length + 1);
+                            }
                         });
                 }
 
                 if(angular.isDefined(changes['version'])) {
                     AppService.getData($scope, 'lex', 'act-section-text', {'resource': $scope.version})
                         .then(function (data) {
-                            $scope.actVersion = data["@graph"][0]["@id"];
+                            if (angular.isDefined(data["@graph"][0])) {
+                                $scope.actVersion = data["@graph"][0]["@id"];
+                            }
                         });
                 }
             };
