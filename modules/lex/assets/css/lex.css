@@ -19,18 +19,6 @@
 
 }
 
-.lex-act-text section.dil > header h1,
-.lex-act-text section.oddil > header h1,
-.lex-act-text section.pododdil > header h1 {
-    display: inline-block;
-}
-.lex-act-text section.dil > header h1:first-child:after,
-.lex-act-text section.oddil > header h1:first-child:after,
-.lex-act-text section.pododdil > header h1:first-child:after {
-    content: " - ";
-    margin-right: 7px;
-}
-
 .lex-act-text section.odstavec > p {
     position: relative;
     margin-left: 24px;

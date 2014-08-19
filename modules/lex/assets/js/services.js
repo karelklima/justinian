@@ -45,6 +45,17 @@
 
             this.fixSectionsInActText = function(rootElement) {
 
+                rootElement.find("section.dil, section.oddil, section.pododdil, section.clanek, section.paragraf").each(function() {
+                    var header = angular.element(this).children("header");
+                    var h1s = header.children("h1");
+                    if (h1s.length > 1) {
+                        var h11 = angular.element(h1s[0]);
+                        var h12 = angular.element(h1s[1]);
+                        h11.html(h11.html() + " &ndash; " + h12.html());
+                        h12.remove();
+                    }
+                });
+
                 rootElement.find("section.odstavec, section.pismeno, section.bod").each(function() {
                     var self = angular.element(this);
                     var delimiter = self.hasClass('bod') ? '.' : ")";
