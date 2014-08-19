@@ -87,7 +87,7 @@
 
                     if (self.hasClass("odstavec") || self.hasClass("pismeno") || self.hasClass("bod")) {
                         self.children("p").children("span.identifier").wrapInner(a);
-                    } else if (self.hasClass("clanek") || self.hasClass("paragraph")) { // works for outline too
+                    } else if (self.hasClass("clanek") || self.hasClass("paragraf")) { // works for outline too
                         self.children("header").wrapInner(a);
                     }
 
