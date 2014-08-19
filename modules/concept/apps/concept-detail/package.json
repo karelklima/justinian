@@ -1,0 +1,6 @@
+{
+    "title" : "Právní pojem",
+    "datatypes": ["lexc:ConceptVersion"],
+    "views": ["main"],
+    "priority": 100
+}

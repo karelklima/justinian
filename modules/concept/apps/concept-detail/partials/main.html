@@ -1,0 +1,74 @@
+<div ng-controller="ConceptConceptDetailController" main-app anchor-scroll offset-top="150">
+    <div app-bar adjust-on="courtDetail">
+        <div class="clearfix">
+            <div class="navbar-right">
+                <span app-bar-toolbox></span>
+            </div>
+            <div class="navbar-brand">
+                <a click module="concept" application="concept-detail" resource="{{resource}}">
+                    Právní pojem
+                    <span ng-show="isEmpty()">nenalezen</span>
+                    {{conceptDetail["label"]}}
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div ng-show="!isEmpty() || isLoading">
+        <table class="table">
+            <tr ng-show="conceptDetail.definitions.length > 0">
+                <th>Definice</th>
+                <td>
+                   <div ng-repeat="definition in conceptDetail.definitions">{{definition}}</div>
+                </td>
+            </tr>
+            <tr ng-show="conceptDetail.act.length > 0">
+                <th nowrap>Právní předpis</th>
+                <td>
+                    <a click type="lex:Act" resource="{{conceptDetail.act[0]['@id']}}" version="{{conceptDetail.act[0]['expression']}}">
+                        <span ng-show="conceptDetail.act[0]['actId'].length > 0">{{conceptDetail.act[0]['actId']}} </span>
+                        {{conceptDetail.act[0]['actTitle']}}
+                    </a>
+                </td>
+            </tr>
+            <tr ng-show="conceptDetail.textForms.length > 0">
+                <th nowrap>Formy výskytu</th>
+                <td>{{conceptDetail.textForms | join}}</td>
+            </tr>
+            <tr ng-show="conceptDetail.obligations.length > 0">
+                <th>Odpovědnost</th>
+                <td>
+                    <ul>
+                        <li ng-repeat="obligation in conceptDetail.obligations">
+                            {{obligation.label}}
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr ng-show="conceptDetail.generalConcepts.length > 0">
+                <th nowrap>Širší pojem</th>
+                <td>
+                    <ul class="plain-list">
+                        <li ng-repeat="concept in conceptDetail.generalConcepts">
+                            <a click module="concept" application="concept-detail" resource="{{concept['@id']}}">{{concept.label}}</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr ng-show="conceptDetail.specificConcepts.length > 0">
+                <th nowrap>Užší pojmy</th>
+                <td>
+                    <ul class="plain-list">
+                        <li ng-repeat="concept in conceptDetail.specificConcepts">
+                            <a click module="concept" application="concept-detail" resource="{{concept['@id']}}">{{concept.label}}</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div ng-show="isLoading" spinner-bar></div>
+
+    <div ng-show="!isLoading && isEmpty()" class="alert alert-warning">Data pro tento právní pojem nejsou dostupná.</div>
+</div>

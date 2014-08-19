@@ -27,7 +27,6 @@
                         .then(function (conceptFilters) {
                             if (angular.isDefined(conceptFilters['@graph'][0])) {
                                 $scope.filters = conceptFilters['@graph'][0];
-                                console.log($scope.filters);
                                 $scope.filtersLoaded = true;
                             }
                         });
