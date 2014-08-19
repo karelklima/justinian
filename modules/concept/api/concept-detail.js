@@ -66,8 +66,8 @@ module.exports = function(routeParams) {
                 "@id" : ["string", ""],
                 "label" : ["string", ""],
                 "targetTextChunk" : ["string", ""]
-            }, []]
-            
+            }, []],
+            "rights": [{},[]]
         }
     };
 

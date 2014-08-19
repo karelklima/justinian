@@ -38,9 +38,19 @@
             <tr ng-show="conceptDetail.obligations.length > 0">
                 <th>Odpovědnost</th>
                 <td>
-                    <ul>
+                    <ul class="plain-list">
                         <li ng-repeat="obligation in conceptDetail.obligations">
                             {{obligation.label}}
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr ng-show="conceptDetail.rights.length > 0">
+                <th>Právo</th>
+                <td>
+                    <ul class="plain-list">
+                        <li ng-repeat="right in conceptDetail.rights">
+                            {{right.label}}
                         </li>
                     </ul>
                 </td>

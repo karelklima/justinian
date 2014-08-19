@@ -17,6 +17,7 @@
 
                         if (angular.isDefined(data["@graph"][0])) {
                             $scope.conceptDetail = data["@graph"][0];
+                            AppService.setTitle("Právní pojem " + data["@graph"][0]["label"]);
                         } else {
                             $scope.conceptDetail = null;
                         }
