@@ -16,6 +16,12 @@ CONSTRUCT {
   resource: my:hasSpecificConcepts ?specificConcept.
   ?generalConcept my:hasLabel ?generalLabel.
   ?specificConcept my:hasLabel ?specificLabel.
+  resource: my:hasObligation ?obligation.
+  ?obligation my:targetChunk ?obligationChunk.
+  ?obligation my:hasLabel ?obligationLabel.
+  #resource: my:hasRight ?right.
+  #?right my:targetChunk ?rightChunk.
+  #?right my:hasLabel ?rightLabel.
   ?act my:actId ?actId.
   ?act my:actTitle ?actTitle.
   ?act my:expression ?expr.
@@ -37,6 +43,19 @@ OPTIONAL {resource: skos:broader ?generalConcept.}
 OPTIONAL {?generalConcept a lexc:ConceptVersion; skos:prefLabel ?generalLabel.}
 OPTIONAL {resource: ^skos:broader ?specificConcept.}
 OPTIONAL {?specificConcept a lexc:ConceptVersion; skos:prefLabel ?specificLabel.}
+
+OPTIONAL {
+resource: lexc:hasObligation ?obligation .
+?obligation ^oa:hasBody/oa:hasTarget ?obligationChunk .
+?obligationChunk lingv:hasForm/skos:prefLabel ?obligationLabel .
+}
+
+OPTIONAL {
+resource: lexc:hasRight ?right.
+#?right ^oa:hasBody/oa:hasTarget ?rightChunk .
+#?rightChunk lingv:hasForm/skos:prefLabel ?rightLabel .
+}
+
 
 OPTIONAL {
 	?annotation oa:hasBody resource: .

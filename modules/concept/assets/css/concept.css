@@ -1,0 +1,8 @@
+.plain-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.plain-list li {
+    margin-bottom: 4px;
+}

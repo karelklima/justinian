@@ -17,6 +17,8 @@ module.exports = function(routeParams) {
             "generalConcepts" : "http://hasGeneralConcepts",
             "specificConcepts" : "http://hasSpecificConcepts",
             "textForms" : "http://appearsAs",
+            "obligations": "http://hasObligation",
+            "targetTextChunk": "http://targetChunk"
         }
     };
 
@@ -36,6 +38,10 @@ module.exports = function(routeParams) {
 
         return responseJSONLD;
     };*/
+
+    route.getApplyModel = function() {
+        return true;
+    };
     
     route.getModel = function() {
         return {
@@ -54,7 +60,12 @@ module.exports = function(routeParams) {
                 "@id" : ["string", ""],
                 "actId" : ["string", ""],
                 "actTitle" : ["string", ""],
-                "expression" : ["string", ""],
+                "expression" : ["string", ""]
+            }, []],
+            "obligations" : [{
+                "@id" : ["string", ""],
+                "label" : ["string", ""],
+                "targetTextChunk" : ["string", ""]
             }, []]
             
         }
