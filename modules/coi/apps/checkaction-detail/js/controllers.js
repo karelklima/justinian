@@ -18,7 +18,7 @@
                 AppService.getData($scope, 'coi', 'checkaction-detail', {'resource': $scope.resource})
                     .then(function(data) {
                         $scope.data = data["@graph"][0];
-                        AppService.setTitle("Kontrola ČOI č. " + data["title"]);
+                        AppService.setTitle("Kontrola ČOI č. " + $scope.data["title"]);
                         if($scope.isLocationAvailable()){
 
                             var locationParam = $scope.data["street"]+", "+
