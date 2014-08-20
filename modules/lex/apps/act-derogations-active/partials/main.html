@@ -21,9 +21,9 @@
 
     <table class="table" ng-show="!datasource.isEmpty">
         <tr>
-            <td><a class="cursor-pointer" ng-click="sortBy('type')">Typ</a></td>
-            <td><a class="cursor-pointer" ng-click="sortBy('actId')">Číslo</a></td>
-            <td><a class="cursor-pointer" ng-click="sortBy('actTitle')">Název</a></td>
+            <th><a class="cursor-pointer" ng-click="sortBy('type')">Typ</a></th>
+            <th><a class="cursor-pointer" ng-click="sortBy('actId')">Číslo</a></th>
+            <th><a class="cursor-pointer" ng-click="sortBy('actTitle')">Název</a></th>
         </tr>
         <tr ng-repeat="derogation in derogations | orderBy: predicate : reverse" ng-class="{'bg-warning': derogation.type == 'zrušení'}">
             <td>
