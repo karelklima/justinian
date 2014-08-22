@@ -9,7 +9,7 @@ appServices = angular.module('appServices', [
 appServices.service('ConfigurationService', ['UtilService', 'PageService', '$filter', '$log', function (UtilService, PageService, $filter, $log) {
     var _data = configuration.application;
     var _modules = configuration.application.modules;
-
+    var self = this;
     this.getPrefixes = function() {
         var prefixes = {};
         angular.forEach(_modules, function(spec, module) {
@@ -25,6 +25,26 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
 
     this._getTypes = function () {
         return _modules[PageService.getModule()].apps[PageService.getApplication()].datatypes;
+    };
+
+    this.getDefaultModuleApplicationForTypeAndView = function(type, view) {
+        var result = [];
+        angular.forEach(_modules, function (mods, modName) {
+            angular.forEach(mods.apps, function (opts, appName) {
+                if (angular.isDefined(opts.datatypes) && opts.datatypes.indexOf(type) !== -1
+                        && angular.isDefined(opts.views) && opts.views.indexOf(view) !== -1) {
+                    var priority = angular.isDefined(opts.priority) ? opts.priority : 0;
+                    var appTitle = angular.isDefined(opts.title) ? opts.title : undefined;
+                    result.push({module: modName, application: appName, priority: priority, title: appTitle});
+                }
+            });
+        });
+        var path = $filter('orderBy')(result, 'priority').pop();
+        if (angular.isDefined(path))
+            delete path.priority;
+        $log.debug("ConfigurationService.getDefaultModuleApplicationForTypeAndView: " + type + ", view = "+ view + " - " +  angular.toJson(path));
+
+        return path;
     };
 
     this.getMainTemplate = function () {
@@ -66,22 +86,7 @@ appServices.service('ConfigurationService', ['UtilService', 'PageService', '$fil
     };
 
     this.getDefaultModuleApplication = function (type) {
-        var result = [];
-        angular.forEach(_modules, function (mods, modName) {
-            angular.forEach(mods.apps, function (opts, appName) {
-                if (angular.isDefined(opts.datatypes) && opts.datatypes.indexOf(type) !== -1
-                        && angular.isDefined(opts.views) && opts.views.indexOf("main") !== -1) {
-                    var priority = angular.isDefined(opts.priority) ? opts.priority : 0;
-                    result.push({module: modName, application: appName, priority: priority});
-                }
-            });
-        });
-        //$log.debug("ConfigurationService.getDefaultModuleApplication: " +  angular.toJson(result));
-        var path = $filter('orderBy')(result, 'priority').pop();
-        if (angular.isDefined(path))
-            delete path.priority;
-        $log.debug("ConfigurationService.getDefaultModuleApplication: " + type + " - " +  angular.toJson(path));
-        return path;
+        return self.getDefaultModuleApplicationForTypeAndView(type, 'main');
     };
 
     this.getDefaultTitle = function () {

@@ -1,0 +1,19 @@
+<div ng-controller="LexActDetailPopOverController">
+    <div ng-show="!isEmpty() && !isLoading">
+        <table class="table">
+            <tr>
+                <th>Nazév</th>
+                <td>{{actDetail.title}}</td>
+            </tr>
+            <tr ng-show="actVersion.validIso.length > 0">
+                <th>Znění platné od</th>
+                <td>{{actDetail.validIso | formatDate}}</td>
+            </tr>
+        </table>
+    </div>
+    <div ng-show="isLoading" spinner-bar></div>
+    <div ng-show="!isLoading && isEmpty()" class="alert alert-warning">
+        Předpis nenalezen!<br>
+        Zkuste ho najít pomocí vyhledávacího pole nahoře.
+    </div>
+</div>

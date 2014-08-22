@@ -121,3 +121,29 @@
 
 })();
 
+(function(){
+    angular.module("appControllers")
+        .controller('LexActDetailPopOverController', ['$scope', '$log', '$q', 'AppService', 'LexActService', function ($scope, $log, $q, AppService, LexActService) {
+            $scope.actDetail = undefined;
+            $scope.isLoading = true;
+
+            $scope.isEmpty = function(){
+                return angular.isDefined($scope.actDetail) && $scope.actDetail.length == 0;
+            }
+
+            AppService.getData($scope, 'lex', 'act-detail', {'resource': $scope.resource})
+                    .then(function (actDetail) {
+                        $scope.isLoading = false;
+                        if (actDetail["@graph"].length > 0) {
+                            $scope.actDetail = actDetail["@graph"][0];
+                            $scope.$parent.popOverTitle = "Předpis č. " + $scope.actDetail["identifier"];
+                            console.log($scope.actDetail);
+                        }
+                        else {
+                            $scope.actDetail = {};
+                            $scope.$parent.popOverTitle = "Předpis nenalezen";
+                        }
+                    });
+        }]);
+})();
+

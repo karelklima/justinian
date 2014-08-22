@@ -1,6 +1,6 @@
 {
     "title" : "Předpis",
     "datatypes" : ["lex:Act"],
-    "views": ["main"],
+    "views": ["main","pop-over"],
     "priority" : 1000
 }
