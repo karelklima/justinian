@@ -12,31 +12,31 @@ module.exports = function(routeParams) {
     var rawPrefixes = {};
     var rawFrom = [];
     var rawValues = [];
-    /** Projít všechny moduly a sebrat do skupiny všechny vyhledávací šablony a SPARQL prefixy. */
+    /** Foreach all modules and join all search templates, datasets and prefixes into arrays for SPARQL query building.*/
     _.each(settings.getModulesSetup(), function(module) {
-        if (module["universal-search"].length > 0) { //Vyhledávací šablony existují.
-            _.extend(rawPrefixes, module["prefixes"]); //Zapamatovat nové prefixy.
+        if (module["universal-search"].length > 0) { //Search temple exists.
+            _.extend(rawPrefixes, module["prefixes"]); //Save new prefixes.
             _.each(module["universal-search"], function(specification) {
-                rawFrom = _.union(rawFrom, specification["datasets"]); //Zapamatovat nové datasety.
+                rawFrom = _.union(rawFrom, specification["datasets"]); //Save new datasets
                 specification["datasets"].forEach(function(dataset){
-                	rawValues.push([specification["type"], specification["property"], specification["label"], dataset]); //Zapamatovat vyhledávací šablonu.
+                	rawValues.push([specification["type"], specification["property"], specification["label"], dataset]); //Save search template
                 });
             });
         }
 
     });
 
-    //Sestavit PREFIX část SPARQL dotazu.
+    //Build PREFIX part of SPARQL query.
     _.each(rawPrefixes, function(uri, prefix) {
         persistentParams.prefixes = persistentParams.prefixes + "PREFIX " + prefix + " <" + uri + ">\n";
     });
 
-    //Sestavit FROM část SPARQL dotazu. (datasety)
+    //Build FROM part of SPARQL query. (datasets)
     _.each(rawFrom, function(uri) {
         persistentParams.from = persistentParams.from + "FROM NAMED <" + uri + ">\n";
     });
 
-    //Sestavit vyhledavaci část SPARQL dotazu.
+    //Build search part of SPARQL query.
     var rawValuesTemp = [];
     _.each(rawValues, function(triple) {
         rawValuesTemp.push("VALUES (?type ?property ?label ?graph) { ( " + triple[0] + " " + triple[1] + ' "' + triple[2] + '" <' + triple[3] + '>' +" ) }");

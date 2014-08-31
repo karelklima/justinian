@@ -3,7 +3,7 @@
     angular.module("appDirectives")
 
         /**
-        * Zobrazuje indikátor načítání
+        * Show loading indicator
         */
         .directive('spinner', function() {
             return {
@@ -24,7 +24,7 @@
         })
 
         /**
-        * Normalní indikátor načítání
+        * Normal-size loading indicator
         */
         .directive('spinnerBar', function() {
             return {
@@ -36,7 +36,7 @@
         })
 
         /**
-        * Malý indikátor načítání
+        * Small loading indicator
         */
         .directive('spinnerGlyphicon', function() {
             return {
@@ -48,7 +48,7 @@
         })
 
         /**
-        * Direktiva na stránkování dat.
+        * Paging directive
         */
         .directive('datapager', function() {
             return {
@@ -89,25 +89,25 @@
                     scope.source.isEmpty = false;
                     scope.source.isLoading = false;
 
-                    /** Zobrazit další stranku. */
+                    /** Show next page. */
                     scope.appendPage = function() {
                         scope.append = true;
                         scope.page++;
                         scope.update();
                     };
 
-                    /** Zobrazit další stranku. */
+                    /** Show next page. */
                     scope.nextPage = function() {
                         scope.page++;
                         scope.update();
                     };
-                    /** Zobrazit předchozí stranku. */
+                    /** Show previous page. */
                     scope.previousPage = function() {
                         scope.page--;
                         scope.update();
                     };
 
-                    /** Aktualizace direktivy pro nový zdroj dat. */
+                    /** Full update of current directive on datasource changing. */
                     scope.$watch('source', function(current, previous) {
                         if (angular.isUndefined(current.revision) || current.revision == previous.revision)
                             return; // do not refresh
@@ -117,7 +117,7 @@
                         scope.update()
                     }, true);
 
-                    /** Aktualizovat data. */
+                    /** Update current state and view. */
                     scope.update = function() {
                         scope.source.isLoading = true;
                         scope.source.isEmpty = false;
@@ -148,7 +148,7 @@
         })
 
         /**
-        * Horní bar pro hlavní aplikace
+        * Top bar for main application
         */
         .directive('appBar', ['$window', '$timeout', function($window, $timeout) {
             return {
@@ -194,7 +194,7 @@
         }])
 
         /**
-        * Tlačítko v hlavním baru "nahoru".
+        * Button "To top" in main application bar.
         */
         .directive('appBarUpButton', ['$window', '$document', function($window, $document) {
             return {
@@ -211,7 +211,7 @@
         }])
 
         /**
-        * Sekce tlačítek v horním baru hlavní aplikace.
+        * Button section in main application bar.
         */
         .directive('appBarToolbox', ['$document', function($document) {
             return {
@@ -236,7 +236,7 @@
             }
         }])
 
-        /** Hlavní aplikace */
+        /** Main application */
         .directive('mainApp', function () {
             return {
                 restrict: 'A',
@@ -255,11 +255,11 @@
             }
         })
 
-        /** Aplikace na bočním panelů.
-        * @param {boolean} set-open - Sidebar aplikace je minimalizovana.
-        * @param {boolean} set-disable - Sidebar aplikace je vypnuta.
-        * @param {boolean} set-hidden - Sidebar aplikace je skryta.
-        * @param {string} [heading="Aplikace"] - Hlavička aplikace
+        /** Sidebar application
+        * @param {boolean} set-open - Sidebar app is minimized.
+        * @param {boolean} set-disable - Sidebar app is disabled.
+        * @param {boolean} set-hidden - Sidebar app is hidden.
+        * @param {string} [heading="Aplikace"] - Panel title
         */
         .directive('sidebarApp', function () {
             return {
@@ -289,7 +289,7 @@
                         element.find(".transclude").append(clone); // add to DOM
                     });
 
-                    /** Přenos atributů do scope. */
+                    /** Transfer attributes to scope */
 
                     if (angular.isUndefined(scope.isOpen))
                         scope.isOpen = !(angular.isDefined(attrs.setOpen) && attrs.setOpen != "true");
@@ -314,7 +314,7 @@
             };
         })
 
-        /** Popover aplikace */
+        /** Popover application */
         .directive('popOverApp', function () {
             return {
                 priority: 10000,
@@ -362,9 +362,9 @@
             }
         })
 
-        /** Přejit na vybraný prvek na stránce.
-        * Pro přechod na vybraný prvek je nutné poslat broadcast event "anchor-scroll" s parametrem: {target: XXXX}
-        * Příklad: $scope.$broadcast('anchor-scroll', {target: 'section[resource="'+$scope.section+'"]'});
+        /** Move to selected element on screen.
+        * If you need to scroll current page to selected element, you have to broadcast event "anchor-scroll" with parameters : {target: XXXX}
+        * Example: $scope.$broadcast('anchor-scroll', {target: 'section[resource="'+$scope.section+'"]'});
         */
         .directive('anchorScroll', ['$timeout', '$document', function ($timeout, $document) {
             return {

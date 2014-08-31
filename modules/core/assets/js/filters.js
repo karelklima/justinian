@@ -2,9 +2,9 @@
     angular.module('appFilters')
 
         /**
-        * Formátování datumu do šablony d. M. yyyy
-        * @param Datum
-        * @return Datum ve formatu d. M. yyyy
+        * Format date to template d. M. yyyy
+        * @param date
+        * @return Date in format d. M. yyyy
         */
         .filter('formatDate', ['$filter', function ($filter) {
             return function (date) {
@@ -13,9 +13,9 @@
         }])
 
         /**
-        * Jestliže číslo je nula, tak vrátit prázdný řetěz.
-        * @param {(string|number)} number - Číslo
-        * @return {(string|number)} - Číslo nebo prázdný řetěz.
+        * If number is zero, it returns emptry string, otherwise input number.
+        * @param {(string|number)} number - Number
+        * @return {(string|number)} - Input number or emptry string
         */
         .filter('formatZero', [function () {
             return function (number) {
@@ -24,9 +24,9 @@
         }])
 
         /**
-        * Nahradit pomlčky mezerami.
+        * Replace dashes by whitespace in input string
         * @param {string} Text
-        * @return {string} Text bez pomlček
+        * @return {string} Text without dashes
         */
         .filter('formatDash', function () {
             return function (text) {
@@ -35,11 +35,11 @@
         })
 
         /**
-        * Vybrat jednu stránku z pole výsledků
-        * @param {array} input - Všechny výsledky.
-        * @param {number} page - Index stránky. Index se začíná od 1.
-        * @param {number} limit - Množství výsledků pro jednu stránku
-        * @return {array} - Vybrané výsledky.
+        * Select items from input array for selected page
+        * @param {array} input - All items
+        * @param {number} page - Page index, it is started from 1.
+        * @param {number} limit - Items per page.
+        * @return {array} - Selected items
         */
         .filter('select', function () {
             return function (input, page, limit) {
@@ -50,10 +50,10 @@
         })
 
         /**
-        * Spojit všechny elementy vstupu do jednoho řetězce
-        * @param {array} input - Elementy pro spojení
-        * @param {string} [joinString=", "] - Spojovací řetězec
-        * @return {string} - Výstupní řetězec.
+        * Join all elements from input to one string
+        * @param {array} input - Input elements
+        * @param {string} [joinString=", "] - Join template
+        * @return {string} - One string
         */
         .filter('join', function() {
             return function(input, joinString) {
