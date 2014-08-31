@@ -2,6 +2,9 @@
 
     angular.module("appDirectives")
 
+        /**
+        * Zobrazuje indikátor načítání
+        */
         .directive('spinner', function() {
             return {
                 scope: {
@@ -20,6 +23,9 @@
             }
         })
 
+        /**
+        * Normalní indikátor načítání
+        */
         .directive('spinnerBar', function() {
             return {
                 restrict: 'A',
@@ -29,6 +35,9 @@
             }
         })
 
+        /**
+        * Malý indikátor načítání
+        */
         .directive('spinnerGlyphicon', function() {
             return {
                 restrict: 'A',
@@ -38,6 +47,9 @@
             }
         })
 
+        /**
+        * Direktiva na stránkování dat.
+        */
         .directive('datapager', function() {
             return {
                 restrict: 'A',
@@ -77,22 +89,25 @@
                     scope.source.isEmpty = false;
                     scope.source.isLoading = false;
 
+                    /** Zobrazit další stranku. */
                     scope.appendPage = function() {
                         scope.append = true;
                         scope.page++;
                         scope.update();
                     };
 
+                    /** Zobrazit další stranku. */
                     scope.nextPage = function() {
                         scope.page++;
                         scope.update();
                     };
-
+                    /** Zobrazit předchozí stranku. */
                     scope.previousPage = function() {
                         scope.page--;
                         scope.update();
                     };
 
+                    /** Aktualizace direktivy pro nový zdroj dat. */
                     scope.$watch('source', function(current, previous) {
                         if (angular.isUndefined(current.revision) || current.revision == previous.revision)
                             return; // do not refresh
@@ -102,6 +117,7 @@
                         scope.update()
                     }, true);
 
+                    /** Aktualizovat data. */
                     scope.update = function() {
                         scope.source.isLoading = true;
                         scope.source.isEmpty = false;
@@ -131,6 +147,9 @@
             }
         })
 
+        /**
+        * Horní bar pro hlavní aplikace
+        */
         .directive('appBar', ['$window', '$timeout', function($window, $timeout) {
             return {
                 restrict: 'A',
@@ -174,6 +193,9 @@
             }
         }])
 
+        /**
+        * Tlačítko v hlavním baru "nahoru".
+        */
         .directive('appBarUpButton', ['$window', '$document', function($window, $document) {
             return {
                 restrict: 'A',
@@ -188,6 +210,9 @@
             }
         }])
 
+        /**
+        * Sekce tlačítek v horním baru hlavní aplikace.
+        */
         .directive('appBarToolbox', ['$document', function($document) {
             return {
                 restrict: 'A',
@@ -203,6 +228,7 @@
                     scope.goUp = function() {
                         $document.scrollTo(angular.element("body"), 0, 300);
                     };
+
                     scope.goToSidebar = function() {
                         $document.scrollTo(angular.element("div.sidebar"), 150, 300);
                     };
@@ -210,6 +236,7 @@
             }
         }])
 
+        /** Hlavní aplikace */
         .directive('mainApp', function () {
             return {
                 restrict: 'A',
@@ -228,6 +255,12 @@
             }
         })
 
+        /** Aplikace na bočním panelů.
+        * @param {boolean} set-open - Sidebar aplikace je minimalizovana.
+        * @param {boolean} set-disable - Sidebar aplikace je vypnuta.
+        * @param {boolean} set-hidden - Sidebar aplikace je skryta.
+        * @param {string} [heading="Aplikace"] - Hlavička aplikace
+        */
         .directive('sidebarApp', function () {
             return {
                 restrict: 'A',
@@ -256,6 +289,8 @@
                         element.find(".transclude").append(clone); // add to DOM
                     });
 
+                    /** Přenos atributů do scope. */
+
                     if (angular.isUndefined(scope.isOpen))
                         scope.isOpen = !(angular.isDefined(attrs.setOpen) && attrs.setOpen != "true");
 
@@ -279,6 +314,10 @@
             };
         })
 
+        /** Přejit na vybraný prvek na stránce.
+        * Pro přechod na vybraný prvek je nutné poslat broadcast event "anchor-scroll" s parametrem: {target: XXXX}
+        * Příklad: $scope.$broadcast('anchor-scroll', {target: 'section[resource="'+$scope.section+'"]'});
+        */
         .directive('anchorScroll', ['$timeout', '$document', function ($timeout, $document) {
             return {
                 restrict: 'A',

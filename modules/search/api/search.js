@@ -12,25 +12,31 @@ module.exports = function(routeParams) {
     var rawPrefixes = {};
     var rawFrom = [];
     var rawValues = [];
+    /** Projít všechny moduly a sebrat do skupiny všechny vyhledávací šablony a SPARQL prefixy. */
     _.each(settings.getModulesSetup(), function(module) {
-        if (module["universal-search"].length > 0) {
-            _.extend(rawPrefixes, module["prefixes"]);
+        if (module["universal-search"].length > 0) { //Vyhledávací šablony existují.
+            _.extend(rawPrefixes, module["prefixes"]); //Zapamatovat nové prefixy.
             _.each(module["universal-search"], function(specification) {
-                rawFrom = _.union(rawFrom, specification["datasets"]);
+                rawFrom = _.union(rawFrom, specification["datasets"]); //Zapamatovat nové datasety.
                 specification["datasets"].forEach(function(dataset){
-                	rawValues.push([specification["type"], specification["property"], specification["label"], dataset]);
+                	rawValues.push([specification["type"], specification["property"], specification["label"], dataset]); //Zapamatovat vyhledávací šablonu.
                 });
             });
         }
 
     });
 
+    //Sestavit PREFIX část SPARQL dotazu.
     _.each(rawPrefixes, function(uri, prefix) {
         persistentParams.prefixes = persistentParams.prefixes + "PREFIX " + prefix + " <" + uri + ">\n";
     });
+
+    //Sestavit FROM část SPARQL dotazu. (datasety)
     _.each(rawFrom, function(uri) {
         persistentParams.from = persistentParams.from + "FROM NAMED <" + uri + ">\n";
     });
+
+    //Sestavit vyhledavaci část SPARQL dotazu.
     var rawValuesTemp = [];
     _.each(rawValues, function(triple) {
         rawValuesTemp.push("VALUES (?type ?property ?label ?graph) { ( " + triple[0] + " " + triple[1] + ' "' + triple[2] + '" <' + triple[3] + '>' +" ) }");
