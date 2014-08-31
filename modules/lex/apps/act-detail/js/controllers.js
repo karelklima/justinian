@@ -64,6 +64,7 @@
                             var doc = angular.element("<div>" + actText["@graph"][0]["htmlValue"] + "</div>");
                             doc = LexActService.fixSectionsInActText(doc);
                             doc = LexActService.addLinksToActText(doc, $scope.resource, $scope.version);
+                            doc = LexActService.addConceptAnnotationsToActText(doc, $scope.resource, $scope.version);
                             $scope.actText = doc.html();
                         }
                         else $scope.actText = null;
@@ -136,7 +137,7 @@
                         $scope.isLoading = false;
                         if (actDetail["@graph"].length > 0) {
                             $scope.actDetail = actDetail["@graph"][0];
-                            $scope.$parent.popOverTitle = "Předpis č. " + $scope.actDetail["identifier"];
+                            $scope.heading = "Předpis č. " + $scope.actDetail["identifier"];
                             console.log($scope.actDetail);
                         }
                         else {

@@ -314,6 +314,34 @@
             };
         })
 
+        /** Popover aplikace */
+        .directive('popOverApp', function () {
+            return {
+                restrict: 'A',
+                transclude: true,
+                replace: true,
+                template:
+                    "<div class=\"pop-over-app transclude\">\n" +
+                    "</div>",
+                link: function(scope, element, attrs, controller, linker) {
+                    // Custom transclusion so we can share scope with custom controller
+                    linker(scope, function(clone){
+                        element.append(clone); // add to DOM
+                    });
+
+                    scope.$watch('heading', function(current, previous) {
+                        scope.$parent.popOverTitle = current;
+                    });
+
+                    if (angular.isDefined(attrs.heading)) {
+                        scope.heading = attrs.heading;
+                    }
+                    else if (angular.isUndefined(scope.heading))
+                        scope.heading = undefined;
+                }
+            }
+        })
+
         /** Přejit na vybraný prvek na stránce.
         * Pro přechod na vybraný prvek je nutné poslat broadcast event "anchor-scroll" s parametrem: {target: XXXX}
         * Příklad: $scope.$broadcast('anchor-scroll', {target: 'section[resource="'+$scope.section+'"]'});

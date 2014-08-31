@@ -63,8 +63,8 @@
                         var target = ConfigurationService.getDefaultModuleApplicationForTypeAndView(effectiveParams['type'],'pop-over');
                         if(target){
                             var templateUrl = UtilService.getTemplateUrl(target.module, target.application, 'pop-over');
-                            if(angular.isDefined(target.title))
-                                scope.popOverTitle = target.title;
+                            //if(angular.isDefined(target.title))
+                            //    scope.popOverTitle = target.title;
                             element.attr("popover-title","{{ popOverTitle }}");
                             element.attr("popover-template",templateUrl);
                             element.attr("popover-trigger","mouseenter");
