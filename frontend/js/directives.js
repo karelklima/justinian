@@ -61,14 +61,12 @@
                     if(popover){
                         angular.extend(scope, effectiveParams);
                         scope.clickParams = effectiveParams;
+                        scope.popOverTitle = "";
                         var target = ConfigurationService.getDefaultModuleApplicationForTypeAndView(effectiveParams['type'],'pop-over');
                         if(target){
                             var templateUrl = UtilService.getTemplateUrl(target.module, target.application, 'pop-over');
-                            //if(angular.isDefined(target.title))
-                            //    scope.popOverTitle = target.title;
                             element.attr("popover", templateUrl);
-                            //element.attr("popover-title","{{ popOverTitle }}");
-                            //element.attr("popover-template",templateUrl);
+                            element.attr("popover-title","{{ popOverTitle }}");
                             element.attr("popover-trigger","mouseenter");
                             element.attr("popover-placement","bottom");
                             element.bind("mouseenter", function(event){

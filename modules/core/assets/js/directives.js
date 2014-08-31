@@ -335,6 +335,7 @@
 
                         if (angular.isDefined(targetScope.clickParams))
                         {
+                            $scope.clickPopOverScope = targetScope;
                             angular.extend($scope, targetScope.clickParams);
                             break;
                         }
@@ -346,8 +347,10 @@
                         element.append(clone); // add to DOM
                     });
 
+                    console.log(scope);
+
                     scope.$watch('heading', function(current, previous) {
-                        scope.$parent.popOverTitle = current;
+                        scope.clickPopOverScope.popOverTitle = current;
                     });
 
                     if (angular.isDefined(attrs.heading)) {

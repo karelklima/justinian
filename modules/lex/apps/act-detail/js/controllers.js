@@ -138,7 +138,6 @@
                         if (actDetail["@graph"].length > 0) {
                             $scope.actDetail = actDetail["@graph"][0];
                             $scope.heading = "Předpis č. " + $scope.actDetail["identifier"];
-                            console.log($scope.actDetail);
                         }
                         else {
                             $scope.actDetail = {};
