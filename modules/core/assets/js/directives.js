@@ -317,12 +317,29 @@
         /** Popover aplikace */
         .directive('popOverApp', function () {
             return {
+                priority: 10000,
                 restrict: 'A',
                 transclude: true,
                 replace: true,
                 template:
                     "<div class=\"pop-over-app transclude\">\n" +
                     "</div>",
+                controller: function($scope) {
+                    var targetScope = $scope;
+                    for (var i = 1; i < 5; i++)
+                    {
+                        if (angular.isUndefined(targetScope.$parent))
+                            break;
+
+                        targetScope = targetScope.$parent;
+
+                        if (angular.isDefined(targetScope.clickParams))
+                        {
+                            angular.extend($scope, targetScope.clickParams);
+                            break;
+                        }
+                    }
+                },
                 link: function(scope, element, attrs, controller, linker) {
                     // Custom transclusion so we can share scope with custom controller
                     linker(scope, function(clone){

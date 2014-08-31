@@ -94,6 +94,22 @@
                 });
 
                 return rootElement;
+            };
+
+            this.addConceptAnnotationsToActText = function(rootElement, actUri, actExpressionUri)
+            {
+                rootElement.find("annotation").each(function() {
+                    var self = angular.element(this);
+                    var a = angular.element('<a class="concept-annotation" click pop-over="enable" type="lexc:ConceptAnnotation"></a>');
+                    a.attr("resource", actExpressionUri + '/textchunk/' + self.attr("id"));
+
+                    self.replaceWith(function(){
+                        return a.append($(this).contents());
+                    });
+
+                });
+
+                return rootElement;
             }
 
         })

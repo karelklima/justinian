@@ -130,7 +130,7 @@
 
             $scope.isEmpty = function(){
                 return angular.isDefined($scope.actDetail) && $scope.actDetail.length == 0;
-            }
+            };
 
             AppService.getData($scope, 'lex', 'act-detail', {'resource': $scope.resource})
                     .then(function (actDetail) {

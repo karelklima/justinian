@@ -60,17 +60,19 @@
 
                     if(popover){
                         angular.extend(scope, effectiveParams);
+                        scope.clickParams = effectiveParams;
                         var target = ConfigurationService.getDefaultModuleApplicationForTypeAndView(effectiveParams['type'],'pop-over');
                         if(target){
                             var templateUrl = UtilService.getTemplateUrl(target.module, target.application, 'pop-over');
                             //if(angular.isDefined(target.title))
                             //    scope.popOverTitle = target.title;
-                            element.attr("popover-title","{{ popOverTitle }}");
-                            element.attr("popover-template",templateUrl);
+                            element.attr("popover", templateUrl);
+                            //element.attr("popover-title","{{ popOverTitle }}");
+                            //element.attr("popover-template",templateUrl);
                             element.attr("popover-trigger","mouseenter");
                             element.attr("popover-placement","bottom");
                             element.bind("mouseenter", function(event){
-                                element[0].focus();
+                               element[0].focus();
                             });
                             element.removeAttr('click');
                             $compile(element)(scope);
@@ -128,6 +130,19 @@
                 });
             }
         }
-    });
+    })
+
+    .run(["$templateCache", function($templateCache) {
+        $templateCache.put("template/popover/popover.html",
+                "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" +
+                "  <div class=\"arrow\"></div>\n" +
+                "\n" +
+                "  <div class=\"popover-inner\">\n" +
+                "      <h3 class=\"popover-title\" ng-bind=\"title\" ng-show=\"title\"></h3>\n" +
+                "      <div class=\"popover-content\"><div ng-include=\"content\"></div></div>\n" +
+                "  </div>\n" +
+                "</div>\n" +
+                "");
+    }]);
 
 })(angular);
