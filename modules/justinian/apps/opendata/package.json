@@ -1,5 +1,12 @@
 {
     "title" : "OpenData.cz",
     "views" : ["sidebar"],
-    "priority" : -100
+    "priority" : -100,
+    "dependencies": {
+        "coi": ["checkaction-detail"],
+        "concept": ["concept-detail"],
+        "court": ["act-related-decisions", "act-section-related-decisions", "court-detail", "decision-detail", "decision-related-decisions"],
+        "lex": ["act-compare", "act-compare-changes", "act-derogations-active", "act-derogations-passive", "act-detail", "act-outline",
+        "act-section-detail", "act-section-versions", "coi-checkaction-related-acts", "decision-related-acts"]
+    }
 }

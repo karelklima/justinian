@@ -1,35 +1,61 @@
 <div ng-controller="JustinianHomeController" main-app>
-    <div app-bar>
-        <div class="navbar-brand">
-            Home: test app-navbaru
-        </div>
-        <div class="navbar-right">
-                <a app-bar-up-button></a>
-        </div>
+
+    <div class="jumbotron justinian-home-panel">
+        <h1 class="text-center">Zákony a judikáty</h1>
+        <h2 class="text-center">v souvislostech</h2>
+        <form role="form" class="form-inline text-center justinian-home-form">
+            <div class="form-group">
+                <input class="form-control input-lg" placeholder="občanský zákoník, 1/1993, 25 Cdo, zaměstnavatel"/>
+                <button type="submit" class="form-control btn input-lg btn-lg btn-default"><span class="glyphicon glyphicon-search"></span> Vyhledat</button>
+            </div>
+        </form>
     </div>
-<h1>Home</h1>
-<h2>Příklady zákonů</h2>
-<ul>
-    <li><a click type="lex:Act" resource="legislation:act/1993/1-1993" pop-over="enable">Ústava ČR</a></li>
-    <li><a click type="lex:Act" resource="legislation:act/2012/89-2012" pop-over="enable">Občanský zákoník</a></li>
-    <li><a click type="lex:Act" resource="legislation:act/2009/280-2009" pop-over="enable">Daňový řád</a></li>
-    <li><a click type="lex:Act" resource="legislation:act/2008/253-2008" pop-over="enable">Zákon + ČOI</a></li>
-</ul>
 
+    <div class="row">
 
-        <h2>Test  click</h2>
-        <script type="text/javascript">
-            function ClickTestController($scope)
-            {
-                $scope.myCoolParams = { cool:true };
-            }
-        </script>
-        <div ng-controller="ClickTestController">
-        <a click params='{"x":"x"}' a="b">params: x=x, a=b</a><br>
-        <a click params='{z:"z"}' a="x">params: z=z, a=x</a><br>
-        <a click params="myCoolParams">myCoolParams z controlleru</a><br>
-        <a click module="justinian" application="home" b="b">module: justinian, application: home, b: b</a><br>
-        <a click resource="legislation:act/1993/1-1993" type="lex:Act" v="v">resource: legis..., type: lex:Act, v=v</a>
+        <div class="col-md-6">
+            <div class="page-header">
+                <h1>Justinian</h1>
+            </div>
+            <p>
+                <strong>Justinian</strong> je unikátní nástroj pro vyhledávání a prohlížení <strong>zákonů</strong>, <strong>judikátů</strong>
+                a jiných právních dokumentů v souvislostech. <strong>Zdarma</strong>.
+            </p>
+            <ul class="justinian-content-list">
+                <li>
+                    <a click module="lex" application="acts">Zákony</a>
+                    <p class="text-muted">Úplná znění zákonů včetně historických znění, denně automaticky aktualizovaná</p>
+                </li>
+                <li>
+                    <a click module="court" application="decisions">Judikáty</a>
+                    <p class="text-muted">Rozhodnutí Ústavního soudu, Nejvyššího soudu a dalších</p>
+                </li>
+                <li>
+                    <a click module="concept" application="concepts">Právní pojmy</a>
+                    <p class="text-muted">Definice právních pojmů extrahované z textů zákonů</p>
+                </li>
+                <li>
+                    <a click module="coi" application="checkactions">Kontroly ČOI</a>
+                    <p class="text-muted">Kontroly České obchodní inspekce</p>
+                </li>
+            </ul>
         </div>
+
+
+        <div class="col-md-6">
+            <div class="page-header">
+                <h1>Vybrané zákony</h1>
+            </div>
+            <ul class="row justinian-link-list">
+                <li ng-repeat="predpis in predpisy" class="col-xs-6 col-sm-6">
+                    <a click type="lex:Act" resource="{{predpis.resource}}">
+                        {{predpis.title}}
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+    </div>
 
 </div>

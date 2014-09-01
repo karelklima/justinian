@@ -163,3 +163,42 @@
 .justinian-navigation li a:hover {
     background: #333;
 }
+
+
+@media (min-width: 768px) {
+    .justinian-home-form input {
+        width: 450px !important;
+    }
+}
+@media (min-width: 992px) {
+    .justinian-home-form input {
+        width: 650px !important;
+    }
+}
+@media (max-width: 767px) {
+    .justinian-home-form input {
+        margin-bottom: 20px;
+    }
+}
+@media (min-width: 768px) {
+    .justinian-home-panel h2 {
+        font-size: 38px;
+        margin-bottom: 30px;
+        font-weight: bold;
+    }
+}
+.justinian-home-panel {
+    background-image: url("../img/justinian_red_paragraph.png");
+    background-position: center center;
+    box-shadow: #333 0 0 2px;
+    margin-top: -19px;
+    margin-bottom: -5px;
+}
+
+.justinian-link-list li {
+    padding: 2px 15px 2px 0;
+}
+.justinian-content-list a {
+    font-weight: bold;
+    font-size: 14px;
+}
