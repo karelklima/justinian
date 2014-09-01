@@ -87,7 +87,7 @@
 
                                 $timeout(function () {
                                     element.triggerHandler('show');
-                                }, 100);
+                                }, 0);
 
                             }
 
