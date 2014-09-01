@@ -347,8 +347,6 @@
                         element.append(clone); // add to DOM
                     });
 
-                    console.log(scope);
-
                     scope.$watch('heading', function(current, previous) {
                         scope.clickPopOverScope.popOverTitle = current;
                     });

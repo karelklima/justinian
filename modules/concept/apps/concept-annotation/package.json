@@ -1,0 +1,6 @@
+{
+    "title" : "Právní pojem",
+    "datatypes": ["lexc:ConceptAnnotation"],
+    "views": ["main", "pop-over"],
+    "priority": 100
+}

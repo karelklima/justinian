@@ -1,0 +1,23 @@
+PREFIX lex: <http://purl.org/lex#>
+PREFIX lexc: <http://purl.org/lex/ontology/concepts#>
+PREFIX lingv: <http://purl.org/lingv/ontology#>
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX my: <http://>
+
+PREFIX resource: <{{"param": "resource", "filter": "RemoveLTGT"}}>
+
+CONSTRUCT
+{
+resource: my:hasConcept ?concept.
+resource: my:hasLabel ?label.
+}
+
+WHERE
+{
+?annotation oa:hasTarget resource:.
+?annotation a oa:Annotation.
+?annotation oa:hasBody ?concept.
+?concept a lexc:ConceptVersion.
+?concept skos:prefLabel ?label.
+}

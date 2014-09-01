@@ -378,6 +378,10 @@ appServices.service('AppService', ['$q', 'UrlService', 'UtilService', 'NetworkSe
         PageService.setTitle(title + ConfigurationService.getDefaultTitle());
     };
 
+    this.setUrl = function(params, redirect) {
+        UrlService.setUrl(params, redirect);
+    };
+
     this.setParams = function(params, redirect) {
         UrlService.setParams(params, redirect);
     };

@@ -1,0 +1,5 @@
+<div ng-controller="ConceptConceptAnnotationPopOverController" pop-over-app>
+    <div class="small-spinner-bar" ng-hide="!isLoading"><span spinner-glyphicon></span></div>
+    <div ng-show="!isLoading && conceptLabel != null"> Pojem {{conceptLabel}}</div>
+    <div ng-show="!isLoading && conceptLabel == null">Související pojem nenalezen</div>
+</div>
