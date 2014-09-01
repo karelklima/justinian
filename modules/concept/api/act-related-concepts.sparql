@@ -1,0 +1,32 @@
+PREFIX lex: <http://purl.org/lingv/ontology#>
+PREFIX lexc: <http://purl.org/lex/ontology/concepts#>
+PREFIX lingv: <http://purl.org/lingv/ontology#>
+PREFIX frbr: <http://purl.org/vocab/frbr/core#>
+PREFIX oa: <http://www.w3.org/ns/oa#>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX app: <http://justinian.cz/ontology/>
+PREFIX my: <http://>
+
+PREFIX resource: <{{"param": "resource", "filter": "RemoveLTGT"}}>
+
+CONSTRUCT {
+  resource: my:hasConcept ?conc .
+  ?conc my:hasLabel ?label .
+}
+FROM <http://linked.opendata.cz/resource/dataset/legislation/entities-rels/2014-08-14>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/cz/uz>
+FROM <http://linked.opendata.cz/resource/dataset/legislation/psp.cz>
+WHERE {
+  {
+  SELECT DISTINCT ?conc ?label
+  WHERE{
+    ?expr frbr:realizationOf resource: .
+    ?conc frbr:partOf ?expr.
+    ?conc a skos:Concept.
+    ?conc skos:prefLabel ?label.
+  }
+  ORDER BY ?label
+  OFFSET {{"param": "offset", "default": "0"}}
+  LIMIT {{"param": "limit", "default": "10"}}
+  }
+}
