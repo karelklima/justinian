@@ -202,3 +202,15 @@
     font-weight: bold;
     font-size: 14px;
 }
+.justinian-people dt, dd {
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+.justinian-loga {
+    overflow: hidden;
+}
+.justinian-loga img {
+    width: 200px;
+    margin: 30px auto 15px;
+    display: block;
+}

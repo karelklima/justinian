@@ -1,5 +1,5 @@
 {
-    "title" : "Kontaktujte nas",
+    "title" : "O projektu",
     "views" : ["sidebar"],
     "dependencies": {
         "justinian": ["about"]
