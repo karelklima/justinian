@@ -2,7 +2,7 @@
 
     angular.module('appDirectives', ['appServices'])
 
-        .directive('click', ['UrlService', 'UtilService', '$parse', 'ConfigurationService','$compile', function (UrlService, UtilService, $parse, ConfigurationService, $compile) {
+        .directive('click', ['UrlService', 'UtilService', '$parse', 'ConfigurationService','$compile', '$timeout', function (UrlService, UtilService, $parse, ConfigurationService, $compile, $timeout) {
             return {
                 restrict: 'A',
                 scope: {
@@ -59,22 +59,40 @@
                     });
 
                     if(popover){
-                        angular.extend(scope, effectiveParams);
-                        scope.clickParams = effectiveParams;
-                        scope.popOverTitle = "";
-                        var target = ConfigurationService.getDefaultModuleApplicationForTypeAndView(effectiveParams['type'],'pop-over');
-                        if(target){
-                            var templateUrl = UtilService.getTemplateUrl(target.module, target.application, 'pop-over');
-                            element.attr("popover", templateUrl);
-                            element.attr("popover-title","{{ popOverTitle }}");
-                            element.attr("popover-trigger","mouseenter");
-                            element.attr("popover-placement","bottom");
-                            element.bind("mouseenter", function(event){
-                               element[0].focus();
-                            });
-                            element.removeAttr('click');
-                            $compile(element)(scope);
-                        }
+
+                        var popoverLoaded = false;
+
+                        element.bind('mouseenter', function() {
+
+                            if (popoverLoaded)
+                                return;
+
+                            popoverLoaded = true;
+
+                            angular.extend(scope, effectiveParams);
+                            scope.clickParams = effectiveParams;
+                            scope.popOverTitle = "";
+                            var target = ConfigurationService.getDefaultModuleApplicationForTypeAndView(effectiveParams['type'],'pop-over');
+                            if(target){
+                                var templateUrl = UtilService.getTemplateUrl(target.module, target.application, 'pop-over');
+                                element.attr("popover", templateUrl);
+                                element.attr("popover-title","{{ popOverTitle }}");
+                                element.attr("popover-trigger","show");
+                                element.attr("popover-placement","bottom");
+                                element.bind("mouseenter", function(event){
+                                    element.triggerHandler("show");
+                                });
+                                element.removeAttr('click');
+                                $compile(element)(scope);
+
+                                $timeout(function () {
+                                    element.triggerHandler('show');
+                                }, 100);
+
+                            }
+
+                        });
+
                     }
                 }
             }

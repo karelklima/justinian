@@ -52,6 +52,10 @@
             $logProvider.debugEnabled(true);
         }])
 
+        .config(["$tooltipProvider", function($tooltipProvider) {
+            $tooltipProvider.setTriggers( { 'show': 'mouseleave' } ) ;
+        }])
+
         .run(['$rootScope', '$location', '$document', function ($rootScope, $location, $document) {
 
             var lastLocationPath = $location.path();
