@@ -1,8 +1,14 @@
-(function(angular) {
+(function() {
 
+    /**
+     * Directives module
+     */
     angular.module('appDirectives', ['appServices'])
 
-        .directive('click', ['UrlService', 'UtilService', '$parse', 'ConfigurationService','$compile', '$timeout', function (UrlService, UtilService, $parse, ConfigurationService, $compile, $timeout) {
+    /**
+     * Click directive - directive used to create links inside application
+     */
+        .directive('click', ['UrlService', 'UtilService', '$parse', 'ConfigurationService', '$compile', function (UrlService, UtilService, $parse, ConfigurationService, $compile) {
             return {
                 restrict: 'A',
                 scope: {
@@ -14,11 +20,11 @@
 
                     var popover = false;
 
-                    var getEffectiveParams = function() {
+                    var getEffectiveParams = function () {
                         var params = angular.isDefined(scope.params) ? angular.copy(scope.params) : {};
 
                         // Copy all relevant attributes to scope.params
-                        angular.forEach(attributes.$attr, function(attribute, key) {
+                        angular.forEach(attributes.$attr, function (attribute, key) {
                             if (!attrRegex.test(attribute)) {
                                 params[key] = attributes[key];
                             }
@@ -39,18 +45,18 @@
 
                     var effectiveParams = getEffectiveParams();
 
-                    if(angular.isDefined(attributes.$attr['popOver']) && attributes['popOver']=='enable' && angular.isDefined(effectiveParams['type']))
+                    if (angular.isDefined(attributes.$attr['popOver']) && attributes['popOver'] == 'enable' && angular.isDefined(effectiveParams['type']))
                         popover = true;
 
 //                    Set initial href attribute
                     element.attr("href", UtilService.getUrl(effectiveParams));
 
-                    element.bind('mouseover', function() {
+                    element.bind('mouseover', function () {
                         element.attr("href", UtilService.getUrl(getEffectiveParams()));
                     });
 
 
-                    element.bind('click', function(event) {
+                    element.bind('click', function (event) {
                         if (event.button == 0 && !(event.metaKey || event.ctrlKey)) { // just metaKey does not work properly
                             event.preventDefault(); //open in main window
                             UrlService.setUrl(getEffectiveParams());
@@ -98,67 +104,78 @@
             }
         }])
 
-    .directive('compile', ['$compile', function ($compile) {
-        return function (scope, element, attrs) {
-            scope.$watch(
-                function (scope) {
-                    // watch the 'compile' expression for changes
-                    return scope.$eval(attrs.compile);
-                },
-                function (value) {
-                    // when the 'compile' expression changes
-                    // assign it into the current DOM
-                    element.html(value);
+    /**
+     * Compile directive - watch changes and compile new DOM
+     */
+        .directive('compile', ['$compile', function ($compile) {
+            return function (scope, element, attrs) {
+                scope.$watch(
+                    function (scope) {
+                        // watch the 'compile' expression for changes
+                        return scope.$eval(attrs.compile);
+                    },
+                    function (value) {
+                        // when the 'compile' expression changes
+                        // assign it into the current DOM
+                        element.html(value);
 
-                    // compile the new DOM and link it to the current
-                    // scope.
-                    // NOTE: we only compile .childNodes so that
-                    // we don't get into infinite loop compiling ourselves
-                    $compile(element.contents())(scope);
-                }
-            );
-        };
-    }])
+                        // compile the new DOM and link it to the current
+                        // scope.
+                        // NOTE: we only compile .childNodes so that
+                        // we don't get into infinite loop compiling ourselves
+                        $compile(element.contents())(scope);
+                    }
+                );
+            };
+        }])
 
-    .directive('scrollIf', function () {
-        return function (scope, element, attributes) {
-            setTimeout(function () {
-                if (scope.$eval(attributes.scrollIf)) {
-                    window.scrollTo(0, element[0].offsetTop - 100)
-                }
-            });
-        }
-    })
-
-
-    .directive('changeTimeout', function () {
-        return {
-            require: 'ngModel',
-            link: function (scope, elem, attr, ctrl) {
-                if (!attr.ngChange) {
-                    throw new TypeError('ng-change directive not present');
-                }
-
-                angular.forEach(ctrl.$viewChangeListeners, function (listener, index) {
-                    ctrl.$viewChangeListeners[index] = _.debounce(function () {
-                        scope.$apply(attr.ngChange);
-                    }, attr.changeTimeout || 0)
+    /**
+     * scroll to selected element
+     */
+        .directive('scrollIf', function () {
+            return function (scope, element, attributes) {
+                setTimeout(function () {
+                    if (scope.$eval(attributes.scrollIf)) {
+                        window.scrollTo(0, element[0].offsetTop - 100)
+                    }
                 });
             }
-        }
-    })
+        })
 
-    .run(["$templateCache", function($templateCache) {
-        $templateCache.put("template/popover/popover.html",
-                "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" +
-                "  <div class=\"arrow\"></div>\n" +
-                "\n" +
-                "  <div class=\"popover-inner\">\n" +
-                "      <h3 class=\"popover-title\" ng-bind=\"title\" ng-show=\"title\"></h3>\n" +
-                "      <div class=\"popover-content\"><div ng-include=\"content\"></div></div>\n" +
-                "  </div>\n" +
-                "</div>\n" +
-                "");
-    }]);
+    /**
+     * change timeout directive
+     */
+        .directive('changeTimeout', function () {
+            return {
+                require: 'ngModel',
+                link: function (scope, elem, attr, ctrl) {
+                    if (!attr.ngChange) {
+                        throw new TypeError('ng-change directive not present');
+                    }
 
-})(angular);
+                    angular.forEach(ctrl.$viewChangeListeners, function (listener, index) {
+                        ctrl.$viewChangeListeners[index] = _.debounce(function () {
+                            scope.$apply(attr.ngChange);
+                        }, attr.changeTimeout || 0)
+                    });
+                }
+            }
+        })
+
+    /**
+     * add popover to template cache
+     */
+        .run(["$templateCache", function ($templateCache) {
+            $templateCache.put("template/popover/popover.html",
+                    "<div class=\"popover {{placement}}\" ng-class=\"{ in: isOpen(), fade: animation() }\">\n" +
+                    "  <div class=\"arrow\"></div>\n" +
+                    "\n" +
+                    "  <div class=\"popover-inner\">\n" +
+                    "      <h3 class=\"popover-title\" ng-bind=\"title\" ng-show=\"title\"></h3>\n" +
+                    "      <div class=\"popover-content\"><div ng-include=\"content\"></div></div>\n" +
+                    "  </div>\n" +
+                    "</div>\n" +
+                    "");
+        }]);
+
+})();
