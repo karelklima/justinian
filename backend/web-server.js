@@ -1,4 +1,5 @@
 /**
+ * JUSTINIAN
  * Linked Data Application Framework
  * Node.js web server
  */
@@ -8,63 +9,47 @@ var compression = require('compression');
 var http = require('http');
 var _ = require('underscore');
 var fs = require('fs');
-
 var expressWinston = require('express-winston');
 var favicon = require('serve-favicon');
-
 var settings = require('./lib/settings');
-
-var assetManager = require('./lib/asset-manager');
-
 var loggingOptions = require('./lib/logging-options');
 var logger = require('./lib/logger');
-
 settings.useCache(!settings.options["development"]);
 
+// init ExpressJS application
 var app = express();
 
+// enable GZIP compression
 app.use(compression());
-app.use( expressWinston.logger(loggingOptions.requestLogger) );					// request loggger middleware
-
+// request logger middleware
+app.use(expressWinston.logger(loggingOptions.requestLogger));
+// favicon server
 app.use(favicon(settings.baseDirectory + '/' + settings.options["favicon"]));
 
-app.use('/settings', require('./lib/settings-router'));
+// assets router for static modules content
 app.use('/assets', require('./lib/asset-router'));
+// API router for data providers
 app.use('/api', require('./lib/api-router'));
 
-app.use('/error', function(req, res, next) { next(new Error('testing Error')) });
-
-
+// index router with EJS preprocessor in place
 app.engine('.html', require('ejs').__express);
-app.get('/', function(req, res, next) {
-    // Send the index.html for other files to support HTML5Mode
-    var configuration = {
-        application : {
-            title: settings.options["title"],
-            home: settings.options["home"],
-            pageNotFound : settings.options["page-not-found"],
-            modules: settings.getModulesSetup()
-        },
-        user: {}
-    };
-    res.render(settings.frontendDirectory + '/index.html', {
-        title: settings.options["title"],
-        configuration: JSON.stringify(configuration),
-        css: assetManager.cssPile.htmlTags(),
-        js: assetManager.jsPile.htmlTags()
-    });
-});
+app.get('/', require('./lib/index-server'));
 
+// static router for frontend files
 app.use(express.static(settings.frontendDirectory));
 
-app.use(expressWinston.errorLogger(loggingOptions.errorLogger));				// error logger middleware
-app.use(function(err, req, res, next){											// custom error handlers should follow the error logger
+// error logger middleware
+app.use(expressWinston.errorLogger(loggingOptions.errorLogger));
+// custom error handler
+app.use(function(err, req, res, next){
 	if (err) {
 		res.writeHead(500, {'Content-Type' : 'text/html'});
-		res.end('<h2>500 : Internal Error</h2>\n<pre>'+ err.stack + '</pre>')
+		res.end('<h2>500 : Internal Error</h2>');
+        logger.error(err.stack);
 		} else { next();
 }});
 
+// configure server port
 app.listen(process.env.PORT || settings.options["port"]);
 
 logger.debug("Server started!\n");
