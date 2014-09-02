@@ -27,7 +27,7 @@ app.use(expressWinston.logger(loggingOptions.requestLogger));
 app.use(favicon(settings.baseDirectory + '/' + settings.options["favicon"]));
 
 // assets router for static modules content
-app.use('/assets', require('./lib/asset-router'));
+app.use('/assets', require('./lib/asset-server'));
 // API router for data providers
 app.use('/api', require('./lib/api-router'));
 
