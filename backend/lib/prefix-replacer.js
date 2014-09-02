@@ -1,3 +1,7 @@
+/*
+ * PrefixReplacer
+ */
+
 var _ = require('underscore');
 var settings = require('./settings');
 
@@ -6,10 +10,16 @@ const PREFIXES_KEY = "prefixes";
 var instance = new PrefixReplacer();
 exports = module.exports = instance;
 
+/*
+ * PrefixReplacer
+ * Provides methods to contract or expand URIs with prefixes
+ */
 function PrefixReplacer()
 {
+    // init - create prefix map
     var prefixes = {};
     var setup = settings.getModulesSetup();
+    // iterate over all modules
     _.each(setup, function(spec, module) {
         if (_.isObject(spec[PREFIXES_KEY])) {
             var p = spec[PREFIXES_KEY];
