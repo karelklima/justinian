@@ -3,8 +3,8 @@
  * Manages deployment of index.html to client file with application configuration included
  */
 
-var settings = require('./lib/settings');
-var assetManager = require('./lib/asset-manager');
+var settings = require('./settings');
+var assetManager = require('./asset-manager');
 
 module.exports = function(req, res, next) {
     var configuration = {
