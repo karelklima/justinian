@@ -18,7 +18,7 @@ function ApiRoute() {
 }
 
 /**
- * Route initialization, to be called before setup()
+ * Route initialization
  * @param {string} moduleName
  * @param {string} apiName
  */
@@ -26,14 +26,6 @@ ApiRoute.prototype.init = function(moduleName, apiName)
 {
     this.module = moduleName;
     this.api = apiName;
-};
-
-/**
- * Specific API setup goes here, to be called after init()
- */
-ApiRoute.prototype.setup = function()
-{
-    // override me
 };
 
 /**

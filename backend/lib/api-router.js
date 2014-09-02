@@ -1,5 +1,6 @@
 /**
- * LDAF API router
+ * API router
+ * Routes requests to modules API providers
  */
 
 'use strict';
@@ -17,6 +18,7 @@ var apiRouter = express();
 
 exports = module.exports = apiRouter;
 
+// expands prefixed (shortened) URIs in every parameter in query string in all incoming HTTP requests
 apiRouter.use('/:module/:api', function(req, res, next) {
     try {
         for (var param in req.query)
@@ -28,6 +30,7 @@ apiRouter.use('/:module/:api', function(req, res, next) {
     }
 });
 
+// finds requested module API provider and
 apiRouter.use('/:module/:api', function(req, res, next) {
     var route = apiRoutingTable.getRoute(req.params.module, req.params.api);
     var method = req.method.toLowerCase();
