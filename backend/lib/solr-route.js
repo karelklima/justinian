@@ -1,5 +1,5 @@
 /**
- * SolrRoute - REST API provider with automatic SOLR processing
+ * SolrRoute - REST API provider with automated SOLR processing
  */
 
 var util = require('util');
@@ -23,14 +23,15 @@ function SolrRoute(module, api) {
 util.inherits(SolrRoute, ApiRoute);
 
 // Request SOLR configuration
-SolrRoute.prepareSolrClientOptions = function() {
+SolrRoute.prepareSolrClientOptions = function(options) {
     // Override this if necessary
-    return settings.options["solr"]
+    return options;
 };
 
 // Prepare SOLR client using configuration
 SolrRoute.prototype.prepareSolrClient = function() {
-    var options = this.prepareSolrClientOptions();
+    var options = _.clone(settings.options["solr"]);
+    options = this.prepareSolrClientOptions(options);
     return new SolrClient(options);
 };
 

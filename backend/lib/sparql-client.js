@@ -1,5 +1,7 @@
 /**
  * SPARQL CLIENT
+ *
+ * client for Virtuoso dedicated server
  */
 var fs = require('fs');
 var _ = require('underscore');
@@ -10,8 +12,14 @@ var assert = require('assert');
 var settings = require('./settings');
 var logger = require('./logger');
 
-function SparqlClient() {
-    this.options = settings.options["sparql"];
+
+/*
+ * SparqlClient
+ * options is an object from options.json
+ * @constructor
+ */
+function SparqlClient(options) {
+    this.options = options;
     this.params = _.clone(this.options["default-params"]);
 }
 
@@ -28,6 +36,12 @@ SparqlClient.prototype.getParam = function (key) {
     return this.params[key];
 };
 
+/**
+ * Sends REST API request to dedicated Virtuoso server specified in options
+ * @param query string SPARQL query
+ * @param successCallback
+ * @param errorCallback
+ */
 SparqlClient.prototype.sendRequest = function(query, successCallback, errorCallback) {
     logger.debug(query);
     assert(_.isString(query));
@@ -36,7 +50,7 @@ SparqlClient.prototype.sendRequest = function(query, successCallback, errorCallb
     errorCallback = errorCallback || function(message) {};
 
     var finalParams = _.clone(this.params);
-    finalParams["query"] = query;
+    finalParams["query"] = query; // sends query as query string parameter
 
     var requestParams = url.parse(this.options["datastore-url"]);
     requestParams["path"] = requestParams["path"] + '?' + querystring.stringify(finalParams);

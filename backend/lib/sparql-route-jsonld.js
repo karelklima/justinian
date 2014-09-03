@@ -19,9 +19,13 @@ function SparqlRouteJSONLD()
 }
 util.inherits(SparqlRouteJSONLD, SparqlRoute);
 
+
+
 SparqlRouteJSONLD.prototype.prepareSparqlClient = function()
 {
-    var client = new SparqlClient();
+    var options = _.clone(settings.options["sparql"]);
+    options = this.prepareSparqlClientOptions(options);
+    var client = new SparqlClient(options);
     client.setParam("format", settings.options["sparql"]["jsonld"]["format"]);
     return client;
 };
