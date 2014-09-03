@@ -1,5 +1,7 @@
 /**
  * SOLR CLIENT
+ *
+ * client for Apache SOLR dedicated server
  */
 
 var fs = require('fs');
@@ -11,8 +13,12 @@ var assert = require('assert');
 var settings = require('./settings');
 var logger = require('./logger');
 
-function SolrClient() {
-    this.options = settings.options["solr"];
+/*
+ * SolrClient
+ * options is an object from options.json
+ */
+function SolrClient(options) {
+    this.options = options;
     this.params = _.clone(this.options["default-params"]);
 }
 
@@ -29,6 +35,7 @@ SolrClient.prototype.getParam = function (key) {
     return this.params[key];
 };
 
+// Sends request to defined SOLR server
 SolrClient.prototype.sendRequest = function(query, successCallback, errorCallback) {
 
     assert(_.isString(query));
@@ -41,8 +48,8 @@ SolrClient.prototype.sendRequest = function(query, successCallback, errorCallbac
 
     var requestParams = url.parse(this.options["datastore-url"]);
     requestParams["path"] = requestParams["path"] + '?' + querystring.stringify(finalParams);
-logger.debug("finalParams: " + finalParams["q"]);
-logger.debug("requestParams: " + JSON.stringify(requestParams));
+    logger.debug("finalParams: " + finalParams["q"]);
+    logger.debug("requestParams: " + JSON.stringify(requestParams));
     
 	http.request(requestParams, function(res) {
         var responseString = '';
