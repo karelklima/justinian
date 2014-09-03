@@ -1,3 +1,6 @@
+/**
+ * SPARQL ROUTE JSONLD
+ */
 
 var util = require('util');
 var domain = require('domain');
@@ -13,19 +16,24 @@ var prefixReplacer = require('./prefix-replacer');
 var SparqlRoute = require('./sparql-route');
 var SparqlClient = require('./sparql-client');
 
+/**
+ * SparqlRouteJSONLD
+ * enriched SparqlRoute to support JSON-LD format
+ * @constructor
+ */
 function SparqlRouteJSONLD()
 {
     SparqlRoute.call(this);
 }
 util.inherits(SparqlRouteJSONLD, SparqlRoute);
 
-
-
+// Parent method override
 SparqlRouteJSONLD.prototype.prepareSparqlClient = function()
 {
     var options = _.clone(settings.options["sparql"]);
     options = this.prepareSparqlClientOptions(options);
     var client = new SparqlClient(options);
+    // request special JSON-LD format
     client.setParam("format", settings.options["sparql"]["jsonld"]["format"]);
     return client;
 };
@@ -39,26 +47,28 @@ SparqlRouteJSONLD.prototype.getContext = function() {
     // Override this if necessary
     return settings.options["sparql"]["jsonld"]["default-context"];
 };
-
+// Indicates whether or not convert dates in JSON-LD response
 SparqlRouteJSONLD.prototype.getConvertDates = function() {
     return settings.options["sparql"]["jsonld"]["dates"]["convert"];
 };
-
+// Returns key suffix for converted day values
 SparqlRouteJSONLD.prototype.getDateSuffix = function() {
     return settings.options["sparql"]["jsonld"]["dates"]["suffix"];
 };
-
+// Returns set of RDF types of date objects to convert
 SparqlRouteJSONLD.prototype.getDateInputTypes = function() {
     return settings.options["sparql"]["jsonld"]["dates"]["input-types"];
 };
-
+// Returns date formats to parse date values with
 SparqlRouteJSONLD.prototype.getDateInputFormats = function() {
     return settings.options["sparql"]["jsonld"]["dates"]["input-formats"];
 };
-
+// Return new date output format
 SparqlRouteJSONLD.prototype.getDateOutputFormat = function() {
     return settings.options["sparql"]["jsonld"]["dates"]["output-format"];
 };
+// Indicates whether or not to convert graph in JSON-LD
+// response specified with multiple objects into one object
 SparqlRouteJSONLD.prototype.getReconstructComplexObjects = function() {
     return settings.options["sparql"]["jsonld"]["reconstruct-complex-objects"];
 };
@@ -71,31 +81,32 @@ SparqlRouteJSONLD.prototype.prepareResponse = function(response, requestParams) 
     // Override this if necessary
     return response;
 };
-
+// Indicates whether or not to apply data model to JSON-response
 SparqlRouteJSONLD.prototype.getApplyModel = function() {
     return settings.options["sparql"]["jsonld"]["apply-model"];
 };
+// Returns default data model
 SparqlRouteJSONLD.prototype.getModel = function() {
     return settings.options["sparql"]["jsonld"]["default-model"];
 };
+// Indicates whether or not to shorten resource URIs in some properties
 SparqlRouteJSONLD.prototype.getApplyPrefixedProperties = function() {
     return settings.options["sparql"]["jsonld"]["apply-prefixed-properties"];
 };
+// Returns list of properties to shorten resource URIs with
 SparqlRouteJSONLD.prototype.getPrefixedProperties = function() {
     return settings.options["sparql"]["jsonld"]["default-prefixed-properties"];
 };
-
+// Indicates whether or not to send warnings to output, useful for debuggins
 SparqlRouteJSONLD.prototype.getSendWarnings = function() {
     return settings.options["sparql"]["jsonld"]["send-warnings"];
 };
-
+// Applies context to JSON-LD Virtuoso response using JSONLD library
 SparqlRouteJSONLD.prototype.applyContext = function(response) {
     var p = jsonld.promises();
     return p.compact(response, this.getContext(), settings.options["sparql"]["jsonld"]["compact-options"]);
 };
-
-
-
+// Converts dates according to configuration
 SparqlRouteJSONLD.prototype.convertDates = function(response) {
     var self = this;
     if (self.getConvertDates()) {
@@ -109,12 +120,9 @@ SparqlRouteJSONLD.prototype.convertDates = function(response) {
                             if (_.has(item, convertedKey) && key != convertedKey) {
                                 self.addWarning(response, "Cannot convert date, overwrite of other key detected: " + convertedKey);
                             } else {
-                                // FIXME
                                 var temp = item[key][0].substring(0, 10);
                                 temp = moment(temp);
-                                temp.add('days', 1);
-                                //var date = moment(item[key][0], self.getDateInputFormats());
-
+                                temp.add('days', 1); // fix Virtuoso timezone bug
                                 item[convertedKey] = [temp.format(self.getDateOutputFormat())];
                             }
                         }
@@ -129,7 +137,7 @@ SparqlRouteJSONLD.prototype.convertDates = function(response) {
     }
     return response;
 };
-
+// Converts list of response graph objects into one complex object based on @id
 SparqlRouteJSONLD.prototype.reconstructComplexObjects = function(response) {
 
     if (!this.getReconstructComplexObjects()) // do not reconstruct
@@ -144,6 +152,7 @@ SparqlRouteJSONLD.prototype.reconstructComplexObjects = function(response) {
         };
     });
 
+    // find links among graph objects
     _.each(response["@graph"], function(object) {
         _.each(object, function(values, key) {
             if (key.indexOf("@") == 0)
@@ -159,6 +168,7 @@ SparqlRouteJSONLD.prototype.reconstructComplexObjects = function(response) {
 
     response["@graph"] = [];
 
+    // only include non-linked nodes in final response
     _.each(objects, function(object) {
         if (!object.isLinked)
             response["@graph"].push(object.data);
@@ -166,7 +176,7 @@ SparqlRouteJSONLD.prototype.reconstructComplexObjects = function(response) {
 
     return response;
 };
-
+// Applies data model to response
 SparqlRouteJSONLD.prototype.processModel = function(response) {
 
     if (!this.getApplyModel()) // do not apply model
@@ -241,7 +251,7 @@ SparqlRouteJSONLD.prototype.processModel = function(response) {
 
     return response;
 };
-
+// Shortens long URIs in defined properties
 SparqlRouteJSONLD.prototype.processPrefixedProperties = function(response) {
 
     if (!this.getApplyPrefixedProperties()) // do not apply prefixed properties
@@ -290,20 +300,19 @@ SparqlRouteJSONLD.prototype.addWarning = function (response, message) {
         response["@warning"] = [];
     response["@warning"].push(message);
 };
-
+// Include warnings in JSON-LD response
 SparqlRouteJSONLD.prototype.processWarnings = function(response) {
     if (!this.getSendWarnings() && _.has(response, "@warning")) {
         response = _.omit(response, "@warning");
     }
     return response;
 };
-
+// Override of SparqlRoute.handleResponse
 SparqlRouteJSONLD.prototype.handleResponse = function(responseString, res, requestParams) {
-
-//    logger.debug(responseString);
 
     var self = this;
 
+    // Initiate main workflow
     Q.fcall(function() { return responseString; })
         .then(function(r) {
             if (_.isString(r) && r.indexOf("{") !== 0) { // not a valid JSON-LD response
