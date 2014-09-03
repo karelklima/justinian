@@ -24,7 +24,7 @@
             <th>Soud</th>
             <th>Předmět</th>
         </tr>
-        <tr ng-repeat="decision in decisions">
+        <tr ng-repeat="decision in decisions | orderBy:'-issuedIso'">
             <td nowrap>
                 <a click module="court" application="decision-detail" resource="{{decision['@id']}}">{{decision['title']}}</a><br/>
                 <small class="text-muted">{{decision['issuedIso'] | formatDate}}</small>
