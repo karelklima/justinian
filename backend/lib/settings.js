@@ -1,5 +1,5 @@
 /**
- * Created by Karel on 11.3.14.
+ * Settings
  */
 
 'use strict';
@@ -88,6 +88,7 @@ Settings.prototype.buildModulesSetup = function() {
     for (var i in moduleDirs)
     {
 
+        // filter modules that are not included in options
         if (_.indexOf(options.modules, moduleDirs[i]) == -1)
             continue;
 
