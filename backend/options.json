@@ -6,7 +6,7 @@
     "modules" : ["core", "search", "lex", "court", "coi", "concept", "justinian"],
     "asset-extensions" : ["html", "js", "css", "png", "gif", "jpg", "ico"],
     "sparql" : {
-        "datastore-url" : "http://internal.xrg.cz:8900/sparql",
+        "datastore-url" : "http://linked.opendata.cz/sparql",
         "query-param-name" : "query",
         "default-params": {
             "format" : "application/ld+json",
