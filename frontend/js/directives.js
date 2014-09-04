@@ -8,7 +8,7 @@
     /**
      * Click directive - directive used to create links inside application
      */
-        .directive('click', ['UrlService', 'UtilService', '$parse', 'ConfigurationService', '$compile', function (UrlService, UtilService, $parse, ConfigurationService, $compile) {
+        .directive('click', ['UrlService', 'UtilService', '$parse', 'ConfigurationService', '$compile', '$timeout', function (UrlService, UtilService, $parse, ConfigurationService, $compile, $timeout) {
             return {
                 restrict: 'A',
                 scope: {
