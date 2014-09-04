@@ -1,11 +1,11 @@
 <div id="lex-search-app" ng-controller="SearchResultsController" main-app>
     <div app-bar adjust-on="datasource.revision">
         <div class="clearfix">
-            <div class="navbar-brand">
-                <a click module="search" application="results" resource="{{query}}">Výsledky vyhledávání pro "{{query}}"</a>
-            </div>
             <div class="navbar-right">
                 <a app-bar-up-button></a>
+            </div>
+            <div class="navbar-brand">
+                <a click module="search" application="results" query="{{query}}">Výsledky vyhledávání pro "{{query}}"</a>
             </div>
         </div>
     </div>
