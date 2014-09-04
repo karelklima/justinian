@@ -6,6 +6,11 @@
         AppService.init($scope, ['query']);
 
         $scope.getResults = function (viewValue) {
+            if (angular.isUndefined(viewValue) || viewValue.length < 3) {
+                return [];
+            }
+            if (viewValue.length > 3)
+                viewValue = viewValue + '*'; // Virtuoso limit
             return AppService.getData($scope, 'search', 'search', {'query': viewValue, "limit": 5, "offset": 0})
                 .then(function (data) {
                     return data["@graph"];

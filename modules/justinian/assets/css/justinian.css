@@ -164,9 +164,16 @@
     background: #333;
 }
 
+.justinian-home-form .dropdown-menu a {
+    text-align: left;
+    white-space: normal;
+}
 
 @media (min-width: 768px) {
     .justinian-home-form input {
+        width: 450px !important;
+    }
+    .justinian-home-form .dropdown-menu {
         width: 450px !important;
     }
 }
@@ -174,10 +181,16 @@
     .justinian-home-form input {
         width: 650px !important;
     }
+    .justinian-home-form .dropdown-menu {
+        width: 650px !important;
+    }
 }
 @media (max-width: 767px) {
     .justinian-home-form input {
         margin-bottom: 20px;
+    }
+    .justinian-home-form .dropdown-menu {
+        display: none !important;
     }
 }
 @media (min-width: 768px) {

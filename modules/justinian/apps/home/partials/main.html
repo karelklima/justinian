@@ -3,9 +3,13 @@
     <div class="jumbotron justinian-home-panel">
         <h1 class="text-center">Zákony a judikáty</h1>
         <h2 class="text-center">v souvislostech</h2>
-        <form role="form" class="form-inline text-center justinian-home-form">
+        <form role="form" class="form-inline text-center justinian-home-form" ng-controller="SearchFormController" ng-submit="search()">
             <div class="form-group">
-                <input class="form-control input-lg" placeholder="občanský zákoník, 1/1993, 25 Cdo, zaměstnavatel"/>
+                <input class="form-control input-lg" placeholder="občanský zákoník, 1/1993, 25 Cdo, zaměstnavatel"
+                       ng-model="query"
+                       typeahead="entity as entity.text for entity in getResults($viewValue)"
+                       typeahead-on-select="selected($item)"
+                        />
                 <button type="submit" class="form-control btn input-lg btn-lg btn-default"><span class="glyphicon glyphicon-search"></span> Vyhledat</button>
             </div>
         </form>
