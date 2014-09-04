@@ -18,10 +18,10 @@ module.exports = function(routeParams) {
             "objectName" : "http://objectName",
             // sankce ČOI
             "resultSanctionsRaw" : "http://resultSanction",
-            "value" : "http://value",/*{
+            "value" : {
             	"@id" : "http://value",
             	"@type": "http://www.w3.org/2001/XMLSchema#decimal"
-            },*/
+            },
             "currency" : "http://currency",
             // zabavení ČOI
             "resultConfiscationsRaw" : "http://resultConfiscation",
