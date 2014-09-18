@@ -122,7 +122,7 @@ SparqlRouteJSONLD.prototype.convertDates = function(response) {
                             } else {
                                 var temp = item[key][0].substring(0, 10);
                                 temp = moment(temp);
-                                temp.add('days', 1); // fix Virtuoso timezone bug
+                                //temp.add('days', 1); // fix Virtuoso timezone bug
                                 item[convertedKey] = [temp.format(self.getDateOutputFormat())];
                             }
                         }
