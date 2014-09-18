@@ -29,6 +29,7 @@
                                 var doc = angular.element("<div>" + actText["@graph"][0]["htmlValue"] + "</div>");
                                 var content = doc.find("section[class='obsah']");
                                 content.find("section[class='paragraf'], section[class='clanek'], section[class='preambule']").children(':not(header)').remove();
+                                content.find("section[class='preambule']").remove();
                                 content.find("section[class='cast'], section[class='hlava'], section[class='dil'], section[class='oddil'], section[class='pododdil']").prepend(toggle.clone());
                                 content.find("section").children("header").each(function (index, element) {
                                     var self = angular.element(element);
