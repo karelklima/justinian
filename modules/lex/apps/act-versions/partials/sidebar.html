@@ -9,8 +9,9 @@
         <tr ng-repeat="item in versions | orderBy: predicate : reverse | limitTo:limit"  ng-class="{success: item['@id'] == version, danger: item['@id'] == compare}">
             <td>{{item.number}}</td>
             <td>
-                <a click module="lex" application="act-detail" resource="{{ resource }}" version='{{ item["@id"] }}' ng-show='item["haveText"]'>{{ item["validIso"] | formatDate }}</a>
-                <span ng-show='!item["haveText"]'>{{ item["validIso"] | formatDate }}</span>
+                <a click module="lex" application="act-detail" resource="{{ resource }}" version='{{ item["@id"] }}'>{{ item["validIso"] | formatDate }}</a>
+                <!--<a click module="lex" application="act-detail" resource="{{ resource }}" version='{{ item["@id"] }}' ng-show='item["haveText"]'>{{ item["validIso"] | formatDate }}</a>-->
+                <!--<span ng-show='!item["haveText"]'>{{ item["validIso"] | formatDate }}</span>-->
             </td>
             <td>
                 <a click module="lex" application="act-detail" resource="{{ item['amendmentID'] }}" ng-show="item['amendmentID']">
