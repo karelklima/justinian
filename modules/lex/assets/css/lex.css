@@ -56,9 +56,22 @@
     margin-top: 0;
 }
 
-.lex-act-text section.cast h1, .lex-act-text section.preambule h1 {
-    font-size: 180%;
+.lex-act-text section.preambule h1{
+    font-size: 100%;
+    text-align: justify;
+    font-weight: normal;
+    margin-left: 24px;
+    line-height: 1.5;
 }
+
+.lex-act-text section.cast h1, .lex-act-text section.preambule h1:first-child {
+    font-size: 180%;
+    text-align: left;
+    font-weight: bold;
+    margin-left: 0px;
+    line-height: 1;
+}
+
 .lex-act-text section.hlava h1 {
     font-size: 160%;
 }
