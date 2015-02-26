@@ -14,7 +14,7 @@ module.exports = function(file) {
   }
 
   function end () {
-    this.queue('\nmodule.exports = jsonldjs;');
+    this.queue(new Buffer('\nmodule.exports = jsonldjs;'));
     this.queue(null);
   }
 }
