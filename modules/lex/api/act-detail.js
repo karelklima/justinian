@@ -12,9 +12,15 @@ module.exports = function(routeParams) {
                 "@id" : "http://purl.org/dc/terms/issued",
                 "@type" : "http://www.w3.org/2001/XMLSchema#date"
             },
-            "creator" : "http://purl.org/dc/terms/creator",
+            "creator" : {
+                "@id": "http://purl.org/dc/terms/creator",
+                "@type": "@id"
+            },
             "identifier" : "http://purl.org/dc/terms/identifier",            
-            "lastVersion" : "http://purl.org/vocab/frbr/core#realization",
+            "lastVersion" : {
+                "@id": "http://purl.org/vocab/frbr/core#realization",
+                "@type": "@id"
+            },
             "lastVersionValid" : {
                 "@id" : "http://purl.org/dc/terms/lastVersionValid",
                 "@type": "http://www.w3.org/2001/XMLSchema#date"
@@ -23,8 +29,10 @@ module.exports = function(routeParams) {
     };
 
    route.prepareResponse = function(responseJSONLD, next) {
-        return responseJSONLD;
-    };
+       //var version = responseJSONLD["@graph"][0]["lastVersion"];
+       //responseJSONLD["@graph"][0]["lastVersion"] = version[0]["@id"];
+       return responseJSONLD;
+   };
 
     route.getModel = function() {
         return {

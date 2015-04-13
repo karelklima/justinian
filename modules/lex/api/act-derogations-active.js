@@ -10,13 +10,16 @@ module.exports = function(routeParams) {
                 "@type" : "http://www.w3.org/2001/XMLSchema#date"
             },
             "typeRaw" : "http://type",
-            "original" : "http://original",
+            "original" : {
+                "@id": "http://original",
+                "@type": "@id"
+             },
             "result" : "http://result",
             "act" : "http://act",
             "actId" : "http://actId",
             "actTitle" : {
             	"@id" : "http://actTitle",
-                "@language": "cs",
+                "@language": "cs"
             }
         }
     };
