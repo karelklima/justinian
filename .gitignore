@@ -5,3 +5,10 @@ tmp
 .DS_Store
 *.log
 node_modules
+obj
+bin
+*.csproj
+*.sln
+*.suo
+*.njsproj
+/.ntvs_analysis.dat
