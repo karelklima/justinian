@@ -5,7 +5,7 @@
  */
 var fs = require('fs');
 var _ = require('underscore');
-var http = require('http');
+var https = require('https');
 var url = require('url');
 var querystring = require('querystring');
 var assert = require('assert');
@@ -55,7 +55,7 @@ SparqlClient.prototype.sendRequest = function(query, successCallback, errorCallb
     var requestParams = url.parse(this.options["datastore-url"]);
     requestParams["path"] = requestParams["path"] + '?' + querystring.stringify(finalParams);
 
-    http.request(requestParams, function(res) {
+    https.request(requestParams, function(res) {
         var responseString = '';
         res.on('data', function(chunk) {
             responseString += chunk;
